@@ -1,109 +1,118 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "fa-svelte";
-  import { faTimesCircle, faEdit } from "@fortawesome/free-regular-svg-icons";
+  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
 
+  import { board, ranks, cards } from "../store.js";
   import Card from "./Card.svelte";
 
-  export let id;
-  export let name = "Untitled";
-  export let color = "grey";
+  import { getCards, createCard, deleteRank } from "../api.js";
 
-  let cards = [];
+  export let rank;
+  export let color;
 
-  onMount(async () => {
-    const response = await fetch(
-      `http://127.0.0.1:8000/boards/kMwWp5Ef1JaITphF/ranks/${id}/cards`,
-      {
-        credentials: "include"
-      }
-    );
-    cards = await response.json();
-  });
+  let cardText = "";
+  let icon;
+
+  switch (rank.name.toLowerCase()) {
+    case "mad":
+      icon = faFrown;
+      break;
+    case "sad":
+      icon = faMeh;
+      break;
+    case "glad":
+    default:
+      icon = faSmile;
+      break;
+  }
+
+  async function newCard() {
+    const id = Math.ceil(Math.random() * 10000);
+    cards.append({
+      description: cardText,
+      id,
+      name: "Card",
+      rank_id: rank.id,
+      uncommitted: true
+    });
+    const card = await createCard($board.id, rank.id, cardText);
+    cards.replace(id, card);
+  }
+
+  async function doDeleteRank() {
+    ranks.update(ranks => {
+      ranks.splice($ranks.indexOf(rank), 1);
+      return ranks;
+    });
+    await deleteRank($board.id, rank.id);
+  }
+
+  onMount(async () => cards.set(rank.id, await getCards($board.id, rank.id)));
 </script>
 
-<style>
+<style type="text/scss">
+  @import "../../theme/colors.scss";
+
   .rank {
     position: relative;
-    flex: 1 1 10em;
+    flex: 0 0 16em;
   }
 
   h1 {
     display: inline-block;
     text-align: center;
-    margin-top: 1em;
+    margin: 0;
     font-size: 1em;
   }
 
   .header {
     text-align: center;
+    font-size: 80%;
+    padding-bottom: 0.5em;
   }
 
-  .input {
-    padding: 0 0.8em;
-    display: flex;
+  .no-cards {
+    color: #aaa;
+    text-align: center;
+    padding-top: 2em;
   }
 
-  .icons {
-    padding: 0 1em;
+  .icon {
+    font-size: 120%;
   }
 
-  input {
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 0;
-    padding: 1em;
+  .mad {
+    border-bottom: 4px solid $mad;
+    color: $mad;
   }
 
-  input[type="text"] {
-    flex: 2;
+  .sad {
+    border-bottom: 4px solid $sad;
+    color: $sad;
   }
 
-  input[type="button"] {
-    cursor: pointer;
-    margin-left: 0.2em;
-    width: 4em;
-  }
-
-  input[type="button"]:hover {
-    background-color: #ddddddff;
-  }
-
-  .icons {
-    position: absolute;
-    right: 0px;
-    font-size: 1em;
-    margin: 1em 0 0 0;
-  }
-
-  .icons > span {
-    padding-left: 0.2em;
-    cursor: pointer;
-  }
-
-  .icons > span:hover {
-    color: #000000ff;
+  .glad {
+    border-bottom: 4px solid $glad;
+    color: $glad;
   }
 </style>
 
-<div class="rank" style="background-color: {color};">
-  <div class="header">
-    <div class="icons">
-      <span class="edit">
-        <Icon icon={faEdit} />
-      </span>
-      <span class="close">
-        <Icon icon={faTimesCircle} />
-      </span>
+<div class="rank">
+  <div class="header {rank.name.toLowerCase()}">
+    <div class="icon">
+      <Icon {icon} />
     </div>
-    <h1>{name}</h1>
-  </div>
-  <div class="input">
-    <input type="text" placeholder="Type your card text here" />
-    <input type="button" value="Add" />
+    <h1>{rank.name}</h1>
   </div>
   <div class="cards">
-    {#each cards as card}
-      <Card id={card.id} text={card.description} />
-    {/each}
+    {#if $cards[rank.id]}
+      {#each $cards[rank.id] as card}
+        <Card {card} />
+      {/each}
+    {/if}
+    {#if !$cards[rank.id] || $cards[rank.id].length === 0}
+      <div class="no-cards">Nothing...</div>
+    {/if}
   </div>
 </div>

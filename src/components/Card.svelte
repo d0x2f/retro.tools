@@ -1,74 +1,65 @@
 <script>
-  import Icon from "fa-svelte";
-  import {
-    faTimesCircle,
-    faEdit,
-    faHeart
-  } from "@fortawesome/free-regular-svg-icons";
+  import Button, { Label } from "@smui/button";
 
-  export let id;
-  export let text = "";
+  import { board } from "../store.js";
+
+  export let card;
+  export let accent = "#000";
 </script>
 
 <style>
   .card {
+    width: 14em;
+    border: 0.1em solid #eee;
+    box-shadow: 0.2em 0.2em 0.4em #eee;
     margin: 1em;
-    padding: 1em;
-    text-align: left;
-    font-size: 0.8em;
-    background-color: #ffffffcc;
-    border-radius: 4px;
-    min-height: 1em;
+  }
+
+  .top {
     display: flex;
+    padding: 0.5em;
+    min-height: 2em;
+  }
+
+  .buttons {
+    border-top: 1px solid #eee;
+    display: flex;
+    width: 100%;
+  }
+
+  .buttons > div {
+    flex: 1 1 0;
+  }
+
+  .uncommitted {
+    opacity: 0.66;
   }
 
   .votes {
-    flex: 0 0 5em;
-  }
-
-  .votes > .heart {
-    cursor: pointer;
-    font-size: 1.3em;
-  }
-
-  .votes > .number {
-    font-size: 1.5em;
-    margin-left: 0.4em;
+    font-size: 1.2em;
+    flex: 0 0 1em;
+    font-weight: bold;
   }
 
   .text {
-    flex: 1 1 2em;
-  }
-
-  .icons {
-    flex: 0 0 3em;
-    font-size: 1em;
-  }
-
-  .icons > span {
-    padding-left: 0.2em;
-    cursor: pointer;
-  }
-
-  .icons > span:hover {
-    color: #000000ff;
+    flex: 1 1 0;
+    font-weight: 100;
+    font-size: 80%;
+    padding: 0.2em;
   }
 </style>
 
-<div class="card">
-  <div class="votes">
-    <span class="heart">
-      <Icon icon={faHeart} />
-    </span>
-    <span class="number">4</span>
+<div class="card {!!card.uncommitted ? 'uncommitted' : ''}">
+  <div class="top">
+    <span class="votes" style="color: {accent}">7</span>
+    <span class="text">{card.description}</span>
   </div>
-  <span class="text">{text}</span>
-  <div class="icons">
-    <span class="edit">
-      <Icon icon={faEdit} />
-    </span>
-    <span class="delete">
-      <Icon icon={faTimesCircle} />
-    </span>
+  <div class="buttons">
+    <Button style="flex-grow: 1">
+      <Label>AGREE</Label>
+    </Button>
+    <Button style="flex-grow: 1">
+      <Label>EDIT</Label>
+    </Button>
   </div>
 </div>
