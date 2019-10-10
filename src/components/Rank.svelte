@@ -13,7 +13,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      `http://localhost:8000/boards/kMwWp5Ef1JaITphF/ranks/${id}/cards`,
+      `http://127.0.0.1:8000/boards/kMwWp5Ef1JaITphF/ranks/${id}/cards`,
       {
         credentials: "include"
       }

@@ -7,13 +7,13 @@
   import AddRank from "./components/AddRank.svelte";
   import Header from "./components/Header.svelte";
 
-  export let boardId = "kMwWp5Ef1JaITphF";
+  export let boardId = "jnH28yV52CaE3yPO";
 
   const colors = ["#D95C51", "#FCCE43", "#67C9BC"];
   let unsubscribe;
 
   async function getBoard(boardId) {
-    const response = await fetch(`http://localhost:8000/boards/${boardId}`, {
+    const response = await fetch(`http://127.0.0.1:8000/boards/${boardId}`, {
       credentials: "include"
     });
     return await response.json();
@@ -21,7 +21,7 @@
 
   async function getRanks(boardId) {
     const response = await fetch(
-      `http://localhost:8000/boards/${boardId}/ranks`,
+      `http://127.0.0.1:8000/boards/${boardId}/ranks`,
       {
         credentials: "include"
       }
@@ -30,7 +30,7 @@
   }
 
   async function updateBoard(board) {
-    await fetch(`http://localhost:8000/boards/${boardId}`, {
+    await fetch(`http://127.0.0.1:8000/boards/${boardId}`, {
       method: "PATCH",
       mode: "cors",
       cache: "no-cache",
