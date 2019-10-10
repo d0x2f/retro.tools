@@ -108,7 +108,7 @@
   <div class="cards">
     {#if $cards[rank.id]}
       {#each $cards[rank.id] as card}
-        <Card {card} />
+        <Card {card} accent={rank.name.toLowerCase()} />
       {/each}
     {/if}
     {#if !$cards[rank.id] || $cards[rank.id].length === 0}

@@ -4,10 +4,12 @@
   import { board } from "../store.js";
 
   export let card;
-  export let accent = "#000";
+  export let accent = "sad";
 </script>
 
-<style>
+<style type="text/scss">
+  @import "../../theme/colors.scss";
+
   .card {
     width: 14em;
     border: 0.1em solid #eee;
@@ -47,11 +49,23 @@
     font-size: 80%;
     padding: 0.2em;
   }
+
+  .mad {
+    color: $mad;
+  }
+
+  .sad {
+    color: $sad;
+  }
+
+  .glad {
+    color: $glad;
+  }
 </style>
 
 <div class="card {!!card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
-    <span class="votes" style="color: {accent}">7</span>
+    <span class="votes {accent}">7</span>
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">
