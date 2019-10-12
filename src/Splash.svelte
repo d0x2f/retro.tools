@@ -37,7 +37,8 @@
 
   .header {
     flex: 0 0 5em;
-    padding-top: 4em;
+    font-size: 200%;
+    padding-top: 6em;
     font-family: "Work Sans", sans-serif;
     color: $primary;
   }
@@ -49,7 +50,6 @@
     margin: 0 auto;
     background-color: #fff;
     border: 0.1em solid #eee;
-    // box-shadow: 0 0 0.6em #ddd;
   }
 
   .field-name {
@@ -75,6 +75,8 @@
       <Textfield
         variant="outlined"
         bind:value={boardName}
+        label="Sprint 21 Retro"
+        fullwidth
         style="height: 2em; flex: 1 1 0;" />
       <Button
         on:click={newBoard}

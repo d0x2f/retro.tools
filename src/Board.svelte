@@ -67,6 +67,10 @@
     bottom: 1em;
     right: 1em;
   }
+
+  .hidden {
+    display: none;
+  }
 </style>
 
 <div class="container">
@@ -92,7 +96,7 @@
       {/each}
     </div>
 
-    <div class="add-button">
+    <div class="add-button {$board.cards_open ? '' : 'hidden'}">
       <Fab color="secondary" on:click={() => (showNewCardModal = true)}>
         <Icon class="material-icons">add</Icon>
       </Fab>
