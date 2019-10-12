@@ -1,0 +1,55 @@
+<script>
+  import { createEventDispatcher } from "svelte";
+  import Button, { Label, Icon } from "@smui/button";
+
+  const dispatch = createEventDispatcher();
+</script>
+
+<style>
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(100vw - 4em);
+    max-width: 32em;
+    max-height: calc(100vh - 4em);
+    overflow: auto;
+    transform: translate(-50%, -50%);
+    padding: 1em;
+    border-radius: 0.2em;
+    background: white;
+  }
+
+  .buttons {
+    text-align: right;
+    display: block;
+    margin-top: 1em;
+  }
+</style>
+
+<div class="modal-background" on:click={() => dispatch('close')} />
+
+<div class="modal">
+  <slot />
+
+  <div class="buttons">
+    <Button on:click={() => dispatch('close')}>
+      <Icon class="material-icons">close</Icon>
+      <Label>Cancel</Label>
+    </Button>
+
+    <Button variant="unelevated" on:click={() => dispatch('commit')}>
+      <Icon class="material-icons">check</Icon>
+      <Label>Done</Label>
+    </Button>
+  </div>
+</div>

@@ -7,13 +7,10 @@
   export let checked = false;
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
-
+<style>
   .container span {
-    color: $primary;
     font-size: 100%;
-    padding-left: 1em;
+    margin-top: 0.2em;
   }
 </style>
 

@@ -65,15 +65,15 @@
 
 <div class="card {!!card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
-    <span class="votes {accent}">7</span>
+    <span class="votes {accent}">0</span>
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">
-    <Button style="flex-grow: 1">
-      <Label>AGREE</Label>
+    <Button style="flex-grow: 1" disabled={!$board.voting_open}>
+      <Label>Agree</Label>
     </Button>
     <Button style="flex-grow: 1">
-      <Label>EDIT</Label>
+      <Label>Edit</Label>
     </Button>
   </div>
 </div>
