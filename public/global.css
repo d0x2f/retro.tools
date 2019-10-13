@@ -21,3 +21,11 @@ h1 {
 .router-view {
   height: 100%;
 }
+
+*:focus {
+  outline: 0;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}

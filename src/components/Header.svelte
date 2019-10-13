@@ -3,17 +3,17 @@
   import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
 
   import { board } from "../store.js";
-  import Checkbox from "./Checkbox.svelte";
+  import Switch from "./Switch.svelte";
 </script>
 
 <style type="text/scss">
   @import "../../theme/colors.scss";
-  @import "@material/elevation/mdc-elevation";
 
   .container {
     position: relative;
     background-color: #fff;
     color: $primary;
+    box-shadow: 0 0 0.4em #ccc;
   }
 
   .header {
@@ -24,6 +24,7 @@
     height: 1.5em;
     padding-left: 1em;
     font-family: "Work Sans", sans-serif;
+    text-transform: uppercase;
   }
 
   .settings {
@@ -39,14 +40,14 @@
   }
 </style>
 
-<div class="container mdc-elevation--z3">
-  <div class="header">RETROGRADE</div>
+<div class="container">
+  <div class="header">retrograde</div>
   <div class="settings">
     <div class="horizontal">
-      <Checkbox text="Voting" bind:checked={$board.voting_open} />
+      <Switch text="Voting" bind:checked={$board.voting_open} />
     </div>
     <div class="horizontal">
-      <Checkbox text="Cards Allowed" bind:checked={$board.cards_open} />
+      <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
     </div>
   </div>
 </div>

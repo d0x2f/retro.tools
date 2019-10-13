@@ -1,7 +1,7 @@
 <script>
-  import Button, { Label } from "@smui/button";
-
   import { board } from "../store.js";
+
+  import Button from "./Button.svelte";
 
   export let card;
   export let accent = "sad";
@@ -13,7 +13,7 @@
   .card {
     width: 14em;
     border: 0.1em solid #eee;
-    box-shadow: 0.2em 0.2em 0.4em #eee;
+    box-shadow: 0 0 0.4em #eee;
     margin: 1em;
   }
 
@@ -31,6 +31,10 @@
 
   .buttons > div {
     flex: 1 1 0;
+  }
+
+  .button {
+    border-left: 0.1em solid #eee;
   }
 
   .uncommitted {
@@ -69,11 +73,11 @@
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">
-    <Button style="flex-grow: 1" disabled={!$board.voting_open}>
-      <Label>Agree</Label>
-    </Button>
-    <Button style="flex-grow: 1">
-      <Label>Edit</Label>
-    </Button>
+    <div class="button">
+      <Button color="plain" label="agree" disabled={!$board.voting_open} />
+    </div>
+    <div class="button">
+      <Button color="plain" label="edit" />
+    </div>
   </div>
 </div>

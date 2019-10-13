@@ -4,12 +4,6 @@
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@smui/button": "^1.0.0-beta.16",
-    "@smui/fab": "^1.0.0-beta.16",
-    "@smui/form-field": "^1.0.0-beta.16",
-    "@smui/radio": "^1.0.0-beta.16",
-    "@smui/switch": "^1.0.0-beta.16",
-    "@smui/textfield": "^1.0.0-beta.16",
     "crayon": "^4.1.6",
     "crayon-svelte": "^1.0.10",
     "fa-svelte": "^3.0.0",

@@ -1,13 +1,10 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button, { Icon, Label } from "@smui/button";
-  import Textfield from "@smui/textfield";
-  import FormField from "@smui/form-field";
-  import Radio from "@smui/radio";
+  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
+  import TextArea from "./TextArea.svelte";
+  import Radio from "./Radio.svelte";
 
   import { ranks } from "../store.js";
 
-  const dispatch = createEventDispatcher();
   export let comment;
   export let type;
 
@@ -16,39 +13,62 @@
     sad: "sentiment_very_dissatisfied",
     glad: "sentiment_very_satisfied"
   };
+
+  let tabs = {
+    mad: {
+      color: "negative",
+      icon: faFrown
+    },
+    sad: {
+      color: "primary",
+      icon: faMeh
+    },
+    glad: {
+      color: "secondary",
+      icon: faSmile
+    }
+  };
 </script>
 
-<style>
+<style type="text/scss">
+  @import "../../theme/colors.scss";
+
   .comment {
     margin-bottom: 1em;
+    height: 5em;
   }
 
   h1 {
     margin-bottom: 1em;
+    font-family: "Work Sans", sans-serif;
+    text-transform: uppercase;
+    color: $primary;
   }
 
-  .rank {
-    display: inline-block;
-    margin-left: 1em;
+  .ranks {
+    width: 100%;
+    border-radius: 0.5em;
+    display: flex;
   }
 </style>
 
 <h1>New Card</h1>
 
 <div class="comment">
-  <Textfield fullwidth textarea bind:value={comment} label="Comment" />
+  <TextArea
+    bind:text={comment}
+    label="Comment"
+    placeholder="This meeting is boring..." />
 </div>
 
-{#each $ranks as rank}
-  <div class="rank">
-    <FormField>
-      <Radio bind:group={type} value={rank.id} />
-      <span slot="label">
-        <Icon class="material-icons">
-          {icons[rank.name.toLowerCase()] || 'sentiment_very_satisfied'}
-        </Icon>
-        {rank.name}
-      </span>
-    </FormField>
-  </div>
-{/each}
+<div class="ranks">
+  {#each $ranks as rank}
+    <Radio
+      bind:group={type}
+      value={rank.id}
+      label={rank.name}
+      icon={tabs[rank.name.toLowerCase()].icon || faMeh}
+      color={tabs[rank.name.toLowerCase()].color || 'primary'}
+      style="flex: 1 0 0;" />
+  {/each}
+</div>

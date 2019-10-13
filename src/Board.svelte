@@ -1,10 +1,11 @@
 <script>
   import { onDestroy, onMount } from "svelte";
-  import Fab, { Icon } from "@smui/fab";
+  import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
   import { board, ranks, cards } from "./store.js";
   import { updateBoard, createCard } from "./api.js";
 
+  import FloatingActionButton from "./components/FloatingActionButton.svelte";
   import Rank from "./components/Rank.svelte";
   import Header from "./components/Header.svelte";
   import Modal from "./components/Modal.svelte";
@@ -22,7 +23,18 @@
 
   async function newCard() {
     showNewCardModal = false;
-    cards.append(await createCard($board.id, newCardRank, newCardComment));
+    const tempId = Math.floor(Math.random() * 10000);
+    cards.append({
+      id: tempId,
+      name: "Card",
+      description: newCardComment,
+      rank_id: newCardRank,
+      uncommitted: true
+    });
+    cards.replace(
+      tempId,
+      await createCard($board.id, newCardRank, newCardComment)
+    );
     newCardComment = "";
   }
 </script>
@@ -66,6 +78,8 @@
     position: absolute;
     bottom: 1em;
     right: 1em;
+    width: 3em;
+    height: 3em;
   }
 
   .hidden {
@@ -97,15 +111,16 @@
     </div>
 
     <div class="add-button {$board.cards_open ? '' : 'hidden'}">
-      <Fab color="secondary" on:click={() => (showNewCardModal = true)}>
-        <Icon class="material-icons">add</Icon>
-      </Fab>
+      <FloatingActionButton
+        color="secondary"
+        icon={faPlus}
+        on:click={() => (showNewCardModal = true)} />
     </div>
   </div>
 </div>
 
 {#if showNewCardModal}
-  <Modal on:close={() => (showNewCardModal = false)} on:commit={newCard}>
+  <Modal on:close={() => (showNewCardModal = false)} on:accept={newCard}>
     <NewCardForm bind:type={newCardRank} bind:comment={newCardComment} />
   </Modal>
 {/if}

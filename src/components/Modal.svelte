@@ -1,6 +1,8 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import Button, { Label, Icon } from "@smui/button";
+  import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+
+  import Button from "./Button.svelte";
 
   const dispatch = createEventDispatcher();
 </script>
@@ -34,6 +36,11 @@
     display: block;
     margin-top: 1em;
   }
+
+  .button {
+    display: inline-block;
+    width: 5em;
+  }
 </style>
 
 <div class="modal-background" on:click={() => dispatch('close')} />
@@ -42,14 +49,19 @@
   <slot />
 
   <div class="buttons">
-    <Button on:click={() => dispatch('close')}>
-      <Icon class="material-icons">close</Icon>
-      <Label>Cancel</Label>
-    </Button>
-
-    <Button variant="unelevated" on:click={() => dispatch('commit')}>
-      <Icon class="material-icons">check</Icon>
-      <Label>Done</Label>
-    </Button>
+    <div class="button">
+      <Button
+        on:click={() => dispatch('close')}
+        icon={faTimes}
+        label="cancel"
+        color="negative" />
+    </div>
+    <div class="button">
+      <Button
+        on:click={() => dispatch('accept')}
+        icon={faCheck}
+        label="done"
+        color="primary" />
+    </div>
   </div>
 </div>

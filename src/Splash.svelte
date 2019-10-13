@@ -1,8 +1,9 @@
 <script>
-  import Textfield from "@smui/textfield";
-  import Button, { Label, Icon } from "@smui/button";
+  import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
   import { createRank, createBoard } from "./api.js";
+  import TextField from "./components/TextField.svelte";
+  import Button from "./components/Button.svelte";
 
   export let nav;
 
@@ -19,7 +20,6 @@
 
 <style type="text/scss">
   @import "../theme/colors.scss";
-  @import "@material/elevation/mdc-elevation";
 
   .container {
     display: flex;
@@ -41,6 +41,7 @@
     padding-top: 6em;
     font-family: "Work Sans", sans-serif;
     color: $primary;
+    text-transform: uppercase;
   }
 
   .box {
@@ -50,6 +51,7 @@
     margin: 0 auto;
     background-color: #fff;
     border: 0.1em solid #eee;
+    box-shadow: 0 0 0.4em #ccc;
   }
 
   .field-name {
@@ -65,26 +67,25 @@
     width: 20em;
     display: flex;
   }
+
+  .button {
+    margin-left: 0.5em;
+    flex: 0 0 5.3em;
+  }
 </style>
 
 <div class="container">
-  <h1 class="header">RETROGRADE</h1>
-  <div class="box mdc-elevation--z3">
+  <h1 class="header">retrograde</h1>
+  <div class="box">
     <p class="field-name">Board Name</p>
     <div class="input">
-      <Textfield
-        variant="outlined"
-        bind:value={boardName}
-        label="Sprint 21 Retro"
-        fullwidth
+      <TextField
+        bind:text={boardName}
+        placeholder="Sprint 21 Retro"
         style="height: 2em; flex: 1 1 0;" />
-      <Button
-        on:click={newBoard}
-        variant="raised"
-        style="margin-left: 0.5em; flex: 0 0 7em;">
-        <Icon class="material-icons">add</Icon>
-        <Label>Create</Label>
-      </Button>
+      <div class="button">
+        <Button on:click={newBoard} icon={faPlus} label="create" />
+      </div>
     </div>
   </div>
 </div>

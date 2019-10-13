@@ -1,6 +1,16 @@
 $primary: #2979ff;
 $secondary: #3DD882;
+$tertiary: #ffff00;
+$negative:#ff0000;
+$plain: #fff;
+$disabled: #aaa;
 
-$mad: #F86430;
+$on-primary: #fff;
+$on-secondary: #000;
+$on-tertiary: #fff;
+$on-negative:#fff;
+$on-plain: $primary;
+
+$mad: $negative;
 $sad: $primary;
 $glad: $secondary;
