@@ -49,9 +49,8 @@
     padding: 3em 2em;
     height: 10em;
     margin: 0 auto;
-    background-color: #fff;
-    border: 0.1em solid #eee;
-    box-shadow: 0 0 0.4em #ccc;
+    background-color: $background;
+    box-shadow: 0 0 0.4em darken($background, 20%);
   }
 
   .field-name {
@@ -79,10 +78,7 @@
   <div class="box">
     <p class="field-name">Board Name</p>
     <div class="input">
-      <TextField
-        bind:text={boardName}
-        placeholder="Sprint 21 Retro"
-        style="height: 2em; flex: 1 1 0;" />
+      <TextField bind:text={boardName} placeholder="Sprint 21 Retro" />
       <div class="button">
         <Button on:click={newBoard} icon={faPlus} label="create" />
       </div>

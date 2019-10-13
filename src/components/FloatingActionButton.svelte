@@ -26,7 +26,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0.1em 0.2em 0.5em #999;
+    box-shadow: 0.1em 0.2em 0.5em darken($background, 30%);
     font-size: 110%;
   }
 

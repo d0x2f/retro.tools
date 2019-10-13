@@ -1,6 +1,7 @@
 <script>
   import { onDestroy, onMount } from "svelte";
   import { faPlus } from "@fortawesome/free-solid-svg-icons";
+  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
 
   import { board, ranks, cards } from "./store.js";
   import { updateBoard, createCard } from "./api.js";
@@ -11,8 +12,6 @@
   import Modal from "./components/Modal.svelte";
   import NewCardForm from "./components/NewCardForm.svelte";
 
-  const colors = ["#D95C51", "#F1DD80", "#8A9F7A"];
-
   let unsubscribe;
   onMount(() => (unsubscribe = board.subscribe(b => updateBoard(b))));
   onDestroy(unsubscribe);
@@ -20,6 +19,21 @@
   let showNewCardModal = false;
   let newCardRank = $ranks[0].id;
   let newCardComment = "";
+
+  const rankDetails = {
+    mad: {
+      color: "negative",
+      icon: faFrown
+    },
+    sad: {
+      color: "primary",
+      icon: faMeh
+    },
+    glad: {
+      color: "secondary",
+      icon: faSmile
+    }
+  };
 
   async function newCard() {
     showNewCardModal = false;
@@ -39,7 +53,9 @@
   }
 </script>
 
-<style>
+<style type="text/scss">
+  @import "../theme/colors.scss";
+
   .container {
     height: 100%;
   }
@@ -65,7 +81,7 @@
   .spacer {
     flex: 0 0 0.1em;
     margin: 2.5em 0.3em;
-    background-color: #eee;
+    background-color: darken($background, 10%);
   }
 
   .no-ranks {
@@ -95,7 +111,10 @@
 
     <div class="ranks">
       {#each $ranks as rank, i}
-        <Rank bind:rank color={colors[i % colors.length]} />
+        <Rank
+          bind:rank
+          color={rankDetails[rank.name.toLowerCase()].color}
+          icon={rankDetails[rank.name.toLowerCase()].icon} />
         {#if i !== 2}
           <div class="spacer" />
         {/if}

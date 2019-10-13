@@ -55,7 +55,10 @@
 <h1>New Card</h1>
 
 <div class="comment">
-  <TextArea bind:text={comment} placeholder="This meeting is boring..." />
+  <TextArea
+    bind:text={comment}
+    label="Comment"
+    placeholder="This meeting is boring..." />
 </div>
 
 <div class="ranks">

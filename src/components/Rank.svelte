@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "fa-svelte";
-  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
 
   import { board, ranks, cards } from "../store.js";
   import Card from "./Card.svelte";
@@ -10,22 +9,9 @@
 
   export let rank;
   export let color;
+  export let icon;
 
   let cardText = "";
-  let icon;
-
-  switch (rank.name.toLowerCase()) {
-    case "mad":
-      icon = faFrown;
-      break;
-    case "sad":
-      icon = faMeh;
-      break;
-    case "glad":
-    default:
-      icon = faSmile;
-      break;
-  }
 
   async function newCard() {
     const id = Math.ceil(Math.random() * 10000);
@@ -73,7 +59,7 @@
   }
 
   .no-cards {
-    color: #aaa;
+    color: darken($background, 20%);
     text-align: center;
     padding-top: 2em;
   }
@@ -82,24 +68,24 @@
     font-size: 120%;
   }
 
-  .mad {
-    border-bottom: 4px solid $mad;
-    color: $mad;
+  .negative {
+    border-bottom: 4px solid $negative;
+    color: $negative;
   }
 
-  .sad {
-    border-bottom: 4px solid $sad;
-    color: $sad;
+  .primary {
+    border-bottom: 4px solid $primary;
+    color: $primary;
   }
 
-  .glad {
-    border-bottom: 4px solid $glad;
-    color: $glad;
+  .secondary {
+    border-bottom: 4px solid $secondary;
+    color: $secondary;
   }
 </style>
 
 <div class="rank">
-  <div class="header {rank.name.toLowerCase()}">
+  <div class="header {color}">
     <div class="icon">
       <Icon {icon} />
     </div>
@@ -108,7 +94,7 @@
   <div class="cards">
     {#if $cards[rank.id]}
       {#each $cards[rank.id] as card}
-        <Card {card} accent={rank.name.toLowerCase()} />
+        <Card {card} {color} />
       {/each}
     {/if}
     {#if !$cards[rank.id] || $cards[rank.id].length === 0}

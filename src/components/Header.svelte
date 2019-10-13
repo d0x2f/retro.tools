@@ -11,9 +11,9 @@
 
   .container {
     position: relative;
-    background-color: #fff;
+    background-color: $background;
     color: $primary;
-    box-shadow: 0 0 0.4em #ccc;
+    box-shadow: 0 0 0.4em darken($background, 20%);
   }
 
   .header {

@@ -8,7 +8,7 @@
 
   input {
     width: 100%;
-    border: 0.1em solid #eee;
+    border: 0.1em solid darken($background, 10%);
     border-radius: 0.2em;
     resize: none;
     box-sizing: border-box;

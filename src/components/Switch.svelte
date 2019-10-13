@@ -40,7 +40,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: darken($background, 20%);
     transition: 0.4s;
     border-radius: 17px;
   }
@@ -52,7 +52,7 @@
     width: 13px;
     left: 2px;
     bottom: 2px;
-    background-color: white;
+    background-color: $background;
     transition: 0.4s;
     border-radius: 50%;
   }

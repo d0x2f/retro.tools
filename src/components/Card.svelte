@@ -4,7 +4,7 @@
   import Button from "./Button.svelte";
 
   export let card;
-  export let accent = "sad";
+  export let color = "primary";
 </script>
 
 <style type="text/scss">
@@ -12,8 +12,8 @@
 
   .card {
     width: 14em;
-    border: 0.1em solid #eee;
-    box-shadow: 0 0 0.4em #eee;
+    border: 0.1em solid darken($background, 10%);
+    box-shadow: 0 0 0.4em darken($background, 10%);
     margin: 1em;
   }
 
@@ -24,7 +24,7 @@
   }
 
   .buttons {
-    border-top: 1px solid #eee;
+    border-top: 1px solid darken($background, 10%);
     display: flex;
     width: 100%;
   }
@@ -34,7 +34,7 @@
   }
 
   .button {
-    border-left: 0.1em solid #eee;
+    border-left: 0.1em solid darken($background, 10%);
   }
 
   .uncommitted {
@@ -54,22 +54,22 @@
     padding: 0.2em;
   }
 
-  .mad {
-    color: $mad;
+  .negative {
+    color: $negative;
   }
 
-  .sad {
-    color: $sad;
+  .primary {
+    color: $primary;
   }
 
-  .glad {
-    color: $glad;
+  .secondary {
+    color: $secondary;
   }
 </style>
 
 <div class="card {!!card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
-    <span class="votes {accent}">0</span>
+    <span class="votes {color}">0</span>
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">

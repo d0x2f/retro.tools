@@ -10,8 +10,8 @@ const app = crayon.create();
 
 app.use(svelte.router(document.body));
 
-app.path('/', (req, res) =>
-  res.mount(Splash, { req, nav: app })
+app.path('/', (_req, res) =>
+  res.mount(Splash, { nav: app })
 )
 
 app.path('/:id', async (req, res) => {
@@ -21,7 +21,7 @@ app.path('/:id', async (req, res) => {
   ]);
   board.set(board_result);
   ranks.set(ranks_result);
-  res.mount(Board, { req, nav: app })
+  res.mount(Board)
 });
 
 app.load();

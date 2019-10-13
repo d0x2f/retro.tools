@@ -3,11 +3,13 @@
   export let text;
 </script>
 
-<style>
+<style type="text/scss">
+  @import "../../theme/colors.scss";
+
   textarea {
     width: 100%;
     height: 100%;
-    border: 0.1em solid #eee;
+    border: 0.1em solid darken($background, 10%);
     border-radius: 0.5em;
     resize: none;
     box-sizing: border-box;
