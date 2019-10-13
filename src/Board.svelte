@@ -58,6 +58,7 @@
 
   .container {
     height: 100%;
+    background-color: lighten($background, 20%);
   }
 
   .page {
