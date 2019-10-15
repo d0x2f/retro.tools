@@ -17,6 +17,7 @@
     color: $disabled;
     padding-left: 1em;
     flex: 1 1 0;
+    line-height:1.4;
   }
 
   .switch {
@@ -24,7 +25,7 @@
     position: relative;
     display: inline-block;
     width: 30px;
-    height: 18px;
+    height: 17px;
   }
 
   .switch input {

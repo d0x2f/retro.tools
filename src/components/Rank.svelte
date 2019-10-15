@@ -69,18 +69,30 @@
   }
 
   .negative {
-    border-bottom: 4px solid $negative;
     color: $negative;
+    .rankbar {
+      background-color:$negative;
+    }
   }
 
   .primary {
-    border-bottom: 4px solid $primary;
     color: $primary;
+    .rankbar {
+      background-color:$primary;
+    }
   }
 
   .secondary {
-    border-bottom: 4px solid $secondary;
     color: $secondary;
+    .rankbar {
+      background-color:$secondary;
+    }
+  }
+  .rankbar {
+    height:4px;
+    background:black;
+    margin-top:1em;
+    border-radius:2px;
   }
 </style>
 
@@ -90,6 +102,7 @@
       <Icon {icon} />
     </div>
     <h1>{rank.name}</h1>
+    <div class="rankbar"></div>
   </div>
   <div class="cards">
     {#if $cards[rank.id]}

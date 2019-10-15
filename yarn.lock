@@ -3479,6 +3479,11 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
+svelte-feather-icons@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/svelte-feather-icons/-/svelte-feather-icons-2.0.0.tgz#84565a09c2446007f038f53dd29b84e0be40ba3d"
+  integrity sha512-IuVWz2JKnnZMdN70Pf5wB1d55aSSVbtsw0X1qwKuXWHH3rTXUxlgMsJL15FjOQeArYYm5WbqXa/q0IARNBPr8g==
+
 svelte-preprocess@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.1.2.tgz#5fd226b3e6a5a47ea2c58241b2937e200b7a3487"
