@@ -28,9 +28,10 @@
 
   .card {
     width: 14em;
-    border: 0.1em solid darken($background, 10%);
     box-shadow: 0 0 0.4em darken($background, 10%);
     margin: 1em;
+    border-radius:3px;
+    overflow:hidden;
   }
 
   .top {
@@ -49,24 +50,20 @@
     flex: 1 1 0;
   }
 
-  .button {
-    border-left: 0.1em solid darken($background, 10%);
-  }
-
   .uncommitted {
     opacity: 0.66;
   }
 
   .votes {
     font-size: 1.2em;
-    flex: 0 0 1em;
+    flex: 0 0 1.5em;
     font-weight: bold;
+    text-align:center;
   }
 
   .text {
     flex: 1 1 0;
-    font-weight: 100;
-    font-size: 80%;
+    font-weight: 300;
     padding: 0.2em;
   }
 

@@ -14,6 +14,7 @@
     background-color: $background;
     color: $primary;
     box-shadow: 0 0 0.4em darken($background, 20%);
+    line-height:1.5;
   }
 
   .header {
@@ -23,7 +24,6 @@
     font-size: 1em;
     height: 1.5em;
     padding-left: 1em;
-    font-family: "Work Sans", sans-serif;
     text-transform: uppercase;
   }
 
