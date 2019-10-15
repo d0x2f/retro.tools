@@ -1,5 +1,5 @@
 <script>
-  import Icon from "svelte-feather-icons";
+  import Icon from "fa-svelte";
   import { createEventDispatcher } from "svelte";
 
   export let icon = false;

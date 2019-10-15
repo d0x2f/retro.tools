@@ -18,7 +18,6 @@
     "rollup-plugin-terser": "^4.0.4",
     "sirv-cli": "^0.4.4",
     "svelte": "^3.0.0",
-    "svelte-feather-icons": "^2.0.0",
     "svelte-preprocess": "^3.1.2"
   },
   "scripts": {
