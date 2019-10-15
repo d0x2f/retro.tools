@@ -3,6 +3,8 @@
   import { faPlus } from "@fortawesome/free-solid-svg-icons";
   import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
 
+  import { PlusIcon } from "svelte-feather-icons";
+
   import { board, ranks, cards } from "./store.js";
   import { updateBoard, createCard } from "./api.js";
 
@@ -133,7 +135,7 @@
     <div class="add-button {$board.cards_open ? '' : 'hidden'}">
       <FloatingActionButton
         color="secondary"
-        icon={faPlus}
+        icon={PlusIcon}
         on:click={() => (showNewCardModal = true)} />
     </div>
   </div>
