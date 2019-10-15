@@ -1,5 +1,4 @@
 <script>
-  import Icon from "svelte-feather-icons";
   import { createEventDispatcher } from "svelte";
 
   export let icon = false;
@@ -115,7 +114,7 @@
 <button class={color} on:click={() => dispatch('click')}>
   {#if icon}
     <div class="icon">
-      <Icon {icon} />
+      <svelte:component this={icon} />
     </div>
   {/if}
 </button>
