@@ -134,7 +134,7 @@
 
     <div class="add-button {$board.cards_open ? '' : 'hidden'}">
       <FloatingActionButton
-        color="plain"
+        color="tertiary"
         icon={PlusIcon}
         on:click={() => (showNewCardModal = true)} />
     </div>

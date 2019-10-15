@@ -89,7 +89,7 @@
   }
 
   .plain {
-    color: $secondary;
+    color: $on-plain;
     background-color: $plain;
   }
 
@@ -101,6 +101,23 @@
 
   .plain:active {
     background-color: darken($plain, 20%);
+    background-size: 100%;
+    transition: background 0s;
+  }
+
+  .tertiary {
+    color: $on-tertiary;
+    background-color: $tertiary;
+  }
+
+  .tertiary:hover {
+    background: darken($tertiary, 10%)
+      radial-gradient(circle, transparent 1%, darken($tertiary, 10%) 1%)
+      center/15000%;
+  }
+
+  .tertiary:active {
+    background-color: darken($tertiary, 20%);
     background-size: 100%;
     transition: background 0s;
   }
