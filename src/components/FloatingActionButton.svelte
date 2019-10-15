@@ -29,10 +29,6 @@
     font-size: 110%;
   }
 
-  .icon {
-    padding-top: 0.25em;
-  }
-
   button:hover {
     cursor: pointer;
   }
@@ -93,9 +89,8 @@
   }
 
   .plain {
-    color: $on-plain;
+    color: $secondary;
     background-color: $plain;
-    border-radius: 0;
   }
 
   .plain:hover {

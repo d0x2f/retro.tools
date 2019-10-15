@@ -82,8 +82,8 @@
   }
 
   .spacer {
-    flex: 0 0 0.1em;
-    margin: 2.5em 0.3em;
+    flex: 0 0 0.05em;
+    margin: 2.6em 1em;
     background-color: darken($background, 10%);
   }
 
@@ -134,7 +134,7 @@
 
     <div class="add-button {$board.cards_open ? '' : 'hidden'}">
       <FloatingActionButton
-        color="secondary"
+        color="plain"
         icon={PlusIcon}
         on:click={() => (showNewCardModal = true)} />
     </div>
