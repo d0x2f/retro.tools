@@ -1,10 +1,26 @@
 <script>
+  import { onMount } from "svelte";
   import { board } from "../store.js";
+  import { updateCard, agree } from "../api.js";
 
   import Button from "./Button.svelte";
+  import Modal from "./Modal.svelte";
+  import EditCardForm from "./EditCardForm.svelte";
 
   export let card;
   export let color = "primary";
+
+  let showEditCardModal = false;
+  let newComment;
+  let unsubscribe;
+
+  onMount(() => (newComment = card.description));
+
+  async function updateCardSubmit() {
+    card.description = newComment;
+    updateCard($board, card);
+    showEditCardModal = false;
+  }
 </script>
 
 <style type="text/scss">
@@ -74,10 +90,25 @@
   </div>
   <div class="buttons">
     <div class="button">
-      <Button color="plain" label="agree" disabled={!$board.voting_open} />
+      <Button
+        color="plain"
+        label="agree"
+        disabled={!$board.voting_open}
+        on:click={() => agree($board, card)} />
     </div>
     <div class="button">
-      <Button color="plain" label="edit" />
+      <Button
+        color="plain"
+        label="edit"
+        on:click={() => (showEditCardModal = true)} />
     </div>
   </div>
 </div>
+
+{#if showEditCardModal}
+  <Modal
+    on:close={() => (showEditCardModal = false)}
+    on:accept={updateCardSubmit}>
+    <EditCardForm bind:comment={newComment} />
+  </Modal>
+{/if}

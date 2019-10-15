@@ -15,10 +15,11 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
   }
 
   .modal {
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     width: calc(100vw - 4em);
@@ -29,6 +30,7 @@
     padding: 1em;
     border-radius: 0.2em;
     background: white;
+    z-index: 2;
   }
 
   .buttons {
@@ -47,7 +49,6 @@
 
 <div class="modal">
   <slot />
-
   <div class="buttons">
     <div class="button">
       <Button
