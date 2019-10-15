@@ -108,7 +108,7 @@
         {#if card.rank_id == rank.id}
           <Card {card} {color} />
         {/if}
-      {:else}test{/each}
+      {/each}
     {/if}
     {#if !$cards || $cards.length === 0}
       <div class="no-cards">Nothing...</div>
