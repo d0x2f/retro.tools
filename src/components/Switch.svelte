@@ -16,7 +16,6 @@
   .text {
     color: $disabled;
     padding-left: 1em;
-    line-height:1.4;
     flex: 1 1 0;
   }
 
