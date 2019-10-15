@@ -1,5 +1,4 @@
-// const api_host = 'https://api.retrograde.dyl.dog';
-const api_host = 'http://localhost:8000';
+const api_host = 'https://api.retrograde.dyl.dog';
 
 export async function getBoard(boardId) {
   const response = await fetch(
@@ -67,9 +66,9 @@ export async function createBoard(name) {
   return await response.json();
 }
 
-export async function getCards(boardId, rankId) {
+export async function getCards(boardId) {
   const response = await fetch(
-    `${api_host}/boards/${boardId}/ranks/${rankId}/cards`,
+    `${api_host}/boards/${boardId}/cards`,
     {
       credentials: "include"
     }

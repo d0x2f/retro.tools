@@ -6,7 +6,7 @@
   import { PlusIcon } from "svelte-feather-icons";
 
   import { board, ranks, cards } from "./store.js";
-  import { updateBoard, createCard } from "./api.js";
+  import { updateBoard, createCard, getCards } from "./api.js";
 
   import FloatingActionButton from "./components/FloatingActionButton.svelte";
   import Rank from "./components/Rank.svelte";
@@ -15,7 +15,11 @@
   import NewCardForm from "./components/NewCardForm.svelte";
 
   let unsubscribe;
-  onMount(() => (unsubscribe = board.subscribe(b => updateBoard(b))));
+
+  onMount(async () => {
+    unsubscribe = board.subscribe(b => updateBoard(b));
+    cards.set(await getCards($board.id));
+  });
   onDestroy(unsubscribe);
 
   let showNewCardModal = false;

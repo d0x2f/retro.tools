@@ -33,8 +33,6 @@
     });
     await deleteRank($board.id, rank.id);
   }
-
-  onMount(async () => cards.set(rank.id, await getCards($board.id, rank.id)));
 </script>
 
 <style type="text/scss">
@@ -71,28 +69,28 @@
   .negative {
     color: $negative;
     .rankbar {
-      background-color:$negative;
+      background-color: $negative;
     }
   }
 
   .primary {
     color: $primary;
     .rankbar {
-      background-color:$primary;
+      background-color: $primary;
     }
   }
 
   .secondary {
     color: $secondary;
     .rankbar {
-      background-color:$secondary;
+      background-color: $secondary;
     }
   }
   .rankbar {
-    height:4px;
-    background:black;
-    margin-top:1em;
-    border-radius:2px;
+    height: 4px;
+    background: black;
+    margin-top: 1em;
+    border-radius: 2px;
   }
 </style>
 
@@ -102,15 +100,17 @@
       <Icon {icon} />
     </div>
     <h1>{rank.name}</h1>
-    <div class="rankbar"></div>
+    <div class="rankbar" />
   </div>
   <div class="cards">
-    {#if $cards[rank.id]}
-      {#each $cards[rank.id] as card}
-        <Card {card} {color} />
-      {/each}
+    {#if $cards}
+      {#each $cards as card}
+        {#if card.rank_id == rank.id}
+          <Card {card} {color} />
+        {/if}
+      {:else}test{/each}
     {/if}
-    {#if !$cards[rank.id] || $cards[rank.id].length === 0}
+    {#if !$cards || $cards.length === 0}
       <div class="no-cards">Nothing...</div>
     {/if}
   </div>

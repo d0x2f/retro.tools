@@ -15,14 +15,14 @@ function createCards() {
 
   return {
     subscribe,
-    set: (rankId, cards) => update(store => { store[rankId] = cards; return store; }),
+    set,
     append: card => update(store => {
-      store[card.rank_id].push(card);
+      store.push(card);
       return store;
     }),
     replace: (id, card) => update(store => {
-      const index = store[card.rank_id].findIndex(c => c.id === id)
-      store[card.rank_id][index] = card;
+      const index = store.findIndex(c => c.id === id)
+      store[index] = card;
       return store;
     })
   };
