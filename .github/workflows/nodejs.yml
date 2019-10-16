@@ -13,11 +13,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: yarn install, build, lint and audit
-      run: |
-        yarn install
-        yarn run build
-        yarn run lint
-        yarn audit
-      env:
-        CI: true
+    - name: install
+      run: yarn install
+    - name: build
+      run: yarn build
+    - name: lint
+      run: yarn run lint
+    - name: audit
+      run: yarn audit
