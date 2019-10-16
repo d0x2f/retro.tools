@@ -18,6 +18,9 @@ export default {
   plugins: [
     svelte({
       dev: !production,
+      css: css => {
+        css.write('public/bundle.css', false);
+      },
       preprocess: autoPreprocess(),
     }),
     resolve({
