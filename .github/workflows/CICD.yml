@@ -3,7 +3,7 @@ name: CI/CD
 on: [push]
 
 jobs:
-  build & deploy:
+  cicd:
 
     runs-on: ubuntu-latest
 
