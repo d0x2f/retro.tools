@@ -1,11 +1,11 @@
 <script>
-  export let text = "Placeholder text";
+  export let text = 'Placeholder text';
   export let checked = false;
-  export let color = "primary";
+  export let color = 'primary';
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   .container {
     display: flex;
@@ -17,7 +17,7 @@
     color: $disabled;
     padding-left: 1em;
     flex: 1 1 0;
-    line-height:1.4;
+    line-height: 1.4;
   }
 
   .switch {
@@ -48,7 +48,7 @@
 
   .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 13px;
     width: 13px;
     left: 2px;

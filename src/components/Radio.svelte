@@ -1,12 +1,12 @@
 <script>
-  import Icon from "fa-svelte";
+  import Icon from 'fa-svelte';
 
   export let icon = false;
   export let label;
   export let value;
-  export let group = "";
-  export let color = "primary";
-  export let style = "";
+  export let group = '';
+  export let color = 'primary';
+  export let style = '';
 </script>
 
 <style>

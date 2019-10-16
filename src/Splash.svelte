@@ -1,25 +1,26 @@
 <script>
-  import { faPlus } from "@fortawesome/free-solid-svg-icons";
+  import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-  import { createRank, createBoard } from "./api.js";
-  import TextField from "./components/TextField.svelte";
-  import Button from "./components/Button.svelte";
+  import { createRank, createBoard } from './api.js';
+  import TextField from './components/TextField.svelte';
+  import Button from './components/Button.svelte';
 
   export let nav;
 
-  let boardName = "";
+  let boardName = '';
 
   async function newBoard() {
     let board = await createBoard(boardName);
-    await createRank(board.id, "MAD");
-    await createRank(board.id, "SAD");
-    await createRank(board.id, "GLAD");
-    nav.navigate(`/${board.id}`);
+    await createRank(board.id, 'MAD');
+    await createRank(board.id, 'SAD');
+    await createRank(board.id, 'GLAD');
+    nav.navigate(`/${board.id}
+    `);
   }
 </script>
 
-<style type="text/scss">
-  @import "../theme/colors.scss";
+<style lang="scss">
+  @import '../theme/colors.scss';
 
   .container {
     display: flex;
@@ -39,7 +40,7 @@
     flex: 0 0 5em;
     font-size: 200%;
     padding-top: 6em;
-    font-family: "Work Sans", sans-serif;
+    font-family: 'Work Sans', sans-serif;
     color: $primary;
     text-transform: uppercase;
   }
@@ -59,7 +60,7 @@
     margin-bottom: 0.2em;
     font-size: 80%;
     color: $primary;
-    font-family: "Work Sans", sans-serif;
+    font-family: 'Work Sans', sans-serif;
   }
 
   .input {

@@ -1,18 +1,17 @@
 <script>
-  import { onMount } from "svelte";
-  import { board } from "../store.js";
-  import { updateCard, agree } from "../api.js";
+  import { onMount } from 'svelte';
+  import { board } from '../store.js';
+  import { updateCard, agree } from '../api.js';
 
-  import Button from "./Button.svelte";
-  import Modal from "./Modal.svelte";
-  import EditCardForm from "./EditCardForm.svelte";
+  import Button from './Button.svelte';
+  import Modal from './Modal.svelte';
+  import EditCardForm from './EditCardForm.svelte';
 
   export let card;
-  export let color = "primary";
+  export let color = 'primary';
 
   let showEditCardModal = false;
   let newComment;
-  let unsubscribe;
 
   onMount(() => (newComment = card.description));
 
@@ -23,15 +22,15 @@
   }
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   .card {
     width: 14em;
     box-shadow: 0 0 0.4em darken($background, 10%);
     margin: 1em;
-    border-radius:3px;
-    overflow:hidden;
+    border-radius: 3px;
+    overflow: hidden;
   }
 
   .top {
@@ -58,7 +57,7 @@
     font-size: 1.2em;
     flex: 0 0 1.5em;
     font-weight: bold;
-    text-align:center;
+    text-align: center;
   }
 
   .text {
@@ -80,7 +79,7 @@
   }
 </style>
 
-<div class="card {!!card.uncommitted ? 'uncommitted' : ''}">
+<div class="card {card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
     <span class="votes {color}">0</span>
     <span class="text">{card.description}</span>

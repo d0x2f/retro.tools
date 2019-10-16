@@ -3,15 +3,14 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import postcss from 'rollup-plugin-postcss';
-import autoPreprocess from 'svelte-preprocess';
+import autoPreprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: 'src/main.js',
   output: {
-    sourcemap: true,
+    sourcemap: false,
     format: 'iife',
     name: 'app',
     file: 'public/bundle.js'
@@ -19,8 +18,7 @@ export default {
   plugins: [
     svelte({
       dev: !production,
-      emitCss: true,
-      preprocess: autoPreprocess()
+      preprocess: autoPreprocess(),
     }),
     resolve({
       browser: true,
@@ -29,18 +27,6 @@ export default {
     commonjs(),
     !production && livereload('public'),
     production && terser(),
-    postcss({
-      extract: true,
-      minimize: true,
-      use: [
-        ['sass', {
-          includePaths: [
-            './theme',
-            './node_modules'
-          ]
-        }]
-      ]
-    })
   ],
   watch: {
     clearScreen: false

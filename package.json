@@ -6,9 +6,13 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "crayon": "^4.1.6",
     "crayon-svelte": "^1.0.10",
+    "eslint": "^6.5.1",
+    "eslint-plugin-svelte3": "^2.7.3",
     "fa-svelte": "^3.0.0",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "^1.18.2",
+    "prettier-plugin-svelte": "^0.7.0",
     "rollup": "^1.12.0",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-livereload": "^1.0.0",
@@ -26,6 +30,8 @@
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
     "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev"
+    "start:dev": "sirv public --single --dev",
+    "lint": "prettier --check 'src/**' && eslint 'src/**'",
+    "lint:fix": "prettier --write 'src/**' && eslint --fix 'src/**'"
   }
 }

@@ -1,17 +1,17 @@
 <script>
-  import Icon from "fa-svelte";
-  import { createEventDispatcher } from "svelte";
+  import Icon from 'fa-svelte';
+  import { createEventDispatcher } from 'svelte';
 
   export let icon = false;
   export let label;
-  export let color = "primary";
+  export let color = 'primary';
   export let disabled = false;
 
   const dispatch = createEventDispatcher();
 </script>
 
-<style type="text/scss">
-  @import "../theme/colors.scss";
+<style lang="scss">
+  @import '../theme/colors.scss';
 
   button {
     text-transform: capitalize;

@@ -1,10 +1,10 @@
 <script>
-  export let placeholder = "";
+  export let placeholder = '';
   export let text;
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   textarea {
     width: 100%;

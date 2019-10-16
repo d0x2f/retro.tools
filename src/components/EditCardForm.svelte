@@ -1,36 +1,11 @@
 <script>
-  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
-  import TextArea from "./TextArea.svelte";
-  import Radio from "./Radio.svelte";
-
-  import { ranks } from "../store.js";
+  import TextArea from './TextArea.svelte';
 
   export let comment;
-
-  let icons = {
-    mad: "mood_bad",
-    sad: "sentiment_very_dissatisfied",
-    glad: "sentiment_very_satisfied"
-  };
-
-  let tabs = {
-    mad: {
-      color: "negative",
-      icon: faFrown
-    },
-    sad: {
-      color: "primary",
-      icon: faMeh
-    },
-    glad: {
-      color: "secondary",
-      icon: faSmile
-    }
-  };
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   .comment {
     margin-bottom: 1em;
@@ -39,7 +14,7 @@
 
   h1 {
     margin-bottom: 1em;
-    font-family: "Work Sans", sans-serif;
+    font-family: 'Work Sans', sans-serif;
     text-transform: uppercase;
     color: $primary;
   }

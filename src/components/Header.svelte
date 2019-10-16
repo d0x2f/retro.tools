@@ -1,20 +1,17 @@
 <script>
-  import Icon from "fa-svelte";
-  import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
-
-  import { board } from "../store.js";
-  import Switch from "./Switch.svelte";
+  import { board } from '../store.js';
+  import Switch from './Switch.svelte';
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   .container {
     position: relative;
     background-color: $background;
     color: $primary;
     box-shadow: 0 0 0.4em darken($background, 20%);
-    line-height:1.5;
+    line-height: 1.5;
   }
 
   .header {

@@ -1,42 +1,16 @@
 <script>
-  import { onMount } from "svelte";
-  import Icon from "fa-svelte";
+  import Icon from 'fa-svelte';
 
-  import { board, ranks, cards } from "../store.js";
-  import Card from "./Card.svelte";
-
-  import { getCards, createCard, deleteRank } from "../api.js";
+  import { cards } from '../store.js';
+  import Card from './Card.svelte';
 
   export let rank;
   export let color;
   export let icon;
-
-  let cardText = "";
-
-  async function newCard() {
-    const id = Math.ceil(Math.random() * 10000);
-    cards.append({
-      description: cardText,
-      id,
-      name: "Card",
-      rank_id: rank.id,
-      uncommitted: true
-    });
-    const card = await createCard($board.id, rank.id, cardText);
-    cards.replace(id, card);
-  }
-
-  async function doDeleteRank() {
-    ranks.update(ranks => {
-      ranks.splice($ranks.indexOf(rank), 1);
-      return ranks;
-    });
-    await deleteRank($board.id, rank.id);
-  }
 </script>
 
-<style type="text/scss">
-  @import "../../theme/colors.scss";
+<style lang="scss">
+  @import '../../theme/colors.scss';
 
   .rank {
     position: relative;

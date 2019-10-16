@@ -1,8 +1,8 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+  import { createEventDispatcher } from 'svelte';
+  import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-  import Button from "./Button.svelte";
+  import Button from './Button.svelte';
 
   const dispatch = createEventDispatcher();
 </script>

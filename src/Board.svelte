@@ -1,18 +1,17 @@
 <script>
-  import { onDestroy, onMount } from "svelte";
-  import { faPlus } from "@fortawesome/free-solid-svg-icons";
-  import { faFrown, faMeh, faSmile } from "@fortawesome/free-regular-svg-icons";
+  import { onDestroy, onMount } from 'svelte';
+  import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
 
-  import { PlusIcon } from "svelte-feather-icons";
+  import { PlusIcon } from 'svelte-feather-icons';
 
-  import { board, ranks, cards } from "./store.js";
-  import { updateBoard, createCard, getCards } from "./api.js";
+  import { board, ranks, cards } from './store.js';
+  import { updateBoard, createCard, getCards } from './api.js';
 
-  import FloatingActionButton from "./components/FloatingActionButton.svelte";
-  import Rank from "./components/Rank.svelte";
-  import Header from "./components/Header.svelte";
-  import Modal from "./components/Modal.svelte";
-  import NewCardForm from "./components/NewCardForm.svelte";
+  import FloatingActionButton from './components/FloatingActionButton.svelte';
+  import Rank from './components/Rank.svelte';
+  import Header from './components/Header.svelte';
+  import Modal from './components/Modal.svelte';
+  import NewCardForm from './components/NewCardForm.svelte';
 
   let unsubscribe;
 
@@ -24,21 +23,21 @@
 
   let showNewCardModal = false;
   let newCardRank = $ranks[0].id;
-  let newCardComment = "";
+  let newCardComment = '';
 
   const rankDetails = {
     mad: {
-      color: "negative",
-      icon: faFrown
+      color: 'negative',
+      icon: faFrown,
     },
     sad: {
-      color: "primary",
-      icon: faMeh
+      color: 'primary',
+      icon: faMeh,
     },
     glad: {
-      color: "secondary",
-      icon: faSmile
-    }
+      color: 'secondary',
+      icon: faSmile,
+    },
   };
 
   async function newCard() {
@@ -46,21 +45,20 @@
     const tempId = Math.floor(Math.random() * 10000);
     cards.append({
       id: tempId,
-      name: "Card",
+      name: 'Card',
       description: newCardComment,
       rank_id: newCardRank,
-      uncommitted: true
+      uncommitted: true,
     });
     cards.replace(
       tempId,
       await createCard($board.id, newCardRank, newCardComment)
     );
-    newCardComment = "";
   }
 </script>
 
-<style type="text/scss">
-  @import "../theme/colors.scss";
+<style lang="scss">
+  @import '../theme/colors.scss';
 
   .container {
     height: 100%;
@@ -140,7 +138,10 @@
       <FloatingActionButton
         color="tertiary"
         icon={PlusIcon}
-        on:click={() => (showNewCardModal = true)} />
+        on:click={() => {
+          newCardComment = '';
+          showNewCardModal = true;
+        }} />
     </div>
   </div>
 </div>
