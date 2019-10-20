@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { board } from '../store.js';
+  import { board, cards } from '../store.js';
   import { updateCard, agree } from '../api.js';
 
   import Button from './Button.svelte';
@@ -81,7 +81,7 @@
 
 <div class="card {card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
-    <span class="votes {color}">0</span>
+    <span class="votes {color}">{card.votes}</span>
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">
@@ -90,7 +90,7 @@
         color="plain"
         label="agree"
         disabled={!$board.voting_open}
-        on:click={() => agree($board, card)} />
+        on:click={async () => cards.replace(card.id, await agree($board, card))} />
     </div>
     <div class="button">
       <Button
