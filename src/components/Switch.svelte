@@ -21,11 +21,12 @@
   }
 
   .switch {
-    flex: 0 0 30px;
+    flex: 0 0 1.8em;
     position: relative;
     display: inline-block;
-    width: 30px;
-    height: 17px;
+    width: 1.8em;
+    height: 1em;
+    margin-top: 0.2em;
   }
 
   .switch input {
@@ -43,23 +44,23 @@
     bottom: 0;
     background-color: darken($background, 20%);
     transition: 0.4s;
-    border-radius: 17px;
+    border-radius: 1em;
   }
 
   .slider:before {
     position: absolute;
     content: '';
-    height: 13px;
-    width: 13px;
-    left: 2px;
-    bottom: 2px;
+    height: 0.8em;
+    width: 0.8em;
+    left: 0.1em;
+    bottom: 0.1em;
     background-color: $background;
     transition: 0.4s;
     border-radius: 50%;
   }
 
   input:checked + .slider:before {
-    transform: translateX(13px);
+    transform: translateX(0.8em);
   }
 
   input:checked + .primary {
@@ -67,7 +68,7 @@
   }
 
   input:focus + .primary {
-    box-shadow: 0 0 1px $primary;
+    box-shadow: 0 0 0.2em $primary;
   }
 
   .primary {

@@ -29,7 +29,7 @@
     width: 14em;
     box-shadow: 0 0 0.4em darken($background, 10%);
     margin: 1em;
-    border-radius: 3px;
+    border-radius: 0.2em;
     overflow: hidden;
   }
 

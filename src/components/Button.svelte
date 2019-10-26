@@ -19,7 +19,7 @@
     text-align: center;
     text-decoration: none;
     padding: 0.6em;
-    border-radius: 3px;
+    border-radius: 0.2em;
     width: 100%;
     height: 100%;
     background-position: center;

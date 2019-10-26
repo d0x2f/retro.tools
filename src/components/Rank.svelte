@@ -61,10 +61,10 @@
     }
   }
   .rankbar {
-    height: 4px;
+    height: 0.2em;
     background: black;
     margin-top: 1em;
-    border-radius: 2px;
+    border-radius: 0.2em;
   }
 </style>
 
