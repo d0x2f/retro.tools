@@ -5,6 +5,7 @@
 
   import { ranks } from '../store.js';
 
+  export let title;
   export let comment;
   export let type;
 
@@ -46,7 +47,7 @@
   }
 </style>
 
-<h1>New Card</h1>
+<h1>{title}</h1>
 
 <div class="comment">
   <TextArea bind:text={comment} placeholder="This meeting is boring..." />

@@ -1,23 +1,29 @@
 <script>
   import { onMount } from 'svelte';
-  import { board, cards } from '../store.js';
+  import { board, cards, ranks } from '../store.js';
   import { updateCard, agree } from '../api.js';
 
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
-  import EditCardForm from './EditCardForm.svelte';
+  import CardForm from './CardForm.svelte';
 
   export let card;
   export let color = 'primary';
 
   let showEditCardModal = false;
+  let newRank = $ranks[0].id;
   let newComment;
 
-  onMount(() => (newComment = card.description));
+  onMount(() => {
+    newComment = card.description;
+    newRank = card.rank_id;
+  });
 
   async function updateCardSubmit() {
+    const current_rank_id = card.rank_id;
     card.description = newComment;
-    updateCard($board, card);
+    card.rank_id = newRank;
+    updateCard($board, card, current_rank_id);
     showEditCardModal = false;
   }
 </script>
@@ -105,6 +111,9 @@
   <Modal
     on:close={() => (showEditCardModal = false)}
     on:accept={updateCardSubmit}>
-    <EditCardForm bind:comment={newComment} />
+    <CardForm
+      title="Modify Card"
+      bind:type={newRank}
+      bind:comment={newComment} />
   </Modal>
 {/if}

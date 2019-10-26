@@ -11,7 +11,7 @@
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
   import Modal from './components/Modal.svelte';
-  import NewCardForm from './components/NewCardForm.svelte';
+  import CardForm from './components/CardForm.svelte';
 
   let unsubscribe;
 
@@ -49,6 +49,7 @@
       description: newCardComment,
       rank_id: newCardRank,
       uncommitted: true,
+      votes: 0,
     });
     cards.replace(
       tempId,
@@ -148,6 +149,9 @@
 
 {#if showNewCardModal}
   <Modal on:close={() => (showNewCardModal = false)} on:accept={newCard}>
-    <NewCardForm bind:type={newCardRank} bind:comment={newCardComment} />
+    <CardForm
+      title="New Card"
+      bind:type={newCardRank}
+      bind:comment={newCardComment} />
   </Modal>
 {/if}

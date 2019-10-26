@@ -80,7 +80,7 @@
     {#if $cards}
       {#each $cards as card}
         {#if card.rank_id == rank.id}
-          <Card {card} {color} />
+          <Card bind:card {color} />
         {/if}
       {/each}
     {/if}
