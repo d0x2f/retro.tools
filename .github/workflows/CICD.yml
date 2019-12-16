@@ -16,19 +16,20 @@ jobs:
         node-version: 12.x
     - name: Install
       run: yarn install
-    - name: Build
-      run: yarn build
     - name: Lint
-      run: yarn run lint
+      run: yarn lint
     - name: Audit
       run: yarn audit
     - name: Setup Google Cloud
       uses: actions/gcloud/auth@master
       env:
         GCLOUD_AUTH: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
-    - name: Upload files
-      uses: docker://gcr.io/cloud-builders/gsutil
+    - name: Docker build
+      uses: docker://gcr.io/cloud-builders/docker
       with:
-        args: -m cp public/* gs://retrograde.dyl.dog/
-      env:
-        CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT }}
+        args: build . -t gcr.io/retrograde/retrograde:latest
+    - name: Docker push
+      uses: actions/gcloud/cli@master
+      with:
+        entrypoint: /bin/sh
+        args: "-c \"gcloud auth configure-docker && docker push gcr.io/retrograde/retrograde:latest\""
