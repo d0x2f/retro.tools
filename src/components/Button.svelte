@@ -11,7 +11,7 @@
 </script>
 
 <style lang="scss">
-  @import '../theme/colors.scss';
+  @import '../../theme/colors.scss';
 
   button {
     text-transform: capitalize;
