@@ -32,7 +32,7 @@
   @import '../../theme/colors.scss';
 
   .card {
-    width: 14em;
+    width: 90%;
     box-shadow: 0 0 0.4em darken($background, 10%);
     margin: 1em auto;
     border-radius: 0.2em;
