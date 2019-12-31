@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { board, cards, ranks } from '../store.js';
-  import { updateCard, agree } from '../api.js';
+  import { updateCard, agree, undoAgree } from '../api.js';
 
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
@@ -61,15 +61,16 @@
 
   .votes {
     font-size: 1.2em;
-    flex: 0 0 1.5em;
+    flex: 0 0 2em;
     font-weight: bold;
     text-align: center;
+    white-space: nowrap;
   }
 
   .text {
     flex: 1 1 0;
     font-weight: 300;
-    padding: 0.2em;
+    padding: 0.1em;
   }
 
   .negative {
@@ -87,16 +88,27 @@
 
 <div class="card {card.uncommitted ? 'uncommitted' : ''}">
   <div class="top">
-    <span class="votes {color}">{card.votes}</span>
+    <span class="votes {color}">
+      {#if card.voted}•{/if}
+      {card.votes}
+    </span>
     <span class="text">{card.description}</span>
   </div>
   <div class="buttons">
     <div class="button">
-      <Button
-        color="plain"
-        label="agree"
-        disabled={!$board.voting_open}
-        on:click={async () => cards.replace(card.id, await agree($board, card))} />
+      {#if card.voted}
+        <Button
+          color="plain"
+          label="undo"
+          disabled={!$board.voting_open}
+          on:click={async () => cards.replace(card.id, await undoAgree($board, card))} />
+      {:else}
+        <Button
+          color="plain"
+          label="agree"
+          disabled={!$board.voting_open}
+          on:click={async () => cards.replace(card.id, await agree($board, card))} />
+      {/if}
     </div>
     <div class="button">
       <Button

@@ -121,6 +121,19 @@ export async function agree(board, card) {
   return await response.json();
 }
 
+export async function undoAgree(board, card) {
+  const response = await fetch(
+    `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
+    {
+      method: 'DELETE',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+    }
+  );
+  return await response.json();
+}
+
 export async function deleteRank(boardId, rankId) {
   const response = await fetch(
     `${api_host}/boards/${boardId}/ranks/${rankId}`,
