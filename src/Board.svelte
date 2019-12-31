@@ -15,9 +15,14 @@
 
   let unsubscribe;
 
+  async function updateCards() {
+    cards.set(await getCards($board.id));
+  }
+
   onMount(async () => {
     unsubscribe = board.subscribe(b => updateBoard(b));
-    cards.set(await getCards($board.id));
+    await updateCards();
+    setInterval(async () => await updateCards(), 10000);
   });
   onDestroy(unsubscribe);
 
