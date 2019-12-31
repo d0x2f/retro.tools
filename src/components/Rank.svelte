@@ -66,6 +66,12 @@
     margin-top: 1em;
     border-radius: 0.2em;
   }
+
+  @media screen and (max-width: 1024px) {
+    .header {
+      display: none;
+    }
+  }
 </style>
 
 <div class="rank">

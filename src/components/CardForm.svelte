@@ -1,7 +1,7 @@
 <script>
+  import Icon from 'fa-svelte';
   import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import TextArea from './TextArea.svelte';
-  import Radio from './Radio.svelte';
 
   import { ranks } from '../store.js';
 
@@ -45,6 +45,46 @@
     border-radius: 0.5em;
     display: flex;
   }
+
+  /*
+  Hide radio button (the round disc)
+  we will use just the label to create pushbutton effect
+  */
+  input[type='radio'] {
+    display: none;
+    margin: 10px;
+  }
+
+  /*
+    Change the look'n'feel of labels (which are adjacent to radiobuttons).
+    Add some margin, padding to label
+  */
+  input[type='radio'] + label {
+    display: inline-block;
+    flex: 1 1;
+    margin: -2px;
+    padding: 4px 12px;
+    text-align: center;
+  }
+  /*
+  Change background color for label next to checked radio button
+  to make it look like highlighted button
+  */
+  input[type='radio']:checked + label {
+    border-bottom: 2px solid #4f81e5;
+  }
+
+  .negative {
+    color: $negative;
+  }
+
+  .primary {
+    color: $primary;
+  }
+
+  .secondary {
+    color: $secondary;
+  }
 </style>
 
 <h1>{title}</h1>
@@ -55,12 +95,12 @@
 
 <div class="ranks">
   {#each $ranks as rank}
-    <Radio
-      bind:group={type}
-      value={rank.id}
-      label={rank.name}
-      icon={tabs[rank.name.toLowerCase()].icon || faMeh}
-      color={tabs[rank.name.toLowerCase()].color || 'primary'}
-      style="flex: 1 0 0;" />
+    <input type="radio" id={rank.id} bind:group={type} value={rank.id} />
+    <label for={rank.id} class={tabs[rank.name.toLowerCase()].color}>
+      <div class="icon">
+        <Icon icon={tabs[rank.name.toLowerCase()].icon} />
+      </div>
+      {rank.name}
+    </label>
   {/each}
 </div>

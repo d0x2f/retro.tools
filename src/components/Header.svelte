@@ -35,6 +35,16 @@
     display: inline-block;
     margin-left: 1.8em;
   }
+
+  @media screen and (max-width: 1024px) {
+    .header {
+      text-align: center;
+    }
+
+    .settings {
+      display: none;
+    }
+  }
 </style>
 
 <div class="container">
