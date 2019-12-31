@@ -15,7 +15,7 @@
     border: none;
     text-align: center;
     text-decoration: none;
-    padding: 0.6em;
+    padding: 0.4em;
     border-radius: 50%;
     width: 100%;
     height: 100%;
@@ -27,6 +27,10 @@
     justify-content: center;
     box-shadow: 0.1em 0.2em 0.5em darken($background, 30%);
     font-size: 110%;
+  }
+
+  .icon {
+    margin: auto auto;
   }
 
   button:hover {

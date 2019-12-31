@@ -137,7 +137,7 @@
 
     <div class="add-button {$board.cards_open ? '' : 'hidden'}">
       <FloatingActionButton
-        color="tertiary"
+        color="primary"
         icon={PlusIcon}
         on:click={() => {
           newCardComment = '';
