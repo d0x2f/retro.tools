@@ -7,7 +7,7 @@
   import { PlusIcon } from 'svelte-feather-icons';
 
   import { board, ranks, cards } from './store.js';
-  import { updateBoard, createCard, getCards } from './api.js';
+  import { updateBoard, createCard, getCards, getBoard } from './api.js';
 
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
@@ -17,14 +17,15 @@
 
   let unsubscribe;
 
-  async function updateCards() {
+  async function update() {
+    board.set(await getBoard($board.id));
     cards.set(await getCards($board.id));
   }
 
   onMount(async () => {
     unsubscribe = board.subscribe(b => updateBoard(b));
-    await updateCards();
-    setInterval(async () => await updateCards(), 10000);
+    update();
+    setInterval(async () => await update(), 10000);
   });
   onDestroy(unsubscribe);
 
@@ -130,7 +131,7 @@
 
   @media screen and (max-width: 1024px) {
     .page {
-      overflow: scroll;
+      overflow: auto;
     }
 
     .add-button {
@@ -169,7 +170,7 @@
 
     .ranks {
       flex: 1 1 1em;
-      overflow: scroll;
+      overflow: auto;
     }
 
     .tab-buttons {

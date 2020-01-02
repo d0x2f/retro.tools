@@ -34,6 +34,7 @@
     color: darken($background, 20%);
     text-align: center;
     padding-top: 2em;
+    overflow: auto;
   }
 
   .icon {

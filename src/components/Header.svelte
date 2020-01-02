@@ -1,6 +1,10 @@
 <script>
+  import { PlusIcon, SettingsIcon } from 'svelte-feather-icons';
+
   import { board } from '../store.js';
   import Switch from './Switch.svelte';
+
+  let showMobileSettings = false;
 </script>
 
 <style lang="scss">
@@ -31,6 +35,14 @@
     font-size: 0.7em;
   }
 
+  .mobile {
+    display: none;
+  }
+
+  .mobile-settings {
+    display: none;
+  }
+
   .horizontal {
     display: inline-block;
     margin-left: 1.8em;
@@ -44,17 +56,53 @@
     .settings {
       display: none;
     }
+
+    .mobile {
+      display: block;
+      position: absolute;
+      width: 1.4em;
+      right: 0.4em;
+      top: 0.4em;
+      z-index: 100;
+      cursor: pointer;
+    }
+
+    .mobile-settings {
+      display: block;
+      font-size: 90%;
+    }
+
+    .horizontal {
+      margin-left: 1em;
+    }
   }
 </style>
 
 <div class="container">
   <div class="header">retrograde</div>
-  <div class="settings">
-    <div class="horizontal">
-      <Switch text="Voting" bind:checked={$board.voting_open} />
+  {#if $board.owner}
+    <div
+      class="mobile"
+      on:click={() => (showMobileSettings = !showMobileSettings)}>
+      <SettingsIcon />
     </div>
-    <div class="horizontal">
-      <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
+    {#if showMobileSettings}
+      <div class="mobile-settings">
+        <div class="horizontal">
+          <Switch text="Voting" bind:checked={$board.voting_open} />
+        </div>
+        <div class="horizontal">
+          <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
+        </div>
+      </div>
+    {/if}
+    <div class="settings">
+      <div class="horizontal">
+        <Switch text="Voting" bind:checked={$board.voting_open} />
+      </div>
+      <div class="horizontal">
+        <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
+      </div>
     </div>
-  </div>
+  {/if}
 </div>
