@@ -1,5 +1,5 @@
 <script>
-  import { PlusIcon, SettingsIcon } from 'svelte-feather-icons';
+  import { SettingsIcon } from 'svelte-feather-icons';
 
   import { board } from '../store.js';
   import Switch from './Switch.svelte';
