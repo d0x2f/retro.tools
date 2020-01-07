@@ -3854,10 +3854,9 @@ svelte-preprocess@^3.2.6:
     detect-indent "^6.0.0"
     strip-indent "^2.0.0"
 
-svelte-tabs@^1.1.0:
+"svelte-tabs@https://github.com/d0x2f/svelte-tabs.git":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/svelte-tabs/-/svelte-tabs-1.1.0.tgz#093c5fdac57cbb0e6ba81e717d68fb9da7239208"
-  integrity sha512-bCynxgET2uvqpB6xf/dVyqHjzmumRURQyh2QqXlrki8NxzO7h2WghF8qgpb5qeB5NTX1bMU+9Q5Hf5ey2WLaMg==
+  resolved "https://github.com/d0x2f/svelte-tabs.git#c4c7b092331cea5c822f4ecb61cb410241d25284"
 
 svelte@^3.16.4:
   version "3.16.7"

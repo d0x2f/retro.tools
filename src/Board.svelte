@@ -18,17 +18,22 @@
   let unsubscribe;
 
   async function update() {
-    board.set(await getBoard($board.id));
-    cards.set(await getCards($board.id));
+    const [b, c] = await Promise.all([
+      getBoard($board.id),
+      getCards($board.id),
+    ]);
+    board.set(b);
+    cards.set(c);
   }
 
   onMount(async () => {
-    if (board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
-    update();
+    await update();
+    if ($board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
     setInterval(async () => await update(), 10000);
   });
-  onDestroy(() => board.owner && unsubscribe());
+  onDestroy(() => $board.owner && unsubscribe());
 
+  let selectedTab = 0;
   let showNewCardModal = false;
   let newCardRank = $ranks[0].id;
   let newCardComment = '';
@@ -47,6 +52,8 @@
       icon: faSmile,
     },
   };
+
+  $: selectedTab, (newCardRank = $ranks[selectedTab].id);
 
   async function newCard() {
     showNewCardModal = false;
@@ -235,7 +242,7 @@
     </div>
 
     <div class="rank-tabs">
-      <Tabs>
+      <Tabs bind:selectedTabIndex={selectedTab}>
         <div class="ranks">
           {#each $ranks as rank, i}
             <TabPanel>
