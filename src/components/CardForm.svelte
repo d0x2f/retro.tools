@@ -46,19 +46,11 @@
     display: flex;
   }
 
-  /*
-  Hide radio button (the round disc)
-  we will use just the label to create pushbutton effect
-  */
   input[type='radio'] {
     display: none;
     margin: 10px;
   }
 
-  /*
-    Change the look'n'feel of labels (which are adjacent to radiobuttons).
-    Add some margin, padding to label
-  */
   input[type='radio'] + label {
     display: inline-block;
     flex: 1 1;
@@ -66,10 +58,7 @@
     padding: 4px 12px;
     text-align: center;
   }
-  /*
-  Change background color for label next to checked radio button
-  to make it look like highlighted button
-  */
+
   input[type='radio']:checked + label {
     border-bottom: 2px solid #4f81e5;
   }

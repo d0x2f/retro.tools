@@ -23,11 +23,11 @@
   }
 
   onMount(async () => {
-    unsubscribe = board.subscribe(b => updateBoard(b));
+    if (board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
     update();
     setInterval(async () => await update(), 10000);
   });
-  onDestroy(unsubscribe);
+  onDestroy(() => board.owner && unsubscribe());
 
   let showNewCardModal = false;
   let newCardRank = $ranks[0].id;
