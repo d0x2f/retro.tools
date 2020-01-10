@@ -7,7 +7,7 @@
 
   export let title;
   export let comment;
-  export let type;
+  export let rank_id;
 
   let tabs = {
     mad: {
@@ -84,7 +84,7 @@
 
 <div class="ranks">
   {#each $ranks as rank}
-    <input type="radio" id={rank.id} bind:group={type} value={rank.id} />
+    <input type="radio" id={rank.id} bind:group={rank_id} value={rank.id} />
     <label for={rank.id} class={tabs[rank.name.toLowerCase()].color}>
       <div class="icon">
         <Icon icon={tabs[rank.name.toLowerCase()].icon} />

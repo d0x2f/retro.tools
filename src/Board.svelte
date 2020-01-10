@@ -38,6 +38,8 @@
   let newCardRank = $ranks[0].id;
   let newCardComment = '';
 
+  setTimeout(() => (selectedTab = 2), 3000);
+
   const rankDetails = {
     mad: {
       color: 'negative',
@@ -53,10 +55,9 @@
     },
   };
 
-  $: selectedTab, (newCardRank = $ranks[selectedTab].id);
-
   async function newCard() {
     showNewCardModal = false;
+    selectedTab = $ranks.findIndex(rank => rank.id === newCardRank);
     const tempId = Math.floor(Math.random() * 10000);
     cards.append({
       id: tempId,
@@ -244,7 +245,7 @@
     <div class="rank-tabs">
       <Tabs bind:selectedTabIndex={selectedTab}>
         <div class="ranks">
-          {#each $ranks as rank, i}
+          {#each $ranks as rank}
             <TabPanel>
               <Rank
                 bind:rank
@@ -302,6 +303,7 @@
       icon={PlusIcon}
       on:click={() => {
         newCardComment = '';
+        newCardRank = $ranks[selectedTab].id;
         showNewCardModal = true;
       }} />
   </div>
@@ -311,7 +313,7 @@
   <Modal on:close={() => (showNewCardModal = false)} on:accept={newCard}>
     <CardForm
       title="New Card"
-      bind:type={newCardRank}
+      bind:rank_id={newCardRank}
       bind:comment={newCardComment} />
   </Modal>
 {/if}

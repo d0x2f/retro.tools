@@ -125,7 +125,7 @@
     on:accept={updateCardSubmit}>
     <CardForm
       title="Modify Card"
-      bind:type={newRank}
+      bind:rank_id={newRank}
       bind:comment={newComment} />
   </Modal>
 {/if}
