@@ -20,10 +20,10 @@ jobs:
       run: yarn lint
     - name: Audit
       run: yarn audit
-    - name: Setup Google Cloud
-      uses: actions/gcloud/auth@master
-      env:
-        GCLOUD_AUTH: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
     - name: Docker build
       uses: docker://gcr.io/cloud-builders/docker
       with:
