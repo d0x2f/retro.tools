@@ -24,7 +24,7 @@
     "svelte": "^3.16.4",
     "svelte-feather-icons": "^3.0.0",
     "svelte-preprocess": "^3.2.6",
-    "svelte-tabs": "https://github.com/d0x2f/svelte-tabs.git"
+    "svelte-tabs": "https://github.com/joeattardi/svelte-tabs.git#79e63140"
   },
   "scripts": {
     "build": "rollup -c",
