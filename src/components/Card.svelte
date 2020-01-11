@@ -26,6 +26,12 @@
     updateCard($board, card, current_rank_id);
     showEditCardModal = false;
   }
+
+  function editCard() {
+    newComment = card.description;
+    newRank = card.rank_id;
+    showEditCardModal = true;
+  }
 </script>
 
 <style lang="scss">
@@ -111,10 +117,7 @@
       {/if}
     </div>
     <div class="button">
-      <Button
-        color="plain"
-        label="edit"
-        on:click={() => (showEditCardModal = true)} />
+      <Button color="plain" label="edit" on:click={editCard} />
     </div>
   </div>
 </div>
