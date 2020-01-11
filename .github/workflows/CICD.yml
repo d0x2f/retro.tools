@@ -29,7 +29,4 @@ jobs:
       with:
         args: build . -t gcr.io/retrograde/retrograde.js:latest
     - name: Docker push
-      uses: actions/gcloud/cli@master
-      with:
-        entrypoint: /bin/sh
-        args: "-c \"gcloud auth configure-docker && docker push gcr.io/retrograde/retrograde.js:latest\""
+      run: gcloud auth configure-docker && docker push gcr.io/retrograde/retrograde.js:latest
