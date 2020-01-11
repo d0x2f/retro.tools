@@ -1,5 +1,4 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
   import Icon from 'fa-svelte';
 
   import { cards, settings } from '../store.js';

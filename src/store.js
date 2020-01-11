@@ -33,5 +33,5 @@ function createCards() {
 export const cards = createCards();
 
 export const settings = writable({
-  sorted: false
+  sorted: false,
 });
