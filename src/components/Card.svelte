@@ -117,7 +117,11 @@
       {/if}
     </div>
     <div class="button">
-      <Button color="plain" label="edit" on:click={editCard} />
+      <Button
+        color="plain"
+        label="edit"
+        disabled={!(card.owner || $board.owner)}
+        on:click={editCard} />
     </div>
   </div>
 </div>
