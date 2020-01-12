@@ -19,62 +19,27 @@
     });
 </script>
 
-<style lang="scss">
-  @import '../../theme/colors.scss';
-
-  .rank {
-    position: relative;
-    flex: 0 0 16em;
-  }
-
-  h1 {
-    display: inline-block;
-    text-align: center;
-    margin: 0;
-    font-size: 1em;
-  }
-
+<style>
   .header {
     text-align: center;
-    font-size: 80%;
-    padding-bottom: 0.5em;
-    border-bottom: 0.2em solid;
-  }
-
-  .no-cards {
-    color: darken($background, 20%);
-    text-align: center;
-    padding-top: 2em;
-    overflow: auto;
-  }
-
-  .icon {
-    font-size: 120%;
-  }
-
-  @media screen and (max-width: 1024px) {
-    .header {
-      display: none;
-    }
   }
 </style>
 
-<div class="rank">
-  <div class="header {color}">
-    <div class="icon">
+<div class="rank flex-grow-0 flex-shrink-0 col-md-2">
+  <div class="header d-none d-md-block {color} border-bottom">
+    <div>
       <Icon {icon} />
     </div>
-    <h1>{rank.name}</h1>
-    <div class="rankbar" />
+    {rank.name}
   </div>
-  <div class="cards">
+  <div>
     {#if $cards}
       {#each sortedFilteredCards as card}
         <Card bind:card {color} />
       {/each}
     {/if}
     {#if !$cards || $cards.length === 0}
-      <div class="no-cards">Nothing...</div>
+      <div class="text-light">Nothing...</div>
     {/if}
   </div>
 </div>

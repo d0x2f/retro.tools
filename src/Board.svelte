@@ -47,19 +47,19 @@
       icon: faFrown,
       selected: 'text-danger border-top border-danger',
       deselected: 'text-danger border-top border-light',
-      color: 'text-danger',
+      color: 'text-danger border-danger',
     },
     sad: {
       icon: faMeh,
       selected: 'text-primary border-top border-primary',
       deselected: 'text-primary border-top border-light',
-      color: 'text-primary',
+      color: 'text-primary border-primary',
     },
     glad: {
       icon: faSmile,
       selected: 'text-success border-top border-success',
       deselected: 'text-success border-top border-light',
-      color: 'text-success',
+      color: 'text-success border-success',
     },
   };
 
@@ -96,6 +96,7 @@
   }
 
   .spacer {
+    flex: 0 0 1em;
     border-right: 0.1em solid #e6e6e6;
   }
 
@@ -137,25 +138,7 @@
     text-align: center;
   }
 
-  @media (min-width: 850px) {
-    .mobile {
-      display: none !important;
-    }
-
-    .desktop {
-      display: block;
-    }
-  }
-
-  @media (max-width: 850px) {
-    .mobile {
-      display: block;
-    }
-
-    .desktop {
-      display: none !important;
-    }
-
+  @media (max-width: 768px) {
     .add-button {
       bottom: 4em;
     }
@@ -164,14 +147,14 @@
 
 <Header />
 
-<div class="d-flex justify-content-center pt-3 desktop scroll">
+<div class="d-none d-md-flex justify-content-center pt-3 scroll">
   {#each $ranks as rank, i}
     <Rank
       bind:rank
       color={rankDetails[rank.name.toLowerCase()].color}
       icon={rankDetails[rank.name.toLowerCase()].icon} />
     {#if i !== 2}
-      <div class="spacer my-5 mx-3" />
+      <div class="spacer my-5" />
     {/if}
   {:else}
     <p>
@@ -182,7 +165,7 @@
   {/each}
 </div>
 
-<div class="mobile scroll">
+<div class="d-block d-sm-block d-md-none scroll">
   {#each $ranks as rank}
     {#if rank.id == selectedRank}
       <Rank
@@ -199,7 +182,7 @@
   {/each}
 </div>
 
-<div class="mobile d-flex justify-content-around border-top">
+<div class="d-flex d-sm-flex d-md-none justify-content-around border-top">
   {#each $ranks as rank}
     <div class="flex-grow-1">
       <input
