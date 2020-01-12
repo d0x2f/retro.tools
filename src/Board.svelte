@@ -145,62 +145,65 @@
   }
 </style>
 
-<Header />
+<div class="d-flex flex-column">
 
-<div class="d-none d-md-flex justify-content-center pt-3 scroll">
-  {#each $ranks as rank, i}
-    <Rank
-      bind:rank
-      color={rankDetails[rank.name.toLowerCase()].color}
-      icon={rankDetails[rank.name.toLowerCase()].icon} />
-    {#if i !== 2}
-      <div class="spacer my-5" />
-    {/if}
-  {:else}
-    <p>
-      You have no columns!
-      <br />
-      Add some with the button on the right.
-    </p>
-  {/each}
-</div>
+  <Header />
 
-<div class="d-block d-sm-block d-md-none scroll">
-  {#each $ranks as rank}
-    {#if rank.id == selectedRank}
+  <div class="d-none d-md-flex justify-content-center pt-3 scroll">
+    {#each $ranks as rank, i}
       <Rank
         bind:rank
         color={rankDetails[rank.name.toLowerCase()].color}
         icon={rankDetails[rank.name.toLowerCase()].icon} />
-    {/if}
-  {:else}
-    <p>
-      You have no columns!
-      <br />
-      Add some with the button on the right.
-    </p>
-  {/each}
-</div>
+      {#if i !== 2}
+        <div class="spacer my-5" />
+      {/if}
+    {:else}
+      <p>
+        You have no columns!
+        <br />
+        Add some with the button on the right.
+      </p>
+    {/each}
+  </div>
 
-<div class="d-flex d-sm-flex d-md-none justify-content-around border-top">
-  {#each $ranks as rank}
-    <div class="flex-grow-1">
-      <input
-        type="radio"
-        id={rank.id}
-        bind:group={selectedRank}
-        value={rank.id} />
-      <label
-        for={rank.id}
-        class="{selectedRank == rank.id ? rankDetails[rank.name.toLowerCase()].selected : rankDetails[rank.name.toLowerCase()].deselected}
-        col">
-        <div class="icon">
-          <Icon icon={rankDetails[rank.name.toLowerCase()].icon} />
-        </div>
-        {rank.name}
-      </label>
-    </div>
-  {/each}
+  <div class="d-block d-md-none scroll">
+    {#each $ranks as rank}
+      {#if rank.id == selectedRank}
+        <Rank
+          bind:rank
+          color={rankDetails[rank.name.toLowerCase()].color}
+          icon={rankDetails[rank.name.toLowerCase()].icon} />
+      {/if}
+    {:else}
+      <p>
+        You have no columns!
+        <br />
+        Add some with the button on the right.
+      </p>
+    {/each}
+  </div>
+
+  <div class="d-flex d-md-none justify-content-around border-top">
+    {#each $ranks as rank}
+      <div class="flex-grow-1">
+        <input
+          type="radio"
+          id={rank.id}
+          bind:group={selectedRank}
+          value={rank.id} />
+        <label
+          for={rank.id}
+          class="{selectedRank == rank.id ? rankDetails[rank.name.toLowerCase()].selected : rankDetails[rank.name.toLowerCase()].deselected}
+          col">
+          <div class="icon">
+            <Icon icon={rankDetails[rank.name.toLowerCase()].icon} />
+          </div>
+          {rank.name}
+        </label>
+      </div>
+    {/each}
+  </div>
 </div>
 
 <div class="add-button {$board.cards_open ? '' : 'invisible'}">
