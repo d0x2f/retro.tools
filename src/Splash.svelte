@@ -1,9 +1,9 @@
 <script>
   import { faPlus } from '@fortawesome/free-solid-svg-icons';
+  import Icon from 'fa-svelte';
+  import { Button, Input } from 'sveltestrap';
 
   import { createRank, createBoard } from './api.js';
-  import TextField from './components/TextField.svelte';
-  import Button from './components/Button.svelte';
 
   export let nav;
 
@@ -18,61 +18,31 @@
   }
 </script>
 
-<style lang="scss">
-  @import '../theme/colors.scss';
+<style>
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .header {
-    flex: 0 0 5em;
-    font-size: 200%;
-    font-family: 'Work Sans', sans-serif;
-    color: $primary;
-    text-transform: uppercase;
-  }
-
-  .box {
-    flex: 0 0 0;
-    padding: 2em 2em;
-    height: 10em;
-    margin: 1em auto;
-    background-color: $background;
-    box-shadow: none;
-  }
-
-  .field-name {
-    text-align: left;
-    margin: 0;
-    margin-bottom: 0.2em;
-    font-size: 80%;
-    color: $primary;
-    font-family: 'Work Sans', sans-serif;
-  }
-
-  .input {
-    display: flex;
-  }
-
-  .button {
-    margin-left: 0.5em;
-    flex: 0 0 5.3em;
-  }
 </style>
 
-<div class="container">
-  <div class="box">
-    <h1 class="header">retrograde</h1>
-    <br />
-    <p class="field-name">Board Name</p>
-    <div class="input">
-      <TextField bind:text={boardName} placeholder="Sprint 21 Retro" />
-      <div class="button">
-        <Button on:click={newBoard} icon={faPlus} label="create" />
-      </div>
+<div class="d-flex justify-content-center pt-5">
+  <div class="col-md-3">
+    <h1 class="text-primary text-uppercase mb-3">retrograde</h1>
+    <p class="text-primary mb-1">Board Name</p>
+    <div class="d-flex">
+      <Input
+        readonly={undefined}
+        type="text"
+        name="boardName"
+        id="boardName"
+        placeholder="Sprint 21 Retro" />
+      <Button
+        class="ml-1"
+        color="primary"
+        on:click={newBoard}
+        bind:value={boardName}>
+        <div class="d-flex">
+          <Icon icon={faPlus} class="m-1" />
+          Create
+        </div>
+      </Button>
     </div>
   </div>
 </div>

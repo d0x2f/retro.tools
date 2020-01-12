@@ -8,99 +8,38 @@
   export let color;
   export let icon;
 
+  let sortedFilteredCards;
+
   $: sortedFilteredCards = $cards
     .filter(c => c.rank_id === rank.id)
-    .sort((a, b) => {
-      if ($settings.sorted) {
-        return a.votes < b.votes;
-      } else {
-        return a.created_at.secs_since_epoch > b.created_at.secs_since_epoch;
-      }
-    });
+    .sort((a, b) =>
+      $settings.sorted
+        ? a.votes < b.votes
+        : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
+    );
 </script>
 
-<style lang="scss">
-  @import '../../theme/colors.scss';
-
-  .rank {
-    position: relative;
-    flex: 0 0 16em;
-  }
-
-  h1 {
-    display: inline-block;
-    text-align: center;
-    margin: 0;
-    font-size: 1em;
-  }
-
+<style>
   .header {
     text-align: center;
-    font-size: 80%;
-    padding-bottom: 0.5em;
-  }
-
-  .no-cards {
-    color: darken($background, 20%);
-    text-align: center;
-    padding-top: 2em;
-    overflow: auto;
-  }
-
-  .icon {
-    font-size: 120%;
-  }
-
-  .negative {
-    color: $negative;
-    .rankbar {
-      background-color: $negative;
-    }
-  }
-
-  .primary {
-    color: $primary;
-    .rankbar {
-      background-color: $primary;
-    }
-  }
-
-  .secondary {
-    color: $secondary;
-    .rankbar {
-      background-color: $secondary;
-    }
-  }
-  .rankbar {
-    height: 0.2em;
-    background: black;
-    margin-top: 1em;
-    border-radius: 0.2em;
-  }
-
-  @media screen and (max-width: 1024px) {
-    .header {
-      display: none;
-    }
   }
 </style>
 
-<div class="rank">
-  <div class="header {color}">
-    <div class="icon">
+<div class="rank flex-grow-0 flex-shrink-0 col-md-2">
+  <div class="header d-none d-md-block {color} border-bottom">
+    <div>
       <Icon {icon} />
     </div>
-    <h1>{rank.name}</h1>
-    <div class="rankbar" />
+    {rank.name}
   </div>
-  <div class="cards">
+  <div>
     {#if $cards}
       {#each sortedFilteredCards as card}
-        <Card bind:card {color} />
+        <Card {card} {color} />
       {/each}
     {/if}
-    {#if !$cards || $cards.length === 0}
-      <div class="no-cards">Nothing...</div>
+    {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
+      <div class="text-secondary text-center mt-5">Nothing...</div>
     {/if}
   </div>
 </div>
