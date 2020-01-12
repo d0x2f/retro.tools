@@ -66,6 +66,9 @@
       rank_id: newCardRank,
       uncommitted: true,
       votes: 0,
+      created_at: {
+        secs_since_epoch: Date.now() / 1000,
+      },
     });
     cards.replace(
       tempId,
