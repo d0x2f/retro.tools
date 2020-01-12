@@ -242,19 +242,13 @@
   {#if !showNewCardForm}
     <div
       class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
-      <FloatingActionButton
-        color="primary"
-        icon={PlusIcon}
-        on:click={toggleNewCardForm} />
+      <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardForm} />
     </div>
   {/if}
 
   <div
     class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
-    <FloatingActionButton
-      color="primary"
-      icon={PlusIcon}
-      on:click={toggleNewCardModal} />
+    <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardModal} />
   </div>
 </div>
 
