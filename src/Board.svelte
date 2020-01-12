@@ -38,8 +38,6 @@
   let newCardRank = $ranks[0].id;
   let newCardComment = '';
 
-  setTimeout(() => (selectedTab = 2), 3000);
-
   const rankDetails = {
     mad: {
       color: 'negative',
