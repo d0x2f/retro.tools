@@ -1,7 +1,7 @@
 <script>
   import Icon from 'fa-svelte';
   import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
-  import TextArea from './TextArea.svelte';
+  import { Input } from 'sveltestrap';
 
   import { ranks } from '../store.js';
 
@@ -10,72 +10,45 @@
 
   let tabs = {
     mad: {
-      color: 'negative',
+      selected: 'text-danger',
+      deselected: 'text-secondary',
       icon: faFrown,
     },
     sad: {
-      color: 'primary',
+      selected: 'text-primary',
+      deselected: 'text-secondary',
       icon: faMeh,
     },
     glad: {
-      color: 'secondary',
+      selected: 'text-success',
+      deselected: 'text-secondary',
       icon: faSmile,
     },
   };
 </script>
 
-<style lang="scss">
-  @import '../../theme/colors.scss';
+<style>
 
-  .comment {
-    margin-bottom: 1em;
-    height: 5em;
-  }
-
-  .ranks {
-    width: 100%;
-    border-radius: 0.5em;
-    display: flex;
-  }
-
-  input[type='radio'] {
-    display: none;
-    margin: 10px;
-  }
-
-  input[type='radio'] + label {
-    display: inline-block;
-    flex: 1 1;
-    margin: -2px;
-    padding: 4px 12px;
-    text-align: center;
-  }
-
-  input[type='radio']:checked + label {
-    border-bottom: 2px solid #4f81e5;
-  }
-
-  .negative {
-    color: $negative;
-  }
-
-  .primary {
-    color: $primary;
-  }
-
-  .secondary {
-    color: $secondary;
-  }
 </style>
 
-<div class="comment">
-  <TextArea bind:text={comment} placeholder="This meeting is boring..." />
+<div class="mb-1">
+  <Input
+    type="textarea"
+    placeholder="We need more snacks..."
+    bind:value={comment} />
 </div>
 
-<div class="ranks">
+<div class="w-100 mt-3 d-flex">
   {#each $ranks as rank}
-    <input type="radio" id={rank.id} bind:group={rankId} value={rank.id} />
-    <label for={rank.id} class={tabs[rank.name.toLowerCase()].color}>
+    <input
+      type="radio"
+      class="d-none m-1"
+      id={rank.id}
+      bind:group={rankId}
+      value={rank.id} />
+    <label
+      for={rank.id}
+      class="w-100 justify-content-around text-center {rankId == rank.id ? tabs[rank.name.toLowerCase()].selected : tabs[rank.name.toLowerCase()].deselected}">
       <div class="icon">
         <Icon icon={tabs[rank.name.toLowerCase()].icon} />
       </div>

@@ -3,6 +3,8 @@
   import Icon from 'fa-svelte';
   import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import {
+    Input,
+    Label,
     Button,
     Modal,
     ModalBody,
@@ -40,6 +42,7 @@
 
   let selectedRank = $ranks[0].id;
   let showNewCardModal = false;
+  let showNewCardForm = false;
   let newCardComment = '';
 
   const rankDetails = {
@@ -63,12 +66,15 @@
     },
   };
 
+  function toggleNewCardForm() {
+    showNewCardForm = !showNewCardForm;
+  }
+
   function toggleNewCardModal() {
     showNewCardModal = !showNewCardModal;
   }
 
   async function newCard() {
-    toggleNewCardModal();
     const tempId = Math.floor(Math.random() * 10000);
     cards.append({
       id: tempId,
@@ -145,44 +151,70 @@
   }
 </style>
 
-<div class="d-flex flex-column">
+<div class="d-flex h-100 flex-column">
 
   <Header />
 
-  <div class="d-none d-md-flex justify-content-center pt-3 scroll">
-    {#each $ranks as rank, i}
-      <Rank
-        bind:rank
-        color={rankDetails[rank.name.toLowerCase()].color}
-        icon={rankDetails[rank.name.toLowerCase()].icon} />
-      {#if i !== 2}
-        <div class="spacer my-5" />
-      {/if}
-    {:else}
-      <p>
-        You have no columns!
-        <br />
-        Add some with the button on the right.
-      </p>
-    {/each}
-  </div>
-
-  <div class="d-block d-md-none scroll">
-    {#each $ranks as rank}
-      {#if rank.id == selectedRank}
+  {#if showNewCardForm}
+    <div class="flex-grow-1 p-2 d-block d-md-none">
+      <Label for="cardText" class="text-primary">New Card</Label>
+      <Input
+        id="cardText"
+        type="textarea"
+        placeholder="We need more snacks..."
+        bind:value={newCardComment}
+        class="h-75 mb-2" />
+      <div class="d-flex justify-content-end">
+        <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
+          Cancel
+        </Button>
+        <Button
+          class="mx-1"
+          color="primary"
+          on:click={() => {
+            toggleNewCardForm();
+            newCard();
+          }}>
+          Create
+        </Button>
+      </div>
+    </div>
+  {:else}
+    <div class="d-none d-md-flex justify-content-center pt-3 scroll">
+      {#each $ranks as rank, i}
         <Rank
           bind:rank
           color={rankDetails[rank.name.toLowerCase()].color}
           icon={rankDetails[rank.name.toLowerCase()].icon} />
-      {/if}
-    {:else}
-      <p>
-        You have no columns!
-        <br />
-        Add some with the button on the right.
-      </p>
-    {/each}
-  </div>
+        {#if i !== 2}
+          <div class="spacer my-5" />
+        {/if}
+      {:else}
+        <p>
+          You have no columns!
+          <br />
+          Add some with the button on the right.
+        </p>
+      {/each}
+    </div>
+
+    <div class="d-block d-md-none scroll">
+      {#each $ranks as rank}
+        {#if rank.id == selectedRank}
+          <Rank
+            bind:rank
+            color={rankDetails[rank.name.toLowerCase()].color}
+            icon={rankDetails[rank.name.toLowerCase()].icon} />
+        {/if}
+      {:else}
+        <p>
+          You have no columns!
+          <br />
+          Add some with the button on the right.
+        </p>
+      {/each}
+    </div>
+  {/if}
 
   <div class="d-flex d-md-none justify-content-around border-top">
     {#each $ranks as rank}
@@ -204,22 +236,43 @@
       </div>
     {/each}
   </div>
+
+  {#if !showNewCardForm}
+    <div
+      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
+      <FloatingActionButton
+        color="primary"
+        icon={PlusIcon}
+        on:click={toggleNewCardForm} />
+    </div>
+  {/if}
+
+  <div
+    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
+    <FloatingActionButton
+      color="primary"
+      icon={PlusIcon}
+      on:click={toggleNewCardModal} />
+  </div>
 </div>
 
-<div class="add-button {$board.cards_open ? '' : 'invisible'}">
-  <FloatingActionButton
-    color="primary"
-    icon={PlusIcon}
-    on:click={toggleNewCardModal} />
-</div>
-
-<Modal isOpen={showNewCardModal} toggle={toggleNewCardModal}>
+<Modal
+  class="d-none d-md-block"
+  isOpen={showNewCardModal}
+  toggle={toggleNewCardModal}>
   <ModalHeader toggle={toggleNewCardModal}>New Card</ModalHeader>
   <ModalBody>
     <CardForm bind:rankId={selectedRank} bind:comment={newCardComment} />
   </ModalBody>
   <ModalFooter>
     <Button color="secondary" on:click={toggleNewCardModal}>Cancel</Button>
-    <Button color="primary" on:click={newCard}>Create</Button>
+    <Button
+      color="primary"
+      on:click={() => {
+        toggleNewCardModal();
+        newCard();
+      }}>
+      Create
+    </Button>
   </ModalFooter>
 </Modal>
