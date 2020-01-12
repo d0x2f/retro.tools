@@ -1,5 +1,6 @@
 // TODO: config option
 const api_host = 'https://api.retrograde.dyl.dog';
+// const api_host = 'http://127.0.0.1:8000';
 
 export async function getBoard(boardId) {
   const response = await fetch(`${api_host}/boards/${boardId}`, {

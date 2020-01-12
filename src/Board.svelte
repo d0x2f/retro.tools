@@ -3,6 +3,13 @@
   import Icon from 'fa-svelte';
   import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
+  import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+  } from 'sveltestrap';
 
   import { PlusIcon } from 'svelte-feather-icons';
 
@@ -12,7 +19,6 @@
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
-  import Modal from './components/Modal.svelte';
   import CardForm from './components/CardForm.svelte';
 
   let unsubscribe;
@@ -55,8 +61,12 @@
     },
   };
 
+  function toggleNewCardModal() {
+    showNewCardModal = !showNewCardModal;
+  }
+
   async function newCard() {
-    showNewCardModal = false;
+    toggleNewCardModal();
     selectedTab = $ranks.findIndex(rank => rank.id === newCardRank);
     const tempId = Math.floor(Math.random() * 10000);
     cards.append({
@@ -66,18 +76,22 @@
       rank_id: newCardRank,
       uncommitted: true,
       votes: 0,
+      created_at: {
+        secs_since_epoch: Date.now() / 1000,
+      },
     });
     cards.replace(
       tempId,
       await createCard($board.id, newCardRank, newCardComment)
     );
+    newCardComment = '';
   }
 </script>
 
 <style lang="scss">
   @import '../theme/colors.scss';
 
-  .container {
+  .box {
     box-sizing: content-box;
     width: 100%;
     height: 100%;
@@ -215,7 +229,7 @@
   }
 </style>
 
-<div class="container">
+<div class="box">
 
   <div class="page">
     <div class="header">
@@ -301,19 +315,17 @@
     <FloatingActionButton
       color="primary"
       icon={PlusIcon}
-      on:click={() => {
-        newCardComment = '';
-        newCardRank = $ranks[selectedTab].id;
-        showNewCardModal = true;
-      }} />
+      on:click={toggleNewCardModal} />
   </div>
 </div>
 
-{#if showNewCardModal}
-  <Modal on:close={() => (showNewCardModal = false)} on:accept={newCard}>
-    <CardForm
-      title="New Card"
-      bind:rank_id={newCardRank}
-      bind:comment={newCardComment} />
-  </Modal>
-{/if}
+<Modal isOpen={showNewCardModal} toggle={toggleNewCardModal}>
+  <ModalHeader toggle={toggleNewCardModal}>New Card</ModalHeader>
+  <ModalBody>
+    <CardForm bind:rank_id={newCardRank} bind:comment={newCardComment} />
+  </ModalBody>
+  <ModalFooter>
+    <Button color="secondary" on:click={toggleNewCardModal}>Cancel</Button>
+    <Button color="primary" on:click={newCard}>Create</Button>
+  </ModalFooter>
+</Modal>

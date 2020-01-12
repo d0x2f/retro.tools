@@ -14,7 +14,7 @@
       if ($settings.sorted) {
         return a.votes < b.votes;
       } else {
-        return a.created_at.secs_since_epoch < b.created_at.secs_since_epoch;
+        return a.created_at.secs_since_epoch > b.created_at.secs_since_epoch;
       }
     });
 </script>

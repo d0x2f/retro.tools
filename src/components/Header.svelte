@@ -10,7 +10,7 @@
 <style lang="scss">
   @import '../../theme/colors.scss';
 
-  .container {
+  .box {
     position: relative;
     background-color: $background;
     color: $primary;
@@ -23,7 +23,7 @@
     text-align: left;
     font-weight: 700;
     font-size: 1em;
-    height: 1.5em;
+    height: 2.3em;
     padding-left: 1em;
     text-transform: uppercase;
   }
@@ -79,7 +79,7 @@
   }
 </style>
 
-<div class="container">
+<div class="box">
   <div class="header">retrograde</div>
   <div
     class="mobile"

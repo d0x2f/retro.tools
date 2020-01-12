@@ -5,7 +5,6 @@
 
   import { ranks } from '../store.js';
 
-  export let title;
   export let comment;
   export let rank_id;
 
@@ -31,13 +30,6 @@
   .comment {
     margin-bottom: 1em;
     height: 5em;
-  }
-
-  h1 {
-    margin-bottom: 1em;
-    font-family: 'Work Sans', sans-serif;
-    text-transform: uppercase;
-    color: $primary;
   }
 
   .ranks {
@@ -75,8 +67,6 @@
     color: $secondary;
   }
 </style>
-
-<h1>{title}</h1>
 
 <div class="comment">
   <TextArea bind:text={comment} placeholder="This meeting is boring..." />
