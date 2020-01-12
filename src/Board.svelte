@@ -159,6 +159,7 @@
     <div class="flex-grow-1 p-2 d-block d-md-none">
       <Label for="cardText" class="text-primary">New Card</Label>
       <Input
+        readonly={undefined}
         id="cardText"
         type="textarea"
         placeholder="We need more snacks..."
@@ -220,6 +221,7 @@
     {#each $ranks as rank}
       <div class="flex-grow-1">
         <input
+          readonly={undefined}
           type="radio"
           id={rank.id}
           bind:group={selectedRank}

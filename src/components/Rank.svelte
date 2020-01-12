@@ -8,15 +8,15 @@
   export let color;
   export let icon;
 
+  let sortedFilteredCards;
+
   $: sortedFilteredCards = $cards
     .filter(c => c.rank_id === rank.id)
-    .sort((a, b) => {
-      if ($settings.sorted) {
-        return a.votes < b.votes;
-      } else {
-        return a.created_at.secs_since_epoch > b.created_at.secs_since_epoch;
-      }
-    });
+    .sort((a, b) =>
+      $settings.sorted
+        ? a.votes < b.votes
+        : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
+    );
 </script>
 
 <style>
@@ -35,11 +35,11 @@
   <div>
     {#if $cards}
       {#each sortedFilteredCards as card}
-        <Card bind:card {color} />
+        <Card {card} {color} />
       {/each}
     {/if}
-    {#if !$cards || $cards.length === 0}
-      <div class="text-light">Nothing...</div>
+    {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
+      <div class="text-secondary text-center mt-5">Nothing...</div>
     {/if}
   </div>
 </div>

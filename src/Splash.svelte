@@ -28,6 +28,7 @@
     <p class="text-primary mb-1">Board Name</p>
     <div class="d-flex">
       <Input
+        readonly={undefined}
         type="text"
         name="boardName"
         id="boardName"

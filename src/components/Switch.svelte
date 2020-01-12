@@ -7,9 +7,7 @@
 <style lang="scss">
   @import '../../theme/colors.scss';
 
-  .container {
-    display: flex;
-    font-size: 120%;
+  .box {
     cursor: pointer;
   }
 
@@ -76,7 +74,7 @@
   }
 </style>
 
-<label class="container">
+<label class="d-flex mr-3 ml-1 mt-1">
   <div class="switch">
     <input type="checkbox" bind:checked />
     <span class="slider {color}" />

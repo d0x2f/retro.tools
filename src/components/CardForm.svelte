@@ -33,6 +33,7 @@
 
 <div class="mb-1">
   <Input
+    readonly={undefined}
     type="textarea"
     placeholder="We need more snacks..."
     bind:value={comment} />
@@ -41,6 +42,7 @@
 <div class="w-100 mt-3 d-flex">
   {#each $ranks as rank}
     <input
+      readonly={undefined}
       type="radio"
       class="d-none m-1"
       id={rank.id}

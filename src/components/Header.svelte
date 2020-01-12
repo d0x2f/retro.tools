@@ -24,33 +24,21 @@
         <SettingsIcon />
       </Button>
     </div>
-    <div class="d-none d-md-block">
+    <div class="d-none d-md-flex">
       {#if $board.owner}
-        <div class="horizontal">
-          <Switch text="Voting" bind:checked={$board.voting_open} />
-        </div>
-        <div class="horizontal">
-          <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
-        </div>
+        <Switch text="Voting" bind:checked={$board.voting_open} />
+        <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
       {/if}
-      <div class="horizontal">
-        <Switch text="Sort by Votes" bind:checked={$settings.sorted} />
-      </div>
+      <Switch text="Sort by Votes" bind:checked={$settings.sorted} />
     </div>
   </div>
   {#if showMobileSettings}
     <div class="d-md-none">
       {#if $board.owner}
-        <div class="horizontal">
-          <Switch text="Voting" bind:checked={$board.voting_open} />
-        </div>
-        <div class="horizontal">
-          <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
-        </div>
+        <Switch text="Voting" bind:checked={$board.voting_open} />
+        <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
       {/if}
-      <div class="horizontal">
-        <Switch text="Sort by Votes" bind:checked={$settings.sorted} />
-      </div>
+      <Switch text="Sort by Votes" bind:checked={$settings.sorted} />
     </div>
   {/if}
 </div>
