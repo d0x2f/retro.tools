@@ -2,7 +2,6 @@
   import { onDestroy, onMount } from 'svelte';
   import Icon from 'fa-svelte';
   import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
-  import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
   import {
     Button,
     Modal,
@@ -39,25 +38,28 @@
   });
   onDestroy(() => $board.owner && unsubscribe());
 
-  let selectedTab = 0;
+  let selectedRank = $ranks[0].id;
   let showNewCardModal = false;
-  let newCardRank = $ranks[0].id;
   let newCardComment = '';
-
-  setTimeout(() => (selectedTab = 2), 3000);
 
   const rankDetails = {
     mad: {
-      color: 'negative',
       icon: faFrown,
+      selected: 'text-danger border-top border-danger',
+      deselected: 'text-danger border-top border-light',
+      color: 'text-danger',
     },
     sad: {
-      color: 'primary',
       icon: faMeh,
+      selected: 'text-primary border-top border-primary',
+      deselected: 'text-primary border-top border-light',
+      color: 'text-primary',
     },
     glad: {
-      color: 'secondary',
       icon: faSmile,
+      selected: 'text-success border-top border-success',
+      deselected: 'text-success border-top border-light',
+      color: 'text-success',
     },
   };
 
@@ -67,13 +69,12 @@
 
   async function newCard() {
     toggleNewCardModal();
-    selectedTab = $ranks.findIndex(rank => rank.id === newCardRank);
     const tempId = Math.floor(Math.random() * 10000);
     cards.append({
       id: tempId,
       name: 'Card',
       description: newCardComment,
-      rank_id: newCardRank,
+      rank_id: selectedRank,
       uncommitted: true,
       votes: 0,
       created_at: {
@@ -82,56 +83,20 @@
     });
     cards.replace(
       tempId,
-      await createCard($board.id, newCardRank, newCardComment)
+      await createCard($board.id, selectedRank, newCardComment)
     );
     newCardComment = '';
   }
 </script>
 
-<style lang="scss">
-  @import '../theme/colors.scss';
-
-  .box {
-    box-sizing: content-box;
-    width: 100%;
+<style>
+  .scroll {
+    overflow: auto;
     height: 100%;
-    background-color: lighten($background, 20%);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .page {
-    flex: 1 1 1em;
-    display: flex;
-    flex-direction: column;
-    box-sizing: content-box;
-    overflow-y: auto;
-  }
-
-  .header {
-    flex: 0 0 0;
-    z-index: 1;
-  }
-
-  .rank-columns {
-    display: flex;
-    flex-wrap: nowrap;
-    flex: 1 1 1em;
-    justify-content: center;
-    margin-top: 1em;
   }
 
   .spacer {
-    flex: 0 0 0.05em;
-    margin: 2.6em 1em;
-    background-color: darken($background, 10%);
-  }
-
-  .no-ranks {
-    text-align: center;
-    flex: 1 1 1;
-    width: 100%;
+    border-right: 0.1em solid #e6e6e6;
   }
 
   .add-button {
@@ -142,187 +107,130 @@
     height: 3em;
   }
 
-  .hidden {
-    display: none;
+  :global(.svelte-tabs) {
+    flex: 1 1 1em;
+    display: flex;
+    flex-direction: column;
   }
 
-  .rank-tabs {
-    flex: 0 0 0;
-    display: none;
+  :global(.svelte-tabs__tab-list) {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
   }
 
-  @media screen and (max-width: 1024px) {
-    .page {
-      overflow: auto;
+  :global(.svelte-tabs li.svelte-tabs__tab) {
+    display: table-cell;
+    text-align: center;
+  }
+
+  input[type='radio'] {
+    display: none;
+    margin: 10px;
+  }
+
+  input[type='radio'] + label {
+    display: inline-block;
+    flex: 1 1;
+    margin: -2px;
+    padding: 4px 12px;
+    text-align: center;
+  }
+
+  @media (min-width: 850px) {
+    .mobile {
+      display: none !important;
+    }
+
+    .desktop {
+      display: block;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .mobile {
+      display: block;
+    }
+
+    .desktop {
+      display: none !important;
     }
 
     .add-button {
-      bottom: 5em;
-    }
-
-    .rank-columns {
-      display: none;
-    }
-
-    .spacer {
-      display: none;
-    }
-
-    .rank-tabs {
-      display: flex;
-      flex: 1 1 1em;
-    }
-
-    :global(.svelte-tabs) {
-      flex: 1 1 1em;
-      display: flex;
-      flex-direction: column;
-    }
-
-    :global(.svelte-tabs__tab-list) {
-      display: table;
-      table-layout: fixed;
-      width: 100%;
-    }
-
-    :global(.svelte-tabs li.svelte-tabs__tab) {
-      display: table-cell;
-      text-align: center;
-    }
-
-    .ranks {
-      flex: 1 1 1em;
-      overflow: auto;
-    }
-
-    .tab-buttons {
-      flex: 0 0 1em;
-    }
-
-    .tab-negative {
-      color: $negative;
-      .rankbar {
-        background-color: $negative;
-      }
-    }
-
-    .tab-secondary {
-      color: $secondary;
-      .rankbar {
-        background-color: $secondary;
-      }
-    }
-
-    .tab-primary {
-      color: $primary;
-      .rankbar {
-        background-color: $primary;
-      }
-    }
-
-    .rankbar {
-      height: 0.2em;
-      background: black;
-      margin-bottom: 0.4em;
-      border-radius: 0.2em;
+      bottom: 4em;
     }
   }
 </style>
 
-<div class="box">
+<Header />
 
-  <div class="page">
-    <div class="header">
-      <Header />
-    </div>
+<div class="d-flex justify-content-center pt-3 desktop scroll">
+  {#each $ranks as rank, i}
+    <Rank
+      bind:rank
+      color={rankDetails[rank.name.toLowerCase()].color}
+      icon={rankDetails[rank.name.toLowerCase()].icon} />
+    {#if i !== 2}
+      <div class="spacer my-5 mx-3" />
+    {/if}
+  {:else}
+    <p>
+      You have no columns!
+      <br />
+      Add some with the button on the right.
+    </p>
+  {/each}
+</div>
 
-    <div class="rank-columns">
-      {#each $ranks as rank, i}
-        <Rank
-          bind:rank
-          color={rankDetails[rank.name.toLowerCase()].color}
-          icon={rankDetails[rank.name.toLowerCase()].icon} />
-        {#if i !== 2}
-          <div class="spacer" />
-        {/if}
-      {:else}
-        <div class="no-ranks">
-          <p>
-            You have no columns!
-            <br />
-            Add some with the button on the right.
-          </p>
+<div class="mobile scroll">
+  {#each $ranks as rank}
+    {#if rank.id == selectedRank}
+      <Rank
+        bind:rank
+        color={rankDetails[rank.name.toLowerCase()].color}
+        icon={rankDetails[rank.name.toLowerCase()].icon} />
+    {/if}
+  {:else}
+    <p>
+      You have no columns!
+      <br />
+      Add some with the button on the right.
+    </p>
+  {/each}
+</div>
+
+<div class="mobile d-flex justify-content-around border-top">
+  {#each $ranks as rank}
+    <div class="flex-grow-1">
+      <input
+        type="radio"
+        id={rank.id}
+        bind:group={selectedRank}
+        value={rank.id} />
+      <label
+        for={rank.id}
+        class="{selectedRank == rank.id ? rankDetails[rank.name.toLowerCase()].selected : rankDetails[rank.name.toLowerCase()].deselected}
+        col">
+        <div class="icon">
+          <Icon icon={rankDetails[rank.name.toLowerCase()].icon} />
         </div>
-      {/each}
+        {rank.name}
+      </label>
     </div>
+  {/each}
+</div>
 
-    <div class="rank-tabs">
-      <Tabs bind:selectedTabIndex={selectedTab}>
-        <div class="ranks">
-          {#each $ranks as rank}
-            <TabPanel>
-              <Rank
-                bind:rank
-                color={rankDetails[rank.name.toLowerCase()].color}
-                icon={rankDetails[rank.name.toLowerCase()].icon} />
-            </TabPanel>
-          {:else}
-            <div class="no-ranks">
-              <p>
-                You have no columns!
-                <br />
-                Add some with the button on the right.
-              </p>
-            </div>
-          {/each}
-        </div>
-        <div class="tab-buttons">
-          <TabList>
-            <Tab>
-              <div class="tab-negative">
-                <div class="rankbar" />
-                <div class="icon">
-                  <Icon icon={faFrown} />
-                </div>
-                MAD
-              </div>
-            </Tab>
-            <Tab>
-              <div class="tab-primary">
-                <div class="rankbar" />
-                <div class="icon">
-                  <Icon icon={faMeh} />
-                </div>
-                SAD
-              </div>
-            </Tab>
-            <Tab>
-              <div class="tab-secondary">
-                <div class="rankbar" />
-                <div class="icon">
-                  <Icon icon={faSmile} />
-                </div>
-                GLAD
-              </div>
-            </Tab>
-          </TabList>
-        </div>
-      </Tabs>
-    </div>
-  </div>
-
-  <div class="add-button {$board.cards_open ? '' : 'hidden'}">
-    <FloatingActionButton
-      color="primary"
-      icon={PlusIcon}
-      on:click={toggleNewCardModal} />
-  </div>
+<div class="add-button {$board.cards_open ? '' : 'invisible'}">
+  <FloatingActionButton
+    color="primary"
+    icon={PlusIcon}
+    on:click={toggleNewCardModal} />
 </div>
 
 <Modal isOpen={showNewCardModal} toggle={toggleNewCardModal}>
   <ModalHeader toggle={toggleNewCardModal}>New Card</ModalHeader>
   <ModalBody>
-    <CardForm bind:rank_id={newCardRank} bind:comment={newCardComment} />
+    <CardForm bind:rankId={selectedRank} bind:comment={newCardComment} />
   </ModalBody>
   <ModalFooter>
     <Button color="secondary" on:click={toggleNewCardModal}>Cancel</Button>

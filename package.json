@@ -18,7 +18,6 @@
     "svelte": "^3.16.4",
     "svelte-feather-icons": "^3.0.0",
     "svelte-preprocess": "^3.2.6",
-    "svelte-tabs": "https://github.com/joeattardi/svelte-tabs.git#79e63140",
     "sveltestrap": "^3.2.10"
   },
   "devDependencies": {

@@ -38,6 +38,7 @@
     text-align: center;
     font-size: 80%;
     padding-bottom: 0.5em;
+    border-bottom: 0.2em solid;
   }
 
   .no-cards {
@@ -49,33 +50,6 @@
 
   .icon {
     font-size: 120%;
-  }
-
-  .negative {
-    color: $negative;
-    .rankbar {
-      background-color: $negative;
-    }
-  }
-
-  .primary {
-    color: $primary;
-    .rankbar {
-      background-color: $primary;
-    }
-  }
-
-  .secondary {
-    color: $secondary;
-    .rankbar {
-      background-color: $secondary;
-    }
-  }
-  .rankbar {
-    height: 0.2em;
-    background: black;
-    margin-top: 1em;
-    border-radius: 0.2em;
   }
 
   @media screen and (max-width: 1024px) {

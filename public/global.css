@@ -1,30 +1,10 @@
-html, body {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 body {
-  margin: 0;
-  padding: 0px;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 120%;
-}
-
-h1 {
-  font-size: 100%;
-  margin: 0;
+  overflow: hidden;
+  height: 100vh;
 }
 
 .router-view {
-  height: 100%;
-}
-
-*:focus {
-  outline: 0;
-}
-
-button::-moz-focus-inner {
-  border: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

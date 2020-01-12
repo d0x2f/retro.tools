@@ -79,7 +79,7 @@
   }
 </style>
 
-<div class="box">
+<div class="box fixed-top">
   <div class="header">retrograde</div>
   <div
     class="mobile"

@@ -3869,10 +3869,6 @@ svelte-preprocess@^3.2.6:
     detect-indent "^6.0.0"
     strip-indent "^2.0.0"
 
-"svelte-tabs@https://github.com/joeattardi/svelte-tabs.git#79e63140":
-  version "1.2.0"
-  resolved "https://github.com/joeattardi/svelte-tabs.git#79e63140d16a8f5d7040ac84eb6dcb1cf442243c"
-
 svelte@^3.16.4:
   version "3.16.7"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.16.7.tgz#9ade80a4bbbac95595c676dd817222f632fa2c07"
