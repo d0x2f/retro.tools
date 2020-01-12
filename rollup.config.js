@@ -3,7 +3,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import autoPreprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -20,8 +19,7 @@ export default {
       dev: !production,
       css: css => {
         css.write('public/bundle.css', false);
-      },
-      preprocess: autoPreprocess(),
+      }
     }),
     resolve({
       browser: true,
