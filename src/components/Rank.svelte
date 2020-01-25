@@ -39,7 +39,7 @@
       {/each}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
-      <div class="text-secondary text-center mt-5">Nothing...</div>
+      <div class="text-secondary text-center mt-5">No cards...</div>
     {/if}
   </div>
 </div>

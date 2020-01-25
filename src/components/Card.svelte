@@ -91,7 +91,7 @@
     </span>
     <span class="p-2 w-100 font-weight-bold">
       <div
-        class="delete-button float-right {$board.cards_open ? '' : 'invisible'}">
+        class="delete-button float-right {$board.cards_open && (card.owner || $board.owner) ? '' : 'invisible'}">
         <FloatingActionButton
           className="btn-danger"
           icon={XIcon}
