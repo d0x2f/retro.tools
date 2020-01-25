@@ -75,8 +75,9 @@
   }
 
   .delete-button {
-    width: 2em;
-    height: 2em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1;
     font-size: 1rem;
   }
 </style>
@@ -89,7 +90,7 @@
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-2 w-100 font-weight-bold">
+    <span class="p-2 w-100 small font-weight-bold">
       <div
         class="delete-button float-right {$board.cards_open && (card.owner || $board.owner) ? '' : 'invisible'}">
         <FloatingActionButton

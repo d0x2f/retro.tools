@@ -101,7 +101,6 @@
   }
 
   .spacer {
-    flex: 0 0 1em;
     border-right: 0.1em solid #e6e6e6;
   }
 
@@ -187,7 +186,7 @@
           color={rankDetails[rank.name.toLowerCase()].color}
           icon={rankDetails[rank.name.toLowerCase()].icon} />
         {#if i !== 2}
-          <div class="spacer my-5" />
+          <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
       {:else}
         <p>
