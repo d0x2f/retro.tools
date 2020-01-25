@@ -9,7 +9,7 @@
 
 </style>
 
-<div class="custom-control custom-switch mr-3 ml-1 mt-1">
+<div class="custom-control custom-switch mr-3 ml-1 text-nowrap">
   <input
     type="checkbox"
     class="custom-control-input"

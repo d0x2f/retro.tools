@@ -13,10 +13,11 @@
 </style>
 
 <div class="shadow-sm">
-  <div class="d-flex justify-content-between pt-1">
-    <div class="text-primary text-uppercase font-weight-bold h5 pt-1 pl-3">
+  <div class="d-flex justify-content-between pt-2">
+    <div class="text-primary text-uppercase font-weight-bold h5 px-3">
       retrograde
     </div>
+    <div class="text-secondary d-none d-md-block">{$board.name}</div>
     <div
       class="d-md-none text-primary"
       on:click={() => (showMobileSettings = !showMobileSettings)}>
@@ -32,8 +33,9 @@
       <Switch text="Sort by Votes" bind:checked={$settings.sorted} />
     </div>
   </div>
+  <div class="text-secondary d-md-none px-3 text-center">{$board.name}</div>
   {#if showMobileSettings}
-    <div class="d-md-none">
+    <div class="d-md-none ml-3">
       {#if $board.owner}
         <Switch text="Voting" bind:checked={$board.voting_open} />
         <Switch text="Cards Allowed" bind:checked={$board.cards_open} />
