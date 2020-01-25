@@ -25,7 +25,7 @@
   }
 </style>
 
-<div class="rank flex-grow-0 flex-shrink-0 col-md-2">
+<div class="rank flex-grow-0 flex-shrink-0 col-md-3">
   <div class="header d-none d-md-block {color} border-bottom">
     <div>
       <Icon {icon} />
