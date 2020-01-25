@@ -27,6 +27,12 @@ function createCards() {
         store[index] = card;
         return store;
       }),
+    remove: id =>
+      update(store => {
+        const index = store.findIndex(c => c.id === id);
+        store.splice(index, 1);
+        return store;
+      }),
   };
 }
 
