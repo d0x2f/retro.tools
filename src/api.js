@@ -1,6 +1,6 @@
 // TODO: config option
-const api_host = 'https://api.retrograde.dyl.dog';
-// const api_host = 'http://127.0.0.1:8000';
+// const api_host = 'https://api.retrograde.dyl.dog';
+const api_host = 'http://127.0.0.1:8000';
 
 const common_options = {
   mode: 'cors',
@@ -30,11 +30,12 @@ export async function updateBoard(board) {
   return await response.json();
 }
 
-export async function createRank(boardId, name) {
+export async function createRank(boardId, name, data) {
   let response = await fetch(`${api_host}/boards/${boardId}/ranks`, {
     method: 'POST',
     body: JSON.stringify({
       name,
+      data,
     }),
     ...common_options,
   });

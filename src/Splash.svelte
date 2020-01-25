@@ -1,7 +1,6 @@
 <script>
-  import { faPlus } from '@fortawesome/free-solid-svg-icons';
-  import Icon from 'fa-svelte';
   import { Button, Input } from 'sveltestrap';
+  import { PlusIcon } from 'svelte-feather-icons';
 
   import { createRank, createBoard } from './api.js';
 
@@ -9,17 +8,52 @@
 
   let boardName = '';
 
-  async function newBoard() {
+  const rankDetails = {
+    msd: [
+      {
+        icon: 'FrownIcon',
+        name: 'MAD',
+        selected: 'text-danger border-danger',
+        deselected: 'text-danger',
+        color: 'text-danger border-danger',
+      },
+      {
+        icon: 'MehIcon',
+        name: 'SAD',
+        selected: 'text-primary border-primary',
+        deselected: 'text-primary',
+        color: 'text-primary border-primary',
+      },
+      {
+        icon: 'SmileIcon',
+        name: 'GLAD',
+        selected: 'text-success border-success',
+        deselected: 'text-success',
+        color: 'text-success border-success',
+      },
+    ],
+  };
+
+  async function createFromTemplate(template) {
     let board = await createBoard(boardName);
-    await createRank(board.id, 'MAD');
-    await createRank(board.id, 'SAD');
-    await createRank(board.id, 'GLAD');
+    for (const rank of template) {
+      await createRank(board.id, rank.name, rank);
+    }
+    return board;
+  }
+
+  async function newBoard() {
+    const board = await createFromTemplate(rankDetails.msd);
     nav.navigate(`/${board.id}`);
   }
 </script>
 
 <style>
-
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: -1px;
+  }
 </style>
 
 <div class="d-flex justify-content-center pt-5">
@@ -39,7 +73,9 @@
         on:click={newBoard}
         bind:value={boardName}>
         <div class="d-flex">
-          <Icon icon={faPlus} class="m-1" />
+          <div class="d-block icon">
+            <PlusIcon />
+          </div>
           Create
         </div>
       </Button>

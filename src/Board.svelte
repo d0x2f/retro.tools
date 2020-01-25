@@ -1,7 +1,5 @@
 <script>
   import { onDestroy, onMount } from 'svelte';
-  import Icon from 'fa-svelte';
-  import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import {
     Input,
     Label,
@@ -12,7 +10,7 @@
     ModalHeader,
   } from 'sveltestrap';
 
-  import { PlusIcon } from 'svelte-feather-icons';
+  import * as Icons from 'svelte-feather-icons';
 
   import { board, ranks, cards } from './store.js';
   import { updateBoard, createCard, getCards, getBoard } from './api.js';
@@ -23,6 +21,10 @@
   import CardForm from './components/CardForm.svelte';
 
   let unsubscribe;
+  let selectedRank = '';
+  let showNewCardModal = false;
+  let showNewCardForm = false;
+  let newCardComment = '';
 
   async function update() {
     const [b, c] = await Promise.all([
@@ -35,36 +37,11 @@
 
   onMount(async () => {
     await update();
+    selectedRank = $ranks[0].id;
     if ($board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
     setInterval(async () => await update(), 10000);
   });
   onDestroy(() => $board.owner && unsubscribe());
-
-  let selectedRank = $ranks[0].id;
-  let showNewCardModal = false;
-  let showNewCardForm = false;
-  let newCardComment = '';
-
-  const rankDetails = {
-    mad: {
-      icon: faFrown,
-      selected: 'text-danger border-top border-danger',
-      deselected: 'text-danger border-top border-light',
-      color: 'text-danger border-danger',
-    },
-    sad: {
-      icon: faMeh,
-      selected: 'text-primary border-top border-primary',
-      deselected: 'text-primary border-top border-light',
-      color: 'text-primary border-primary',
-    },
-    glad: {
-      icon: faSmile,
-      selected: 'text-success border-top border-success',
-      deselected: 'text-success border-top border-light',
-      color: 'text-success border-success',
-    },
-  };
 
   function toggleNewCardForm() {
     showNewCardForm = !showNewCardForm;
@@ -110,6 +87,11 @@
     right: 1em;
     width: 3em;
     height: 3em;
+  }
+
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
   }
 
   :global(.svelte-tabs) {
@@ -179,21 +161,14 @@
       </div>
     </div>
   {:else}
-    <div class="d-none d-md-flex justify-content-center pt-3 scroll">
+    <div class="d-none d-md-flex justify-content-center pt-3 scroll h-100">
       {#each $ranks as rank, i}
-        <Rank
-          bind:rank
-          color={rankDetails[rank.name.toLowerCase()].color}
-          icon={rankDetails[rank.name.toLowerCase()].icon} />
-        {#if i !== 2}
+        <Rank bind:rank color={rank.data.color} icon={Icons[rank.data.icon]} />
+        {#if i !== $ranks.length - 1}
           <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
       {:else}
-        <p>
-          You have no columns!
-          <br />
-          Add some with the button on the right.
-        </p>
+        <p class="text-center text-secondary">There are no columns!</p>
       {/each}
     </div>
 
@@ -202,15 +177,11 @@
         {#if rank.id == selectedRank}
           <Rank
             bind:rank
-            color={rankDetails[rank.name.toLowerCase()].color}
-            icon={rankDetails[rank.name.toLowerCase()].icon} />
+            color={rank.data.color}
+            icon={Icons[rank.data.icon]} />
         {/if}
       {:else}
-        <p>
-          You have no columns!
-          <br />
-          Add some with the button on the right.
-        </p>
+        <p class="text-center text-secondary mt-5">There are no columns!</p>
       {/each}
     </div>
   {/if}
@@ -226,11 +197,12 @@
           value={rank.id} />
         <label
           for={rank.id}
-          class="{selectedRank == rank.id ? rankDetails[rank.name.toLowerCase()].selected : rankDetails[rank.name.toLowerCase()].deselected}
+          class="border-top {selectedRank == rank.id ? rank.data.selected : rank.data.deselected + ' border-light'}
           col">
-          <div class="icon">
-            <Icon icon={rankDetails[rank.name.toLowerCase()].icon} />
+          <div class="icon d-inline-block">
+            <svelte:component this={Icons[rank.data.icon]} />
           </div>
+          <br />
           {rank.name}
         </label>
       </div>
@@ -240,13 +212,15 @@
   {#if !showNewCardForm}
     <div
       class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
-      <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardForm} />
+      <FloatingActionButton
+        icon={Icons.PlusIcon}
+        on:click={toggleNewCardForm} />
     </div>
   {/if}
 
   <div
     class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
-    <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardModal} />
+    <FloatingActionButton icon={Icons.PlusIcon} on:click={toggleNewCardModal} />
   </div>
 </div>
 

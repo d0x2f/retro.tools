@@ -1,34 +1,18 @@
 <script>
-  import Icon from 'fa-svelte';
-  import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import { Input } from 'sveltestrap';
+  import * as Icons from 'svelte-feather-icons';
 
   import { ranks } from '../store.js';
 
   export let comment;
   export let rankId;
-
-  let tabs = {
-    mad: {
-      selected: 'text-danger',
-      deselected: 'text-secondary',
-      icon: faFrown,
-    },
-    sad: {
-      selected: 'text-primary',
-      deselected: 'text-secondary',
-      icon: faMeh,
-    },
-    glad: {
-      selected: 'text-success',
-      deselected: 'text-secondary',
-      icon: faSmile,
-    },
-  };
 </script>
 
 <style>
-
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
 </style>
 
 <div class="mb-1">
@@ -50,10 +34,11 @@
       value={rank.id} />
     <label
       for={rank.id}
-      class="w-100 justify-content-around text-center {rankId == rank.id ? tabs[rank.name.toLowerCase()].selected : tabs[rank.name.toLowerCase()].deselected}">
-      <div class="icon">
-        <Icon icon={tabs[rank.name.toLowerCase()].icon} />
+      class="w-100 justify-content-around text-center {rankId == rank.id ? rank.data.selected : 'text-secondary'}">
+      <div class="icon d-inline-block">
+        <svelte:component this={Icons[rank.data.icon]} />
       </div>
+      <br />
       {rank.name}
     </label>
   {/each}

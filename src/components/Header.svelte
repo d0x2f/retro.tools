@@ -13,11 +13,11 @@
 </style>
 
 <div class="shadow-sm">
-  <div class="d-flex justify-content-between pt-2">
-    <div class="text-primary text-uppercase font-weight-bold h5 px-3">
+  <div class="d-flex justify-content-between pt-1">
+    <div class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3">
       retrograde
     </div>
-    <div class="text-secondary d-none d-md-block">{$board.name}</div>
+    <div class="text-secondary d-none d-md-block pt-1">{$board.name}</div>
     <div
       class="d-md-none text-primary"
       on:click={() => (showMobileSettings = !showMobileSettings)}>
