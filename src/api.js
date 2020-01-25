@@ -6,7 +6,7 @@ const common_options = {
   mode: 'cors',
   cache: 'no-cache',
   credentials: 'include',
-}
+};
 
 export async function getBoard(boardId) {
   const response = await fetch(`${api_host}/boards/${boardId}`, common_options);
@@ -14,7 +14,10 @@ export async function getBoard(boardId) {
 }
 
 export async function getRanks(boardId) {
-  const response = await fetch(`${api_host}/boards/${boardId}/ranks`, common_options);
+  const response = await fetch(
+    `${api_host}/boards/${boardId}/ranks`,
+    common_options
+  );
   return await response.json();
 }
 
@@ -22,7 +25,7 @@ export async function updateBoard(board) {
   const response = await fetch(`${api_host}/boards/${board.id}`, {
     method: 'PATCH',
     body: JSON.stringify(board),
-    ...common_options
+    ...common_options,
   });
   return await response.json();
 }
@@ -33,7 +36,7 @@ export async function createRank(boardId, name) {
     body: JSON.stringify({
       name,
     }),
-    ...common_options
+    ...common_options,
   });
   return await response.json();
 }
@@ -44,13 +47,16 @@ export async function createBoard(name) {
     body: JSON.stringify({
       name,
     }),
-    ...common_options
+    ...common_options,
   });
   return await response.json();
 }
 
 export async function getCards(boardId) {
-  const response = await fetch(`${api_host}/boards/${boardId}/cards`, common_options);
+  const response = await fetch(
+    `${api_host}/boards/${boardId}/cards`,
+    common_options
+  );
   return await response.json();
 }
 
@@ -63,7 +69,7 @@ export async function createCard(boardId, rankId, text) {
         name: 'Card',
         description: text,
       }),
-      ...common_options
+      ...common_options,
     }
   );
   return await response.json();
@@ -78,7 +84,7 @@ export async function updateCard(board, card, current_rank_id) {
     {
       method: 'PATCH',
       body: JSON.stringify(card),
-      ...common_options
+      ...common_options,
     }
   );
   return await response.json();
@@ -89,7 +95,7 @@ export function deleteCard(board, card) {
     `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}`,
     {
       method: 'DELETE',
-      ...common_options
+      ...common_options,
     }
   );
 }
@@ -99,7 +105,7 @@ export async function agree(board, card) {
     `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
     {
       method: 'POST',
-      ...common_options
+      ...common_options,
     }
   );
   return await response.json();
@@ -110,18 +116,15 @@ export async function undoAgree(board, card) {
     `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
     {
       method: 'DELETE',
-      ...common_options
+      ...common_options,
     }
   );
   return await response.json();
 }
 
 export function deleteRank(boardId, rankId) {
-  return fetch(
-    `${api_host}/boards/${boardId}/ranks/${rankId}`,
-    {
-      method: 'DELETE',
-      ...common_options
-    }
-  );
+  return fetch(`${api_host}/boards/${boardId}/ranks/${rankId}`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
