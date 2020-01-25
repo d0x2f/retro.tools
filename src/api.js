@@ -2,30 +2,30 @@
 const api_host = 'https://api.retrograde.dyl.dog';
 // const api_host = 'http://127.0.0.1:8000';
 
+const common_options = {
+  mode: 'cors',
+  cache: 'no-cache',
+  credentials: 'include',
+};
+
 export async function getBoard(boardId) {
-  const response = await fetch(`${api_host}/boards/${boardId}`, {
-    credentials: 'include',
-  });
+  const response = await fetch(`${api_host}/boards/${boardId}`, common_options);
   return await response.json();
 }
 
 export async function getRanks(boardId) {
-  const response = await fetch(`${api_host}/boards/${boardId}/ranks`, {
-    credentials: 'include',
-  });
+  const response = await fetch(
+    `${api_host}/boards/${boardId}/ranks`,
+    common_options
+  );
   return await response.json();
 }
 
 export async function updateBoard(board) {
   const response = await fetch(`${api_host}/boards/${board.id}`, {
     method: 'PATCH',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(board),
+    ...common_options,
   });
   return await response.json();
 }
@@ -33,15 +33,10 @@ export async function updateBoard(board) {
 export async function createRank(boardId, name) {
   let response = await fetch(`${api_host}/boards/${boardId}/ranks`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify({
       name,
     }),
+    ...common_options,
   });
   return await response.json();
 }
@@ -49,23 +44,19 @@ export async function createRank(boardId, name) {
 export async function createBoard(name) {
   let response = await fetch(`${api_host}/boards`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify({
       name,
     }),
+    ...common_options,
   });
   return await response.json();
 }
 
 export async function getCards(boardId) {
-  const response = await fetch(`${api_host}/boards/${boardId}/cards`, {
-    credentials: 'include',
-  });
+  const response = await fetch(
+    `${api_host}/boards/${boardId}/cards`,
+    common_options
+  );
   return await response.json();
 }
 
@@ -74,16 +65,11 @@ export async function createCard(boardId, rankId, text) {
     `${api_host}/boards/${boardId}/ranks/${rankId}/cards`,
     {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         name: 'Card',
         description: text,
       }),
+      ...common_options,
     }
   );
   return await response.json();
@@ -97,16 +83,21 @@ export async function updateCard(board, card, current_rank_id) {
     `${api_host}/boards/${board.id}/ranks/${current_rank_id}/cards/${card.id}`,
     {
       method: 'PATCH',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(card),
+      ...common_options,
     }
   );
   return await response.json();
+}
+
+export function deleteCard(board, card) {
+  return fetch(
+    `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}`,
+    {
+      method: 'DELETE',
+      ...common_options,
+    }
+  );
 }
 
 export async function agree(board, card) {
@@ -114,9 +105,7 @@ export async function agree(board, card) {
     `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
     {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
+      ...common_options,
     }
   );
   return await response.json();
@@ -127,23 +116,15 @@ export async function undoAgree(board, card) {
     `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
     {
       method: 'DELETE',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
+      ...common_options,
     }
   );
   return await response.json();
 }
 
-export async function deleteRank(boardId, rankId) {
-  const response = await fetch(
-    `${api_host}/boards/${boardId}/ranks/${rankId}`,
-    {
-      method: 'DELETE',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
-    }
-  );
-  return await response.json();
+export function deleteRank(boardId, rankId) {
+  return fetch(`${api_host}/boards/${boardId}/ranks/${rankId}`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
