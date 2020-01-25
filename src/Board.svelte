@@ -155,7 +155,7 @@
   <Header />
 
   {#if showNewCardForm}
-    <div class="flex-grow-1 p-2 d-block d-md-none">
+    <div class="flex-grow-0 p-2 d-block d-md-none">
       <Label for="cardText" class="text-primary">New Card</Label>
       <Input
         readonly={undefined}
