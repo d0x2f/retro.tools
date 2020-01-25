@@ -98,7 +98,6 @@
 <style>
   .scroll {
     overflow: auto;
-    height: 100%;
   }
 
   .spacer {
@@ -107,7 +106,7 @@
   }
 
   .add-button {
-    position: absolute;
+    position: fixed;
     bottom: 1em;
     right: 1em;
     width: 3em;
@@ -156,7 +155,7 @@
   <Header />
 
   {#if showNewCardForm}
-    <div class="flex-grow-1 p-2 d-block d-md-none">
+    <div class="flex-grow-0 p-2 d-block d-md-none">
       <Label for="cardText" class="text-primary">New Card</Label>
       <Input
         readonly={undefined}
@@ -199,7 +198,7 @@
       {/each}
     </div>
 
-    <div class="d-block d-md-none scroll">
+    <div class="d-block flex-grow-1 d-md-none scroll">
       {#each $ranks as rank}
         {#if rank.id == selectedRank}
           <Rank
@@ -217,7 +216,7 @@
     </div>
   {/if}
 
-  <div class="d-flex d-md-none justify-content-around border-top">
+  <div class="d-flex d-md-none border-top w-100 fixed-bottom">
     {#each $ranks as rank}
       <div class="flex-grow-1">
         <input
