@@ -143,6 +143,10 @@
     text-align: center;
   }
 
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
+
   @media (max-width: 768px) {
     .add-button {
       bottom: 4em;
@@ -182,7 +186,7 @@
   {:else}
     <div
       class="d-none d-md-flex justify-content-center pt-3 scroll h-100
-      overflow-hidden">
+      overflow-x-hidden">
       {#each $ranks as rank, i}
         <Rank bind:rank />
         {#if i !== $ranks.length - 1}
