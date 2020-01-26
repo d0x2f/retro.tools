@@ -10,7 +10,7 @@ import {
   DeleteIcon,
   StarIcon,
   TrendingUpIcon,
-  HeartIcon
+  HeartIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -53,12 +53,12 @@ export const Icons = {
   star: StarIcon,
   delete: DeleteIcon,
   trendingup: TrendingUpIcon,
-  heart: HeartIcon
-}
+  heart: HeartIcon,
+};
 
 export const BoardTemplates = {
   madSadGlad: {
-    name: "Mad, Sad, Glad",
+    name: 'Mad, Sad, Glad',
     ranks: [
       {
         name: 'mad',
@@ -75,7 +75,7 @@ export const BoardTemplates = {
         icon: 'smile',
         color: 'green',
       },
-    ]
+    ],
   },
   wellNotWellLacking: {
     name: "Went well, Didn't go well, Lacking",
@@ -86,7 +86,7 @@ export const BoardTemplates = {
         color: 'green',
       },
       {
-        name: 'didn\'t go well',
+        name: "didn't go well",
         icon: 'thumbsdown',
         color: 'blue',
       },
@@ -98,7 +98,7 @@ export const BoardTemplates = {
     ],
   },
   dropAddKeepImprove: {
-    name: "Drop, Add, Keep, Improve",
+    name: 'Drop, Add, Keep, Improve',
     ranks: [
       {
         name: 'drop',
@@ -123,7 +123,7 @@ export const BoardTemplates = {
     ],
   },
   likedLovedLacked: {
-    name: "Liked, Loved, Lacked",
+    name: 'Liked, Loved, Lacked',
     ranks: [
       {
         name: 'liked',
@@ -141,9 +141,8 @@ export const BoardTemplates = {
         color: 'cyan',
       },
     ],
-  }
-}
-
+  },
+};
 
 export function getRankDetails(rank) {
   return {

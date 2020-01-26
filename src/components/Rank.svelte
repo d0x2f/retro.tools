@@ -1,7 +1,7 @@
 <script>
   import { cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
-  import { Icons, getRankDetails } from '../data.js';
+  import { getRankDetails } from '../data.js';
 
   export let rank;
 

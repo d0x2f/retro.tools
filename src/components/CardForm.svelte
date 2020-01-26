@@ -2,7 +2,7 @@
   import { Input } from 'sveltestrap';
 
   import { ranks } from '../store.js';
-  import { Colors, Icons, getRankDetails } from '../data.js';
+  import { getRankDetails } from '../data.js';
 
   export let comment;
   export let rankId;
