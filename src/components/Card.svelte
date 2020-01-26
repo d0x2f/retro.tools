@@ -56,7 +56,6 @@
     card.uncommitted = true;
     await deleteCard($board, card);
     cards.remove(card.id);
-    console.log('done');
   }
 </script>
 
