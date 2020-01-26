@@ -10,10 +10,9 @@
     ModalHeader,
   } from 'sveltestrap';
 
-  import * as Icons from 'svelte-feather-icons';
-
   import { board, ranks, cards } from './store.js';
   import { updateBoard, createCard, getCards, getBoard } from './api.js';
+  import { Icons, getRankDetails } from './data.js';
 
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
@@ -25,6 +24,25 @@
   let showNewCardModal = false;
   let showNewCardForm = false;
   let newCardComment = '';
+  let tabButtonWidth = '';
+
+  $: (() => {
+    switch ($ranks.length) {
+      case 1:
+        tabButtonWidth = 'col-12';
+        break;
+      case 2:
+        tabButtonWidth = 'col-6';
+        break;
+      case 3:
+        tabButtonWidth = 'col-4';
+        break;
+      case 4:
+      default:
+        tabButtonWidth = 'col-3';
+        break;
+    }
+  })();
 
   async function update() {
     const [b, c] = await Promise.all([
@@ -87,6 +105,7 @@
     right: 1em;
     width: 3em;
     height: 3em;
+    z-index: 2000;
   }
 
   .icon {
@@ -161,9 +180,11 @@
       </div>
     </div>
   {:else}
-    <div class="d-none d-md-flex justify-content-center pt-3 scroll h-100">
+    <div
+      class="d-none d-md-flex justify-content-center pt-3 scroll h-100
+      overflow-hidden">
       {#each $ranks as rank, i}
-        <Rank bind:rank color={rank.data.color} icon={Icons[rank.data.icon]} />
+        <Rank bind:rank />
         {#if i !== $ranks.length - 1}
           <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
@@ -175,10 +196,7 @@
     <div class="d-block flex-grow-1 d-md-none scroll">
       {#each $ranks as rank}
         {#if rank.id == selectedRank}
-          <Rank
-            bind:rank
-            color={rank.data.color}
-            icon={Icons[rank.data.icon]} />
+          <Rank bind:rank />
         {/if}
       {:else}
         <p class="text-center text-secondary mt-5">There are no columns!</p>
@@ -188,7 +206,7 @@
 
   <div class="d-flex d-md-none border-top w-100 fixed-bottom">
     {#each $ranks as rank}
-      <div class="flex-grow-1">
+      <div class="flex-grow-1 {tabButtonWidth} px-0">
         <input
           readonly={undefined}
           type="radio"
@@ -197,10 +215,10 @@
           value={rank.id} />
         <label
           for={rank.id}
-          class="border-top {selectedRank == rank.id ? rank.data.selected : rank.data.deselected + ' border-light'}
+          class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
           col">
           <div class="icon d-inline-block">
-            <svelte:component this={Icons[rank.data.icon]} />
+            <svelte:component this={getRankDetails(rank).icon} />
           </div>
           <br />
           {rank.name}
@@ -211,16 +229,16 @@
 
   {#if !showNewCardForm}
     <div
-      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
-      <FloatingActionButton
-        icon={Icons.PlusIcon}
-        on:click={toggleNewCardForm} />
+      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}
+      z-3">
+      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
     </div>
   {/if}
 
   <div
-    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
-    <FloatingActionButton icon={Icons.PlusIcon} on:click={toggleNewCardModal} />
+    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}
+    z-3">
+    <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
   </div>
 </div>
 

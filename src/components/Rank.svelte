@@ -1,10 +1,11 @@
 <script>
   import { cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
+  import { Icons, getRankDetails } from '../data.js';
 
   export let rank;
-  export let color;
-  export let icon;
+
+  let rankDetails = getRankDetails(rank);
 
   let sortedFilteredCards;
   let columnWidth = 'col-md-3';
@@ -21,14 +22,14 @@
     switch ($ranks.length) {
       case 1:
       case 2:
-        columnWidth = 'col-md-1';
+        columnWidth = 'col-md-4';
         break;
       case 3:
         columnWidth = 'col-md-3';
         break;
       case 4:
       default:
-        columnWidth = 'col-md-2';
+        columnWidth = 'col-md-3';
         break;
     }
   })();
@@ -46,9 +47,11 @@
 </style>
 
 <div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
-  <div class="header d-none d-md-block {color} border-bottom">
+  <div
+    class="header d-none d-md-block {rankDetails.classes.color} border-bottom
+    text-uppercase">
     <div class="icon d-inline-block">
-      <svelte:component this={icon} />
+      <svelte:component this={rankDetails.icon} />
     </div>
     <br />
     {rank.name}
@@ -56,7 +59,7 @@
   <div>
     {#if $cards}
       {#each sortedFilteredCards as card}
-        <Card {card} {color} />
+        <Card {card} color={rankDetails.classes.color} />
       {/each}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}

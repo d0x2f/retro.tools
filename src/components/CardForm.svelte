@@ -1,8 +1,8 @@
 <script>
   import { Input } from 'sveltestrap';
-  import * as Icons from 'svelte-feather-icons';
 
   import { ranks } from '../store.js';
+  import { Colors, Icons, getRankDetails } from '../data.js';
 
   export let comment;
   export let rankId;
@@ -34,9 +34,9 @@
       value={rank.id} />
     <label
       for={rank.id}
-      class="w-100 justify-content-around text-center {rankId == rank.id ? rank.data.selected : 'text-secondary'}">
+      class="myshadow w-100 justify-content-around text-center text-uppercase {rankId == rank.id ? getRankDetails(rank).classes.selected : 'text-secondary'}">
       <div class="icon d-inline-block">
-        <svelte:component this={Icons[rank.data.icon]} />
+        <svelte:component this={getRankDetails(rank).icon} />
       </div>
       <br />
       {rank.name}
