@@ -1,7 +1,5 @@
 <script>
   import { onDestroy, onMount } from 'svelte';
-  import Icon from 'fa-svelte';
-  import { faFrown, faMeh, faSmile } from '@fortawesome/free-regular-svg-icons';
   import {
     Input,
     Label,
@@ -12,10 +10,9 @@
     ModalHeader,
   } from 'sveltestrap';
 
-  import { PlusIcon } from 'svelte-feather-icons';
-
   import { board, ranks, cards } from './store.js';
   import { updateBoard, createCard, getCards, getBoard } from './api.js';
+  import { Icons, getRankDetails } from './data.js';
 
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
@@ -23,6 +20,29 @@
   import CardForm from './components/CardForm.svelte';
 
   let unsubscribe;
+  let selectedRank = '';
+  let showNewCardModal = false;
+  let showNewCardForm = false;
+  let newCardComment = '';
+  let tabButtonWidth = '';
+
+  $: (() => {
+    switch ($ranks.length) {
+      case 1:
+        tabButtonWidth = 'col-12';
+        break;
+      case 2:
+        tabButtonWidth = 'col-6';
+        break;
+      case 3:
+        tabButtonWidth = 'col-4';
+        break;
+      case 4:
+      default:
+        tabButtonWidth = 'col-3';
+        break;
+    }
+  })();
 
   async function update() {
     const [b, c] = await Promise.all([
@@ -35,36 +55,11 @@
 
   onMount(async () => {
     await update();
+    selectedRank = $ranks[0].id;
     if ($board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
     setInterval(async () => await update(), 10000);
   });
   onDestroy(() => $board.owner && unsubscribe());
-
-  let selectedRank = $ranks[0].id;
-  let showNewCardModal = false;
-  let showNewCardForm = false;
-  let newCardComment = '';
-
-  const rankDetails = {
-    mad: {
-      icon: faFrown,
-      selected: 'text-danger border-top border-danger',
-      deselected: 'text-danger border-top border-light',
-      color: 'text-danger border-danger',
-    },
-    sad: {
-      icon: faMeh,
-      selected: 'text-primary border-top border-primary',
-      deselected: 'text-primary border-top border-light',
-      color: 'text-primary border-primary',
-    },
-    glad: {
-      icon: faSmile,
-      selected: 'text-success border-top border-success',
-      deselected: 'text-success border-top border-light',
-      color: 'text-success border-success',
-    },
-  };
 
   function toggleNewCardForm() {
     showNewCardForm = !showNewCardForm;
@@ -110,6 +105,12 @@
     right: 1em;
     width: 3em;
     height: 3em;
+    z-index: 2000;
+  }
+
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
   }
 
   :global(.svelte-tabs) {
@@ -179,45 +180,33 @@
       </div>
     </div>
   {:else}
-    <div class="d-none d-md-flex justify-content-center pt-3 scroll">
+    <div
+      class="d-none d-md-flex justify-content-center pt-3 scroll h-100
+      overflow-hidden">
       {#each $ranks as rank, i}
-        <Rank
-          bind:rank
-          color={rankDetails[rank.name.toLowerCase()].color}
-          icon={rankDetails[rank.name.toLowerCase()].icon} />
-        {#if i !== 2}
+        <Rank bind:rank />
+        {#if i !== $ranks.length - 1}
           <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
       {:else}
-        <p>
-          You have no columns!
-          <br />
-          Add some with the button on the right.
-        </p>
+        <p class="text-center text-secondary">There are no columns!</p>
       {/each}
     </div>
 
     <div class="d-block flex-grow-1 d-md-none scroll">
       {#each $ranks as rank}
         {#if rank.id == selectedRank}
-          <Rank
-            bind:rank
-            color={rankDetails[rank.name.toLowerCase()].color}
-            icon={rankDetails[rank.name.toLowerCase()].icon} />
+          <Rank bind:rank />
         {/if}
       {:else}
-        <p>
-          You have no columns!
-          <br />
-          Add some with the button on the right.
-        </p>
+        <p class="text-center text-secondary mt-5">There are no columns!</p>
       {/each}
     </div>
   {/if}
 
   <div class="d-flex d-md-none border-top w-100 fixed-bottom">
     {#each $ranks as rank}
-      <div class="flex-grow-1">
+      <div class="flex-grow-1 {tabButtonWidth} px-0">
         <input
           readonly={undefined}
           type="radio"
@@ -226,11 +215,12 @@
           value={rank.id} />
         <label
           for={rank.id}
-          class="{selectedRank == rank.id ? rankDetails[rank.name.toLowerCase()].selected : rankDetails[rank.name.toLowerCase()].deselected}
+          class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
           col">
-          <div class="icon">
-            <Icon icon={rankDetails[rank.name.toLowerCase()].icon} />
+          <div class="icon d-inline-block">
+            <svelte:component this={getRankDetails(rank).icon} />
           </div>
+          <br />
           {rank.name}
         </label>
       </div>
@@ -239,14 +229,16 @@
 
   {#if !showNewCardForm}
     <div
-      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
-      <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardForm} />
+      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}
+      z-3">
+      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
     </div>
   {/if}
 
   <div
-    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
-    <FloatingActionButton icon={PlusIcon} on:click={toggleNewCardModal} />
+    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}
+    z-3">
+    <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
   </div>
 </div>
 

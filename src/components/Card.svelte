@@ -33,10 +33,10 @@
 
   async function updateCardSubmit() {
     toggleEditCardModal();
-    const current_rank_id = card.rank_id;
+    const currentRankId = card.rank_id;
     card.description = newComment;
     card.rank_id = newRank;
-    await updateCard($board, card, current_rank_id);
+    await updateCard($board, card, currentRankId);
     cards.replace(card.id, card);
   }
 

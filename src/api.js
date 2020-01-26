@@ -1,5 +1,5 @@
 // TODO: config option
-const api_host = 'https://api.retrograde.dyl.dog';
+const api_host = 'https://api.retro.tools';
 // const api_host = 'http://127.0.0.1:8000';
 
 const common_options = {
@@ -30,11 +30,12 @@ export async function updateBoard(board) {
   return await response.json();
 }
 
-export async function createRank(boardId, name) {
+export async function createRank(boardId, name, data) {
   let response = await fetch(`${api_host}/boards/${boardId}/ranks`, {
     method: 'POST',
     body: JSON.stringify({
       name,
+      data,
     }),
     ...common_options,
   });
@@ -75,12 +76,12 @@ export async function createCard(boardId, rankId, text) {
   return await response.json();
 }
 
-export async function updateCard(board, card, current_rank_id) {
-  if (!current_rank_id) {
-    current_rank_id = card.rank_id;
+export async function updateCard(board, card, currentRankId) {
+  if (!currentRankId) {
+    currentRankId = card.rank_id;
   }
   const response = await fetch(
-    `${api_host}/boards/${board.id}/ranks/${current_rank_id}/cards/${card.id}`,
+    `${api_host}/boards/${board.id}/ranks/${currentRankId}/cards/${card.id}`,
     {
       method: 'PATCH',
       body: JSON.stringify(card),
