@@ -27,7 +27,7 @@
   }
 
   .on-top {
-    z-index: 2000;
+    z-index: 1040;
   }
 </style>
 

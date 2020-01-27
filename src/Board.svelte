@@ -105,7 +105,7 @@
     right: 1em;
     width: 3em;
     height: 3em;
-    z-index: 2000;
+    z-index: 1040;
   }
 
   .icon {
