@@ -2,7 +2,6 @@
   import { onDestroy, onMount } from 'svelte';
   import {
     Input,
-    CustomInput,
     Label,
     Button,
     Modal,
