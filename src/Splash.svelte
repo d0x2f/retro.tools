@@ -3,6 +3,7 @@
 
   import { createRank, createBoard } from './api.js';
   import { Icons, BoardTemplates } from './data.js';
+  import FloatingActionButton from './components/FloatingActionButton.svelte';
 
   export let nav;
 
@@ -30,8 +31,19 @@
     margin-top: -1px;
   }
 
+  .bigger-icon {
+    width: 2em;
+    height: 2em;
+    margin-top: -1px;
+  }
+
   .go-button {
     text-align: right;
+  }
+
+  .right {
+    right: 0;
+    left: auto;
   }
 </style>
 
@@ -69,4 +81,11 @@
       </Button>
     </div>
   </div>
+</div>
+
+<div class="fixed-bottom bigger-icon m-1 right">
+  <FloatingActionButton
+    className="btn-dark"
+    icon={Icons.github}
+    on:click={() => window.open('https://github.com/d0x2f/retrograde.js', '_blank')} />
 </div>

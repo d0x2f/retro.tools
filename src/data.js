@@ -14,6 +14,7 @@ import {
   DownloadIcon,
   MoreHorizontalIcon,
   XIcon,
+  GithubIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -60,6 +61,7 @@ export const Icons = {
   download: DownloadIcon,
   ellispses: MoreHorizontalIcon,
   close: XIcon,
+  github: GithubIcon
 };
 
 export const BoardTemplates = {
