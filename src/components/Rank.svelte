@@ -70,7 +70,7 @@
           <br />
           {#if $board.owner}
             Card creation is disabled, enable it in the settings by selecting
-            the button in the top left.
+            the button in the top right.
           {:else}Card creation is disabled by the board owner.{/if}
         {/if}
       </div>
