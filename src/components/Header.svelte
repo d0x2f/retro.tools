@@ -1,6 +1,5 @@
 <script>
   import {
-    Button,
     Dropdown,
     DropdownItem,
     DropdownMenu,
@@ -20,6 +19,11 @@
     width: 1.5em;
     height: 1.5em;
     margin-top: -1px;
+  }
+
+  .smaller-icon {
+    width: 1.25em;
+    height: 1.25em;
   }
 </style>
 
@@ -65,7 +69,7 @@
               bind:checked={$settings.sorted} />
           </DropdownItem>
           <DropdownItem href={getCSVUrl($board)}>
-            <div class="icon d-inline-block">
+            <div class="smaller-icon d-inline-block">
               <Icons.download />
             </div>
             Download CSV

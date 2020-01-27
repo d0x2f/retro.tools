@@ -13,7 +13,7 @@ import {
   HeartIcon,
   DownloadIcon,
   MoreHorizontalIcon,
-  XIcon
+  XIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -59,7 +59,7 @@ export const Icons = {
   heart: HeartIcon,
   download: DownloadIcon,
   ellispses: MoreHorizontalIcon,
-  close: XIcon
+  close: XIcon,
 };
 
 export const BoardTemplates = {
