@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from 'svelte';
   import {
     Input,
+    CustomInput,
     Label,
     Button,
     Modal,
@@ -154,12 +155,12 @@
   }
 </style>
 
-<div class="d-flex h-100 flex-column">
+<div class="d-flex h-100 flex-column fixed-top fixed-bottom">
 
   <Header />
 
   {#if showNewCardForm}
-    <div class="flex-grow-0 p-2 d-block d-md-none">
+    <div class="flex-grow-1 p-2 d-block d-md-none">
       <Label for="cardText" class="text-primary">New Card</Label>
       <Input
         readonly={undefined}
@@ -167,7 +168,7 @@
         type="textarea"
         placeholder="We need more snacks..."
         bind:value={newCardComment}
-        class="h-75 mb-2" />
+        class="mb-2" />
       <div class="d-flex justify-content-end">
         <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
           Cancel
@@ -208,7 +209,7 @@
     </div>
   {/if}
 
-  <div class="d-flex d-md-none border-top w-100 fixed-bottom">
+  <div class="d-flex d-md-none border-top w-100">
     {#each $ranks as rank}
       <div class="flex-grow-1 {tabButtonWidth} px-0">
         <input

@@ -1,5 +1,5 @@
 <script>
-  import { Button, Input, CustomInput } from 'sveltestrap';
+  import { Button, CustomInput } from 'sveltestrap';
 
   import { createRank, createBoard } from './api.js';
   import { Icons, BoardTemplates } from './data.js';
@@ -39,12 +39,13 @@
   <div class="col-md-3">
     <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
     <p class="text-primary mb-1">Board Name</p>
-    <Input
+    <CustomInput
       readonly={undefined}
       type="text"
       name="boardName"
       id="boardName"
       placeholder="Sprint 21 Retro"
+      class="w-100"
       bind:value={boardName} />
     <p class="text-primary mb-1">Template</p>
     <CustomInput

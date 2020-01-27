@@ -25,9 +25,13 @@
     width: 1.25em;
     height: 1.25em;
   }
+
+  .on-top {
+    z-index: 2000;
+  }
 </style>
 
-<div class="shadow-sm">
+<div class="shadow-sm on-top">
   <div class="d-flex justify-content-between pt-1">
     <div class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3">
       retro.tools
