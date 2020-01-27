@@ -46,6 +46,7 @@
         <DropdownMenu right>
           <DropdownItem
             toggle={false}
+            disabled={!$board.owner}
             on:click={() => ($board.voting_open = !$board.voting_open)}>
             <CustomInput
               type="checkbox"
@@ -54,6 +55,7 @@
           </DropdownItem>
           <DropdownItem
             toggle={false}
+            disabled={!$board.owner}
             on:click={() => ($board.cards_open = !$board.cards_open)}>
             <CustomInput
               type="checkbox"
