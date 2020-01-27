@@ -11,6 +11,9 @@ import {
   StarIcon,
   TrendingUpIcon,
   HeartIcon,
+  DownloadIcon,
+  MoreHorizontalIcon,
+  XIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -54,6 +57,9 @@ export const Icons = {
   delete: DeleteIcon,
   trendingup: TrendingUpIcon,
   heart: HeartIcon,
+  download: DownloadIcon,
+  ellispses: MoreHorizontalIcon,
+  close: XIcon,
 };
 
 export const BoardTemplates = {

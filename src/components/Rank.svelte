@@ -1,5 +1,5 @@
 <script>
-  import { cards, ranks, settings } from '../store.js';
+  import { board, cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
   import { getRankDetails } from '../data.js';
 
@@ -63,7 +63,17 @@
       {/each}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
-      <div class="text-secondary text-center mt-5">No cards...</div>
+      <div class="text-secondary text-center mt-5">
+        No cards...
+        {#if !$board.cards_open}
+          <br />
+          <br />
+          {#if $board.owner}
+            Card creation is disabled, enable it in the settings by selecting
+            the button in the top right.
+          {:else}Card creation is disabled by the board owner.{/if}
+        {/if}
+      </div>
     {/if}
   </div>
 </div>

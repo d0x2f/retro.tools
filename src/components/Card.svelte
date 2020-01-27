@@ -9,7 +9,7 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
-  import { XIcon } from 'svelte-feather-icons';
+  import { Icons } from '../data.js';
 
   import CardForm from './CardForm.svelte';
   import FloatingActionButton from './FloatingActionButton.svelte';
@@ -94,7 +94,7 @@
         class="delete-button float-right {$board.cards_open && (card.owner || $board.owner) ? '' : 'invisible'}">
         <FloatingActionButton
           className="btn-danger"
-          icon={XIcon}
+          icon={Icons.close}
           on:click={toggleDeleteCardConfirmBox} />
       </div>
       {card.description}
