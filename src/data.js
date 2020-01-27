@@ -61,7 +61,7 @@ export const Icons = {
   download: DownloadIcon,
   ellispses: MoreHorizontalIcon,
   close: XIcon,
-  github: GithubIcon
+  github: GithubIcon,
 };
 
 export const BoardTemplates = {

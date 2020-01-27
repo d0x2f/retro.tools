@@ -51,20 +51,20 @@
           <DropdownItem
             toggle={false}
             disabled={!$board.owner}
-            on:click={() => ($board.voting_open = !$board.voting_open)}>
+            on:click={() => ($board.cards_open = !$board.cards_open)}>
             <CustomInput
               type="checkbox"
-              label="Voting"
-              bind:checked={$board.voting_open} />
+              label="New Cards Allowed"
+              bind:checked={$board.cards_open} />
           </DropdownItem>
           <DropdownItem
             toggle={false}
             disabled={!$board.owner}
-            on:click={() => ($board.cards_open = !$board.cards_open)}>
+            on:click={() => ($board.voting_open = !$board.voting_open)}>
             <CustomInput
               type="checkbox"
-              label="Cards Allowed"
-              bind:checked={$board.cards_open} />
+              label="Voting Allowed"
+              bind:checked={$board.voting_open} />
           </DropdownItem>
           <DropdownItem
             toggle={false}

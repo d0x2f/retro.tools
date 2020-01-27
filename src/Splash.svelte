@@ -1,5 +1,5 @@
 <script>
-  import { Button, CustomInput } from 'sveltestrap';
+  import { Button, CustomInput, Input, Spinner } from 'sveltestrap';
 
   import { createRank, createBoard } from './api.js';
   import { Icons, BoardTemplates } from './data.js';
@@ -9,8 +9,10 @@
 
   let boardName = '';
   let templateKey = 'madSadGlad';
+  let busy = false;
 
   async function createFromTemplate(template) {
+    busy = true;
     let board = await createBoard(boardName);
     for (const rank of template.ranks) {
       await createRank(board.id, rank.name, rank);
@@ -34,7 +36,6 @@
   .bigger-icon {
     width: 2em;
     height: 2em;
-    margin-top: -1px;
   }
 
   .go-button {
@@ -51,13 +52,12 @@
   <div class="col-md-3">
     <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
     <p class="text-primary mb-1">Board Name</p>
-    <CustomInput
+    <Input
       readonly={undefined}
       type="text"
       name="boardName"
       id="boardName"
       placeholder="Sprint 21 Retro"
-      class="w-100"
       bind:value={boardName} />
     <p class="text-primary mb-1">Template</p>
     <CustomInput
@@ -71,10 +71,14 @@
       {/each}
     </CustomInput>
     <div class="go-button">
-      <Button class="mt-1" color="primary" on:click={newBoard}>
+      <Button class="mt-1" color="primary" on:click={newBoard} disabled={busy}>
         <div class="d-flex">
           <div class="d-block icon">
-            <svelte:component this={Icons.plus} />
+            {#if busy}
+              <Spinner size="sm" color="light" />
+            {:else}
+              <Icons.plus />
+            {/if}
           </div>
           Create
         </div>
