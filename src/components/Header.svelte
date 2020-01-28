@@ -5,10 +5,6 @@
     DropdownMenu,
     DropdownToggle,
     CustomInput,
-    InputGroup,
-    Input,
-    InputGroupAddon,
-    Button,
   } from 'sveltestrap';
   import ClipboardJS from 'clipboard';
 
