@@ -6,24 +6,28 @@
     DropdownToggle,
     CustomInput,
   } from 'sveltestrap';
+  import ClipboardJS from 'clipboard';
 
   import { board, settings } from '../store.js';
   import { Icons } from '../data.js';
   import { getCSVUrl } from '../api.js';
 
   let optionsOpen = false;
+
+  new ClipboardJS('button');
 </script>
 
 <style>
   .icon {
     width: 1.5em;
-    height: 1.5em;
+    height: 1.6em;
     margin-top: -1px;
   }
 
   .smaller-icon {
     width: 1.25em;
     height: 1.25em;
+    margin-top: -4px;
   }
 
   .on-top {
@@ -75,10 +79,16 @@
               bind:checked={$settings.sorted} />
           </DropdownItem>
           <DropdownItem href={getCSVUrl($board)}>
-            <div class="smaller-icon d-inline-block">
+            <div class="d-inline-block smaller-icon">
               <Icons.download />
             </div>
             Download CSV
+          </DropdownItem>
+          <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
+            <div class="d-inline-block smaller-icon">
+              <Icons.link />
+            </div>
+            Copy Link
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
