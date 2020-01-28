@@ -64,15 +64,14 @@
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div class="text-secondary text-center mt-5">
-        No cards...
-        {#if !$board.cards_open}
-          <br />
-          <br />
-          {#if $board.owner}
-            Card creation is disabled, enable it in the settings by selecting
-            the button in the top right.
-          {:else}Card creation is disabled by the board owner.{/if}
-        {/if}
+        <small>
+          {#if !$board.cards_open}
+            {#if $board.owner}
+              Card creation is disabled, enable it using the drop down menu in
+              the top right.
+            {:else}Card creation is disabled by the board owner.{/if}
+          {:else}No cards{/if}
+        </small>
       </div>
     {/if}
   </div>
