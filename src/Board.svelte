@@ -9,6 +9,7 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
+  import _ from 'lodash';
 
   import { board, ranks, cards } from './store.js';
   import { updateBoard, createCard, getCards, getBoard } from './api.js';
@@ -56,10 +57,15 @@
   onMount(async () => {
     await update();
     selectedRank = $ranks[0].id;
-    if ($board.owner) unsubscribe = board.subscribe(b => updateBoard(b));
+    let previousBoard = { ...$board };
+    if ($board.owner)
+      unsubscribe = board.subscribe(b => {
+        if (!_.isEqual(previousBoard, b)) updateBoard(b);
+        previousBoard = { ...b };
+      });
     setInterval(async () => await update(), 10000);
   });
-  onDestroy(() => $board.owner && unsubscribe());
+  onDestroy(() => unsubscribe && unsubscribe());
 
   function toggleNewCardForm() {
     showNewCardForm = !showNewCardForm;
