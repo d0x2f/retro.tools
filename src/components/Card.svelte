@@ -79,17 +79,21 @@
     line-height: 1;
     font-size: 1rem;
   }
+
+  .text {
+    min-height: 5em;
+  }
 </style>
 
 <div
-  class="d-flex flex-column w-90 shadow-sm m-4 card {card.uncommitted ? 'uncommitted' : ''}">
+  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {card.uncommitted ? 'uncommitted' : ''}">
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-2 {color}">
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-2 w-100 small font-weight-bold">
+    <span class="p-2 w-100 small font-weight-bold text">
       <div
         class="delete-button float-right {$board.cards_open && (card.owner || $board.owner) ? '' : 'invisible'}">
         <FloatingActionButton
