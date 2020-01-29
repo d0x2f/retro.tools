@@ -6,7 +6,7 @@ on:
     - master
 
 jobs:
-  cicd:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -20,13 +20,23 @@ jobs:
       run: yarn lint
     - name: Audit
       run: yarn audit
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+    - uses: actions/checkout@v1
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '270.0.0'
         service_account_key: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
+    - name: Install gcloud Beta Components
+      run: gcloud components install beta
     - name: Docker build
       uses: docker://gcr.io/cloud-builders/docker
       with:
         args: build . -t gcr.io/retrograde/retrograde.js:latest
     - name: Docker push
       run: gcloud auth configure-docker && docker push gcr.io/retrograde/retrograde.js:latest
+    - name: Deploy new cloudrun revision
+      run: gcloud beta run deploy retrotools-ui --image gcr.io/retrograde/retrograde.js:latest --platform managed --region=us-east1 --project=${{ secrets.GCP_PROJECT }}
