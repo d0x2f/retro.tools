@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { QRCode } from '../qrcode.js';
 
   export let text;
   export let width;
@@ -8,7 +9,6 @@
   export let colorLight = '#ffffff';
 
   onMount(() => {
-    /* eslint-disable no-undef */
     new QRCode('qrcode', {
       text,
       width,
