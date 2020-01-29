@@ -5,14 +5,18 @@
     DropdownMenu,
     DropdownToggle,
     CustomInput,
+    Card,
   } from 'sveltestrap';
   import ClipboardJS from 'clipboard';
+
+  import QRCode from './QRCode.svelte';
 
   import { board, settings } from '../store.js';
   import { Icons } from '../data.js';
   import { getCSVUrl } from '../api.js';
 
   let optionsOpen = false;
+  let showQR = false;
 
   new ClipboardJS('button');
 </script>
@@ -33,7 +37,24 @@
   .on-top {
     z-index: 1040;
   }
+
+  .qrcode {
+    z-index: 1040;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+  }
 </style>
+
+<div class="shadow-lg d-none d-md-block qrcode m-1 {showQR ? '' : 'invisible'}">
+  <Card class="p-1" body>
+    <QRCode
+      text="{location.origin}/{$board.id}"
+      colorDark="#007bff"
+      width="200"
+      height="200" />
+  </Card>
+</div>
 
 <div class="shadow-sm on-top">
   <div class="d-flex justify-content-between pt-1">
@@ -77,6 +98,15 @@
               type="checkbox"
               label="Sort by Votes"
               bind:checked={$settings.sorted} />
+          </DropdownItem>
+          <DropdownItem
+            toggle={false}
+            on:click={() => (showQR = !showQR)}
+            class="d-none d-md-block">
+            <CustomInput
+              type="checkbox"
+              label="Show QR Code"
+              bind:checked={showQR} />
           </DropdownItem>
           <DropdownItem href={getCSVUrl($board)}>
             <div class="d-inline-block smaller-icon">
