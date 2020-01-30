@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+
   import { board, cards, ranks } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import {
@@ -94,13 +95,14 @@
       {card.votes}
     </span>
     <span class="p-2 w-100 small font-weight-bold text">
-      <div
-        class="delete-button float-right {$board.cards_open && (card.owner || $board.owner) ? '' : 'invisible'}">
-        <FloatingActionButton
-          className="btn-danger"
-          icon={Icons.close}
-          on:click={toggleDeleteCardConfirmBox} />
-      </div>
+      {#if $board.cards_open && (card.owner || $board.owner)}
+        <div class="delete-button float-right">
+          <FloatingActionButton
+            className="btn-danger"
+            icon={Icons.close}
+            on:click={toggleDeleteCardConfirmBox} />
+        </div>
+      {/if}
       {card.description}
     </span>
   </div>

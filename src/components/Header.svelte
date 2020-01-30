@@ -7,6 +7,7 @@
     CustomInput,
     Card,
   } from 'sveltestrap';
+  import { fade, fly } from 'svelte/transition';
   import ClipboardJS from 'clipboard';
 
   import QRCode from './QRCode.svelte';
@@ -46,15 +47,20 @@
   }
 </style>
 
-<div class="shadow-lg d-none d-md-block qrcode m-1 {showQR ? '' : 'invisible'}">
-  <Card class="p-1" body>
-    <QRCode
-      text="{location.origin}/{$board.id}"
-      colorDark="#007bff"
-      width="200"
-      height="200" />
-  </Card>
-</div>
+{#if showQR}
+  <div
+    class="shadow-lg d-none d-md-block qrcode m-1"
+    in:fly={{ x: -200, duration: 500 }}
+    out:fly={{ x: -200, duration: 500 }}>
+    <Card class="p-1" body>
+      <QRCode
+        text="{location.origin}/{$board.id}"
+        colorDark="#007bff"
+        width="200"
+        height="200" />
+    </Card>
+  </div>
+{/if}
 
 <div class="shadow-sm on-top">
   <div class="d-flex justify-content-between pt-1">
