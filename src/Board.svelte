@@ -49,15 +49,12 @@
 
   async function update() {
     if (!hidden) {
-      document.title = 'not hidden';
       const [b, c] = await Promise.all([
         getBoard($board.id),
         getCards($board.id),
       ]);
       board.set(b);
       cards.set(c);
-    } else {
-      document.title = 'hidden';
     }
   }
 
