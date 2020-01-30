@@ -7,7 +7,7 @@
     CustomInput,
     Card,
   } from 'sveltestrap';
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import ClipboardJS from 'clipboard';
 
   import QRCode from './QRCode.svelte';
