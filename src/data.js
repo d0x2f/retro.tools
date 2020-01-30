@@ -17,6 +17,7 @@ import {
   GithubIcon,
   ClipboardIcon,
   LinkIcon,
+  BookOpenIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -66,9 +67,35 @@ export const Icons = {
   github: GithubIcon,
   clipboard: ClipboardIcon,
   link: LinkIcon,
+  book: BookOpenIcon,
 };
 
 export const BoardTemplates = {
+  dropAddKeepImprove: {
+    name: 'Drop, Add, Keep, Improve',
+    ranks: [
+      {
+        name: 'drop',
+        icon: 'delete',
+        color: 'red',
+      },
+      {
+        name: 'add',
+        icon: 'pluscircle',
+        color: 'green',
+      },
+      {
+        name: 'keep',
+        icon: 'star',
+        color: 'blue',
+      },
+      {
+        name: 'improve',
+        icon: 'trendingup',
+        color: 'yellow',
+      },
+    ],
+  },
   madSadGlad: {
     name: 'Mad, Sad, Glad',
     ranks: [
@@ -109,33 +136,8 @@ export const BoardTemplates = {
       },
     ],
   },
-  dropAddKeepImprove: {
-    name: 'Drop, Add, Keep, Improve',
-    ranks: [
-      {
-        name: 'drop',
-        icon: 'delete',
-        color: 'red',
-      },
-      {
-        name: 'add',
-        icon: 'pluscircle',
-        color: 'green',
-      },
-      {
-        name: 'keep',
-        icon: 'star',
-        color: 'blue',
-      },
-      {
-        name: 'improve',
-        icon: 'trendingup',
-        color: 'yellow',
-      },
-    ],
-  },
   likedLovedLacked: {
-    name: 'Liked, Loved, Lacked',
+    name: 'Liked, Lacked, Learned',
     ranks: [
       {
         name: 'liked',
@@ -143,13 +145,13 @@ export const BoardTemplates = {
         color: 'green',
       },
       {
-        name: 'loved',
-        icon: 'heart',
+        name: 'lacked',
+        icon: 'thumbsdown',
         color: 'red',
       },
       {
-        name: 'lacked',
-        icon: 'thumbsdown',
+        name: 'learned',
+        icon: 'book',
         color: 'cyan',
       },
     ],

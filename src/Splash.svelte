@@ -8,7 +8,7 @@
   export let nav;
 
   let boardName = '';
-  let templateKey = 'madSadGlad';
+  let templateKey = 'dropAddKeepImprove';
   let busy = false;
 
   async function createFromTemplate(template) {
