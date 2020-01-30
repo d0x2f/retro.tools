@@ -1,6 +1,7 @@
 <script>
   import { Button, CustomInput, Input, Spinner } from 'sveltestrap';
 
+  import { gtag } from './ga.js';
   import { createRank, createBoard } from './api.js';
   import { Icons, BoardTemplates } from './data.js';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
@@ -22,7 +23,6 @@
 
   async function newBoard() {
     const board = await createFromTemplate(BoardTemplates[templateKey]);
-    /* eslint-disable no-undef */
     gtag('event', 'conversion', {
       send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
     });
