@@ -45,13 +45,17 @@
     }
   })();
 
+  let hidden = false;
+
   async function update() {
-    const [b, c] = await Promise.all([
-      getBoard($board.id),
-      getCards($board.id),
-    ]);
-    board.set(b);
-    cards.set(c);
+    if (!hidden) {
+      const [b, c] = await Promise.all([
+        getBoard($board.id),
+        getCards($board.id),
+      ]);
+      board.set(b);
+      cards.set(c);
+    }
   }
 
   onMount(async () => {
@@ -64,6 +68,10 @@
         previousBoard = { ...b };
       });
     setInterval(async () => await update(), 10000);
+    document.addEventListener('visibilitychange', () => {
+      hidden = document['hidden'];
+      update();
+    });
   });
   onDestroy(() => unsubscribe && unsubscribe());
 
