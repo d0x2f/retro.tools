@@ -1,9 +1,13 @@
 <script>
+  import { flip } from 'svelte/animate';
+
   import { board, cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
   import { getRankDetails } from '../data.js';
 
   export let rank;
+  export let send = false;
+  export let receive = false;
 
   let rankDetails = getRankDetails(rank);
 
@@ -58,9 +62,22 @@
   </div>
   <div>
     {#if $cards}
-      {#each sortedFilteredCards as card}
-        <Card {card} color={rankDetails.classes.color} />
-      {/each}
+      {#if send}
+        {#each sortedFilteredCards as card (card.id)}
+          <div
+            in:receive={{ key: card.id }}
+            out:send={{ key: card.id }}
+            animate:flip={{ duration: 200 }}>
+            <Card {card} color={rankDetails.classes.color} />
+          </div>
+        {/each}
+      {:else}
+        {#each sortedFilteredCards as card (card.id)}
+          <div animate:flip={{ duration: 200 }}>
+            <Card {card} color={rankDetails.classes.color} />
+          </div>
+        {/each}
+      {/if}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div class="text-secondary text-center mt-5">

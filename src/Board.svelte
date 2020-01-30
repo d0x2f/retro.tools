@@ -9,6 +9,8 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
+  import { quintOut } from 'svelte/easing';
+  import { crossfade } from 'svelte/transition';
   import _ from 'lodash';
 
   import { board, ranks, cards } from './store.js';
@@ -102,6 +104,24 @@
     );
     newCardComment = '';
   }
+
+  const [cardSend, cardReceive] = crossfade({
+    duration: d => Math.sqrt(d * 200),
+
+    fallback(node) {
+      const style = getComputedStyle(node);
+      const transform = style.transform === 'none' ? '' : style.transform;
+
+      return {
+        duration: 600,
+        easing: quintOut,
+        css: t => `
+        transform: ${transform} scale(${t});
+        opacity: ${t}
+      `,
+      };
+    },
+  });
 </script>
 
 <style>
@@ -202,7 +222,7 @@
       class="d-none d-md-flex justify-content-center pt-3 scroll h-100
       overflow-x-hidden">
       {#each $ranks as rank, i}
-        <Rank bind:rank />
+        <Rank bind:rank send={cardSend} receive={cardReceive} />
         {#if i !== $ranks.length - 1}
           <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
@@ -245,17 +265,17 @@
     {/each}
   </div>
 
-  {#if !showNewCardForm}
-    <div
-      class="d-sm-block d-md-none add-button {$board.cards_open ? '' : 'invisible'}">
-      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
+  {#if $board.cards_open}
+    {#if !showNewCardForm}
+      <div class="d-sm-block d-md-none add-button">
+        <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
+      </div>
+    {/if}
+
+    <div class="d-none d-md-block add-button">
+      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
     </div>
   {/if}
-
-  <div
-    class="d-none d-md-block add-button {$board.cards_open ? '' : 'invisible'}">
-    <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
-  </div>
 </div>
 
 <Modal
