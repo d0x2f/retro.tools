@@ -22,6 +22,9 @@
 
   async function newBoard() {
     const board = await createFromTemplate(BoardTemplates[templateKey]);
+    gtag('event', 'conversion', {
+      send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
+    });
     nav.navigate(`/${board.id}`);
   }
 </script>
