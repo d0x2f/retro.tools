@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -43,6 +43,32 @@
           {
             "key": "Referrer-Policy",
             "value": "strict-origin"
+          }
+        ]
+      },
+      {
+        "source": "**/*@.(html)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          },
+          {
+            "key": "Expires",
+            "value": "Wed, 1 Jan 2020 00:00:00 GMT"
+          },
+          {
+            "key": "Pragma",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*@.(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=25200,public"
           }
         ]
       }

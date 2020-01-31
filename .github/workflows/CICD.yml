@@ -25,8 +25,8 @@ jobs:
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
-        name: public
-        path: public
+        name: build
+        path: build
 
   cd:
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@master
       with:
-        name: public
+        name: build
     - name: Deploy
       uses: w9jds/firebase-action@master
       with:

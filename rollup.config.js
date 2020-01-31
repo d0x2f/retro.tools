@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -15,6 +16,7 @@ export default {
     file: 'public/bundle.js'
   },
   plugins: [
+    copy({ targets: [{ src: 'public/*', dest: 'build' }] }),
     svelte({
       dev: !production,
       css: css => {
@@ -26,7 +28,7 @@ export default {
       dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
     }),
     commonjs(),
-    !production && livereload('public'),
+    !production && livereload('build'),
     production && terser(),
   ],
   watch: {
