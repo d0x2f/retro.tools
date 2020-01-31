@@ -16,7 +16,6 @@ export default {
     file: 'public/bundle.js'
   },
   plugins: [
-    copy({ targets: [{ src: 'public/*', dest: 'build' }] }),
     svelte({
       dev: !production,
       css: css => {
@@ -30,6 +29,7 @@ export default {
     commonjs(),
     !production && livereload('build'),
     production && terser(),
+    copy({ targets: [{ src: 'public/*', dest: 'build' }] }),
   ],
   watch: {
     clearScreen: false

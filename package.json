@@ -36,6 +36,6 @@
     "start:dev": "sirv public --single --dev --host 0.0.0.0",
     "lint": "prettier --check 'src/**' && eslint 'src/**'",
     "lint:fix": "prettier --write 'src/**' && eslint --fix 'src/**'",
-    "postbuild": "node post-build.js"
+    "postbuild": "node post-build.js; ls build/"
   }
 }
