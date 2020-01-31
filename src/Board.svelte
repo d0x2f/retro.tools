@@ -207,7 +207,7 @@
   }
 </style>
 
-<div class="d-flex h-100 flex-column fixed-top fixed-bottom">
+<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
 

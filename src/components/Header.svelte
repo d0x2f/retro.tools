@@ -68,7 +68,7 @@
   </div>
 {/if}
 
-<div class="shadow-sm on-top">
+<div class="shadow-sm on-top bg-white">
   <div class="d-flex justify-content-between pt-1">
     <div
       class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3 home-link"

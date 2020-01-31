@@ -94,7 +94,7 @@
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-2 w-100 small font-weight-bold text">
+    <span class="p-2 w-100 font-weight-bold text">
       {#if $board.cards_open && (card.owner || $board.owner)}
         <div class="delete-button float-right">
           <FloatingActionButton
