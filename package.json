@@ -33,7 +33,7 @@
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
     "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev --host 0.0.0.0",
+    "start:dev": "sirv build --single --dev --host 0.0.0.0",
     "lint": "prettier --check 'src/**' && eslint 'src/**'",
     "lint:fix": "prettier --write 'src/**' && eslint --fix 'src/**'",
     "postbuild": "node post-build.js; ls build/"
