@@ -13,6 +13,11 @@ export async function getBoard(boardId) {
   return await response.json();
 }
 
+export async function getBoards() {
+  const response = await fetch(`${api_host}/boards`, common_options);
+  return await response.json();
+}
+
 export async function getRanks(boardId) {
   const response = await fetch(
     `${api_host}/boards/${boardId}/ranks`,

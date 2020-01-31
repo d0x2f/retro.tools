@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import {
     Input,
     Label,
@@ -22,12 +22,16 @@
   import Header from './components/Header.svelte';
   import CardForm from './components/CardForm.svelte';
 
-  let unsubscribe;
+  export let nav;
+
   let selectedRank = '';
   let showNewCardModal = false;
   let showNewCardForm = false;
   let newCardComment = '';
   let tabButtonWidth = '';
+  let hidden = false;
+  let refreshIntervalId;
+  let unsubscribe;
 
   $: (() => {
     switch ($ranks.length) {
@@ -47,8 +51,6 @@
     }
   })();
 
-  let hidden = false;
-
   async function update() {
     if (!hidden) {
       const [b, c] = await Promise.all([
@@ -61,21 +63,38 @@
   }
 
   onMount(async () => {
+    console.log('mount');
+    // Update on initial load
     await update();
+
+    // Show first rank initially
     selectedRank = $ranks[0].id;
+
+    // Subscribe to board changes so we can post updates.
+    // Compare updated boards to their last known value
+    // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
     if ($board.owner)
       unsubscribe = board.subscribe(b => {
         if (!_.isEqual(previousBoard, b)) updateBoard(b);
         previousBoard = { ...b };
       });
-    setInterval(async () => await update(), 10000);
+
+    // Create an interval timer to resync updates
+    refreshIntervalId && clearInterval(refreshIntervalId);
+    refreshIntervalId = setInterval(async () => await update(), 10000);
+
+    // Keep track of page visibility so we can pause updates while hidden
     document.addEventListener('visibilitychange', () => {
       hidden = document['hidden'];
-      update();
+      if (!hidden) update();
     });
   });
-  onDestroy(() => unsubscribe && unsubscribe());
+  onDestroy(() => {
+    console.log('destroy');
+    unsubscribe && unsubscribe();
+    refreshIntervalId && clearInterval(refreshIntervalId);
+  });
 
   function toggleNewCardForm() {
     showNewCardForm = !showNewCardForm;
@@ -190,7 +209,7 @@
 
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom">
 
-  <Header />
+  <Header {nav} />
 
   {#if showNewCardForm}
     <div class="flex-grow-1 p-2 d-block d-md-none">

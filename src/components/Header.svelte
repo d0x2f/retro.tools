@@ -16,6 +16,8 @@
   import { Icons } from '../data.js';
   import { getCSVUrl } from '../api.js';
 
+  export let nav;
+
   let optionsOpen = false;
   let showQR = false;
 
@@ -45,6 +47,10 @@
     left: 0;
     bottom: 0;
   }
+
+  .home-link {
+    cursor: pointer;
+  }
 </style>
 
 {#if showQR}
@@ -64,7 +70,9 @@
 
 <div class="shadow-sm on-top">
   <div class="d-flex justify-content-between pt-1">
-    <div class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3">
+    <div
+      class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3 home-link"
+      on:click={nav.navigate('/')}>
       retro.tools
     </div>
     <div class="text-secondary d-none d-md-block pt-1">{$board.name}</div>
