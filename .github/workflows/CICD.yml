@@ -37,12 +37,6 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: public
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        version: '270.0.0'
-        service_account_key: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
-    - name: Install gcloud Beta Components
-      run: gcloud components install beta
     - name: Deploy
       uses: w9jds/firebase-action@master
       with:
