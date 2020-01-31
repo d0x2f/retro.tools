@@ -9,8 +9,7 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
-  import { quintOut } from 'svelte/easing';
-  import { crossfade } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
   import _ from 'lodash';
 
   import { board, ranks, cards } from './store.js';
@@ -122,23 +121,7 @@
     newCardComment = '';
   }
 
-  const [cardSend, cardReceive] = crossfade({
-    duration: d => Math.sqrt(d * 200),
-
-    fallback(node) {
-      const style = getComputedStyle(node);
-      const transform = style.transform === 'none' ? '' : style.transform;
-
-      return {
-        duration: 600,
-        easing: quintOut,
-        css: t => `
-        transform: ${transform} scale(${t});
-        opacity: ${t}
-      `,
-      };
-    },
-  });
+  const [cardSend, cardReceive] = [fade, fade];
 </script>
 
 <style>
