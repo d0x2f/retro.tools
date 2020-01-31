@@ -24,7 +24,7 @@ app.path('/:id', async (req, res) => {
   ]);
   board.set(board_result);
   ranks.set(ranks_result);
-  res.mount(Board);
+  res.mount(Board, { nav: app });
 });
 
 app.load();
