@@ -47,6 +47,23 @@
         ]
       },
       {
+        "source": "**/*@.(html)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          },
+          {
+            "key": "Expires",
+            "value": "Wed, 1 Jan 2020 00:00:00 GMT"
+          },
+          {
+            "key": "Pragma",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "source": "**/*@.(js|css)",
         "headers": [
           {
