@@ -18,3 +18,5 @@ jobs:
       run: yarn lint
     - name: Audit
       run: yarn audit
+    - name: Build
+      run: yarn build
