@@ -1,5 +1,6 @@
 .firebase/
+build/
 .DS_Store
 node_modules
 public/bundle.*
-yarn-error.log
+*.log

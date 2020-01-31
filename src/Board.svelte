@@ -63,7 +63,6 @@
   }
 
   onMount(async () => {
-    console.log('mount');
     // Update on initial load
     await update();
 
@@ -91,7 +90,6 @@
     });
   });
   onDestroy(() => {
-    console.log('destroy');
     unsubscribe && unsubscribe();
     refreshIntervalId && clearInterval(refreshIntervalId);
   });

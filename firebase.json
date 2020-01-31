@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -43,6 +43,15 @@
           {
             "key": "Referrer-Policy",
             "value": "strict-origin"
+          }
+        ]
+      },
+      {
+        "source": "**/*@.(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=25200,public"
           }
         ]
       }
