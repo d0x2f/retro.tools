@@ -14,6 +14,15 @@
     ],
     "headers": [
       {
+        "source": "**/*@.(js|css|png)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=25200,public"
+          }
+        ]
+      },
+      {
         "source": "**/*",
         "headers": [
           {
@@ -43,15 +52,6 @@
           {
             "key": "Referrer-Policy",
             "value": "strict-origin"
-          }
-        ]
-      },
-      {
-        "source": "**/*@.(js|css|png)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=25200,public"
           }
         ]
       }
