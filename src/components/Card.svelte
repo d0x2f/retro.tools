@@ -47,7 +47,7 @@
     newCard.rank_id = newRank;
     busy = true;
     try {
-      card = await updateCard($board, newCard, currentRankId);
+      cards.replace(card.id, await updateCard($board, newCard, currentRankId));
     } catch {
       error('Card update failed!');
     } finally {
@@ -126,8 +126,7 @@
   }
 </style>
 
-<div
-  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {busy ? 'busy' : ''}">
+<div class="d-flex flex-column w-90 shadow-sm card {busy ? 'busy' : ''}">
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-2 {color}">

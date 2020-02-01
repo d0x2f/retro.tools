@@ -67,7 +67,8 @@
           <div
             in:receive={{ key: card.id }}
             out:send={{ key: card.id }}
-            animate:flip={{ duration: 200 }}>
+            animate:flip={{ duration: 200 }}
+            class="px-2 py-2">
             <Card {card} on:error color={rankDetails.classes.color} />
           </div>
         {/each}
@@ -80,7 +81,7 @@
       {/if}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
-      <div class="text-secondary text-center mt-5">
+      <div class="text-secondary text-center mt-5 position-absolute w-100">
         <small>
           {#if !$board.cards_open}
             {#if $board.owner}
