@@ -1,7 +1,14 @@
 <script>
   import { onMount } from 'svelte';
-  import { Button, CustomInput, Input, Spinner, Table } from 'sveltestrap';
-  import { fade } from 'svelte/transition';
+  import {
+    Button,
+    CustomInput,
+    Input,
+    Spinner,
+    Table,
+    Alert,
+  } from 'sveltestrap';
+  import { fade, fly } from 'svelte/transition';
   import moment from 'moment';
 
   import { gtag } from './ga.js';
@@ -10,18 +17,33 @@
   import FloatingActionButton from './components/FloatingActionButton.svelte';
 
   export let nav;
+  export let errorAlertVisible = false;
+  export let errorAlertMessage = 'Network error!';
 
   let boardName = '';
   let templateKey = 'dropAddKeepImprove';
   let createBusy = false;
   let boards = [];
+  let errorClearTimeout;
 
   onMount(async () => {
-    boards = await getBoards();
+    // If the getBoards request fails, just silently omit the board list
+    try {
+      boards = await getBoards();
+    } catch {
+      boards = [];
+    }
   });
 
+  function error(message) {
+    errorAlertVisible = true;
+    errorAlertMessage = message;
+
+    if (errorClearTimeout) clearTimeout(errorClearTimeout);
+    errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
+  }
+
   async function createFromTemplate(template) {
-    createBusy = true;
     let board = await createBoard(boardName);
     for (const rank of template.ranks) {
       await createRank(board.id, rank.name, rank);
@@ -30,11 +52,19 @@
   }
 
   async function newBoard() {
-    const board = await createFromTemplate(BoardTemplates[templateKey]);
-    gtag('event', 'conversion', {
-      send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
-    });
-    navigateToBoard(board.id);
+    createBusy = true;
+    try {
+      const board = await createFromTemplate(BoardTemplates[templateKey]);
+      gtag('event', 'conversion', {
+        send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
+      });
+      errorAlertVisible = false;
+      navigateToBoard(board.id);
+    } catch {
+      error('Error creating board!');
+    } finally {
+      createBusy = false;
+    }
   }
 
   function navigateToBoard(boardId) {
@@ -72,7 +102,7 @@
   }
 </style>
 
-<div in:fade class="d-flex justify-content-center pt-5 scroll">
+<div class="d-flex justify-content-center pt-5 scroll">
   <div class="col-md-3">
     <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
     <p class="text-primary mb-1">Board Name</p>
@@ -149,6 +179,17 @@
     {/if}
   </div>
 </div>
+
+{#if errorAlertVisible}
+  <div
+    class="fixed-bottom"
+    in:fly={{ y: 100, duration: 200 }}
+    out:fly={{ y: 100, duration: 200 }}>
+    <Alert class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
+      {errorAlertMessage}
+    </Alert>
+  </div>
+{/if}
 
 <div class="fixed-bottom bigger-icon m-1 right">
   <FloatingActionButton

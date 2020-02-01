@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
 
   import { board, cards, ranks } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
@@ -22,11 +22,18 @@
   let showDeleteCardConfirmBox = false;
   let newRank = $ranks[0].id;
   let newComment;
+  let busy = false;
+
+  const dispatch = createEventDispatcher();
 
   onMount(() => {
     newComment = card.description;
     newRank = card.rank_id;
   });
+
+  function error(message) {
+    dispatch('error', message);
+  }
 
   function toggleEditCardModal() {
     showEditCardModal = !showEditCardModal;
@@ -35,10 +42,17 @@
   async function updateCardSubmit() {
     toggleEditCardModal();
     const currentRankId = card.rank_id;
-    card.description = newComment;
-    card.rank_id = newRank;
-    await updateCard($board, card, currentRankId);
-    cards.replace(card.id, card);
+    const newCard = { ...card };
+    newCard.description = newComment;
+    newCard.rank_id = newRank;
+    busy = true;
+    try {
+      card = await updateCard($board, newCard, currentRankId);
+    } catch {
+      error('Card update failed!');
+    } finally {
+      busy = false;
+    }
   }
 
   function editCardModal() {
@@ -54,14 +68,40 @@
 
   async function deleteCardSubmit() {
     toggleDeleteCardConfirmBox();
-    card.uncommitted = true;
-    await deleteCard($board, card);
-    cards.remove(card.id);
+    busy = true;
+    try {
+      await deleteCard($board, card);
+      cards.remove(card.id);
+    } catch {
+      error('Card deletion failed!');
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function upvote() {
+    try {
+      cards.replace(card.id, await agree($board, card));
+    } catch {
+      error('Vote failed!');
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function downvote() {
+    try {
+      cards.replace(card.id, await undoAgree($board, card));
+    } catch {
+      error('Vote failed!');
+    } finally {
+      busy = false;
+    }
   }
 </script>
 
 <style>
-  .uncommitted {
+  .busy {
     opacity: 0.66;
   }
 
@@ -87,8 +127,9 @@
 </style>
 
 <div
-  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {card.uncommitted ? 'uncommitted' : ''}">
+  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {card.busy ? 'busy' : ''}">
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
+    {#if busy}busy{/if}
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-2 {color}">
       {#if card.voted}•{/if}
@@ -113,7 +154,7 @@
         color="light"
         class="text-capitalize flex-grow-1"
         disabled={!$board.voting_open}
-        on:click={async () => cards.replace(card.id, await undoAgree($board, card))}>
+        on:click={downvote}>
         undo
       </Button>
     {:else}
@@ -121,7 +162,7 @@
         color="light"
         class="text-capitalize flex-grow-1"
         disabled={!$board.voting_open}
-        on:click={async () => cards.replace(card.id, await agree($board, card))}>
+        on:click={upvote}>
         agree
       </Button>
     {/if}
