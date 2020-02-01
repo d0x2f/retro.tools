@@ -74,7 +74,7 @@
         {/each}
       {:else}
         {#each sortedFilteredCards as card (card.id)}
-          <div animate:flip={{ duration: 200 }}>
+          <div animate:flip={{ duration: 200 }} class="py-2">
             <Card bind:card on:error color={rankDetails.classes.color} />
           </div>
         {/each}
