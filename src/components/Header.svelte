@@ -69,14 +69,17 @@
 {/if}
 
 <div class="shadow-sm on-top bg-white">
-  <div class="d-flex justify-content-between pt-1">
+  <div class="row justify-content-between pt-1">
     <div
-      class="text-primary text-uppercase font-weight-bold h5 pt-1 px-3 home-link"
+      class="col text-primary text-uppercase font-weight-bold h5 pt-1 px-3
+      home-link"
       on:click={nav.navigate('/')}>
       retro.tools
     </div>
-    <div class="text-secondary d-none d-md-block pt-1">{$board.name}</div>
-    <div class="d-md-flex mb-1 mr-1">
+    <div class="col text-center text-secondary d-none d-md-block pt-1">
+      {$board.name}
+    </div>
+    <div class="col d-flex mb-1 mr-1 justify-content-end">
       <Dropdown
         size="sm"
         bind:isOpen={optionsOpen}
