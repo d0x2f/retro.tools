@@ -88,7 +88,7 @@
     await update();
 
     // Show first rank initially
-    selectedRank = $ranks[0].id;
+    if ($ranks[0]) selectedRank = $ranks[0].id;
 
     // Subscribe to board changes so we can post updates.
     // Compare updated boards to their last known value
@@ -356,6 +356,7 @@
 
 <Modal
   class="d-none d-md-block"
+  duration="100"
   isOpen={showNewCardModal}
   toggle={toggleNewCardModal}>
   <ModalHeader toggle={toggleNewCardModal}>New Card</ModalHeader>
