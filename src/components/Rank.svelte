@@ -15,14 +15,14 @@
   let columnWidth = 'col-md-3';
 
   $: sortedFilteredCards = $cards
-    .filter(c => c.rank_id === rank.id)
+    .filter(c => c.rank_id === rank.id && !c.uncommitted)
     .sort((a, b) =>
       $settings.sorted
         ? a.votes < b.votes
         : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
     );
 
-  $: (() => {
+  $: {
     switch ($ranks.length) {
       case 1:
       case 2:
@@ -36,7 +36,7 @@
         columnWidth = 'col-md-3';
         break;
     }
-  })();
+  }
 </script>
 
 <style>
@@ -68,13 +68,13 @@
             in:receive={{ key: card.id }}
             out:send={{ key: card.id }}
             animate:flip={{ duration: 200 }}>
-            <Card {card} color={rankDetails.classes.color} />
+            <Card {card} on:error color={rankDetails.classes.color} />
           </div>
         {/each}
       {:else}
         {#each sortedFilteredCards as card (card.id)}
           <div animate:flip={{ duration: 200 }}>
-            <Card {card} color={rankDetails.classes.color} />
+            <Card bind:card on:error color={rankDetails.classes.color} />
           </div>
         {/each}
       {/if}

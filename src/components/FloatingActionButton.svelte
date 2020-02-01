@@ -15,8 +15,6 @@
   class="rounded-circle border-0 text-center p-1 {className}"
   on:click={() => dispatch('click')}>
   {#if icon}
-    <div class="icon">
-      <svelte:component this={icon} />
-    </div>
+    <svelte:component this={icon} />
   {/if}
 </button>

@@ -11,6 +11,24 @@ gtag('js', new Date());
 gtag('config', 'UA-73143855-2');
 gtag('config', 'AW-996832467');
 
+async function mountBoard(res, boardId) {
+  try {
+    let [board_result, ranks_result] = await Promise.all([
+      getBoard(boardId),
+      getRanks(boardId),
+    ]);
+    board.set(board_result);
+    ranks.set(ranks_result);
+    return res.mount(Board, { nav: app });
+  } catch {
+    return res.mount(Splash, {
+      nav: app,
+      errorAlertVisible: true,
+      errorAlertMessage: 'Unable to find requested board!',
+    });
+  }
+}
+
 const app = crayon.create();
 
 app.use(svelte.router(document.body));
@@ -18,13 +36,14 @@ app.use(svelte.router(document.body));
 app.path('/', (_req, res) => res.mount(Splash, { nav: app }));
 
 app.path('/:id', async (req, res) => {
-  let [board_result, ranks_result] = await Promise.all([
-    getBoard(req.params.id),
-    getRanks(req.params.id),
-  ]);
-  board.set(board_result);
-  ranks.set(ranks_result);
-  res.mount(Board, { nav: app });
+  const sub = app.events.subscribe(event => {
+    if (event.type === 'ROUTER_END') {
+      return mountBoard(res, req.params.id);
+    }
+  });
+  res.onLeave(() => sub.unsubscribe());
+
+  return mountBoard(res, req.params.id);
 });
 
 app.load();

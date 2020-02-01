@@ -1,15 +1,16 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import {
+    Alert,
+    Button,
     Input,
     Label,
-    Button,
     Modal,
     ModalBody,
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
-  import { fade } from 'svelte/transition';
+  import { fade, fly } from 'svelte/transition';
   import _ from 'lodash';
 
   import { board, ranks, cards } from './store.js';
@@ -31,8 +32,12 @@
   let hidden = false;
   let refreshIntervalId;
   let unsubscribe;
+  let errorAlertVisible = false;
+  let errorAlertMessage = 'Network error!';
+  let errorClearTimeout;
+  let connectionLost = false;
 
-  $: (() => {
+  $: {
     switch ($ranks.length) {
       case 1:
         tabButtonWidth = 'col-12';
@@ -48,16 +53,33 @@
         tabButtonWidth = 'col-3';
         break;
     }
-  })();
+  }
+
+  function error(message) {
+    errorAlertVisible = true;
+    errorAlertMessage = message;
+
+    if (errorClearTimeout) clearTimeout(errorClearTimeout);
+    errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
+  }
+
+  function handleError({ detail }) {
+    error(detail);
+  }
 
   async function update() {
     if (!hidden) {
-      const [b, c] = await Promise.all([
-        getBoard($board.id),
-        getCards($board.id),
-      ]);
-      board.set(b);
-      cards.set(c);
+      try {
+        const [b, c] = await Promise.all([
+          getBoard($board.id),
+          getCards($board.id),
+        ]);
+        board.set(b);
+        cards.set(c);
+        connectionLost = false;
+      } catch {
+        connectionLost = true;
+      }
     }
   }
 
@@ -74,7 +96,11 @@
     let previousBoard = { ...$board };
     if ($board.owner)
       unsubscribe = board.subscribe(b => {
-        if (!_.isEqual(previousBoard, b)) updateBoard(b);
+        try {
+          if (!_.isEqual(previousBoard, b)) updateBoard(b);
+        } catch {
+          error('Error updating settings!');
+        }
         previousBoard = { ...b };
       });
 
@@ -114,11 +140,16 @@
         secs_since_epoch: Date.now() / 1000,
       },
     });
-    cards.replace(
-      tempId,
-      await createCard($board.id, selectedRank, newCardComment)
-    );
-    newCardComment = '';
+    try {
+      cards.replace(
+        tempId,
+        await createCard($board.id, selectedRank, newCardComment)
+      );
+      newCardComment = '';
+    } catch {
+      error('Error creating card!');
+      cards.remove(tempId);
+    }
   }
 
   const [cardSend, cardReceive] = [fade, fade];
@@ -222,7 +253,11 @@
       class="d-none d-md-flex justify-content-center pt-3 scroll h-100
       overflow-x-hidden">
       {#each $ranks as rank, i}
-        <Rank bind:rank send={cardSend} receive={cardReceive} />
+        <Rank
+          bind:rank
+          on:error={handleError}
+          send={cardSend}
+          receive={cardReceive} />
         {#if i !== $ranks.length - 1}
           <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
         {/if}
@@ -234,7 +269,7 @@
     <div class="d-block flex-grow-1 d-md-none scroll">
       {#each $ranks as rank}
         {#if rank.id == selectedRank}
-          <Rank bind:rank />
+          <Rank bind:rank on:error={handleError} />
         {/if}
       {:else}
         <p class="text-center text-secondary mt-5">There are no columns!</p>
@@ -242,27 +277,68 @@
     </div>
   {/if}
 
-  <div class="d-flex d-md-none border-top w-100">
-    {#each $ranks as rank}
-      <div class="flex-grow-1 {tabButtonWidth} px-0">
-        <input
-          readonly={undefined}
-          type="radio"
-          id={rank.id}
-          bind:group={selectedRank}
-          value={rank.id} />
-        <label
-          for={rank.id}
-          class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
-          col">
-          <div class="icon d-inline-block">
-            <svelte:component this={getRankDetails(rank).icon} />
-          </div>
-          <br />
-          {rank.name}
-        </label>
+  <div>
+    {#if errorAlertVisible}
+      <div
+        in:fly={{ x: -200, duration: 200 }}
+        out:fly={{ x: -200, duration: 200 }}>
+        <Alert class="mb-0 py-1" color="warning" isOpen={true}>
+          {errorAlertMessage}
+        </Alert>
       </div>
-    {/each}
+    {/if}
+    {#if connectionLost}
+      <div
+        in:fly={{ x: -200, duration: 200 }}
+        out:fly={{ x: -200, duration: 200 }}>
+        <Alert class="mb-0 py-1" color="danger" isOpen={true}>
+          Connection Lost!
+        </Alert>
+      </div>
+    {/if}
+    <div class="d-flex d-md-none border-top w-100">
+      {#each $ranks as rank}
+        <div class="flex-grow-1 {tabButtonWidth} px-0">
+          <input
+            readonly={undefined}
+            type="radio"
+            id={rank.id}
+            bind:group={selectedRank}
+            value={rank.id} />
+          <label
+            for={rank.id}
+            class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
+            col">
+            <div class="icon d-inline-block">
+              <svelte:component this={getRankDetails(rank).icon} />
+            </div>
+            <br />
+            {rank.name}
+          </label>
+        </div>
+      {/each}
+    </div>
+  </div>
+
+  <div class="fixed-bottom d-none d-md-block">
+    {#if errorAlertVisible}
+      <div
+        in:fly={{ y: 100, duration: 200 }}
+        out:fly={{ y: 100, duration: 200 }}>
+        <Alert class="mb-0 py-1" color="warning" isOpen={true}>
+          {errorAlertMessage}
+        </Alert>
+      </div>
+    {/if}
+    {#if connectionLost}
+      <div
+        in:fly={{ y: 100, duration: 200 }}
+        out:fly={{ y: 100, duration: 200 }}>
+        <Alert class="mb-0 py-1" color="danger" isOpen={true}>
+          Connection Lost!
+        </Alert>
+      </div>
+    {/if}
   </div>
 
   {#if $board.cards_open}

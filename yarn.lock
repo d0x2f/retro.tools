@@ -99,9 +99,9 @@
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
 "@types/node@*":
-  version "13.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.2.tgz#3de53b55fd39efc428a901a0f6db31f761cfa131"
-  integrity sha512-Fr6a47c84PRLfd7M7u3/hEknyUdQrrBA6VoPmkze0tcflhU5UnpWEX2kn12ktA/lb+MNHSqFlSiPHIHsaErTPA==
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.0.tgz#b417deda18cf8400f278733499ad5547ed1abec4"
+  integrity sha512-GnZbirvmqZUzMgkFn70c74OQpTTUcCzlhQliTzYjQMqg+hVKcDnxdL19Ne3UdYzdMA/+W3eb646FWn/ZaT1NfQ==
 
 "@types/q@^1.5.1":
   version "1.5.2"
@@ -625,12 +625,12 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-crayon-svelte@^2.1.0:
+crayon-svelte@^2.1:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/crayon-svelte/-/crayon-svelte-2.1.0.tgz#1d1f6e2bb843ae1e60d413a3d68a2f0f74d55c67"
   integrity sha512-lcwepCWFOlnLRwV5syhuhcuHV5I8T7fpWN1fmZPmpv2Kj5M6oZBwr2RnmyG7uVu4ECPqWUzeE8HMMRfb4lu3LQ==
 
-crayon@^5.0.0:
+crayon@^5.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/crayon/-/crayon-5.0.0.tgz#5035b312b1bf9badad9c7b5e3785905c6001cc44"
   integrity sha512-y3+CUCgs2UBSclyQUl/RYu1m8a5vsoDtdhENZhx6r8x4GLOGH42WxLlj+u7HBIzuDfcw80ZQaKH1zI8iLboqyw==
@@ -3192,9 +3192,9 @@ rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
     estree-walker "^0.6.1"
 
 rollup@^1.27.13:
-  version "1.30.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.30.1.tgz#3fd28d6198beb2f3cd1640732047d5ec16c2d3a0"
-  integrity sha512-Uus8mwQXwaO+ZVoNwBcXKhT0AvycFCBW/W8VZtkpVGsotRllWk9oldfCjqWmTnFRI0y7x6BnEqSqc65N+/YdBw==
+  version "1.31.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.31.0.tgz#e2a87212e96aa7850f3eb53fdd02cf89f2d2fe9a"
+  integrity sha512-9C6ovSyNeEwvuRuUUmsTpJcXac1AwSL1a3x+O5lpmQKZqi5mmrjauLeqIjvREC+yNRR8fPdzByojDng+af3nVw==
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
@@ -3603,9 +3603,9 @@ supports-color@^6.1.0:
     has-flag "^3.0.0"
 
 svelte-feather-icons@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/svelte-feather-icons/-/svelte-feather-icons-3.1.1.tgz#6b91db33fa152a217ddf9c8047635b6cf857c062"
-  integrity sha512-Lm/XhjM4YLZec71JeaYKKmt1ZVw9YcPe7xP5B71f+Tq1iwfp9ZY5zWu4QqljrnqSwBrmSQDhYT45oGFofJPpiA==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/svelte-feather-icons/-/svelte-feather-icons-3.2.1.tgz#67908e71d5b8514fa653ea5989990d93f19ffa39"
+  integrity sha512-IuS3ZodfjNDA3qMNluUuV0dsUttpH1hs1ApF/Y6hVW+iBzoekO4JLdPCtPMWfhqPRwpQsSaoYbWAbtvCDeZ9tw==
 
 svelte@^3.18:
   version "3.18.1"
