@@ -625,10 +625,20 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+crayon-animate@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/crayon-animate/-/crayon-animate-3.0.0.tgz#e4c2ee0d224222aa2598c50087edb03808242eb4"
+  integrity sha512-QonQY8nfXbmDxkPJ/fD51OZI9WgQ/IDy2El2GAnPw7vs7dTtxCLpZTCXTtYGcQv70eFIZnp36/0vrLhAK4MO2Q==
+
 crayon-svelte@^2.1:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/crayon-svelte/-/crayon-svelte-2.1.0.tgz#1d1f6e2bb843ae1e60d413a3d68a2f0f74d55c67"
   integrity sha512-lcwepCWFOlnLRwV5syhuhcuHV5I8T7fpWN1fmZPmpv2Kj5M6oZBwr2RnmyG7uVu4ECPqWUzeE8HMMRfb4lu3LQ==
+
+crayon-transition@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/crayon-transition/-/crayon-transition-2.0.0.tgz#1716e25487a0ffd72f5bcb3b5b8faaf08a65a1d8"
+  integrity sha512-TGp//sA3VItRweboeYO4IvUWRgkDLNHyLXQd8PXwSbd8sAZ57ikPXV4uFhoad3/bqx0Y4nQzdN03iYB1tQPnTQ==
 
 crayon@^5.0:
   version "5.0.0"

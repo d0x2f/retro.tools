@@ -127,9 +127,8 @@
 </style>
 
 <div
-  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {card.busy ? 'busy' : ''}">
+  class="d-flex flex-column w-90 shadow-sm mx-2 my-4 card {busy ? 'busy' : ''}">
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
-    {#if busy}busy{/if}
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-2 {color}">
       {#if card.voted}•{/if}

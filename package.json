@@ -26,7 +26,8 @@
     "sirv-cli": "^0.4.5",
     "svelte": "^3.18",
     "svelte-feather-icons": "^3.0.0",
-    "sveltestrap": "^3.3"
+    "sveltestrap": "^3.3",
+    "crayon-animate": "3.0.0"
   },
   "scripts": {
     "build": "rollup -c",

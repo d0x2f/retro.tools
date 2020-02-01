@@ -8,3 +8,35 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.rt-fade {
+  opacity: 0;
+  transition: opacity 0s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rt-fade {
+    transition: none;
+  }
+}
+
+.fade-enter-first {
+  position: static;
+  transition-duration: 0s !important;
+}
+
+.rt-fade-enter {
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.rt-fade-enter-done {
+  opacity: 1;
+}
+
+.rt-fade-exit {
+  opacity: 0;
+}
