@@ -1,6 +1,6 @@
 import crayon from 'crayon';
 import svelte from 'crayon-svelte';
-import animate from 'crayon-animate'
+import animate from 'crayon-animate';
 import Splash from './Splash.svelte';
 import Board from './Board.svelte';
 
@@ -33,10 +33,12 @@ async function mountBoard(res, boardId) {
 const app = crayon.create();
 
 app.use(svelte.router(document.body));
-app.use(animate.defaults({
-  name: 'rt-fade',
-  duration: 300
-}))
+app.use(
+  animate.defaults({
+    name: 'rt-fade',
+    duration: 300,
+  })
+);
 
 app.path('/', (_req, res) => res.mount(Splash, { nav: app }));
 app.path('/:id', async (req, res) => {
