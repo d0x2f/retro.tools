@@ -9,12 +9,12 @@
     Alert,
   } from 'sveltestrap';
   import { fade, fly } from 'svelte/transition';
-  import moment from 'moment';
 
   import { gtag } from './ga.js';
   import { createRank, createBoard, getBoards } from './api.js';
   import { Icons, BoardTemplates } from './data.js';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
+  import BoardRow from './components/BoardRow.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
@@ -26,21 +26,26 @@
   let boards = [];
   let errorClearTimeout;
 
-  onMount(async () => {
+  async function doGetBoards() {
     // If the getBoards request fails, just silently omit the board list
     try {
       boards = await getBoards();
     } catch {
       boards = [];
     }
-  });
+  }
 
-  function error(message) {
+  function error(message, err) {
+    if (err) console.error(err);
     errorAlertVisible = true;
     errorAlertMessage = message;
 
     if (errorClearTimeout) clearTimeout(errorClearTimeout);
     errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
+  }
+
+  function handleError({ detail: { message, err } }) {
+    error(message, err);
   }
 
   async function createFromTemplate(template) {
@@ -59,17 +64,17 @@
         send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
       });
       errorAlertVisible = false;
-      navigateToBoard(board.id);
-    } catch {
-      error('Error creating board!');
+      nav.navigate(`/${board.id}`);
+    } catch (err) {
+      error('Error creating board!', err);
     } finally {
       createBusy = false;
     }
   }
 
-  function navigateToBoard(boardId) {
-    nav.navigate(`/${boardId}`);
-  }
+  onMount(async () => {
+    await doGetBoards();
+  });
 </script>
 
 <style>
@@ -95,10 +100,6 @@
   .right {
     right: 0;
     left: auto;
-  }
-
-  .board-link {
-    cursor: pointer;
   }
 </style>
 
@@ -146,32 +147,23 @@
     {#if boards.length > 0}
       <div in:fade>
         <p class="text-primary my-3">Your Boards</p>
-        <Table hover>
+        <Table hover class="w-100">
           <thead>
             <tr>
               <th>Name</th>
               <th class="text-right">Created</th>
+              <th class="w-25" />
             </tr>
           </thead>
           <tbody>
             {#each boards.sort((a, b) => {
               return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch;
             }) as board}
-              <tr
-                class="board-link"
-                data-board={board.id}
-                on:click={() => navigateToBoard(board.id)}>
-                <td>
-                  {#if board.name}
-                    {board.name}
-                  {:else}
-                    <i class="small">(No name given)</i>
-                  {/if}
-                </td>
-                <td class="text-right">
-                  {moment(new Date(board.created_at.secs_since_epoch * 1000)).fromNow()}
-                </td>
-              </tr>
+              <BoardRow
+                {board}
+                {nav}
+                on:deleted={doGetBoards}
+                on:error={handleError} />
             {/each}
           </tbody>
         </Table>

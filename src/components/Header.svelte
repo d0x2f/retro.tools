@@ -71,7 +71,7 @@
 <div class="shadow-sm on-top bg-white">
   <div class="row justify-content-between pt-1">
     <div
-      class="col text-primary text-uppercase font-weight-bold h5 pt-1 px-3
+      class="col text-primary text-uppercase font-weight-bold h5 pt-1 ml-2
       home-link"
       on:click={nav.navigate('/')}>
       retro.tools

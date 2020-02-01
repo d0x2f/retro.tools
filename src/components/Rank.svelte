@@ -53,44 +53,42 @@
 <div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
   <div
     class="header d-none d-md-block {rankDetails.classes.color} border-bottom
-    text-uppercase">
+    text-uppercase mb-2">
     <div class="icon d-inline-block">
       <svelte:component this={rankDetails.icon} />
     </div>
     <br />
     {rank.name}
   </div>
-  <div>
-    {#if $cards}
-      {#if send}
-        {#each sortedFilteredCards as card (card.id)}
-          <div
-            in:receive={{ key: card.id }}
-            out:send={{ key: card.id }}
-            animate:flip={{ duration: 200 }}
-            class="px-2 py-2">
-            <Card {card} on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {:else}
-        {#each sortedFilteredCards as card (card.id)}
-          <div animate:flip={{ duration: 200 }} class="py-2">
-            <Card bind:card on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {/if}
+  {#if $cards}
+    {#if send}
+      {#each sortedFilteredCards as card (card.id)}
+        <div
+          in:receive={{ key: card.id }}
+          out:send={{ key: card.id }}
+          animate:flip={{ duration: 200 }}
+          class="px-2 py-2">
+          <Card {card} on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
+    {:else}
+      {#each sortedFilteredCards as card (card.id)}
+        <div animate:flip={{ duration: 200 }} class="py-2">
+          <Card bind:card on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
     {/if}
-    {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
-      <div class="text-secondary text-center mt-5 position-absolute w-100">
-        <small>
-          {#if !$board.cards_open}
-            {#if $board.owner}
-              Card creation is disabled, enable it using the drop down menu in
-              the top right.
-            {:else}Card creation is disabled by the board owner.{/if}
-          {:else}No cards{/if}
-        </small>
-      </div>
-    {/if}
-  </div>
+  {/if}
+  {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
+    <div class="text-secondary text-center mt-5 text-center">
+      <small>
+        {#if !$board.cards_open}
+          {#if $board.owner}
+            Card creation is disabled, enable it using the drop down menu in the
+            top right.
+          {:else}Card creation is disabled by the board owner.{/if}
+        {:else}No cards{/if}
+      </small>
+    </div>
+  {/if}
 </div>

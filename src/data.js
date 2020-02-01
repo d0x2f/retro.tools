@@ -18,6 +18,8 @@ import {
   ClipboardIcon,
   LinkIcon,
   BookOpenIcon,
+  Trash2Icon,
+  CheckIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -68,6 +70,8 @@ export const Icons = {
   clipboard: ClipboardIcon,
   link: LinkIcon,
   book: BookOpenIcon,
+  trash: Trash2Icon,
+  check: CheckIcon,
 };
 
 export const BoardTemplates = {
