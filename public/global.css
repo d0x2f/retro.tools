@@ -14,6 +14,12 @@ body {
   transition: opacity 0s linear;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .rt-ffade {
+    transition: none;
+  }
+}
+
 .fade-enter-first {
   position: static;
   transition-duration: 0s !important;
