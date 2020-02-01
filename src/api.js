@@ -6,6 +6,9 @@ const common_options = {
   mode: 'cors',
   cache: 'no-cache',
   credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+  },
 };
 
 async function request() {
@@ -118,6 +121,13 @@ export async function undoAgree(board, card) {
 
 export function deleteRank(boardId, rankId) {
   return request(`${api_host}/boards/${boardId}/ranks/${rankId}`, {
+    method: 'DELETE',
+    ...common_options,
+  });
+}
+
+export function deleteBoard(boardId) {
+  return request(`${api_host}/boards/${boardId}`, {
     method: 'DELETE',
     ...common_options,
   });

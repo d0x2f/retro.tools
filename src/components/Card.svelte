@@ -31,8 +31,8 @@
     newRank = card.rank_id;
   });
 
-  function error(message) {
-    dispatch('error', message);
+  function error(message, err) {
+    dispatch('error', { message, err });
   }
 
   function toggleEditCardModal() {
@@ -48,8 +48,8 @@
     busy = true;
     try {
       cards.replace(card.id, await updateCard($board, newCard, currentRankId));
-    } catch {
-      error('Card update failed!');
+    } catch (err) {
+      error('Card update failed!', err);
     } finally {
       busy = false;
     }
@@ -72,8 +72,8 @@
     try {
       await deleteCard($board, card);
       cards.remove(card.id);
-    } catch {
-      error('Card deletion failed!');
+    } catch (err) {
+      error('Card deletion failed!', err);
     } finally {
       busy = false;
     }
@@ -82,8 +82,8 @@
   async function upvote() {
     try {
       cards.replace(card.id, await agree($board, card));
-    } catch {
-      error('Vote failed!');
+    } catch (err) {
+      error('Vote failed!', err);
     } finally {
       busy = false;
     }
@@ -92,8 +92,8 @@
   async function downvote() {
     try {
       cards.replace(card.id, await undoAgree($board, card));
-    } catch {
-      error('Vote failed!');
+    } catch (err) {
+      error('Vote failed!', err);
     } finally {
       busy = false;
     }

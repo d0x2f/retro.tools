@@ -5,6 +5,7 @@
     "@rollup/plugin-node-resolve": "^6.0.0",
     "clipboard": "^2.0.4",
     "crayon": "^5.0",
+    "crayon-animate": "3.0.0",
     "crayon-svelte": "^2.1",
     "eslint": "^6.7.2",
     "eslint-plugin-svelte3": "^2.7.3",
@@ -26,8 +27,7 @@
     "sirv-cli": "^0.4.5",
     "svelte": "^3.18",
     "svelte-feather-icons": "^3.0.0",
-    "sveltestrap": "^3.3",
-    "crayon-animate": "3.0.0"
+    "sveltestrap": "^3.3"
   },
   "scripts": {
     "build": "rollup -c",

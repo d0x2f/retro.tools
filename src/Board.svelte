@@ -57,7 +57,8 @@
     }
   }
 
-  function error(message) {
+  function error(message, err) {
+    if (err) console.error(err);
     errorAlertVisible = true;
     errorAlertMessage = message;
 
@@ -65,8 +66,8 @@
     errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
   }
 
-  function handleError({ detail }) {
-    error(detail);
+  function handleError({ detail: { message, err } }) {
+    error(message, err);
   }
 
   async function update() {
@@ -100,8 +101,8 @@
       unsubscribe = board.subscribe(b => {
         try {
           if (!_.isEqual(previousBoard, b)) updateBoard(b);
-        } catch {
-          error('Error updating settings!');
+        } catch (err) {
+          error('Error updating settings!', err);
         }
         previousBoard = { ...b };
       });
@@ -149,8 +150,8 @@
         await createCard($board.id, selectedRank, newCardComment)
       );
       newCardComment = '';
-    } catch {
-      error('Error creating card!');
+    } catch (err) {
+      error('Error creating card!', err);
       cards.remove(tempId);
     }
   }
@@ -296,7 +297,7 @@
     </div>
   {/if}
 
-  <div>
+  <div class="d-md-none">
     {#if errorAlertVisible}
       <div
         in:fly={{ x: -200, duration: 200 }}
@@ -315,7 +316,7 @@
         </Alert>
       </div>
     {/if}
-    <div class="d-flex d-md-none border-top w-100">
+    <div class="d-flex border-top w-100">
       {#each $ranks as rank}
         <div class="flex-grow-1 {tabButtonWidth} px-0">
           <input
