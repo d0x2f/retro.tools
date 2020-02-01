@@ -10,7 +10,7 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
   import { crossfade } from 'svelte/transition';
   import _ from 'lodash';
@@ -158,7 +158,7 @@
   const [cardSend, cardReceive] = crossfade({
     duration: d => Math.sqrt(d * 200),
 
-    fallback(node, params) {
+    fallback(node) {
       const style = getComputedStyle(node);
       const transform = style.transform === 'none' ? '' : style.transform;
 
