@@ -14,13 +14,17 @@
   let sortedFilteredCards;
   let columnWidth = 'col-md-3';
 
-  $: sortedFilteredCards = $cards
-    .filter(c => c.rank_id === rank.id && !c.uncommitted)
-    .sort((a, b) =>
-      $settings.sorted
-        ? a.votes < b.votes
-        : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
-    );
+  $: {
+    sortedFilteredCards = $cards
+      .filter(c => c.rank_id === rank.id && !c.uncommitted)
+      .sort((a, b) =>
+        $settings.sorted
+          ? a.votes < b.votes
+            ? 1
+            : -1
+          : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
+      );
+  }
 
   $: {
     switch ($ranks.length) {
