@@ -157,7 +157,7 @@
           </thead>
           <tbody>
             {#each boards.sort((a, b) => {
-              return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch;
+              return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch ? 1 : -1;
             }) as board}
               <BoardRow
                 {board}
