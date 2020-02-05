@@ -114,7 +114,6 @@
     // Keep track of page visibility so we can pause updates while hidden
     document.addEventListener('visibilitychange', () => {
       hidden = document['hidden'];
-      if (!hidden) update();
     });
   });
 
