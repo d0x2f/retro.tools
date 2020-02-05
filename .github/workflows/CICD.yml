@@ -8,6 +8,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 13.x
@@ -31,6 +32,7 @@ jobs:
   cd:
     runs-on: ubuntu-latest
     needs: ci
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
     - uses: actions/checkout@v1
     - name: Download Artifact
