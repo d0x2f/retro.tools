@@ -57,6 +57,24 @@
     }
   }
 
+  const [cardSend, cardReceive] = crossfade({
+    duration: d => Math.sqrt(d * 200),
+
+    fallback(node) {
+      const style = getComputedStyle(node);
+      const transform = style.transform === 'none' ? '' : style.transform;
+
+      return {
+        duration: 600,
+        easing: quintOut,
+        css: t => `
+          transform: ${transform} scale(${t});
+          opacity: ${t}
+        `,
+      };
+    },
+  });
+
   function error(message, err) {
     if (err) console.error(err);
     errorAlertVisible = true;
@@ -83,6 +101,39 @@
       } catch {
         connectionLost = true;
       }
+    }
+  }
+
+  function toggleNewCardForm() {
+    showNewCardForm = !showNewCardForm;
+  }
+
+  function toggleNewCardModal() {
+    showNewCardModal = !showNewCardModal;
+  }
+
+  async function newCard() {
+    const tempId = Math.floor(Math.random() * 10000);
+    cards.append({
+      id: tempId,
+      name: 'Card',
+      description: newCardComment,
+      rank_id: selectedRank,
+      uncommitted: true,
+      votes: 0,
+      created_at: {
+        secs_since_epoch: Date.now() / 1000,
+      },
+    });
+    try {
+      cards.replace(
+        tempId,
+        await createCard($board.id, selectedRank, newCardComment)
+      );
+      newCardComment = '';
+    } catch (err) {
+      error('Error creating card!', err);
+      cards.remove(tempId);
     }
   }
 
@@ -120,57 +171,6 @@
   onDestroy(() => {
     unsubscribe && unsubscribe();
     refreshIntervalId && clearInterval(refreshIntervalId);
-  });
-
-  function toggleNewCardForm() {
-    showNewCardForm = !showNewCardForm;
-  }
-
-  function toggleNewCardModal() {
-    showNewCardModal = !showNewCardModal;
-  }
-
-  async function newCard() {
-    const tempId = Math.floor(Math.random() * 10000);
-    cards.append({
-      id: tempId,
-      name: 'Card',
-      description: newCardComment,
-      rank_id: selectedRank,
-      uncommitted: true,
-      votes: 0,
-      created_at: {
-        secs_since_epoch: Date.now() / 1000,
-      },
-    });
-    try {
-      cards.replace(
-        tempId,
-        await createCard($board.id, selectedRank, newCardComment)
-      );
-      newCardComment = '';
-    } catch (err) {
-      error('Error creating card!', err);
-      cards.remove(tempId);
-    }
-  }
-
-  const [cardSend, cardReceive] = crossfade({
-    duration: d => Math.sqrt(d * 200),
-
-    fallback(node) {
-      const style = getComputedStyle(node);
-      const transform = style.transform === 'none' ? '' : style.transform;
-
-      return {
-        duration: 600,
-        easing: quintOut,
-        css: t => `
-          transform: ${transform} scale(${t});
-          opacity: ${t}
-        `,
-      };
-    },
   });
 </script>
 
@@ -251,7 +251,7 @@
         type="textarea"
         placeholder="We need more snacks..."
         bind:value={newCardComment}
-        class="mb-2" />
+        class="mb-2 h-50" />
       <div class="d-flex justify-content-end">
         <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
           Cancel
@@ -259,6 +259,7 @@
         <Button
           class="mx-1"
           color="primary"
+          disabled={newCardComment.length === 0}
           on:click={() => {
             toggleNewCardForm();
             newCard();
@@ -386,6 +387,7 @@
     <Button color="secondary" on:click={toggleNewCardModal}>Cancel</Button>
     <Button
       color="primary"
+      disabled={newCardComment.length === 0}
       on:click={() => {
         toggleNewCardModal();
         newCard();
