@@ -72,13 +72,15 @@
     </td>
   {:else}
     <td class="text-right">
-      <Button color="danger" on:click={toggleDeleteBoardConfirmBox}>
-        {#if busy}
-          <Spinner size="sm" color="light" />
-        {:else}
-          <Icons.trash size="1x" />
-        {/if}
-      </Button>
+      {#if board.owner}
+        <Button color="danger" on:click={toggleDeleteBoardConfirmBox}>
+          {#if busy}
+            <Spinner size="sm" color="light" />
+          {:else}
+            <Icons.trash size="1x" />
+          {/if}
+        </Button>
+      {/if}
     </td>
   {/if}
 </tr>
