@@ -10,9 +10,8 @@
     ModalFooter,
     ModalHeader,
   } from 'sveltestrap';
-  import { fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
-  import { crossfade } from 'svelte/transition';
+  import { crossfade, fade, fly } from 'svelte/transition';
   import _ from 'lodash';
 
   import { board, ranks, cards } from './store.js';
@@ -189,7 +188,7 @@
     right: 1em;
     width: 3em;
     height: 3em;
-    z-index: 1040;
+    z-index: 1038;
   }
 
   .icon {
@@ -231,6 +230,14 @@
     overflow-x: hidden;
   }
 
+  .new-card-form {
+    z-index: 1039;
+  }
+
+  .tab-buttons {
+    z-index: 1040;
+  }
+
   @media (max-width: 768px) {
     .add-button {
       bottom: 4em;
@@ -241,63 +248,65 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
+  <div
+    class="d-none d-md-flex justify-content-center pt-3 scroll h-100
+    overflow-x-hidden">
+    {#each $ranks as rank, i}
+      <Rank
+        bind:rank
+        on:error={handleError}
+        send={cardSend}
+        receive={cardReceive} />
+      {#if i !== $ranks.length - 1}
+        <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+      {/if}
+    {:else}
+      <p class="text-center text-secondary">There are no columns!</p>
+    {/each}
+  </div>
 
-  {#if showNewCardForm}
-    <div class="flex-grow-1 p-2 d-block d-md-none">
-      <Label for="cardText" class="text-primary">New Card</Label>
-      <Input
-        readonly={undefined}
-        id="cardText"
-        type="textarea"
-        placeholder="We need more snacks..."
-        bind:value={newCardComment}
-        class="mb-2 h-50" />
-      <div class="d-flex justify-content-end">
-        <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
-          Cancel
-        </Button>
-        <Button
-          class="mx-1"
-          color="primary"
-          disabled={newCardComment.length === 0}
-          on:click={() => {
-            toggleNewCardForm();
-            newCard();
-          }}>
-          Create
-        </Button>
+  <div class="d-block flex-grow-1 d-md-none scroll">
+
+    {#if showNewCardForm}
+      <div
+        transition:fade
+        class="flex-grow-1 p-2 d-block d-md-none h-100 w-100 position-absolute
+        new-card-form bg-light">
+        <Label for="cardText" class="text-primary">New Card</Label>
+        <Input
+          readonly={undefined}
+          id="cardText"
+          type="textarea"
+          placeholder="We need more snacks..."
+          bind:value={newCardComment}
+          class="mb-2 h-50" />
+        <div class="d-flex justify-content-end">
+          <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
+            Cancel
+          </Button>
+          <Button
+            class="mx-1"
+            color="primary"
+            disabled={newCardComment.length === 0}
+            on:click={() => {
+              toggleNewCardForm();
+              newCard();
+            }}>
+            Create
+          </Button>
+        </div>
       </div>
-    </div>
-  {:else}
-    <div
-      class="d-none d-md-flex justify-content-center pt-3 scroll h-100
-      overflow-x-hidden">
-      {#each $ranks as rank, i}
-        <Rank
-          bind:rank
-          on:error={handleError}
-          send={cardSend}
-          receive={cardReceive} />
-        {#if i !== $ranks.length - 1}
-          <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-        {/if}
-      {:else}
-        <p class="text-center text-secondary">There are no columns!</p>
-      {/each}
-    </div>
+    {/if}
+    {#each $ranks as rank}
+      {#if rank.id == selectedRank}
+        <Rank bind:rank on:error={handleError} />
+      {/if}
+    {:else}
+      <p class="text-center text-secondary mt-5">There are no columns!</p>
+    {/each}
+  </div>
 
-    <div class="d-block flex-grow-1 d-md-none scroll">
-      {#each $ranks as rank}
-        {#if rank.id == selectedRank}
-          <Rank bind:rank on:error={handleError} />
-        {/if}
-      {:else}
-        <p class="text-center text-secondary mt-5">There are no columns!</p>
-      {/each}
-    </div>
-  {/if}
-
-  <div class="d-md-none">
+  <div class="d-md-none tab-buttons">
     {#if errorAlertVisible}
       <div
         in:fly={{ x: -200, duration: 200 }}
@@ -362,11 +371,9 @@
   </div>
 
   {#if $board.cards_open}
-    {#if !showNewCardForm}
-      <div class="d-sm-block d-md-none add-button">
-        <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
-      </div>
-    {/if}
+    <div class="d-sm-block d-md-none add-button">
+      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
+    </div>
 
     <div class="d-none d-md-block add-button">
       <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
