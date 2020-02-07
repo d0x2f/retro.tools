@@ -279,7 +279,7 @@
           type="textarea"
           placeholder="We need more snacks..."
           bind:value={newCardComment}
-          class="mb-2 h-50" />
+          class="mb-2" />
         <div class="d-flex justify-content-end">
           <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
             Cancel

@@ -120,20 +120,16 @@
     line-height: 1;
     font-size: 1rem;
   }
-
-  .text {
-    min-height: 5em;
-  }
 </style>
 
 <div class="d-flex flex-column w-90 shadow-sm card {busy ? 'busy' : ''}">
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
     <span
-      class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-2 {color}">
+      class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-1 {color}">
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-2 w-100 font-weight-bold text">
+    <span class="p-1 w-100 font-weight-bold">
       {#if $board.cards_open && (card.owner || $board.owner)}
         <div class="delete-button float-right">
           <FloatingActionButton

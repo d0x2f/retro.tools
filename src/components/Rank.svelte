@@ -71,7 +71,7 @@
           in:receive={{ key: card.id }}
           out:send={{ key: card.id }}
           animate:flip={{ duration: 200 }}
-          class="px-2 py-2">
+          class="py-1">
           <Card {card} on:error color={rankDetails.classes.color} />
         </div>
       {/each}
