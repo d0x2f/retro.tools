@@ -67,8 +67,6 @@
       nav.navigate(`/${board.id}`);
     } catch (err) {
       error('Error creating board!', err);
-    } finally {
-      createBusy = false;
     }
   }
 
@@ -158,7 +156,7 @@
           <tbody>
             {#each boards.sort((a, b) => {
               return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch ? 1 : -1;
-            }) as board}
+            }) as board (board.id)}
               <BoardRow
                 {board}
                 {nav}

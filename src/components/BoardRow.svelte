@@ -29,8 +29,6 @@
       dispatch('deleted');
     } catch (err) {
       error('Error deleting board!', err);
-    } finally {
-      busy = false;
     }
   }
 </script>
