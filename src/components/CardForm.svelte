@@ -24,7 +24,7 @@
 </div>
 
 <div class="w-100 mt-3 d-flex">
-  {#each $ranks as rank}
+  {#each $ranks as rank (rank.id)}
     <input
       readonly={undefined}
       type="radio"

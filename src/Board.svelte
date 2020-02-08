@@ -240,7 +240,7 @@
 
   @media (max-width: 768px) {
     .add-button {
-      bottom: 4em;
+      bottom: 6em;
     }
   }
 </style>
@@ -251,7 +251,7 @@
   <div
     class="d-none d-md-flex justify-content-center pt-3 scroll h-100
     overflow-x-hidden">
-    {#each $ranks as rank, i}
+    {#each $ranks as rank, i (rank.id)}
       <Rank
         bind:rank
         on:error={handleError}
@@ -297,7 +297,7 @@
         </div>
       </div>
     {/if}
-    {#each $ranks as rank}
+    {#each $ranks as rank (rank.id)}
       {#if rank.id == selectedRank}
         <Rank bind:rank on:error={handleError} />
       {/if}
@@ -326,7 +326,7 @@
       </div>
     {/if}
     <div class="d-flex border-top w-100">
-      {#each $ranks as rank}
+      {#each $ranks as rank (rank.id)}
         <div class="flex-grow-1 {tabButtonWidth} px-0">
           <input
             readonly={undefined}
@@ -372,11 +372,17 @@
 
   {#if $board.cards_open}
     <div class="d-sm-block d-md-none add-button">
-      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardForm} />
+      <FloatingActionButton
+        className="shadow btn-primary"
+        icon={Icons.plus}
+        on:click={toggleNewCardForm} />
     </div>
 
     <div class="d-none d-md-block add-button">
-      <FloatingActionButton icon={Icons.plus} on:click={toggleNewCardModal} />
+      <FloatingActionButton
+        className="shadow btn-primary"
+        icon={Icons.plus}
+        on:click={toggleNewCardModal} />
     </div>
   {/if}
 </div>
