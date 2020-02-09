@@ -46,6 +46,9 @@
   let connectionLost = false;
 
   let drake = dragula({
+    revertOnSpill: true,
+    copySortSource: false,
+    copy: true,
     moves: el => el.dataset.drag !== 'false',
     accepts: (el, target) => {
       return (
@@ -70,6 +73,8 @@
     const cardId = el.dataset.cardId;
     const card = $cards.find(c => c.id === cardId);
     const originalRankId = card.rank_id;
+
+    el.remove();
     card.rank_id = rankId;
     card.busy = true;
     $cards = $cards; // Trigger a redraw so the card picks up that it's busy
@@ -78,6 +83,7 @@
     } catch (err) {
       error('Card update failed!', err);
       card.rank_id = originalRankId; // Send the card back
+      card.busy = false;
       $cards = $cards; // Force redraw
     }
   });
