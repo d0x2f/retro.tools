@@ -13,9 +13,16 @@
   import { quintOut } from 'svelte/easing';
   import { crossfade, fade, fly } from 'svelte/transition';
   import _ from 'lodash';
+  import dragula from 'dragula';
 
   import { board, ranks, cards } from './store.js';
-  import { updateBoard, createCard, getCards, getBoard } from './api.js';
+  import {
+    updateBoard,
+    updateCard,
+    createCard,
+    getCards,
+    getBoard,
+  } from './api.js';
   import { Icons, getRankDetails } from './data.js';
 
   import FloatingActionButton from './components/FloatingActionButton.svelte';
@@ -37,6 +44,49 @@
   let errorAlertMessage = 'Network error!';
   let errorClearTimeout;
   let connectionLost = false;
+
+  let drake = dragula({
+    revertOnSpill: true,
+    copySortSource: false,
+    copy: true,
+    moves: el => el.dataset.drag !== 'false',
+    accepts: (el, target) => {
+      return (
+        target.dataset.rankId !==
+        $cards.find(c => c.id === el.dataset.cardId).rank_id
+      );
+    },
+  });
+
+  drake.on('over', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.add('d-none');
+  });
+
+  drake.on('out', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.remove('d-none');
+  });
+
+  drake.on('drop', async (el, target) => {
+    const rankId = target.dataset.rankId;
+    const cardId = el.dataset.cardId;
+    const card = $cards.find(c => c.id === cardId);
+    const originalRankId = card.rank_id;
+
+    el.remove();
+    card.rank_id = rankId;
+    card.busy = true;
+    $cards = $cards; // Trigger a redraw so the card picks up that it's busy
+    try {
+      cards.replace(card.id, await updateCard($board, card, originalRankId));
+    } catch (err) {
+      error('Card update failed!', err);
+      card.rank_id = originalRankId; // Send the card back
+      card.busy = false;
+      $cards = $cards; // Force redraw
+    }
+  });
 
   $: {
     switch ($ranks.length) {
@@ -254,21 +304,22 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
-  <div
-    class="d-none d-md-flex justify-content-center pt-3 scroll h-100
-    overflow-x-hidden">
-    {#each $ranks as rank, i (rank.id)}
-      <Rank
-        bind:rank
-        on:error={handleError}
-        send={cardSend}
-        receive={cardReceive} />
-      {#if i !== $ranks.length - 1}
-        <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-      {/if}
-    {:else}
-      <p class="text-center text-secondary">There are no columns!</p>
-    {/each}
+  <div class="scroll">
+    <div class="d-none d-md-flex justify-content-center py-3 overflow-hidden">
+      {#each $ranks as rank, i (rank.id)}
+        <Rank
+          bind:rank
+          bind:drake
+          on:error={handleError}
+          send={cardSend}
+          receive={cardReceive} />
+        {#if i !== $ranks.length - 1}
+          <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+        {/if}
+      {:else}
+        <p class="text-center text-secondary">There are no columns!</p>
+      {/each}
+    </div>
   </div>
 
   <div class="d-block flex-grow-1 d-md-none scroll">
