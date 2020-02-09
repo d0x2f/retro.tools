@@ -83,7 +83,8 @@
             in:receive={{ key: card.id }}
             out:send={{ key: card.id }}
             animate:flip={{ duration: 200 }}
-            class="py-1">
+            class="py-1"
+            data-drag={!(card.owner || $board.owner) ? 'false' : 'true'}>
             <Card {card} on:error color={rankDetails.classes.color} />
           </div>
         {/each}
