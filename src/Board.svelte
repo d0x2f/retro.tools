@@ -44,8 +44,15 @@
   let errorAlertMessage = 'Network error!';
   let errorClearTimeout;
   let connectionLost = false;
+
   let drake = dragula({
     moves: el => el.dataset.drag !== 'false',
+    accepts: (el, target) => {
+      return (
+        target.dataset.rankId !==
+        $cards.find(c => c.id === el.dataset.cardId).rank_id
+      );
+    },
   });
 
   drake.on('over', (_el, container) => {
@@ -62,14 +69,16 @@
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
     const card = $cards.find(c => c.id === cardId);
-    const currentRankId = card.rank_id;
+    const originalRankId = card.rank_id;
     card.rank_id = rankId;
     card.busy = true;
     $cards = $cards; // Trigger a redraw so the card picks up that it's busy
     try {
-      cards.replace(card.id, await updateCard($board, card, currentRankId));
+      cards.replace(card.id, await updateCard($board, card, originalRankId));
     } catch (err) {
       error('Card update failed!', err);
+      card.rank_id = originalRankId; // Send the card back
+      $cards = $cards; // Force redraw
     }
   });
 
