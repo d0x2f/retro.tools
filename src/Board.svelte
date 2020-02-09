@@ -13,9 +13,16 @@
   import { quintOut } from 'svelte/easing';
   import { crossfade, fade, fly } from 'svelte/transition';
   import _ from 'lodash';
+  import dragula from 'dragula';
 
   import { board, ranks, cards } from './store.js';
-  import { updateBoard, createCard, getCards, getBoard } from './api.js';
+  import {
+    updateBoard,
+    updateCard,
+    createCard,
+    getCards,
+    getBoard,
+  } from './api.js';
   import { Icons, getRankDetails } from './data.js';
 
   import FloatingActionButton from './components/FloatingActionButton.svelte';
@@ -37,6 +44,34 @@
   let errorAlertMessage = 'Network error!';
   let errorClearTimeout;
   let connectionLost = false;
+  let drake = dragula({
+    moves: el => el.dataset.drag !== 'false',
+  });
+
+  drake.on('over', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.add('d-none');
+  });
+
+  drake.on('out', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.remove('d-none');
+  });
+
+  drake.on('drop', async (el, target) => {
+    const rankId = target.dataset.rankId;
+    const cardId = el.dataset.cardId;
+    const card = $cards.find(c => c.id === cardId);
+    const currentRankId = card.rank_id;
+    card.rank_id = rankId;
+    card.busy = true;
+    $cards = $cards; // Trigger a redraw so the card picks up that it's busy
+    try {
+      cards.replace(card.id, await updateCard($board, card, currentRankId));
+    } catch (err) {
+      error('Card update failed!', err);
+    }
+  });
 
   $: {
     switch ($ranks.length) {
@@ -260,6 +295,7 @@
     {#each $ranks as rank, i (rank.id)}
       <Rank
         bind:rank
+        bind:drake
         on:error={handleError}
         send={cardSend}
         receive={cardReceive} />

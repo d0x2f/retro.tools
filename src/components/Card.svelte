@@ -22,7 +22,7 @@
   let showDeleteCardConfirmBox = false;
   let newRank = $ranks[0].id;
   let newComment;
-  let busy = false;
+  let self;
 
   const dispatch = createEventDispatcher();
 
@@ -37,6 +37,7 @@
 
   function toggleEditCardModal() {
     showEditCardModal = !showEditCardModal;
+    self.parentElement.dataset.drag = 'false';
   }
 
   async function updateCardSubmit() {
@@ -45,13 +46,11 @@
     const newCard = { ...card };
     newCard.description = newComment;
     newCard.rank_id = newRank;
-    busy = true;
+    card.busy = true;
     try {
       cards.replace(card.id, await updateCard($board, newCard, currentRankId));
     } catch (err) {
       error('Card update failed!', err);
-    } finally {
-      busy = false;
     }
   }
 
@@ -68,14 +67,12 @@
 
   async function deleteCardSubmit() {
     toggleDeleteCardConfirmBox();
-    busy = true;
+    card.busy = true;
     try {
       await deleteCard($board, card);
       cards.remove(card.id);
     } catch (err) {
       error('Card deletion failed!', err);
-    } finally {
-      busy = false;
     }
   }
 
@@ -85,7 +82,7 @@
     } catch (err) {
       error('Vote failed!', err);
     } finally {
-      busy = false;
+      card.busy = false;
     }
   }
 
@@ -95,7 +92,7 @@
     } catch (err) {
       error('Vote failed!', err);
     } finally {
-      busy = false;
+      card.busy = false;
     }
   }
 </script>
@@ -122,7 +119,9 @@
   }
 </style>
 
-<div class="d-flex flex-column w-90 shadow-sm card {busy ? 'busy' : ''}">
+<div
+  class="d-flex flex-column w-90 shadow-sm card {card.busy ? 'busy' : ''}"
+  bind:this={self}>
   <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-1 {color}">
