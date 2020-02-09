@@ -8,6 +8,13 @@
     ],
     "rewrites": [
       {
+        "source": "/boards{,/**}",
+        "run": {
+          "serviceId": "retrotools-api",
+          "region": "us-east1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
