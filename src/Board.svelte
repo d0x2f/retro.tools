@@ -304,22 +304,22 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
-  <div
-    class="d-none d-md-flex justify-content-center pt-3 scroll h-100
-    overflow-x-hidden">
-    {#each $ranks as rank, i (rank.id)}
-      <Rank
-        bind:rank
-        bind:drake
-        on:error={handleError}
-        send={cardSend}
-        receive={cardReceive} />
-      {#if i !== $ranks.length - 1}
-        <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-      {/if}
-    {:else}
-      <p class="text-center text-secondary">There are no columns!</p>
-    {/each}
+  <div class="scroll">
+    <div class="d-none d-md-flex justify-content-center py-3 overflow-hidden">
+      {#each $ranks as rank, i (rank.id)}
+        <Rank
+          bind:rank
+          bind:drake
+          on:error={handleError}
+          send={cardSend}
+          receive={cardReceive} />
+        {#if i !== $ranks.length - 1}
+          <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+        {/if}
+      {:else}
+        <p class="text-center text-secondary">There are no columns!</p>
+      {/each}
+    </div>
   </div>
 
   <div class="d-block flex-grow-1 d-md-none scroll">
