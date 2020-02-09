@@ -304,8 +304,10 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
-  <div class="scroll">
-    <div class="d-none d-md-flex justify-content-center py-3 overflow-hidden">
+  <div class="scroll h-100">
+    <div
+      class="d-none d-md-flex justify-content-center py-3 overflow-hidden
+      min-vh-100">
       {#each $ranks as rank, i (rank.id)}
         <Rank
           bind:rank
