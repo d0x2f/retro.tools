@@ -98,7 +98,7 @@
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div
-        class="text-secondary text-center mt-5 text-center"
+        class="text-secondary text-center mt-5 text-center float-right w-100"
         data-drag="false">
         <small>
           {#if !$board.cards_open}

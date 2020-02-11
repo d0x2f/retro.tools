@@ -74,7 +74,7 @@
     const card = $cards.find(c => c.id === cardId);
     const originalRankId = card.rank_id;
 
-    el.remove();
+    el.parentNode.removeChild(el);
     card.rank_id = rankId;
     card.busy = true;
     $cards = $cards; // Trigger a redraw so the card picks up that it's busy
