@@ -186,10 +186,6 @@
     }
   }
 
-  function onResize() {
-    showNewCardModal = false;
-  }
-
   onMount(async () => {
     // Update on initial load
     await update();
@@ -299,7 +295,7 @@
   }
 </style>
 
-<svelte:window on:resize={onResize} />
+<svelte:window on:orientationchange={() => (showNewCardModal = false)} />
 
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
