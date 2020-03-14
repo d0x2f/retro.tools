@@ -16,13 +16,13 @@ jobs:
       with:
         node-version: 13.x
     - name: Install
-      run: yarn install
+      run: npm install
     - name: Lint
-      run: yarn lint
+      run: npm lint
     - name: Audit
-      run: yarn audit
+      run: npm audit
     - name: Build
-      run: yarn build
+      run: npm build
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:

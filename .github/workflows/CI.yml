@@ -14,10 +14,10 @@ jobs:
       with:
         node-version: 12.x
     - name: Install
-      run: yarn install
+      run: npm install
     - name: Lint
-      run: yarn lint
+      run: npm lint
     - name: Audit
-      run: yarn audit
+      run: npm audit
     - name: Build
-      run: yarn build
+      run: npm build
