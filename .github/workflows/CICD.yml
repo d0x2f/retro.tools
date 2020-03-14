@@ -18,11 +18,11 @@ jobs:
     - name: Install
       run: npm install
     - name: Lint
-      run: npm lint
+      run: npm run lint
     - name: Audit
       run: npm audit
     - name: Build
-      run: npm build
+      run: npm run build
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
