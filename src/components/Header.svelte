@@ -9,6 +9,7 @@
   } from 'sveltestrap';
   import { fly } from 'svelte/transition';
   import ClipboardJS from 'clipboard';
+  import { _ } from 'svelte-i18n';
 
   import QRCode from './QRCode.svelte';
 
@@ -96,7 +97,7 @@
             on:click={() => ($board.cards_open = !$board.cards_open)}>
             <CustomInput
               type="checkbox"
-              label="New Cards Allowed"
+              label={$_('board.options.new_cards_allowed')}
               bind:checked={$board.cards_open} />
           </DropdownItem>
           <DropdownItem
@@ -105,7 +106,7 @@
             on:click={() => ($board.voting_open = !$board.voting_open)}>
             <CustomInput
               type="checkbox"
-              label="Voting Allowed"
+              label={$_('board.options.voting_allowed')}
               bind:checked={$board.voting_open} />
           </DropdownItem>
           <DropdownItem
@@ -113,7 +114,7 @@
             on:click={() => ($settings.sorted = !$settings.sorted)}>
             <CustomInput
               type="checkbox"
-              label="Sort by Votes"
+              label={$_('board.options.sort_by_votes')}
               bind:checked={$settings.sorted} />
           </DropdownItem>
           <DropdownItem
@@ -122,20 +123,20 @@
             class="d-none d-md-block">
             <CustomInput
               type="checkbox"
-              label="Show QR Code"
+              label={$_('board.options.show_qr_code')}
               bind:checked={showQR} />
           </DropdownItem>
           <DropdownItem href={getCSVUrl($board)}>
             <div class="d-inline-block smaller-icon">
               <Icons.download />
             </div>
-            Download CSV
+            {$_('board.options.download_csv')}
           </DropdownItem>
           <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
             <div class="d-inline-block smaller-icon">
               <Icons.link />
             </div>
-            Copy Link
+            {$_('board.options.copy_link')}
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

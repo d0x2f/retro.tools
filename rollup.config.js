@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
+import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -30,6 +31,7 @@ export default {
     !production && livereload('build'),
     production && terser(),
     copy({ targets: [{ src: 'public/*', dest: 'build' }] }),
+    json()
   ],
   watch: {
     clearScreen: false

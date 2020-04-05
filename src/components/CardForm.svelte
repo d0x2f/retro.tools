@@ -1,5 +1,6 @@
 <script>
   import { Input } from 'sveltestrap';
+  import { _ } from 'svelte-i18n';
 
   import { ranks } from '../store.js';
   import { getRankDetails } from '../data.js';
@@ -19,7 +20,7 @@
   <Input
     readonly={undefined}
     type="textarea"
-    placeholder="We need more snacks..."
+    placeholder={$_('card.example_text')}
     bind:value={comment} />
 </div>
 
@@ -39,7 +40,7 @@
         <svelte:component this={getRankDetails(rank).icon} />
       </div>
       <br />
-      {rank.name}
+      {$_(rank.name)}
     </label>
   {/each}
 </div>

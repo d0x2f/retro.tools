@@ -9,6 +9,7 @@
     Alert,
   } from 'sveltestrap';
   import { fade, fly } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
 
   import { gtag } from './ga.js';
   import { createRank, createBoard, getBoards } from './api.js';
@@ -104,15 +105,15 @@
 <div class="d-flex justify-content-center pt-5 scroll">
   <div class="col-md-3">
     <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
-    <p class="text-primary mb-1">Board Name</p>
+    <p class="text-primary mb-1">{$_('splash.board_name')}</p>
     <Input
       readonly={undefined}
       type="text"
       name="boardName"
       id="boardName"
-      placeholder="Sprint 21 Retro"
+      placeholder={$_('splash.board_name_example')}
       bind:value={boardName} />
-    <p class="text-primary my-1">Template</p>
+    <p class="text-primary my-1">{$_('splash.template')}</p>
     <CustomInput
       readonly={undefined}
       type="select"
@@ -120,7 +121,7 @@
       id="templateSelect"
       bind:value={templateKey}>
       {#each Object.entries(BoardTemplates) as [key, template]}
-        <option value={key}>{template.name}</option>
+        <option value={key}>{$_(template.name)}</option>
       {/each}
     </CustomInput>
     <div class="go-button">
@@ -137,19 +138,19 @@
               <Icons.plus />
             {/if}
           </div>
-          Create
+          {$_('splash.create')}
         </div>
       </Button>
     </div>
 
     {#if boards.length > 0}
       <div in:fade>
-        <p class="text-primary my-3">Your Boards</p>
+        <p class="text-primary my-3">{$_('splash.your_boards')}</p>
         <Table hover class="w-100">
           <thead>
             <tr>
-              <th>Name</th>
-              <th class="text-right">Created</th>
+              <th>{$_('splash.name')}</th>
+              <th class="text-right">{$_('splash.created')}</th>
               <th class="w-25" />
             </tr>
           </thead>

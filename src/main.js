@@ -3,10 +3,12 @@ import svelte from 'crayon-svelte';
 import animate from 'crayon-animate';
 import Splash from './Splash.svelte';
 import Board from './Board.svelte';
+import { _ } from 'svelte-i18n';
 
 import { gtag } from './ga.js';
 import { board, ranks } from './store.js';
 import { getRanks, getBoard } from './api.js';
+import './i18n.js';
 
 gtag('js', new Date());
 gtag('config', 'UA-73143855-2');
@@ -25,7 +27,7 @@ async function mountBoard(res, boardId) {
     return res.mount(Splash, {
       nav: app,
       errorAlertVisible: true,
-      errorAlertMessage: 'Unable to find requested board!',
+      errorAlertMessage: _('error.board_not_found'),
     });
   }
 }

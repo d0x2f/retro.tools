@@ -1,5 +1,6 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n';
 
   import { board, cards, ranks } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
@@ -148,7 +149,7 @@
         class="text-capitalize flex-grow-1"
         disabled={!$board.voting_open}
         on:click={downvote}>
-        undo
+        {$_('card.undo')}
       </Button>
     {:else}
       <Button
@@ -156,7 +157,7 @@
         class="text-capitalize flex-grow-1"
         disabled={!$board.voting_open}
         on:click={upvote}>
-        agree
+        {$_('card.agree')}
       </Button>
     {/if}
     <Button
@@ -164,27 +165,27 @@
       class="text-capitalize flex-grow-1"
       disabled={!(card.owner || $board.owner)}
       on:click={editCardModal}>
-      edit
+      {$_('card.edit')}
     </Button>
   </div>
   {#if showDeleteCardConfirmBox}
     <div
       class="d-flex flex-column justify-content-center position-absolute w-100
       h-100 text-center">
-      <span class="mb-2">Are you sure?</span>
+      <span class="mb-2">{$_('card.are_you_sure')}</span>
       <div class="">
         <Button
           color="dark"
           class="text-capitalize flex-grow-1"
           on:click={toggleDeleteCardConfirmBox}>
-          cancel
+          {$_('card.cancel')}
         </Button>
 
         <Button
           color="danger"
           class="text-capitalize flex-grow-1"
           on:click={deleteCardSubmit}>
-          delete
+          {$_('card.delete')}
         </Button>
       </div>
     </div>
@@ -192,12 +193,16 @@
 </div>
 
 <Modal isOpen={showEditCardModal} toggle={toggleEditCardModal}>
-  <ModalHeader toggle={toggleEditCardModal}>Edit Card</ModalHeader>
+  <ModalHeader toggle={toggleEditCardModal}>{$_('card.edit_card')}</ModalHeader>
   <ModalBody>
     <CardForm bind:rankId={newRank} bind:comment={newComment} />
   </ModalBody>
   <ModalFooter>
-    <Button color="secondary" on:click={toggleEditCardModal}>Cancel</Button>
-    <Button color="primary" on:click={updateCardSubmit}>Save</Button>
+    <Button color="secondary" on:click={toggleEditCardModal}>
+      {$_('card.cancel')}
+    </Button>
+    <Button color="primary" on:click={updateCardSubmit}>
+      {$_('card.save')}
+    </Button>
   </ModalFooter>
 </Modal>
