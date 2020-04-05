@@ -1,6 +1,6 @@
 {
   "splash.board_name": "Board Name",
-  "splash.board_name_example": "Sprint 21 Retro",
+  "splash.board_name_example": "Sprint 21 Retrospective",
   "splash.template": "Template",
   "splash.create": "Create",
   "splash.your_boards": "Your Boards",
@@ -48,5 +48,7 @@
   "card.undo": "Undo",
   "card.edit": "Edit",
   "card.delete": "Delete",
-  "card.are_you_sure": "Are you sure?"
+  "card.are_you_sure": "Are you sure?",
+  "language.en": "English",
+  "language.es": "Español"
 }

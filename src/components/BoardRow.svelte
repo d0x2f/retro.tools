@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { Button, Spinner } from 'sveltestrap';
   import moment from 'moment';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
 
   import { Icons } from '../data.js';
   import { deleteBoard } from '../api.js';
@@ -41,7 +41,6 @@
 </style>
 
 <tr>
-
   <td
     class="align-middle board-link"
     on:click={() => nav.navigate(`/${board.id}`)}>
@@ -52,7 +51,9 @@
     {/if}
   </td>
   <td class="text-right align-middle">
-    {moment(new Date(board.created_at.secs_since_epoch * 1000)).fromNow()}
+    {moment(new Date(board.created_at.secs_since_epoch * 1000))
+      .locale($locale)
+      .fromNow()}
   </td>
   {#if showDeleteBoardConfirmBox}
     <td>

@@ -48,5 +48,7 @@
   "card.undo": "Deshacer",
   "card.edit": "Editar",
   "card.delete": "Eliminar",
-  "card.are_you_sure": "¿Estas segura?"
+  "card.are_you_sure": "¿Estas segura?",
+  "language.en": "English",
+  "language.es": "Español"
 }

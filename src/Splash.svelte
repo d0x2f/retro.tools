@@ -16,6 +16,7 @@
   import { Icons, BoardTemplates } from './data.js';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import BoardRow from './components/BoardRow.svelte';
+  import LocaleSelect from './components/LocaleSelect.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
@@ -104,7 +105,10 @@
 
 <div class="d-flex justify-content-center pt-5 scroll">
   <div class="col-md-3">
-    <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="text-primary text-uppercase mb-3">retro.tools</h1>
+      <LocaleSelect />
+    </div>
     <p class="text-primary mb-1">{$_('splash.board_name')}</p>
     <Input
       readonly={undefined}
