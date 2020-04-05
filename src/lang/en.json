@@ -22,7 +22,7 @@
   "board.template.mad_sad_glad.column.glad": "Glad",
   "board.template.well_not_well_lacking.name": "Went well, Didn't go well, Lacking",
   "board.template.well_not_well_lacking.column.went_well": "Went well",
-  "board.template.well_not_well_lacking.column.did_no_go_well": "Didn't go well",
+  "board.template.well_not_well_lacking.column.did_not_go_well": "Didn't go well",
   "board.template.well_not_well_lacking.column.lacking": "Lacking",
   "board.template.liked_lacked_learned.name": "Liked, Lacked, Learned",
   "board.template.liked_lacked_learned.column.liked": "Liked",
