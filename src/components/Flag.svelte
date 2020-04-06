@@ -10,4 +10,4 @@
   }
 </style>
 
-<img class="flag" src="/flags/{code}.svg" />
+<img class="flag" src="/flags/{code}.svg" alt="Language flag for '{code}'" />

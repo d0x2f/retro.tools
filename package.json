@@ -39,8 +39,8 @@
     "dev": "run-p start:dev autobuild",
     "start": "sirv public --single",
     "start:dev": "sirv build --single --dev --host 0.0.0.0",
-    "lint": "prettier --check 'src/**' && eslint 'src/**'",
-    "lint:fix": "prettier --write 'src/**' && eslint --fix 'src/**'",
+    "lint": "prettier --check 'src/**/*.{js,svelte}' && eslint 'src/**/*.{js,svelte}'",
+    "lint:fix": "prettier --write 'src/**/*.{js,svelte}' && eslint --fix 'src/**/*.{js,svelte}'",
     "postbuild": "node post-build.js; ls build/"
   }
 }

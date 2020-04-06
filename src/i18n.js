@@ -14,5 +14,6 @@ addMessages('es', es);
 
 init({
   fallbackLocale: 'en',
-  initialLocale: window.localStorage.getItem('locale') || getLocaleFromNavigator(),
+  initialLocale:
+    window.localStorage.getItem('locale') || getLocaleFromNavigator(),
 });

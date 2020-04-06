@@ -121,7 +121,7 @@ export const BoardTemplates = {
     ],
   },
   wellNotWellLacking: {
-    name: "board.template.well_not_well_lacking.name",
+    name: 'board.template.well_not_well_lacking.name',
     ranks: [
       {
         name: 'board.template.well_not_well_lacking.column.went_well',
@@ -129,7 +129,7 @@ export const BoardTemplates = {
         color: 'green',
       },
       {
-        name: "board.template.well_not_well_lacking.column.did_not_go_well",
+        name: 'board.template.well_not_well_lacking.column.did_not_go_well',
         icon: 'thumbsdown',
         color: 'blue',
       },
