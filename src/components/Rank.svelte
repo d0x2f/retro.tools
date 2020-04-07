@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { flip } from 'svelte/animate';
+  import { _ } from 'svelte-i18n';
 
   import { board, cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
@@ -72,7 +73,7 @@
       <svelte:component this={rankDetails.icon} />
     </div>
     <br />
-    {rank.name}
+    {$_(rank.name)}
   </div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
     {#if $cards}
@@ -103,10 +104,9 @@
         <small>
           {#if !$board.cards_open}
             {#if $board.owner}
-              Card creation is disabled, enable it using the drop down menu in
-              the top right.
-            {:else}Card creation is disabled by the board owner.{/if}
-          {:else}No cards{/if}
+              {$_('board.creation_disabled_as_owner')}
+            {:else}{$_('board.creation_disabled_as_participant')}{/if}
+          {:else}{$_('board.no_cards')}{/if}
         </small>
       </div>
     {/if}

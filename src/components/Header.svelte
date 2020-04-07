@@ -9,8 +9,10 @@
   } from 'sveltestrap';
   import { fly } from 'svelte/transition';
   import ClipboardJS from 'clipboard';
+  import { _ } from 'svelte-i18n';
 
   import QRCode from './QRCode.svelte';
+  import LocaleSelect from './LocaleSelect.svelte';
 
   import { board, settings } from '../store.js';
   import { Icons } from '../data.js';
@@ -80,65 +82,70 @@
       {$board.name}
     </div>
     <div class="col d-flex mb-1 mr-1 justify-content-end">
-      <Dropdown
-        size="sm"
-        bind:isOpen={optionsOpen}
-        toggle={() => (optionsOpen = !optionsOpen)}>
-        <DropdownToggle color="primary">
-          <div class="icon">
-            <Icons.ellispses />
-          </div>
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            toggle={false}
-            disabled={!$board.owner}
-            on:click={() => ($board.cards_open = !$board.cards_open)}>
-            <CustomInput
-              type="checkbox"
-              label="New Cards Allowed"
-              bind:checked={$board.cards_open} />
-          </DropdownItem>
-          <DropdownItem
-            toggle={false}
-            disabled={!$board.owner}
-            on:click={() => ($board.voting_open = !$board.voting_open)}>
-            <CustomInput
-              type="checkbox"
-              label="Voting Allowed"
-              bind:checked={$board.voting_open} />
-          </DropdownItem>
-          <DropdownItem
-            toggle={false}
-            on:click={() => ($settings.sorted = !$settings.sorted)}>
-            <CustomInput
-              type="checkbox"
-              label="Sort by Votes"
-              bind:checked={$settings.sorted} />
-          </DropdownItem>
-          <DropdownItem
-            toggle={false}
-            on:click={() => (showQR = !showQR)}
-            class="d-none d-md-block">
-            <CustomInput
-              type="checkbox"
-              label="Show QR Code"
-              bind:checked={showQR} />
-          </DropdownItem>
-          <DropdownItem href={getCSVUrl($board)}>
-            <div class="d-inline-block smaller-icon">
-              <Icons.download />
+      <div class="mr-1">
+        <LocaleSelect />
+      </div>
+      <div>
+        <Dropdown
+          size="sm"
+          bind:isOpen={optionsOpen}
+          toggle={() => (optionsOpen = !optionsOpen)}>
+          <DropdownToggle color="primary">
+            <div class="icon">
+              <Icons.ellispses />
             </div>
-            Download CSV
-          </DropdownItem>
-          <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
-            <div class="d-inline-block smaller-icon">
-              <Icons.link />
-            </div>
-            Copy Link
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              toggle={false}
+              disabled={!$board.owner}
+              on:click={() => ($board.cards_open = !$board.cards_open)}>
+              <CustomInput
+                type="checkbox"
+                label={$_('board.options.new_cards_allowed')}
+                bind:checked={$board.cards_open} />
+            </DropdownItem>
+            <DropdownItem
+              toggle={false}
+              disabled={!$board.owner}
+              on:click={() => ($board.voting_open = !$board.voting_open)}>
+              <CustomInput
+                type="checkbox"
+                label={$_('board.options.voting_allowed')}
+                bind:checked={$board.voting_open} />
+            </DropdownItem>
+            <DropdownItem
+              toggle={false}
+              on:click={() => ($settings.sorted = !$settings.sorted)}>
+              <CustomInput
+                type="checkbox"
+                label={$_('board.options.sort_by_votes')}
+                bind:checked={$settings.sorted} />
+            </DropdownItem>
+            <DropdownItem
+              toggle={false}
+              on:click={() => (showQR = !showQR)}
+              class="d-none d-md-block">
+              <CustomInput
+                type="checkbox"
+                label={$_('board.options.show_qr_code')}
+                bind:checked={showQR} />
+            </DropdownItem>
+            <DropdownItem href={getCSVUrl($board)}>
+              <div class="d-inline-block smaller-icon">
+                <Icons.download />
+              </div>
+              {$_('board.options.download_csv')}
+            </DropdownItem>
+            <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
+              <div class="d-inline-block smaller-icon">
+                <Icons.link />
+              </div>
+              {$_('board.options.copy_link')}
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     </div>
   </div>
   <div class="text-secondary d-md-none px-3 text-center">{$board.name}</div>

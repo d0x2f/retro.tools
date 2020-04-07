@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { Button, Spinner } from 'sveltestrap';
   import moment from 'moment';
+  import { _, locale } from 'svelte-i18n';
 
   import { Icons } from '../data.js';
   import { deleteBoard } from '../api.js';
@@ -28,7 +29,7 @@
       await deleteBoard(board.id);
       dispatch('deleted');
     } catch (err) {
-      error('Error deleting board!', err);
+      error(_('splash.board_delete_error'), err);
     }
   }
 </script>
@@ -40,18 +41,19 @@
 </style>
 
 <tr>
-
   <td
     class="align-middle board-link"
     on:click={() => nav.navigate(`/${board.id}`)}>
     {#if board.name}
       {board.name}
     {:else}
-      <i class="small">(No name given)</i>
+      <i class="small">{$_('splash.no_name')}</i>
     {/if}
   </td>
   <td class="text-right align-middle">
-    {moment(new Date(board.created_at.secs_since_epoch * 1000)).fromNow()}
+    {moment(new Date(board.created_at.secs_since_epoch * 1000))
+      .locale($locale)
+      .fromNow()}
   </td>
   {#if showDeleteBoardConfirmBox}
     <td>

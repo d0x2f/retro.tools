@@ -76,85 +76,85 @@ export const Icons = {
 
 export const BoardTemplates = {
   dropAddKeepImprove: {
-    name: 'Drop, Add, Keep, Improve',
+    name: 'board.template.drop_add_keep_improve.name',
     ranks: [
       {
-        name: 'drop',
+        name: 'board.template.drop_add_keep_improve.column.drop',
         icon: 'delete',
         color: 'red',
       },
       {
-        name: 'add',
+        name: 'board.template.drop_add_keep_improve.column.add',
         icon: 'pluscircle',
         color: 'green',
       },
       {
-        name: 'keep',
+        name: 'board.template.drop_add_keep_improve.column.keep',
         icon: 'star',
         color: 'blue',
       },
       {
-        name: 'improve',
+        name: 'board.template.drop_add_keep_improve.column.improve',
         icon: 'trendingup',
         color: 'yellow',
       },
     ],
   },
   madSadGlad: {
-    name: 'Mad, Sad, Glad',
+    name: 'board.template.mad_sad_glad.name',
     ranks: [
       {
-        name: 'mad',
+        name: 'board.template.mad_sad_glad.column.mad',
         icon: 'frown',
         color: 'red',
       },
       {
-        name: 'sad',
+        name: 'board.template.mad_sad_glad.column.sad',
         icon: 'meh',
         color: 'blue',
       },
       {
-        name: 'glad',
+        name: 'board.template.mad_sad_glad.column.glad',
         icon: 'smile',
         color: 'green',
       },
     ],
   },
   wellNotWellLacking: {
-    name: "Went well, Didn't go well, Lacking",
+    name: 'board.template.well_not_well_lacking.name',
     ranks: [
       {
-        name: 'went well',
+        name: 'board.template.well_not_well_lacking.column.went_well',
         icon: 'thumbsup',
         color: 'green',
       },
       {
-        name: "didn't go well",
+        name: 'board.template.well_not_well_lacking.column.did_not_go_well',
         icon: 'thumbsdown',
         color: 'blue',
       },
       {
-        name: 'lacking',
+        name: 'board.template.well_not_well_lacking.column.lacking',
         icon: 'minuscircle',
         color: 'red',
       },
     ],
   },
-  likedLovedLacked: {
-    name: 'Liked, Lacked, Learned',
+  likedLackedLearned: {
+    name: 'board.template.liked_lacked_learned.name',
     ranks: [
       {
-        name: 'liked',
+        name: 'board.template.liked_lacked_learned.column.liked',
         icon: 'thumbsup',
         color: 'green',
       },
       {
-        name: 'lacked',
+        name: 'board.template.liked_lacked_learned.column.lacked',
         icon: 'thumbsdown',
         color: 'red',
       },
       {
-        name: 'learned',
+        name: 'board.template.liked_lacked_learned.column.learned',
         icon: 'book',
         color: 'cyan',
       },

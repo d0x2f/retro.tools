@@ -12,8 +12,9 @@
   } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
   import { crossfade, fade, fly } from 'svelte/transition';
-  import _ from 'lodash';
+  import lodash from 'lodash';
   import dragula from 'dragula';
+  import { _ } from 'svelte-i18n';
 
   import { board, ranks, cards } from './store.js';
   import {
@@ -181,7 +182,7 @@
       );
       newCardComment = '';
     } catch (err) {
-      error('Error creating card!', err);
+      error(_('error.creating_card'), err);
       cards.remove(tempId);
     }
   }
@@ -200,7 +201,7 @@
     if ($board.owner)
       unsubscribe = board.subscribe(b => {
         try {
-          if (!_.isEqual(previousBoard, b)) updateBoard(b);
+          if (!lodash.isEqual(previousBoard, b)) updateBoard(b);
         } catch (err) {
           error('Error updating settings!', err);
         }
@@ -288,6 +289,10 @@
     z-index: 1040;
   }
 
+  .min-vh-90 {
+    min-height: 90vh;
+  }
+
   @media (max-width: 768px) {
     .add-button {
       bottom: 6em;
@@ -303,7 +308,7 @@
   <div class="d-none d-md-block scroll h-100">
     <div
       class="d-none d-md-flex justify-content-center py-3 overflow-hidden
-      min-vh-100">
+      min-vh-90">
       {#each $ranks as rank, i (rank.id)}
         <Rank
           bind:rank
@@ -327,17 +332,17 @@
         transition:fade
         class="flex-grow-1 p-2 d-block d-md-none h-100 w-100 position-absolute
         new-card-form bg-light">
-        <Label for="cardText" class="text-primary">New Card</Label>
+        <Label for="cardText" class="text-primary">{$_('card.new_card')}</Label>
         <Input
           readonly={undefined}
           id="cardText"
           type="textarea"
-          placeholder="We need more snacks..."
+          placeholder={$_('card.example_text')}
           bind:value={newCardComment}
           class="mb-2" />
         <div class="d-flex justify-content-end">
           <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
-            Cancel
+            {$_('card.cancel')}
           </Button>
           <Button
             class="mx-1"
@@ -347,7 +352,7 @@
               toggleNewCardForm();
               newCard();
             }}>
-            Create
+            {$_('card.create')}
           </Button>
         </div>
       </div>
@@ -357,7 +362,7 @@
         <Rank bind:rank on:error={handleError} />
       {/if}
     {:else}
-      <p class="text-center text-secondary mt-5">There are no columns!</p>
+      <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
     {/each}
   </div>
 
@@ -376,7 +381,7 @@
         in:fly={{ x: -200, duration: 200 }}
         out:fly={{ x: -200, duration: 200 }}>
         <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-          Connection Lost!
+          {$_(error.connection_lost)}
         </Alert>
       </div>
     {/if}
@@ -397,7 +402,7 @@
               <svelte:component this={getRankDetails(rank).icon} />
             </div>
             <br />
-            {rank.name}
+            {$_(rank.name)}
           </label>
         </div>
       {/each}
@@ -419,7 +424,7 @@
         in:fly={{ y: 100, duration: 200 }}
         out:fly={{ y: 100, duration: 200 }}>
         <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-          Connection Lost!
+          {$_(error.connection_lost)}
         </Alert>
       </div>
     {/if}
@@ -447,12 +452,14 @@
   duration="100"
   isOpen={showNewCardModal}
   toggle={toggleNewCardModal}>
-  <ModalHeader toggle={toggleNewCardModal}>New Card</ModalHeader>
+  <ModalHeader toggle={toggleNewCardModal}>{$_('card.new_card')}</ModalHeader>
   <ModalBody>
     <CardForm bind:rankId={selectedRank} bind:comment={newCardComment} />
   </ModalBody>
   <ModalFooter>
-    <Button color="secondary" on:click={toggleNewCardModal}>Cancel</Button>
+    <Button color="secondary" on:click={toggleNewCardModal}>
+      {$_('card.cancel')}
+    </Button>
     <Button
       color="primary"
       disabled={newCardComment.length === 0}
@@ -460,7 +467,7 @@
         toggleNewCardModal();
         newCard();
       }}>
-      Create
+      {$_('card.create')}
     </Button>
   </ModalFooter>
 </Modal>
