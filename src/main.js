@@ -3,7 +3,6 @@ import svelte from 'crayon-svelte';
 import animate from 'crayon-animate';
 import Splash from './Splash.svelte';
 import Board from './Board.svelte';
-import { _ } from 'svelte-i18n';
 
 import { gtag } from './ga.js';
 import { board, ranks } from './store.js';
