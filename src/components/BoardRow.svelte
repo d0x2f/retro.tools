@@ -29,7 +29,7 @@
       await deleteBoard(board.id);
       dispatch('deleted');
     } catch (err) {
-      error(_('splash.board_delete_error'), err);
+      error('error.board_delete', err);
     }
   }
 </script>

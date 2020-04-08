@@ -20,7 +20,7 @@
 
   export let nav;
   export let errorAlertVisible = false;
-  export let errorAlertMessage = 'Network error!';
+  export let errorAlertMessage = 'error.network';
 
   let boardName = '';
   let templateKey = 'dropAddKeepImprove';
@@ -68,7 +68,7 @@
       errorAlertVisible = false;
       nav.navigate(`/${board.id}`);
     } catch (err) {
-      error('Error creating board!', err);
+      error('error.creating_board', err);
     }
   }
 
@@ -181,7 +181,7 @@
     in:fly={{ y: 100, duration: 200 }}
     out:fly={{ y: 100, duration: 200 }}>
     <Alert class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
-      {errorAlertMessage}
+      {$_(errorAlertMessage)}
     </Alert>
   </div>
 {/if}

@@ -82,7 +82,7 @@
     try {
       cards.replace(card.id, await updateCard($board, card, originalRankId));
     } catch (err) {
-      error('Card update failed!', err);
+      error('error.updating_card', err);
       card.rank_id = originalRankId; // Send the card back
       card.busy = false;
       $cards = $cards; // Force redraw
@@ -182,7 +182,7 @@
       );
       newCardComment = '';
     } catch (err) {
-      error(_('error.creating_card'), err);
+      error('error.creating_card', err);
       cards.remove(tempId);
     }
   }
@@ -203,7 +203,7 @@
         try {
           if (!lodash.isEqual(previousBoard, b)) updateBoard(b);
         } catch (err) {
-          error('Error updating settings!', err);
+          error('error.updating_settings', err);
         }
         previousBoard = { ...b };
       });
@@ -372,7 +372,7 @@
         in:fly={{ x: -200, duration: 200 }}
         out:fly={{ x: -200, duration: 200 }}>
         <Alert class="mb-0 py-1" color="warning" isOpen={true}>
-          {errorAlertMessage}
+          {$_(errorAlertMessage)}
         </Alert>
       </div>
     {/if}
@@ -381,7 +381,7 @@
         in:fly={{ x: -200, duration: 200 }}
         out:fly={{ x: -200, duration: 200 }}>
         <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-          {$_(error.connection_lost)}
+          {$_('error.connection_lost')}
         </Alert>
       </div>
     {/if}
@@ -415,7 +415,7 @@
         in:fly={{ y: 100, duration: 200 }}
         out:fly={{ y: 100, duration: 200 }}>
         <Alert class="mb-0 py-1" color="warning" isOpen={true}>
-          {errorAlertMessage}
+          {$_(errorAlertMessage)}
         </Alert>
       </div>
     {/if}
@@ -424,7 +424,7 @@
         in:fly={{ y: 100, duration: 200 }}
         out:fly={{ y: 100, duration: 200 }}>
         <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-          {$_(error.connection_lost)}
+          {$_('error.connection_lost')}
         </Alert>
       </div>
     {/if}

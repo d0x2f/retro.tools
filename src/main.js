@@ -27,7 +27,7 @@ async function mountBoard(res, boardId) {
     return res.mount(Splash, {
       nav: app,
       errorAlertVisible: true,
-      errorAlertMessage: _('error.board_not_found'),
+      errorAlertMessage: 'error.board_not_found',
     });
   }
 }

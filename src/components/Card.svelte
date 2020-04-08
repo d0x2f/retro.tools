@@ -51,7 +51,7 @@
     try {
       cards.replace(card.id, await updateCard($board, newCard, currentRankId));
     } catch (err) {
-      error('Card update failed!', err);
+      error('error.updating_card', err);
     }
   }
 
@@ -73,7 +73,7 @@
       await deleteCard($board, card);
       cards.remove(card.id);
     } catch (err) {
-      error('Card deletion failed!', err);
+      error('error.card_delete', err);
     }
   }
 
@@ -81,7 +81,7 @@
     try {
       cards.replace(card.id, await agree($board, card));
     } catch (err) {
-      error('Vote failed!', err);
+      error('error.vote_failed', err);
     } finally {
       card.busy = false;
     }
@@ -91,7 +91,7 @@
     try {
       cards.replace(card.id, await undoAgree($board, card));
     } catch (err) {
-      error('Vote failed!', err);
+      error('error.vote_failed', err);
     } finally {
       card.busy = false;
     }
