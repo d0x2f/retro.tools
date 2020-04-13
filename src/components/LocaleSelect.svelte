@@ -26,7 +26,7 @@
     <Flag code={$locale} />
   </DropdownToggle>
   <DropdownMenu right>
-    {#each $locales as locale}
+    {#each $locales.sort() as locale}
       <DropdownItem toggle={true} on:click={() => setLocale(locale)}>
         <Flag code={locale} />
         {$_('language.' + locale)}
