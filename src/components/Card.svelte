@@ -118,6 +118,10 @@
     line-height: 1;
     font-size: 1rem;
   }
+
+  .pre-wrap {
+    white-space: pre-wrap;
+  }
 </style>
 
 <div
@@ -129,7 +133,7 @@
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-1 w-100 font-weight-bold">
+    <span class="p-1 w-100 font-weight-bold pre-wrap">
       {#if $board.cards_open && (card.owner || $board.owner)}
         <div class="delete-button float-right">
           <FloatingActionButton
