@@ -1,4 +1,4 @@
-<h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">Retro.tools</h1>
+<h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">RETRO.TOOLS</h1>
 
 This project is a web frontend for retrograde, an online agile retrospective tool.
 
@@ -16,9 +16,6 @@ The backend project lives at: [d0x2f/retrograde.rs](https://github.com/d0x2f/ret
 * Multiple pre-built templates
 * English, German, Spanish and Korean translations
 
-<h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">Screenshots</h1>
+<h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">Screenshot</h1>
 
-<div>
-<img style="display:inline-block;vertical-align:top;" width="300" src="docs/images/mobile.png">
-<img style="display:inline-block;vertical-align:top;" width="800" src="docs/images/desktop.png">
-</div>
+<img width="300" src="docs/images/mobile.png">
