@@ -1,6 +1,6 @@
 // TODO: config option
-const api_host = 'https://retro.tools';
-// const api_host = 'http://127.0.0.1:8000';
+// const api_host = 'https://retro.tools';
+const api_host = 'http://127.0.0.1:8000';
 
 const common_options = {
   mode: 'cors',
@@ -55,6 +55,7 @@ export async function createBoard(name) {
     method: 'POST',
     body: JSON.stringify({
       name,
+      cards_open: true,
     }),
     ...common_options,
   });

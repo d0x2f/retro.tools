@@ -1,6 +1,5 @@
+public/build/
 .firebase/
-build/
+node_modules/
 .DS_Store
-node_modules
-public/bundle.*
 *.log
