@@ -44,7 +44,7 @@ app.use(
 app.path('/', context => context.mount(Splash, { nav: app }));
 app.path('/:id', async context => {
   const sub = app.events.subscribe(event => {
-    if (event.type === 'ROUTER_END') {
+    if (event.type === crayon.RouterEventType.ProgressEnd) {
       return mountBoard(context, context.params.id);
     }
   });
