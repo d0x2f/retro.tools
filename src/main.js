@@ -13,7 +13,7 @@ gtag('js', new Date());
 gtag('config', 'UA-73143855-2');
 gtag('config', 'AW-996832467');
 
-async function mountBoard(res, boardId) {
+async function mountBoard(context, boardId) {
   try {
     let [board_result, ranks_result] = await Promise.all([
       getBoard(boardId),
@@ -21,9 +21,9 @@ async function mountBoard(res, boardId) {
     ]);
     board.set(board_result);
     ranks.set(ranks_result);
-    return res.mount(Board, { nav: app });
+    return context.mount(Board, { nav: app });
   } catch {
-    return res.mount(Splash, {
+    return context.mount(Splash, {
       nav: app,
       errorAlertVisible: true,
       errorAlertMessage: 'error.board_not_found',
@@ -41,14 +41,14 @@ app.use(
   })
 );
 
-app.path('/', (_req, res) => res.mount(Splash, { nav: app }));
-app.path('/:id', async (req, res) => {
+app.path('/', context => context.mount(Splash, { nav: app }));
+app.path('/:id', async context => {
   const sub = app.events.subscribe(event => {
     if (event.type === 'ROUTER_END') {
-      return mountBoard(res, req.params.id);
+      return mountBoard(context, context.params.id);
     }
   });
-  res.onLeave(() => sub.unsubscribe());
+  context.onLeave(() => sub.unsubscribe());
 });
 
 app.load();

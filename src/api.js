@@ -55,6 +55,7 @@ export async function createBoard(name) {
     method: 'POST',
     body: JSON.stringify({
       name,
+      cards_open: true,
     }),
     ...common_options,
   });
