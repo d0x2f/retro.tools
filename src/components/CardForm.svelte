@@ -21,7 +21,8 @@
   }
 
   function checkSubmission(event) {
-    if (event.keyCode === 13) {
+    console.log(event);
+    if (event.keyCode === 13 && !event.shiftKey) {
       if (input.value.length > 0) {
         dispatch('submit', {
           text: input.value,
@@ -47,7 +48,6 @@
     padding: 8px;
     box-sizing: border-box;
     outline: none;
-
   }
 
   textarea:focus {
