@@ -58,11 +58,11 @@
   }
 
   async function newCard() {
-    if(!$board.cards_open) {
+    if (!$board.cards_open) {
       if ($board.owner) {
-        error($_('board.creation_disabled_as_owner'))
+        error($_('board.creation_disabled_as_owner'));
       } else {
-        error($_('board.creation_disabled_as_participant'))
+        error($_('board.creation_disabled_as_participant'));
       }
       return;
     }
@@ -109,9 +109,9 @@
 <div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
   <div class="border-bottom d-flex p-2 mb-2 {rankDetails.classes.color}">
     <div class="icon p-2">
-        <svelte:component this={rankDetails.icon} />
+      <svelte:component this={rankDetails.icon} />
     </div>
-    <CardForm on:submit={newCard} placeholder={$_(rank.name)} bind:comment/>
+    <CardForm on:submit={newCard} placeholder={$_(rank.name)} bind:comment />
     <div class="d-md-none ml-1">
       <Button color="light" disabled={comment.length == 0} on:click={newCard}>
         <div class="icon">

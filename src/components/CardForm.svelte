@@ -1,6 +1,5 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
-  import { _ } from 'svelte-i18n';
   import { autoresize } from 'svelte-textarea-autoresize';
 
   export let comment = '';

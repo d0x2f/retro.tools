@@ -2,13 +2,11 @@
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
 
-  import { board, cards, ranks } from '../store.js';
+  import { board, cards } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Button } from 'sveltestrap';
-  import { Icons } from '../data.js';
 
   import CardForm from './CardForm.svelte';
-  import FloatingActionButton from './FloatingActionButton.svelte';
 
   export let card;
   export let color = 'text-primary';

@@ -1,31 +1,18 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import {
-    Alert,
-    Button,
-    Input,
-    Label
-  } from 'sveltestrap';
+  import { Alert } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
-  import { crossfade, fade, fly } from 'svelte/transition';
+  import { crossfade, fly } from 'svelte/transition';
   import lodash from 'lodash';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
 
   import { board, ranks, cards } from './store.js';
-  import {
-    updateBoard,
-    updateCard,
-    createCard,
-    getCards,
-    getBoard,
-  } from './api.js';
-  import { Icons, getRankDetails } from './data.js';
+  import { updateBoard, updateCard, getCards, getBoard } from './api.js';
+  import { getRankDetails } from './data.js';
 
-  import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
-  import CardForm from './components/CardForm.svelte';
 
   export let nav;
 
