@@ -1,11 +1,14 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
   import { flip } from 'svelte/animate';
   import { _ } from 'svelte-i18n';
+  import { Button } from 'sveltestrap';
 
   import { board, cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
-  import { getRankDetails } from '../data.js';
+  import CardForm from './CardForm.svelte';
+  import { getRankDetails, Icons } from '../data.js';
+  import { createCard } from '../api.js';
 
   export let rank;
   export let send = false;
@@ -18,6 +21,9 @@
 
   let sortedFilteredCards;
   let columnWidth = 'col-md-3';
+  let comment = '';
+
+  const dispatch = createEventDispatcher();
 
   $: {
     sortedFilteredCards = $cards
@@ -47,6 +53,40 @@
     }
   }
 
+  function error(message, err) {
+    dispatch('error', { message, err });
+  }
+
+  async function newCard() {
+    if(!$board.cards_open) {
+      if ($board.owner) {
+        error($_('board.creation_disabled_as_owner'))
+      } else {
+        error($_('board.creation_disabled_as_participant'))
+      }
+      return;
+    }
+
+    const tempId = Math.floor(Math.random() * 10000);
+    cards.append({
+      id: tempId,
+      name: 'Card',
+      description: comment,
+      rank_id: rank.id,
+      uncommitted: true,
+      votes: 0,
+      created_at: {
+        secs_since_epoch: Date.now() / 1000,
+      },
+    });
+    try {
+      cards.replace(tempId, await createCard($board.id, rank.id, comment));
+    } catch (err) {
+      error('error.creating_card', err);
+      cards.remove(tempId);
+    }
+  }
+
   onMount(() => {
     if (drake) {
       drake.containers.push(dropTarget);
@@ -62,18 +102,23 @@
   .icon {
     width: 1.5em;
     height: 1.5em;
+    box-sizing: content-box;
   }
 </style>
 
 <div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
-  <div
-    class="header d-none d-md-block {rankDetails.classes.color} border-bottom
-    text-uppercase mb-2">
-    <div class="icon d-inline-block">
-      <svelte:component this={rankDetails.icon} />
+  <div class="border-bottom d-flex p-2 mb-2 {rankDetails.classes.color}">
+    <div class="icon p-2">
+        <svelte:component this={rankDetails.icon} />
     </div>
-    <br />
-    {$_(rank.name)}
+    <CardForm on:submit={newCard} placeholder={$_(rank.name)} bind:comment/>
+    <div class="d-md-none ml-1">
+      <Button color="light" disabled={comment.length == 0} on:click={newCard}>
+        <div class="icon">
+          <Icons.enter />
+        </div>
+      </Button>
+    </div>
   </div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
     {#if $cards}

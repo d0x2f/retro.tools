@@ -1,46 +1,67 @@
 <script>
-  import { Input } from 'sveltestrap';
+  import { onMount, createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
+  import { autoresize } from 'svelte-textarea-autoresize';
 
-  import { ranks } from '../store.js';
-  import { getRankDetails } from '../data.js';
+  export let comment = '';
+  export let placeholder = '';
 
-  export let comment;
-  export let rankId;
+  const dispatch = createEventDispatcher();
+  let focused = false;
+  let input;
+
+  onMount(() => input.focus());
+
+  function focus() {
+    focused = true;
+  }
+
+  function blur() {
+    focused = false;
+    dispatch('blur');
+  }
+
+  function checkSubmission(event) {
+    if (event.keyCode === 13) {
+      if (input.value.length > 0) {
+        dispatch('submit', {
+          text: input.value,
+        });
+        input.value = '';
+      }
+      event.preventDefault();
+      input.dispatchEvent(new Event('input'));
+    } else if (event.keyCode === 27) {
+      dispatch('cancel');
+    }
+  }
 </script>
 
 <style>
-  .icon {
-    width: 1.5em;
-    height: 1.5em;
+  textarea {
+    resize: none;
+    width: 100%;
+    border-radius: 4px;
+    border-width: 2px;
+    border-style: solid;
+    line-height: 1;
+    overflow: hidden;
+    padding: 8px;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  textarea:focus {
+    transition: border-color 0.5s;
   }
 </style>
 
-<div class="mb-1">
-  <Input
-    readonly={undefined}
-    type="textarea"
-    placeholder={$_('card.example_text')}
-    bind:value={comment} />
-</div>
-
-<div class="w-100 mt-3 d-flex">
-  {#each $ranks as rank (rank.id)}
-    <input
-      readonly={undefined}
-      type="radio"
-      class="d-none m-1"
-      id={rank.id}
-      bind:group={rankId}
-      value={rank.id} />
-    <label
-      for={rank.id}
-      class="myshadow w-100 justify-content-around text-center text-uppercase {rankId == rank.id ? getRankDetails(rank).classes.selected : 'text-secondary'}">
-      <div class="icon d-inline-block">
-        <svelte:component this={getRankDetails(rank).icon} />
-      </div>
-      <br />
-      {$_(rank.name)}
-    </label>
-  {/each}
-</div>
+<textarea
+  use:autoresize
+  bind:this={input}
+  on:focus={focus}
+  on:blur={blur}
+  on:keydown={checkSubmission}
+  class={focused ? 'border-primary' : ''}
+  bind:value={comment}
+  {placeholder} />

@@ -31,6 +31,7 @@
     "sirv-cli": "^0.4.4",
     "svelte-feather-icons": "^3.2.2",
     "svelte-i18n": "^3.0.4",
+    "svelte-textarea-autoresize": "^1.0.0",
     "sveltestrap": "^3.3.3"
   }
 }

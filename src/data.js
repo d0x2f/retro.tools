@@ -20,6 +20,10 @@ import {
   BookOpenIcon,
   Trash2Icon,
   CheckIcon,
+  HashIcon,
+  MenuIcon,
+  SendIcon,
+  CornerDownLeftIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -72,6 +76,10 @@ export const Icons = {
   book: BookOpenIcon,
   trash: Trash2Icon,
   check: CheckIcon,
+  hash: HashIcon,
+  menu: MenuIcon,
+  send: SendIcon,
+  enter: CornerDownLeftIcon,
 };
 
 export const BoardTemplates = {
