@@ -6,7 +6,7 @@
 
   import { board, cards, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
-  import CardForm from './CardForm.svelte';
+  import Input from './Input.svelte';
   import { getRankDetails, Icons } from '../data.js';
   import { createCard } from '../api.js';
 
@@ -21,7 +21,7 @@
 
   let sortedFilteredCards;
   let columnWidth = 'col-md-3';
-  let comment = '';
+  let newCardText = '';
 
   const dispatch = createEventDispatcher();
 
@@ -71,7 +71,7 @@
     cards.append({
       id: tempId,
       name: 'Card',
-      description: comment,
+      description: newCardText,
       rank_id: rank.id,
       uncommitted: true,
       votes: 0,
@@ -80,7 +80,8 @@
       },
     });
     try {
-      cards.replace(tempId, await createCard($board.id, rank.id, comment));
+      cards.replace(tempId, await createCard($board.id, rank.id, newCardText));
+      newCardText = '';
     } catch (err) {
       error('error.creating_card', err);
       cards.remove(tempId);
@@ -111,9 +112,15 @@
     <div class="icon p-2">
       <svelte:component this={rankDetails.icon} />
     </div>
-    <CardForm on:submit={newCard} placeholder={$_(rank.name)} bind:comment />
+    <Input
+      on:submit={newCard}
+      placeholder={$_(rank.name)}
+      bind:value={newCardText} />
     <div class="d-md-none ml-1">
-      <Button color="light" disabled={comment.length == 0} on:click={newCard}>
+      <Button
+        color="light"
+        disabled={newCardText.length == 0}
+        on:click={newCard}>
         <div class="icon">
           <Icons.enter />
         </div>
@@ -146,13 +153,7 @@
       <div
         class="text-secondary text-center mt-5 text-center float-right w-100"
         data-drag="false">
-        <small>
-          {#if !$board.cards_open}
-            {#if $board.owner}
-              {$_('board.creation_disabled_as_owner')}
-            {:else}{$_('board.creation_disabled_as_participant')}{/if}
-          {:else}{$_('board.no_cards')}{/if}
-        </small>
+        <small>{$_('board.no_cards')}</small>
       </div>
     {/if}
   </div>

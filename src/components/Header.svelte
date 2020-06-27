@@ -13,6 +13,7 @@
 
   import QRCode from './QRCode.svelte';
   import LocaleSelect from './LocaleSelect.svelte';
+  import Input from './Input.svelte';
 
   import { board, settings } from '../store.js';
   import { Icons } from '../data.js';
@@ -22,8 +23,26 @@
 
   let optionsOpen = false;
   let showQR = false;
+  let editMode = false;
+  let newBoardName = '';
 
   new ClipboardJS('button');
+
+  function startEdit() {
+    if ($board.owner) {
+      editMode = true;
+      newBoardName = $board.name;
+    }
+  }
+
+  function cancelEdit() {
+    editMode = false;
+  }
+
+  function submitEdit() {
+    $board.name = newBoardName;
+    editMode = false;
+  }
 </script>
 
 <style>
@@ -78,8 +97,17 @@
       on:click={nav.navigate('/')}>
       retro.tools
     </div>
-    <div class="col text-center text-secondary d-none d-md-block pt-1">
-      {$board.name}
+
+    <div
+      class="col text-center text-secondary d-none d-md-block pt-1"
+      on:click={startEdit}>
+      {#if editMode}
+        <Input
+          bind:value={newBoardName}
+          on:submit={submitEdit}
+          on:cancel={cancelEdit}
+          on:blur={submitEdit} />
+      {:else}{$board.name}{/if}
     </div>
     <div class="col d-flex mb-1 mr-1 justify-content-end">
       <div class="mr-1">

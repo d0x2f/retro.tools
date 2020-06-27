@@ -6,16 +6,15 @@
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Button } from 'sveltestrap';
 
-  import CardForm from './CardForm.svelte';
+  import Input from './Input.svelte';
 
   export let card;
   export let color = 'text-primary';
 
   let editMode = false;
   let deleteMode = false;
-  let previousComment;
+  let newCardText = '';
   let self;
-  let editInput;
 
   const dispatch = createEventDispatcher();
 
@@ -24,22 +23,19 @@
   }
 
   function startEdit() {
+    newCardText = card.description;
     editMode = true;
-    previousComment = card.description;
   }
 
   function cancelEdit() {
     editMode = false;
-    card.description = previousComment;
   }
 
   async function submitEdit() {
     editMode = false;
-    const currentRankId = card.rank_id;
-    const newCard = { ...card };
-    card.busy = true;
+    const newCard = { ...card, description: newCardText, busy: true };
     try {
-      cards.replace(card.id, await updateCard($board, newCard, currentRankId));
+      cards.replace(card.id, await updateCard($board, newCard, card.rank_id));
     } catch (err) {
       error('error.updating_card', err);
     }
@@ -122,9 +118,8 @@
     </span>
     <div class="m-1 w-100">
       {#if editMode}
-        <CardForm
-          bind:this={editInput}
-          bind:comment={card.description}
+        <Input
+          bind:value={newCardText}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
           on:blur={submitEdit} />

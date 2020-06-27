@@ -2,7 +2,7 @@
   import { onMount, createEventDispatcher } from 'svelte';
   import { autoresize } from 'svelte-textarea-autoresize';
 
-  export let comment = '';
+  export let value = '';
   export let placeholder = '';
 
   const dispatch = createEventDispatcher();
@@ -21,13 +21,11 @@
   }
 
   function checkSubmission(event) {
-    console.log(event);
     if (event.keyCode === 13 && !event.shiftKey) {
       if (input.value.length > 0) {
         dispatch('submit', {
           text: input.value,
         });
-        input.value = '';
       }
       event.preventDefault();
       input.dispatchEvent(new Event('input'));
@@ -62,5 +60,5 @@
   on:blur={blur}
   on:keydown={checkSubmission}
   class={focused ? 'border-primary' : ''}
-  bind:value={comment}
+  bind:value
   {placeholder} />
