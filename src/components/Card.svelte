@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { _ } from 'svelte-i18n';
 
   import { board, cards } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
