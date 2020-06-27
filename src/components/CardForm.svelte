@@ -43,11 +43,11 @@
     border-radius: 4px;
     border-width: 2px;
     border-style: solid;
-    line-height: 1;
     overflow: hidden;
     padding: 8px;
     box-sizing: border-box;
     outline: none;
+
   }
 
   textarea:focus {
