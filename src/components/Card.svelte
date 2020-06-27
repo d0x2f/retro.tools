@@ -148,17 +148,18 @@
         </div>
       {/if}
     </div>
-    <div class="m-1">
-      <Button
-        color="danger"
-        class="text-capitalize flex-grow-1"
-        disabled={!($board.cards_open && (card.owner || $board.owner))}
-        on:click={startDelete}>
-        <div class="icon" class:voted={card.voted}>
-          <Icons.trash />
-        </div>
-      </Button>
-    </div>
+    {#if card.owner || $board.owner}
+      <div class="m-1">
+        <Button
+          color="danger"
+          class="text-capitalize flex-grow-1"
+          on:click={startDelete}>
+          <div class="icon" class:voted={card.voted}>
+            <Icons.trash />
+          </div>
+        </Button>
+      </div>
+    {/if}
   </div>
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
