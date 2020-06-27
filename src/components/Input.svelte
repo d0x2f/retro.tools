@@ -7,9 +7,9 @@
 
   const dispatch = createEventDispatcher();
   let focused = false;
-  let input;
+  let element;
 
-  onMount(() => input.focus());
+  onMount(() => element.focus());
 
   function focus() {
     focused = true;
@@ -22,15 +22,23 @@
 
   function checkSubmission(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
-      if (input.value.length > 0) {
+      if (value.length > 0) {
         dispatch('submit', {
-          text: input.value,
+          text: value,
         });
       }
       event.preventDefault();
-      input.dispatchEvent(new Event('input'));
     } else if (event.keyCode === 27) {
       dispatch('cancel');
+    }
+  }
+
+  // This snippet ensures that the input box returns to a single line
+  // when it's cleared via svelte reactively.
+  $: {
+    if (element && value.length == 0) {
+      element.value = '';
+      element.dispatchEvent(new Event('input'));
     }
   }
 </script>
@@ -55,7 +63,7 @@
 
 <textarea
   use:autoresize
-  bind:this={input}
+  bind:this={element}
   on:focus={focus}
   on:blur={blur}
   on:keydown={checkSubmission}

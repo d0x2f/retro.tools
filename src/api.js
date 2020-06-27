@@ -1,6 +1,6 @@
 // TODO: config option
-const api_host = 'https://retro.tools';
-// const api_host = 'http://127.0.0.1:8000';
+// const api_host = 'https://retro.tools';
+const api_host = 'http://127.0.0.1:8000';
 // const api_host = 'http://192.168.86.32:8000';
 
 const common_options = {

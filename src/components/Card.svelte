@@ -4,6 +4,7 @@
 
   import { board, cards } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
+  import { Icons } from '../data.js';
   import { Button } from 'sveltestrap';
 
   import Input from './Input.svelte';
@@ -15,6 +16,7 @@
   let deleteMode = false;
   let newCardText = '';
   let self;
+  let inputElement;
 
   const dispatch = createEventDispatcher();
 
@@ -32,10 +34,10 @@
   }
 
   async function submitEdit() {
-    editMode = false;
     const newCard = { ...card, description: newCardText, busy: true };
     try {
       cards.replace(card.id, await updateCard($board, newCard, card.rank_id));
+      editMode = false;
     } catch (err) {
       error('error.updating_card', err);
     }
@@ -60,19 +62,16 @@
     }
   }
 
-  async function upvote() {
+  async function togglevote() {
+    card.busy = true;
     try {
-      cards.replace(card.id, await agree($board, card));
-    } catch (err) {
-      error('error.vote_failed', err);
-    } finally {
-      card.busy = false;
-    }
-  }
-
-  async function downvote() {
-    try {
-      cards.replace(card.id, await undoAgree($board, card));
+      let newCard;
+      if (card.voted) {
+        newCard = await undoAgree($board, card);
+      } else {
+        newCard = await agree($board, card);
+      }
+      cards.replace(card.id, newCard);
     } catch (err) {
       error('error.vote_failed', err);
     } finally {
@@ -87,7 +86,7 @@
   }
 
   .blur {
-    opacity: 0.05;
+    opacity: 0.3;
   }
 
   .votes {
@@ -105,20 +104,41 @@
   .pre-wrap {
     white-space: pre-wrap;
   }
+
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .unvoted {
+    stroke-dasharray: 3;
+    opacity: 0.7;
+  }
 </style>
 
 <div
   class="d-flex flex-column w-90 shadow-sm card {card.busy ? 'busy' : ''}"
   bind:this={self}>
   <div class="d-flex {deleteMode ? 'blur' : ''}">
+    <div class="m-1">
+      <Button
+        color="light"
+        class="text-capitalize flex-grow-1"
+        disabled={!$board.voting_open}
+        on:click={togglevote}>
+        <div class="icon {color}" class:unvoted={!card.voted}>
+          <Icons.thumbsup />
+        </div>
+      </Button>
+    </div>
     <span
-      class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-1 {color}">
-      {#if card.voted}•{/if}
+      class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 mt-1 {color}">
       {card.votes}
     </span>
     <div class="m-1 w-100">
       {#if editMode}
         <Input
+          bind:this={inputElement}
           bind:value={newCardText}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
@@ -129,54 +149,38 @@
         </div>
       {/if}
     </div>
-  </div>
-  <div
-    class="d-flex flex-row border-top button-primary {deleteMode ? 'blur' : ''}">
-    {#if card.voted}
+    <div class="m-1">
       <Button
-        color="light"
+        color="danger"
         class="text-capitalize flex-grow-1"
-        disabled={!$board.voting_open}
-        on:click={downvote}>
-        {$_('card.undo')}
+        disabled={!($board.cards_open && (card.owner || $board.owner))}
+        on:click={startDelete}>
+        <div class="icon" class:voted={card.voted}>
+          <Icons.trash />
+        </div>
       </Button>
-    {:else}
-      <Button
-        color="light"
-        class="text-capitalize flex-grow-1"
-        disabled={!$board.voting_open}
-        on:click={upvote}>
-        {$_('card.agree')}
-      </Button>
-    {/if}
-    <Button
-      color="danger"
-      class="text-capitalize flex-grow-1"
-      disabled={!($board.cards_open && (card.owner || $board.owner))}
-      on:click={startDelete}>
-      {$_('card.delete')}
-    </Button>
+    </div>
   </div>
   {#if deleteMode}
-    <div
-      class="d-flex flex-column justify-content-center position-absolute w-100
-      h-100 text-center">
-      <span class="mb-2">{$_('card.are_you_sure')}</span>
-      <div class="">
-        <Button
-          color="dark"
-          class="text-capitalize flex-grow-1"
-          on:click={cancelDelete}>
-          {$_('card.cancel')}
-        </Button>
+    <div class="position-absolute w-100 h-100 p-1 text-right">
+      <Button
+        color="dark"
+        class="text-capitalize flex-grow-1"
+        on:click={cancelDelete}>
+        <div class="icon" class:voted={card.voted}>
+          <Icons.close />
+        </div>
+      </Button>
 
-        <Button
-          color="danger"
-          class="text-capitalize flex-grow-1"
-          on:click={submitDelete}>
-          {$_('card.delete')}
-        </Button>
-      </div>
+      <Button
+        color="danger"
+        class="text-capitalize flex-grow-1"
+        on:click={submitDelete}>
+        <div class="icon" class:voted={card.voted}>
+          <Icons.check />
+        </div>
+      </Button>
+
     </div>
   {/if}
 </div>
