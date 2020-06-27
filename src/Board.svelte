@@ -1,42 +1,22 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import {
-    Alert,
-    Button,
-    Input,
-    Label,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-  } from 'sveltestrap';
+  import { Alert } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
-  import { crossfade, fade, fly } from 'svelte/transition';
+  import { crossfade, fly } from 'svelte/transition';
   import lodash from 'lodash';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
 
   import { board, ranks, cards } from './store.js';
-  import {
-    updateBoard,
-    updateCard,
-    createCard,
-    getCards,
-    getBoard,
-  } from './api.js';
-  import { Icons, getRankDetails } from './data.js';
+  import { updateBoard, updateCard, getCards, getBoard } from './api.js';
+  import { getRankDetails } from './data.js';
 
-  import FloatingActionButton from './components/FloatingActionButton.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
-  import CardForm from './components/CardForm.svelte';
 
   export let nav;
 
   let selectedRank = '';
-  let showNewCardModal = false;
-  let showNewCardForm = false;
-  let newCardComment = '';
   let tabButtonWidth = '';
   let hidden = false;
   let refreshIntervalId;
@@ -154,39 +134,6 @@
     }
   }
 
-  function toggleNewCardForm() {
-    showNewCardForm = !showNewCardForm;
-  }
-
-  function toggleNewCardModal() {
-    showNewCardModal = !showNewCardModal;
-  }
-
-  async function newCard() {
-    const tempId = Math.floor(Math.random() * 10000);
-    cards.append({
-      id: tempId,
-      name: 'Card',
-      description: newCardComment,
-      rank_id: selectedRank,
-      uncommitted: true,
-      votes: 0,
-      created_at: {
-        secs_since_epoch: Date.now() / 1000,
-      },
-    });
-    try {
-      cards.replace(
-        tempId,
-        await createCard($board.id, selectedRank, newCardComment)
-      );
-      newCardComment = '';
-    } catch (err) {
-      error('error.creating_card', err);
-      cards.remove(tempId);
-    }
-  }
-
   onMount(async () => {
     // Update on initial load
     await update();
@@ -300,8 +247,6 @@
   }
 </style>
 
-<svelte:window on:orientationchange={() => (showNewCardModal = false)} />
-
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
@@ -326,37 +271,6 @@
   </div>
 
   <div class="d-block flex-grow-1 d-md-none scroll">
-
-    {#if showNewCardForm}
-      <div
-        transition:fade
-        class="flex-grow-1 p-2 d-block d-md-none h-100 w-100 position-absolute
-        new-card-form bg-light">
-        <Label for="cardText" class="text-primary">{$_('card.new_card')}</Label>
-        <Input
-          readonly={undefined}
-          id="cardText"
-          type="textarea"
-          placeholder={$_('card.example_text')}
-          bind:value={newCardComment}
-          class="mb-2" />
-        <div class="d-flex justify-content-end">
-          <Button class="mx-1" color="secondary" on:click={toggleNewCardForm}>
-            {$_('card.cancel')}
-          </Button>
-          <Button
-            class="mx-1"
-            color="primary"
-            disabled={newCardComment.length === 0}
-            on:click={() => {
-              toggleNewCardForm();
-              newCard();
-            }}>
-            {$_('card.create')}
-          </Button>
-        </div>
-      </div>
-    {/if}
     {#each $ranks as rank (rank.id)}
       {#if rank.id == selectedRank}
         <Rank bind:rank on:error={handleError} />
@@ -429,45 +343,4 @@
       </div>
     {/if}
   </div>
-
-  {#if $board.cards_open}
-    <div class="d-sm-block d-md-none add-button">
-      <FloatingActionButton
-        className="shadow btn-primary"
-        icon={Icons.plus}
-        on:click={toggleNewCardForm} />
-    </div>
-
-    <div class="d-none d-md-block add-button">
-      <FloatingActionButton
-        className="shadow btn-primary"
-        icon={Icons.plus}
-        on:click={toggleNewCardModal} />
-    </div>
-  {/if}
 </div>
-
-<Modal
-  class="d-none d-md-block"
-  duration="100"
-  isOpen={showNewCardModal}
-  toggle={toggleNewCardModal}>
-  <ModalHeader toggle={toggleNewCardModal}>{$_('card.new_card')}</ModalHeader>
-  <ModalBody>
-    <CardForm bind:rankId={selectedRank} bind:comment={newCardComment} />
-  </ModalBody>
-  <ModalFooter>
-    <Button color="secondary" on:click={toggleNewCardModal}>
-      {$_('card.cancel')}
-    </Button>
-    <Button
-      color="primary"
-      disabled={newCardComment.length === 0}
-      on:click={() => {
-        toggleNewCardModal();
-        newCard();
-      }}>
-      {$_('card.create')}
-    </Button>
-  </ModalFooter>
-</Modal>

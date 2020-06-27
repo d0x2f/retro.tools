@@ -92,7 +92,7 @@
           toggle={() => (optionsOpen = !optionsOpen)}>
           <DropdownToggle color="primary">
             <div class="icon">
-              <Icons.ellispses />
+              <Icons.menu />
             </div>
           </DropdownToggle>
           <DropdownMenu right>

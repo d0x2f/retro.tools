@@ -1,52 +1,42 @@
 <script>
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
 
-  import { board, cards, ranks } from '../store.js';
+  import { board, cards } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
-  import {
-    Button,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-  } from 'sveltestrap';
-  import { Icons } from '../data.js';
+  import { Button } from 'sveltestrap';
 
   import CardForm from './CardForm.svelte';
-  import FloatingActionButton from './FloatingActionButton.svelte';
 
   export let card;
   export let color = 'text-primary';
 
-  let showEditCardModal = false;
-  let showDeleteCardConfirmBox = false;
-  let newRank = $ranks[0].id;
-  let newComment;
+  let editMode = false;
+  let deleteMode = false;
+  let previousComment;
   let self;
+  let editInput;
 
   const dispatch = createEventDispatcher();
-
-  onMount(() => {
-    newComment = card.description;
-    newRank = card.rank_id;
-  });
 
   function error(message, err) {
     dispatch('error', { message, err });
   }
 
-  function toggleEditCardModal() {
-    showEditCardModal = !showEditCardModal;
-    self.parentElement.dataset.drag = 'false';
+  function startEdit() {
+    editMode = true;
+    previousComment = card.description;
   }
 
-  async function updateCardSubmit() {
-    toggleEditCardModal();
+  function cancelEdit() {
+    editMode = false;
+    card.description = previousComment;
+  }
+
+  async function submitEdit() {
+    editMode = false;
     const currentRankId = card.rank_id;
     const newCard = { ...card };
-    newCard.description = newComment;
-    newCard.rank_id = newRank;
     card.busy = true;
     try {
       cards.replace(card.id, await updateCard($board, newCard, currentRankId));
@@ -55,19 +45,16 @@
     }
   }
 
-  function editCardModal() {
-    newComment = card.description;
-    newRank = card.rank_id;
-
-    toggleEditCardModal();
+  function startDelete() {
+    deleteMode = true;
   }
 
-  function toggleDeleteCardConfirmBox() {
-    showDeleteCardConfirmBox = !showDeleteCardConfirmBox;
+  function cancelDelete() {
+    deleteMode = false;
   }
 
-  async function deleteCardSubmit() {
-    toggleDeleteCardConfirmBox();
+  async function submitDelete() {
+    deleteMode = false;
     card.busy = true;
     try {
       await deleteCard($board, card);
@@ -127,26 +114,29 @@
 <div
   class="d-flex flex-column w-90 shadow-sm card {card.busy ? 'busy' : ''}"
   bind:this={self}>
-  <div class="d-flex {showDeleteCardConfirmBox ? 'blur' : ''}">
+  <div class="d-flex {deleteMode ? 'blur' : ''}">
     <span
       class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 m-1 {color}">
       {#if card.voted}•{/if}
       {card.votes}
     </span>
-    <span class="p-1 w-100 font-weight-bold pre-wrap">
-      {#if $board.cards_open && (card.owner || $board.owner)}
-        <div class="delete-button float-right">
-          <FloatingActionButton
-            className="btn-danger"
-            icon={Icons.close}
-            on:click={toggleDeleteCardConfirmBox} />
+    <div class="m-1 w-100">
+      {#if editMode}
+        <CardForm
+          bind:this={editInput}
+          bind:comment={card.description}
+          on:submit={submitEdit}
+          on:cancel={cancelEdit}
+          on:blur={submitEdit} />
+      {:else}
+        <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
+          {card.description}
         </div>
       {/if}
-      {card.description}
-    </span>
+    </div>
   </div>
   <div
-    class="d-flex flex-row border-top button-primary {showDeleteCardConfirmBox ? 'blur' : ''}">
+    class="d-flex flex-row border-top button-primary {deleteMode ? 'blur' : ''}">
     {#if card.voted}
       <Button
         color="light"
@@ -165,14 +155,14 @@
       </Button>
     {/if}
     <Button
-      color="light"
+      color="danger"
       class="text-capitalize flex-grow-1"
-      disabled={!(card.owner || $board.owner)}
-      on:click={editCardModal}>
-      {$_('card.edit')}
+      disabled={!($board.cards_open && (card.owner || $board.owner))}
+      on:click={startDelete}>
+      {$_('card.delete')}
     </Button>
   </div>
-  {#if showDeleteCardConfirmBox}
+  {#if deleteMode}
     <div
       class="d-flex flex-column justify-content-center position-absolute w-100
       h-100 text-center">
@@ -181,32 +171,17 @@
         <Button
           color="dark"
           class="text-capitalize flex-grow-1"
-          on:click={toggleDeleteCardConfirmBox}>
+          on:click={cancelDelete}>
           {$_('card.cancel')}
         </Button>
 
         <Button
           color="danger"
           class="text-capitalize flex-grow-1"
-          on:click={deleteCardSubmit}>
+          on:click={submitDelete}>
           {$_('card.delete')}
         </Button>
       </div>
     </div>
   {/if}
 </div>
-
-<Modal isOpen={showEditCardModal} toggle={toggleEditCardModal}>
-  <ModalHeader toggle={toggleEditCardModal}>{$_('card.edit_card')}</ModalHeader>
-  <ModalBody>
-    <CardForm bind:rankId={newRank} bind:comment={newComment} />
-  </ModalBody>
-  <ModalFooter>
-    <Button color="secondary" on:click={toggleEditCardModal}>
-      {$_('card.cancel')}
-    </Button>
-    <Button color="primary" on:click={updateCardSubmit}>
-      {$_('card.save')}
-    </Button>
-  </ModalFooter>
-</Modal>
