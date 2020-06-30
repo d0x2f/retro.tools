@@ -1,12 +1,13 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { Button } from 'sveltestrap';
 
   import { board, cards } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Icons } from '../data.js';
-  import { Button } from 'sveltestrap';
 
   import Input from './Input.svelte';
+  import Votes from './Votes.svelte';
 
   export let card;
   export let color = 'text-primary';
@@ -14,8 +15,6 @@
   let editMode = false;
   let deleteMode = false;
   let newCardText = '';
-  let self;
-  let inputElement;
 
   const dispatch = createEventDispatcher();
 
@@ -24,6 +23,9 @@
   }
 
   function startEdit() {
+    if (!card.owner) {
+      return;
+    }
     newCardText = card.description;
     editMode = true;
   }
@@ -61,7 +63,7 @@
     }
   }
 
-  async function togglevote() {
+  async function toggleVote() {
     card.busy = true;
     try {
       let newCard;
@@ -89,15 +91,11 @@
   }
 
   .votes {
-    min-width: 1.5em;
-    text-align: right;
+    float: left;
   }
 
-  .delete-button {
-    width: 1.5em;
-    height: 1.5em;
-    line-height: 1;
-    font-size: 1rem;
+  .delete-box {
+    float: right;
   }
 
   .pre-wrap {
@@ -108,36 +106,29 @@
     width: 1.5em;
     height: 1.5em;
   }
-
-  .unvoted {
-    stroke-dasharray: 3;
-    opacity: 0.7;
-  }
 </style>
 
-<div
-  class="d-flex flex-column w-90 shadow-sm card {card.busy ? 'busy' : ''}"
-  bind:this={self}>
-  <div class="d-flex {deleteMode ? 'blur' : ''}">
-    <div class="m-1">
-      <Button
-        color="light"
-        class="text-capitalize flex-grow-1"
-        disabled={!$board.voting_open}
-        on:click={togglevote}>
-        <div class="icon {color}" class:unvoted={!card.voted}>
-          <Icons.thumbsup />
-        </div>
-      </Button>
+<div class="w-90 shadow-sm card {card.busy ? 'busy' : ''}">
+  <div class:blur={deleteMode}>
+    <div class="votes d-inline">
+      <Votes
+        on:toggleVote={toggleVote}
+        bind:votes={card.votes}
+        bind:voted={card.voted}
+        bind:color />
     </div>
-    <span
-      class="votes flex-grow-0 flex-shrink-0 font-weight-bold h3 mt-1 {color}">
-      {card.votes}
-    </span>
-    <div class="m-1 w-100">
+    <div class="m-1 delete-box">
+      {#if card.owner || $board.owner}
+        <Button color="danger" class="text-capitalize" on:click={startDelete}>
+          <div class="icon" class:voted={card.voted}>
+            <Icons.trash />
+          </div>
+        </Button>
+      {/if}
+    </div>
+    <div class="p-1 w-100">
       {#if editMode}
         <Input
-          bind:this={inputElement}
           bind:value={newCardText}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
@@ -148,39 +139,20 @@
         </div>
       {/if}
     </div>
-    {#if card.owner || $board.owner}
-      <div class="m-1">
-        <Button
-          color="danger"
-          class="text-capitalize flex-grow-1"
-          on:click={startDelete}>
-          <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
-          </div>
-        </Button>
-      </div>
-    {/if}
   </div>
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
-      <Button
-        color="dark"
-        class="text-capitalize flex-grow-1"
-        on:click={cancelDelete}>
+      <Button color="dark" class="text-capitalize" on:click={cancelDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.close />
         </div>
       </Button>
 
-      <Button
-        color="danger"
-        class="text-capitalize flex-grow-1"
-        on:click={submitDelete}>
+      <Button color="danger" class="text-capitalize" on:click={submitDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.check />
         </div>
       </Button>
-
     </div>
   {/if}
 </div>
