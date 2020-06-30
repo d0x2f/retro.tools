@@ -20,7 +20,7 @@
   let rankDetails = getRankDetails(rank);
 
   let sortedFilteredCards;
-  let columnWidth = 'col-md-3';
+  let columnWidth = 'col-lg-3';
   let newCardText = '';
 
   const dispatch = createEventDispatcher();
@@ -41,14 +41,14 @@
     switch ($ranks.length) {
       case 1:
       case 2:
-        columnWidth = 'col-md-4';
+        columnWidth = 'col-lg-4';
         break;
       case 3:
-        columnWidth = 'col-md-3';
+        columnWidth = 'col-lg-3';
         break;
       case 4:
       default:
-        columnWidth = 'col-md-3';
+        columnWidth = 'col-lg-3';
         break;
     }
   }
@@ -116,7 +116,7 @@
       on:submit={newCard}
       placeholder={$_(rank.name)}
       bind:value={newCardText} />
-    <div class="d-md-none ml-1">
+    <div class="d-lg-none ml-1">
       <Button
         color="light"
         disabled={newCardText.length == 0}

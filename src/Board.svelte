@@ -250,9 +250,9 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
-  <div class="d-none d-md-block scroll h-100">
+  <div class="d-none d-lg-block scroll h-100">
     <div
-      class="d-none d-md-flex justify-content-center py-3 overflow-hidden
+      class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
       min-vh-90">
       {#each $ranks as rank, i (rank.id)}
         <Rank
@@ -270,7 +270,7 @@
     </div>
   </div>
 
-  <div class="d-block flex-grow-1 d-md-none scroll">
+  <div class="d-block flex-grow-1 d-lg-none scroll">
     {#each $ranks as rank (rank.id)}
       {#if rank.id == selectedRank}
         <Rank bind:rank on:error={handleError} />
@@ -280,7 +280,7 @@
     {/each}
   </div>
 
-  <div class="d-md-none tab-buttons">
+  <div class="d-lg-none tab-buttons">
     {#if errorAlertVisible}
       <div
         in:fly={{ x: -200, duration: 200 }}
@@ -323,7 +323,7 @@
     </div>
   </div>
 
-  <div class="fixed-bottom d-none d-md-block">
+  <div class="fixed-bottom d-none d-lg-block">
     {#if errorAlertVisible}
       <div
         in:fly={{ y: 100, duration: 200 }}
