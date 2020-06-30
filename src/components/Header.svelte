@@ -76,7 +76,7 @@
 
 {#if showQR}
   <div
-    class="shadow-lg d-none d-md-block qrcode m-1"
+    class="shadow-lg d-none d-lg-block qrcode m-1"
     in:fly={{ x: -200, duration: 500 }}
     out:fly={{ x: -200, duration: 500 }}>
     <Card class="p-1" body>
@@ -99,7 +99,7 @@
     </div>
 
     <div
-      class="col text-center text-secondary d-none d-md-block pt-1"
+      class="col text-center text-secondary d-none d-lg-block pt-1"
       on:click={startEdit}>
       {#if editMode}
         <Input
@@ -153,7 +153,7 @@
             <DropdownItem
               toggle={false}
               on:click={() => (showQR = !showQR)}
-              class="d-none d-md-block">
+              class="d-none d-lg-block">
               <CustomInput
                 type="checkbox"
                 label={$_('board.options.show_qr_code')}
@@ -176,5 +176,5 @@
       </div>
     </div>
   </div>
-  <div class="text-secondary d-md-none px-3 text-center">{$board.name}</div>
+  <div class="text-secondary d-lg-none px-3 text-center">{$board.name}</div>
 </div>

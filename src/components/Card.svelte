@@ -90,14 +90,6 @@
     opacity: 0.3;
   }
 
-  .votes {
-    float: left;
-  }
-
-  .delete-box {
-    float: right;
-  }
-
   .pre-wrap {
     white-space: pre-wrap;
   }
@@ -108,25 +100,16 @@
   }
 </style>
 
-<div class="w-90 shadow-sm card {card.busy ? 'busy' : ''}">
-  <div class:blur={deleteMode}>
-    <div class="votes d-inline">
+<div class:busy={card.busy} class="w-90 shadow-sm card">
+  <div class:blur={deleteMode} class="d-flex">
+    <div class="flex-grow-0">
       <Votes
         on:toggleVote={toggleVote}
         bind:votes={card.votes}
         bind:voted={card.voted}
         bind:color />
     </div>
-    <div class="m-1 delete-box">
-      {#if card.owner || $board.owner}
-        <Button color="danger" class="text-capitalize" on:click={startDelete}>
-          <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
-          </div>
-        </Button>
-      {/if}
-    </div>
-    <div class="p-1 w-100">
+    <div class="p-1 w-100 flex-grow-1">
       {#if editMode}
         <Input
           bind:value={newCardText}
@@ -137,6 +120,15 @@
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           {card.description}
         </div>
+      {/if}
+    </div>
+    <div class="m-1 flex-grow-0">
+      {#if card.owner || $board.owner}
+        <Button color="danger" class="text-capitalize" on:click={startDelete}>
+          <div class="icon" class:voted={card.voted}>
+            <Icons.trash />
+          </div>
+        </Button>
       {/if}
     </div>
   </div>

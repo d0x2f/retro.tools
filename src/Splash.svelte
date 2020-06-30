@@ -104,7 +104,7 @@
 </style>
 
 <div class="d-flex justify-content-center pt-2 scroll">
-  <div class="col-md-3">
+  <div class="col-lg-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="text-primary text-uppercase">retro.tools</h1>
       <LocaleSelect />
