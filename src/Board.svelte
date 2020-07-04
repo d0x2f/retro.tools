@@ -3,7 +3,6 @@
   import { Alert, Spinner } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
   import { crossfade, fade, fly } from 'svelte/transition';
-  import lodash from 'lodash';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
 
@@ -148,6 +147,15 @@
     return passwordRequired;
   }
 
+  function compareBoards(a, b) {
+    return (
+      a.name === b.name &&
+      a.voting_open === b.voting_open &&
+      a.cards_open === b.cards_open &&
+      JSON.stringify(a.data) === JSON.stringify(b.data)
+    );
+  }
+
   onMount(async () => {
     // Update on initial load
     await update();
@@ -163,7 +171,7 @@
     if ($board.owner)
       unsubscribe = board.subscribe(b => {
         try {
-          if (!lodash.isEqual(previousBoard, b)) updateBoard(b);
+          if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
           error('error.updating_settings', err);
         }

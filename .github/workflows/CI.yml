@@ -18,6 +18,6 @@ jobs:
     - name: Lint
       run: npm run lint
     - name: Audit
-      run: npm audit
+      run: npm audit --production
     - name: Build
       run: npm run build
