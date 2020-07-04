@@ -12,7 +12,11 @@ export async function decrypt(cipherText, password = '') {
   if (password.length === 0) {
     return cipherText;
   }
-  return AES.decrypt(cipherText, password).toString(Crypto.enc.Utf8);
+  try {
+    return AES.decrypt(cipherText, password).toString(Crypto.enc.Utf8);
+  } catch {
+    return "?";
+  }
 }
 
 export async function isBoardEncrypted(board) {
