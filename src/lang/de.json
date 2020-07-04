@@ -1,4 +1,7 @@
 {
+  "general.encryption": "Verschlüsselung",
+  "general.password": "Passwort",
+  "general.encrypted": "(Verschlüsselt)",
   "splash.board_name": "Name des Boards",
   "splash.board_name_example": "Rückblick Sprint 21",
   "splash.template": "Vorlage",
@@ -44,6 +47,7 @@
   "board.options.show_qr_code": "QR-Code anzeigen",
   "board.options.download_csv": "CSV herunterladen",
   "board.options.copy_link": "Link kopieren",
+  "board.unlock": "Entsperren",
   "card.new_card": "Neue Karte",
   "card.edit_card": "Karte bearbeiten",
   "card.example_text": "Wir brauchen mehr Snacks ...",

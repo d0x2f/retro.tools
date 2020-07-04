@@ -24,6 +24,9 @@ import {
   MenuIcon,
   SendIcon,
   CornerDownLeftIcon,
+  UnlockIcon,
+  EyeIcon,
+  EyeOffIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -80,6 +83,9 @@ export const Icons = {
   menu: MenuIcon,
   send: SendIcon,
   enter: CornerDownLeftIcon,
+  unlock: UnlockIcon,
+  eye: EyeIcon,
+  eyeOff: EyeOffIcon,
 };
 
 export const BoardTemplates = {

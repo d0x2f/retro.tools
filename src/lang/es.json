@@ -1,4 +1,7 @@
 {
+  "general.encryption": "Codificación",
+  "general.password": "Contraseña",
+  "general.encrypted": "(Codificado)",
   "splash.board_name": "Nombre del tablero",
   "splash.board_name_example": "Retrospectiva Sprint 21",
   "splash.template": "Plantilla",
@@ -44,6 +47,7 @@
   "board.options.show_qr_code": "Mostrar Código QR",
   "board.options.download_csv": "Descargar CSV",
   "board.options.copy_link": "Copiar enlace",
+  "board.unlock": "Desbloquear",
   "card.new_card": "Nueva Tarjeta",
   "card.edit_card": "Editar Tarjeta",
   "card.example_text": "Necesitamos más bocadillos ...",

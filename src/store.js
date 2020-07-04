@@ -41,3 +41,5 @@ export const cards = createCards();
 export const settings = writable({
   sorted: false,
 });
+
+export const password = writable('');

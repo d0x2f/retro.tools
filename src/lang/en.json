@@ -1,4 +1,7 @@
 {
+  "general.encryption": "Encryption",
+  "general.password": "Password",
+  "general.encrypted": "(Encrypted)",
   "splash.board_name": "Board Name",
   "splash.board_name_example": "Sprint 21 Retrospective",
   "splash.template": "Template",
@@ -44,6 +47,7 @@
   "board.options.show_qr_code": "Show QR Code",
   "board.options.download_csv": "Download CSV",
   "board.options.copy_link": "Copy Link",
+  "board.unlock": "Unlock",
   "card.new_card": "New Card",
   "card.edit_card": "Edit Card",
   "card.example_text": "We need more snacks...",

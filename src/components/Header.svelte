@@ -14,10 +14,12 @@
   import QRCode from './QRCode.svelte';
   import LocaleSelect from './LocaleSelect.svelte';
   import Input from './Input.svelte';
+  import EncryptedText from './EncryptedText.svelte';
 
-  import { board, settings } from '../store.js';
+  import { board, password, settings } from '../store.js';
   import { Icons } from '../data.js';
   import { getCSVUrl } from '../api.js';
+  import { decrypt, encrypt } from '../crypto.js';
 
   export let nav;
 
@@ -28,10 +30,10 @@
 
   new ClipboardJS('button');
 
-  function startEdit() {
+  async function startEdit() {
     if ($board.owner) {
       editMode = true;
-      newBoardName = $board.name;
+      newBoardName = await decrypt($board.name, $password);
     }
   }
 
@@ -39,8 +41,8 @@
     editMode = false;
   }
 
-  function submitEdit() {
-    $board.name = newBoardName;
+  async function submitEdit() {
+    $board.name = await encrypt(newBoardName, $password);
     editMode = false;
   }
 </script>
@@ -107,7 +109,9 @@
           on:submit={submitEdit}
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
-      {:else}{$board.name}{/if}
+      {:else}
+        <EncryptedText bind:text={$board.name} />
+      {/if}
     </div>
     <div class="col d-flex mb-1 mr-1 justify-content-end">
       <div class="mr-1">
@@ -176,5 +180,7 @@
       </div>
     </div>
   </div>
-  <div class="text-secondary d-lg-none px-3 text-center">{$board.name}</div>
+  <div class="text-secondary d-lg-none px-3 text-center">
+    <EncryptedText bind:text={$board.name} />
+  </div>
 </div>

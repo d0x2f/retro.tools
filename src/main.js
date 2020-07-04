@@ -1,11 +1,13 @@
 import crayon from 'crayon';
 import svelte from 'crayon-svelte';
 import animate from 'crayon-animate';
+import { get } from 'svelte/store';
+
 import Splash from './Splash.svelte';
 import Board from './Board.svelte';
 
 import { gtag } from './ga.js';
-import { board, ranks } from './store.js';
+import { board, ranks, password } from './store.js';
 import { getRanks, getBoard } from './api.js';
 import './i18n.js';
 
@@ -14,10 +16,11 @@ gtag('config', 'UA-73143855-2');
 gtag('config', 'AW-996832467');
 
 async function mountBoard(context, boardId) {
+  const password_string = get(password);
   try {
     let [board_result, ranks_result] = await Promise.all([
-      getBoard(boardId),
-      getRanks(boardId),
+      getBoard(boardId, password_string),
+      getRanks(boardId, password_string),
     ]);
     board.set(board_result);
     ranks.set(ranks_result);

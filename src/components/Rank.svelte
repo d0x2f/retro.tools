@@ -4,11 +4,12 @@
   import { _ } from 'svelte-i18n';
   import { Button } from 'sveltestrap';
 
-  import { board, cards, ranks, settings } from '../store.js';
+  import { board, cards, password, ranks, settings } from '../store.js';
   import Card from './Card.svelte';
   import Input from './Input.svelte';
   import { getRankDetails, Icons } from '../data.js';
   import { createCard } from '../api.js';
+  import { encrypt } from '../crypto.js';
 
   export let rank;
   export let send = false;
@@ -68,10 +69,11 @@
     }
 
     const tempId = Math.floor(Math.random() * 10000);
+    const encryptedCardText = await encrypt(newCardText, $password);
     cards.append({
       id: tempId,
       name: 'Card',
-      description: newCardText,
+      description: encryptedCardText,
       rank_id: rank.id,
       uncommitted: true,
       votes: 0,
@@ -80,7 +82,10 @@
       },
     });
     try {
-      cards.replace(tempId, await createCard($board.id, rank.id, newCardText));
+      cards.replace(
+        tempId,
+        await createCard($board.id, rank.id, encryptedCardText)
+      );
       newCardText = '';
     } catch (err) {
       error('error.creating_card', err);
