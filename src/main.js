@@ -20,7 +20,7 @@ async function mountBoard(context, boardId) {
   try {
     let [board_result, ranks_result] = await Promise.all([
       getBoard(boardId, password_string),
-      getRanks(boardId, password_string),
+      getRanks(boardId),
     ]);
     board.set(board_result);
     ranks.set(ranks_result);

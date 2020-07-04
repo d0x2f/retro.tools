@@ -10,7 +10,7 @@
   import { board, ranks, cards, password } from './store.js';
   import { updateBoard, updateCard, getCards, getBoard } from './api.js';
   import { getRankDetails } from './data.js';
-  import { checkBoardPassword, decrypt, isBoardEncrypted } from './crypto.js';
+  import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
 
   import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';

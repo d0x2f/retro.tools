@@ -18,7 +18,6 @@
   let checkBusy = false;
   let inputPassword = '';
   let inputBox;
-  let inputField;
 
   const dispatch = createEventDispatcher();
 
