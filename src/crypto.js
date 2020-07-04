@@ -15,7 +15,7 @@ export async function decrypt(cipherText, password = '') {
   try {
     return AES.decrypt(cipherText, password).toString(Crypto.enc.Utf8);
   } catch {
-    return "?";
+    return '?';
   }
 }
 
