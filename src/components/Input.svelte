@@ -55,6 +55,7 @@
     border-radius: 4px;
     border-width: 2px;
     border-style: solid;
+    border-color: lightgrey;
     overflow: hidden;
     padding: 8px;
     box-sizing: border-box;
