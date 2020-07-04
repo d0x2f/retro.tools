@@ -2,12 +2,14 @@
   import { createEventDispatcher } from 'svelte';
   import { Button } from 'sveltestrap';
 
-  import { board, cards } from '../store.js';
+  import { board, cards, password } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Icons } from '../data.js';
+  import { decrypt, encrypt } from '../crypto.js';
 
   import Input from './Input.svelte';
   import Votes from './Votes.svelte';
+  import EncryptedText from './EncryptedText.svelte';
 
   export let card;
   export let color = 'text-primary';
@@ -22,11 +24,11 @@
     dispatch('error', { message, err });
   }
 
-  function startEdit() {
+  async function startEdit() {
     if (!card.owner) {
       return;
     }
-    newCardText = card.description;
+    newCardText = await decrypt(card.description, $password);
     editMode = true;
   }
 
@@ -35,7 +37,11 @@
   }
 
   async function submitEdit() {
-    const newCard = { ...card, description: newCardText, busy: true };
+    const newCard = {
+      ...card,
+      description: await encrypt(newCardText, $password),
+      busy: true,
+    };
     try {
       cards.replace(card.id, await updateCard($board, newCard, card.rank_id));
       editMode = false;
@@ -118,7 +124,7 @@
           on:blur={submitEdit} />
       {:else}
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
-          {card.description}
+          <EncryptedText bind:text={card.description} />
         </div>
       {/if}
     </div>

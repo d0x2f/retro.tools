@@ -1,16 +1,17 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { Alert } from 'sveltestrap';
+  import { Alert, Spinner } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
-  import { crossfade, fly } from 'svelte/transition';
-  import lodash from 'lodash';
+  import { crossfade, fade, fly } from 'svelte/transition';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
 
-  import { board, ranks, cards } from './store.js';
+  import { board, ranks, cards, password } from './store.js';
   import { updateBoard, updateCard, getCards, getBoard } from './api.js';
   import { getRankDetails } from './data.js';
+  import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
 
+  import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
 
@@ -25,6 +26,8 @@
   let errorAlertMessage = 'Network error!';
   let errorClearTimeout;
   let connectionLost = false;
+  let passwordRequired = false;
+  let busy = true;
 
   let drake = dragula({
     revertOnSpill: true,
@@ -134,9 +137,29 @@
     }
   }
 
+  async function checkPassword() {
+    if (await isBoardEncrypted($board)) {
+      passwordRequired = !(await checkBoardPassword($board, $password));
+    } else {
+      passwordRequired = false;
+      password.set('');
+    }
+    return passwordRequired;
+  }
+
+  function compareBoards(a, b) {
+    return (
+      a.name === b.name &&
+      a.voting_open === b.voting_open &&
+      a.cards_open === b.cards_open &&
+      JSON.stringify(a.data) === JSON.stringify(b.data)
+    );
+  }
+
   onMount(async () => {
     // Update on initial load
     await update();
+    await checkPassword();
 
     // Show first rank initially
     if ($ranks[0]) selectedRank = $ranks[0].id;
@@ -148,7 +171,7 @@
     if ($board.owner)
       unsubscribe = board.subscribe(b => {
         try {
-          if (!lodash.isEqual(previousBoard, b)) updateBoard(b);
+          if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
           error('error.updating_settings', err);
         }
@@ -163,6 +186,7 @@
     document.addEventListener('visibilitychange', () => {
       hidden = document['hidden'];
     });
+    busy = false;
   });
 
   onDestroy(() => {
@@ -250,78 +274,101 @@
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />
-  <div class="d-none d-lg-block scroll h-100">
+
+  {#if busy}
     <div
-      class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
-      min-vh-90">
-      {#each $ranks as rank, i (rank.id)}
-        <Rank
-          bind:rank
-          bind:drake
-          on:error={handleError}
-          send={cardSend}
-          receive={cardReceive} />
-        {#if i !== $ranks.length - 1}
-          <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-        {/if}
-      {:else}
-        <p class="text-center text-secondary">There are no columns!</p>
-      {/each}
-    </div>
-  </div>
-
-  <div class="d-block flex-grow-1 d-lg-none scroll">
-    {#each $ranks as rank (rank.id)}
-      {#if rank.id == selectedRank}
-        <Rank bind:rank on:error={handleError} />
-      {/if}
-    {:else}
-      <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
-    {/each}
-  </div>
-
-  <div class="d-lg-none tab-buttons">
-    {#if errorAlertVisible}
-      <div
-        in:fly={{ x: -200, duration: 200 }}
-        out:fly={{ x: -200, duration: 200 }}>
-        <Alert class="mb-0 py-1" color="warning" isOpen={true}>
-          {$_(errorAlertMessage)}
-        </Alert>
-      </div>
-    {/if}
-    {#if connectionLost}
-      <div
-        in:fly={{ x: -200, duration: 200 }}
-        out:fly={{ x: -200, duration: 200 }}>
-        <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-          {$_('error.connection_lost')}
-        </Alert>
-      </div>
-    {/if}
-    <div class="d-flex border-top w-100">
-      {#each $ranks as rank (rank.id)}
-        <div class="flex-grow-1 {tabButtonWidth} px-0">
-          <input
-            readonly={undefined}
-            type="radio"
-            id={rank.id}
-            bind:group={selectedRank}
-            value={rank.id} />
-          <label
-            for={rank.id}
-            class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
-            col">
-            <div class="icon d-inline-block">
-              <svelte:component this={getRankDetails(rank).icon} />
-            </div>
-            <br />
-            {$_(rank.name)}
-          </label>
+      transition:fade={{ duration: 200 }}
+      class="position-absolute w-100 h-100">
+      <div class="d-flex justify-content-center h-100">
+        <div class="d-flex flex-column justify-content-center">
+          <Spinner color="primary" />
         </div>
-      {/each}
+      </div>
     </div>
-  </div>
+  {:else if passwordRequired}
+    <div
+      transition:fade={{ duration: 200 }}
+      class="w-100 h-100 position-absolute">
+      <PasswordWall on:accepted={checkPassword} />
+    </div>
+  {:else}
+    <div transition:fade={{ duration: 200 }} class="d-flex h-100 flex-column">
+      <div class="d-none d-lg-block scroll h-100">
+        <div
+          class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
+          min-vh-90">
+          {#each $ranks as rank, i (rank.id)}
+            <Rank
+              bind:rank
+              bind:drake
+              on:error={handleError}
+              send={cardSend}
+              receive={cardReceive} />
+            {#if i !== $ranks.length - 1}
+              <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+            {/if}
+          {:else}
+            <p class="text-center text-secondary">There are no columns!</p>
+          {/each}
+        </div>
+      </div>
+
+      <div class="d-block flex-grow-1 d-lg-none scroll">
+        {#each $ranks as rank (rank.id)}
+          {#if rank.id == selectedRank}
+            <Rank bind:rank on:error={handleError} />
+          {/if}
+        {:else}
+          <p class="text-center text-secondary mt-5">
+            {$_('board.no_columns')}
+          </p>
+        {/each}
+      </div>
+
+      <div class="d-lg-none tab-buttons">
+        {#if errorAlertVisible}
+          <div
+            in:fly={{ x: -200, duration: 200 }}
+            out:fly={{ x: -200, duration: 200 }}>
+            <Alert class="mb-0 py-1" color="warning" isOpen={true}>
+              {$_(errorAlertMessage)}
+            </Alert>
+          </div>
+        {/if}
+        {#if connectionLost}
+          <div
+            in:fly={{ x: -200, duration: 200 }}
+            out:fly={{ x: -200, duration: 200 }}>
+            <Alert class="mb-0 py-1" color="danger" isOpen={true}>
+              {$_('error.connection_lost')}
+            </Alert>
+          </div>
+        {/if}
+        <div class="d-flex border-top w-100">
+          {#each $ranks as rank (rank.id)}
+            <div class="flex-grow-1 {tabButtonWidth} px-0">
+              <input
+                readonly={undefined}
+                type="radio"
+                id={rank.id}
+                bind:group={selectedRank}
+                value={rank.id} />
+              <label
+                for={rank.id}
+                class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
+                col">
+                <div class="icon d-inline-block">
+                  <svelte:component this={getRankDetails(rank).icon} />
+                </div>
+                <br />
+                {$_(rank.name)}
+              </label>
+            </div>
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
 
   <div class="fixed-bottom d-none d-lg-block">
     {#if errorAlertVisible}

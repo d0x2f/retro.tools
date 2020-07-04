@@ -6,6 +6,7 @@
 
   import { Icons } from '../data.js';
   import { deleteBoard } from '../api.js';
+  import { isBoardEncrypted } from '../crypto.js';
 
   export let board;
   export let nav;
@@ -45,7 +46,13 @@
     class="align-middle board-link"
     on:click={() => nav.navigate(`/${board.id}`)}>
     {#if board.name}
-      {board.name}
+      {#await isBoardEncrypted(board)}
+        ...
+      {:then encrypted}
+        {#if encrypted}
+          <i class="small">{$_('general.encrypted')}</i>
+        {:else}{board.name}{/if}
+      {/await}
     {:else}
       <i class="small">{$_('splash.no_name')}</i>
     {/if}

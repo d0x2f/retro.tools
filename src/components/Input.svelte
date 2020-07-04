@@ -1,18 +1,17 @@
 <script>
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { autoresize } from 'svelte-textarea-autoresize';
 
   export let value = '';
   export let placeholder = '';
 
   const dispatch = createEventDispatcher();
-  let focused = false;
+  let focused = true;
   let element;
-
-  onMount(() => element.focus());
 
   function focus() {
     focused = true;
+    dispatch('focus');
   }
 
   function blur() {
@@ -20,8 +19,9 @@
     dispatch('blur');
   }
 
-  function checkSubmission(event) {
+  function keyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
+      // 'enter' key (and not shift + enter)
       if (value.length > 0) {
         dispatch('submit', {
           text: value,
@@ -29,6 +29,7 @@
       }
       event.preventDefault();
     } else if (event.keyCode === 27) {
+      // 'escape' key
       dispatch('cancel');
     }
   }
@@ -40,6 +41,10 @@
       element.value = '';
       element.dispatchEvent(new Event('input'));
     }
+  }
+
+  function startFocused(el) {
+    el.focus();
   }
 </script>
 
@@ -62,11 +67,12 @@
 </style>
 
 <textarea
-  use:autoresize
   bind:this={element}
+  use:autoresize
+  use:startFocused
   on:focus={focus}
   on:blur={blur}
-  on:keydown={checkSubmission}
+  on:keydown={keyDown}
   class={focused ? 'border-primary' : ''}
   bind:value
   {placeholder} />
