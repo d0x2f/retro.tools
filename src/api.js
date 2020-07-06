@@ -65,12 +65,13 @@ export async function getCards(boardId) {
   return requestJson(`${api_host}/boards/${boardId}/cards`, common_options);
 }
 
-export async function createCard(boardId, rankId, text) {
+export async function createCard(boardId, rankId, text, author) {
   return requestJson(`${api_host}/boards/${boardId}/ranks/${rankId}/cards`, {
     method: 'POST',
     body: JSON.stringify({
       name: 'Card',
       description: text,
+      author,
     }),
     ...common_options,
   });

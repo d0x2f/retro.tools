@@ -48,6 +48,7 @@
   "board.options.download_csv": "Descargar CSV",
   "board.options.copy_link": "Copiar enlace",
   "board.unlock": "Desbloquear",
+  "board.author": "Autor",
   "card.new_card": "Nueva Tarjeta",
   "card.edit_card": "Editar Tarjeta",
   "card.example_text": "Necesitamos más bocadillos ...",

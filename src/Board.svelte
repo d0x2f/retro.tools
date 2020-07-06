@@ -6,7 +6,7 @@
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
 
-  import { board, ranks, cards, password } from './store.js';
+  import { board, ranks, cards, focusedRank, password } from './store.js';
   import { updateBoard, updateCard, getCards, getBoard } from './api.js';
   import { getRankDetails } from './data.js';
   import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
@@ -17,7 +17,6 @@
 
   export let nav;
 
-  let selectedRank = '';
   let tabButtonWidth = '';
   let hidden = false;
   let refreshIntervalId;
@@ -162,7 +161,7 @@
     await checkPassword();
 
     // Show first rank initially
-    if ($ranks[0]) selectedRank = $ranks[0].id;
+    if ($ranks[0]) $focusedRank = $ranks[0].id;
 
     // Subscribe to board changes so we can post updates.
     // Compare updated boards to their last known value
@@ -292,80 +291,80 @@
       <PasswordWall on:accepted={checkPassword} />
     </div>
   {:else}
-    <div transition:fade={{ duration: 200 }} class="d-flex h-100 flex-column">
-      <div class="d-none d-lg-block scroll h-100">
-        <div
-          class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
-          min-vh-90">
-          {#each $ranks as rank, i (rank.id)}
-            <Rank
-              bind:rank
-              bind:drake
-              on:error={handleError}
-              send={cardSend}
-              receive={cardReceive} />
-            {#if i !== $ranks.length - 1}
-              <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-            {/if}
-          {:else}
-            <p class="text-center text-secondary">There are no columns!</p>
-          {/each}
-        </div>
-      </div>
-
-      <div class="d-block flex-grow-1 d-lg-none scroll">
-        {#each $ranks as rank (rank.id)}
-          {#if rank.id == selectedRank}
-            <Rank bind:rank on:error={handleError} />
+    <div
+      transition:fade={{ duration: 200 }}
+      class="d-none d-lg-block scroll h-100">
+      <div
+        class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
+        min-vh-90">
+        {#each $ranks as rank, i (rank.id)}
+          <Rank
+            bind:rank
+            bind:drake
+            on:error={handleError}
+            send={cardSend}
+            receive={cardReceive} />
+          {#if i !== $ranks.length - 1}
+            <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
           {/if}
         {:else}
-          <p class="text-center text-secondary mt-5">
-            {$_('board.no_columns')}
-          </p>
+          <p class="text-center text-secondary">There are no columns!</p>
         {/each}
       </div>
+    </div>
 
-      <div class="d-lg-none tab-buttons">
-        {#if errorAlertVisible}
-          <div
-            in:fly={{ x: -200, duration: 200 }}
-            out:fly={{ x: -200, duration: 200 }}>
-            <Alert class="mb-0 py-1" color="warning" isOpen={true}>
-              {$_(errorAlertMessage)}
-            </Alert>
-          </div>
+    <div
+      transition:fade={{ duration: 200 }}
+      class="d-block flex-grow-1 d-lg-none scroll">
+      {#each $ranks as rank (rank.id)}
+        {#if rank.id == $focusedRank}
+          <Rank bind:rank on:error={handleError} />
         {/if}
-        {#if connectionLost}
-          <div
-            in:fly={{ x: -200, duration: 200 }}
-            out:fly={{ x: -200, duration: 200 }}>
-            <Alert class="mb-0 py-1" color="danger" isOpen={true}>
-              {$_('error.connection_lost')}
-            </Alert>
-          </div>
-        {/if}
-        <div class="d-flex border-top w-100">
-          {#each $ranks as rank (rank.id)}
-            <div class="flex-grow-1 {tabButtonWidth} px-0">
-              <input
-                readonly={undefined}
-                type="radio"
-                id={rank.id}
-                bind:group={selectedRank}
-                value={rank.id} />
-              <label
-                for={rank.id}
-                class="px-0 border-top text-uppercase {selectedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
-                col">
-                <div class="icon d-inline-block">
-                  <svelte:component this={getRankDetails(rank).icon} />
-                </div>
-                <br />
-                {$_(rank.name)}
-              </label>
-            </div>
-          {/each}
+      {:else}
+        <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
+      {/each}
+    </div>
+
+    <div transition:fade={{ duration: 200 }} class="d-lg-none tab-buttons">
+      {#if errorAlertVisible}
+        <div
+          in:fly={{ x: -200, duration: 200 }}
+          out:fly={{ x: -200, duration: 200 }}>
+          <Alert class="mb-0 py-1" color="warning" isOpen={true}>
+            {$_(errorAlertMessage)}
+          </Alert>
         </div>
+      {/if}
+      {#if connectionLost}
+        <div
+          in:fly={{ x: -200, duration: 200 }}
+          out:fly={{ x: -200, duration: 200 }}>
+          <Alert class="mb-0 py-1" color="danger" isOpen={true}>
+            {$_('error.connection_lost')}
+          </Alert>
+        </div>
+      {/if}
+      <div class="d-flex border-top w-100">
+        {#each $ranks as rank (rank.id)}
+          <div class="flex-grow-1 {tabButtonWidth} px-0">
+            <input
+              readonly={undefined}
+              type="radio"
+              id={rank.id}
+              bind:group={$focusedRank}
+              value={rank.id} />
+            <label
+              for={rank.id}
+              class="px-0 border-top text-uppercase {$focusedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
+              col">
+              <div class="icon d-inline-block">
+                <svelte:component this={getRankDetails(rank).icon} />
+              </div>
+              <br />
+              {$_(rank.name)}
+            </label>
+          </div>
+        {/each}
       </div>
     </div>
   {/if}

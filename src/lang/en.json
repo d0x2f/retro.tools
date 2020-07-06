@@ -48,6 +48,7 @@
   "board.options.download_csv": "Download CSV",
   "board.options.copy_link": "Copy Link",
   "board.unlock": "Unlock",
+  "board.author": "Author",
   "card.new_card": "New Card",
   "card.edit_card": "Edit Card",
   "card.example_text": "We need more snacks...",
