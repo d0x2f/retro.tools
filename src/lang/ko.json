@@ -48,6 +48,7 @@
   "board.options.download_csv": "CSV 다운로드",
   "board.options.copy_link": "링크 복사하기",
   "board.unlock": "해제하기",
+  "board.author": "작성자",
   "card.new_card": "새로운 카드",
   "card.edit_card": "카드 수정하기",
   "card.example_text": "과자를 더 사주세요...",

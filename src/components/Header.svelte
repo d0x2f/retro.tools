@@ -16,7 +16,7 @@
   import Input from './Input.svelte';
   import EncryptedText from './EncryptedText.svelte';
 
-  import { board, password, settings } from '../store.js';
+  import { board, password, sorted } from '../store.js';
   import { Icons } from '../data.js';
   import { getCSVUrl } from '../api.js';
   import { decrypt, encrypt } from '../crypto.js';
@@ -105,10 +105,12 @@
       on:click={startEdit}>
       {#if editMode}
         <Input
+          autofocus
           bind:value={newBoardName}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
-          on:blur={submitEdit} />
+          on:blur={submitEdit}
+          class="text-center" />
       {:else}
         <EncryptedText bind:text={$board.name} />
       {/if}
@@ -146,13 +148,11 @@
                 label={$_('board.options.voting_allowed')}
                 bind:checked={$board.voting_open} />
             </DropdownItem>
-            <DropdownItem
-              toggle={false}
-              on:click={() => ($settings.sorted = !$settings.sorted)}>
+            <DropdownItem toggle={false} on:click={() => ($sorted = !$sorted)}>
               <CustomInput
                 type="checkbox"
                 label={$_('board.options.sort_by_votes')}
-                bind:checked={$settings.sorted} />
+                bind:checked={$sorted} />
             </DropdownItem>
             <DropdownItem
               toggle={false}

@@ -1,13 +1,20 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { autoresize } from 'svelte-textarea-autoresize';
+  import { autoresize as autoresizer } from 'svelte-textarea-autoresize';
+  import clsx from 'clsx';
 
   export let value = '';
   export let placeholder = '';
+  export let autoresize = false;
+  export let autofocus = false;
+
+  let className = '';
+  export { className as class };
 
   const dispatch = createEventDispatcher();
   let focused = true;
   let element;
+  let classes;
 
   function focus() {
     focused = true;
@@ -41,21 +48,19 @@
       element.value = '';
       element.dispatchEvent(new Event('input'));
     }
+
+    classes = clsx(className, 'form-control');
   }
 
-  function startFocused(el) {
-    el.focus();
+  function use(el) {
+    if (autoresize) autoresizer(el);
+    if (autofocus) el.focus();
   }
 </script>
 
 <style>
   textarea {
     resize: none;
-    width: 100%;
-    border-radius: 4px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: lightgrey;
     overflow: hidden;
     padding: 8px;
     box-sizing: border-box;
@@ -68,12 +73,12 @@
 </style>
 
 <textarea
+  rows="1"
   bind:this={element}
-  use:autoresize
-  use:startFocused
+  use:use
   on:focus={focus}
   on:blur={blur}
   on:keydown={keyDown}
-  class={focused ? 'border-primary' : ''}
+  class={classes}
   bind:value
   {placeholder} />

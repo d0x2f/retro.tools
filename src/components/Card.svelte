@@ -118,26 +118,38 @@
     <div class="p-1 w-100 flex-grow-1">
       {#if editMode}
         <Input
+          autoresize
+          autofocus
           bind:value={newCardText}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
       {:else}
+        <div class="pl-1 float-right">
+          {#if card.owner || $board.owner}
+            <Button
+              color="danger"
+              class="text-capitalize"
+              on:click={startDelete}>
+              <div class="icon" class:voted={card.voted}>
+                <Icons.trash />
+              </div>
+            </Button>
+          {/if}
+        </div>
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           <EncryptedText bind:text={card.description} />
+          {#if card.author.length > 0}
+            <span class="m-1 small text-primary text-nowrap float-right">
+              -
+              <EncryptedText bind:text={card.author} />
+            </span>
+          {/if}
         </div>
       {/if}
     </div>
-    <div class="m-1 flex-grow-0">
-      {#if card.owner || $board.owner}
-        <Button color="danger" class="text-capitalize" on:click={startDelete}>
-          <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
-          </div>
-        </Button>
-      {/if}
-    </div>
   </div>
+
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
       <Button color="dark" class="text-capitalize" on:click={cancelDelete}>
