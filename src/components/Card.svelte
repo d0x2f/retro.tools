@@ -140,10 +140,10 @@
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           <EncryptedText bind:text={card.description} />
           {#if card.author.length > 0}
-          <span class="m-1 small text-primary text-nowrap float-right">
-            -
-            <EncryptedText bind:text={card.author} />
-          </span>
+            <span class="m-1 small text-primary text-nowrap float-right">
+              -
+              <EncryptedText bind:text={card.author} />
+            </span>
           {/if}
         </div>
       {/if}
