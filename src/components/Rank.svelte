@@ -76,7 +76,7 @@
 
     const tempId = Math.floor(Math.random() * 10000);
     const encryptedCardText = await encrypt(newCardText, $password);
-    const encryptedAuthor = await encrypt($author, $password);
+    const encryptedAuthor = $author.length > 0 ? await encrypt($author, $password) : "";
     cards.append({
       id: tempId,
       name: 'Card',
