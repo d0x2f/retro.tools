@@ -122,10 +122,8 @@
 
 <div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
   <div class="border-bottom d-flex p-2 mb-2 {rankDetails.classes.color}">
-    <div
-      class="d-flex flex-column justify-content-center flex-shrink-0">
-      <div
-        class="icon px-2">
+    <div class="d-flex flex-column justify-content-center flex-shrink-0">
+      <div class="icon px-2">
         <svelte:component this={rankDetails.icon} />
       </div>
     </div>
