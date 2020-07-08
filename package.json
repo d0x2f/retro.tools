@@ -26,7 +26,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-svelte": "^5.2.3",
-    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-terser": "^6.1.0",
     "svelte": "^3.0.0"
   },
   "dependencies": {
