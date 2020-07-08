@@ -18,7 +18,7 @@
     "htmlnano": "^0.2.5",
     "posthtml": "^0.13.1",
     "posthtml-hash": "^1.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
     "rollup": "^2.19.0",
     "rollup-plugin-copy": "^3.3.0",
