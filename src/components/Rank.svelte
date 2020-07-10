@@ -2,7 +2,6 @@
   import { onMount, createEventDispatcher } from 'svelte';
   import { flip } from 'svelte/animate';
   import { _ } from 'svelte-i18n';
-  import { Button } from 'sveltestrap';
 
   import {
     author,
@@ -13,11 +12,13 @@
     ranks,
     sorted,
   } from '../store.js';
-  import Card from './Card.svelte';
-  import Input from './Input.svelte';
   import { getRankDetails, Icons } from '../data.js';
   import { createCard } from '../api.js';
   import { encrypt } from '../crypto.js';
+
+  import Card from './Card.svelte';
+  import Textarea from './Textarea.svelte';
+  import Button from './Button.svelte';
 
   export let rank;
   export let send = false;
@@ -128,7 +129,7 @@
       </div>
     </div>
     <div class="d-flex input-group">
-      <Input
+      <Textarea
         autoresize
         on:submit={newCard}
         placeholder={$_(rank.name)}
@@ -136,7 +137,7 @@
         on:focus={() => ($focusedRank = rank.id)}
         class="flex-grow-1" />
       {#if $focusedRank === rank.id}
-        <Input
+        <Textarea
           on:submit={newCard}
           placeholder={$_('board.author')}
           bind:value={$author}

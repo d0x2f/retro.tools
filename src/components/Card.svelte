@@ -1,15 +1,15 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Button } from 'sveltestrap';
 
   import { board, cards, password } from '../store.js';
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Icons } from '../data.js';
   import { decrypt, encrypt } from '../crypto.js';
 
-  import Input from './Input.svelte';
+  import Textarea from './Textarea.svelte';
   import Votes from './Votes.svelte';
   import EncryptedText from './EncryptedText.svelte';
+  import Button from './Button.svelte';
 
   export let card;
   export let color = 'text-primary';
@@ -117,7 +117,7 @@
     </div>
     <div class="p-1 w-100 flex-grow-1">
       {#if editMode}
-        <Input
+        <Textarea
           autoresize
           autofocus
           bind:value={newCardText}

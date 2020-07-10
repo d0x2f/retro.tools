@@ -1,9 +1,10 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Button } from 'sveltestrap';
 
   import { board } from '../store.js';
   import { Icons } from '../data.js';
+
+  import Button from './Button.svelte';
 
   export let votes = 0;
   export let voted = false;
