@@ -2,17 +2,18 @@
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
   import {
-    Input,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Button,
     Spinner,
   } from 'sveltestrap';
 
   import { board, password } from '../store.js';
   import { checkBoardPassword } from '../crypto.js';
   import { Icons } from '../data.js';
+
+  import Button from './Button.svelte';
+  import Input from './Input.svelte';
 
   let showPassword = false;
   let checkBusy = false;

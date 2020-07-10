@@ -13,7 +13,7 @@
 
   import QRCode from './QRCode.svelte';
   import LocaleSelect from './LocaleSelect.svelte';
-  import Input from './Input.svelte';
+  import Textarea from './Textarea.svelte';
   import EncryptedText from './EncryptedText.svelte';
 
   import { board, password, sorted } from '../store.js';
@@ -104,7 +104,7 @@
       class="col text-center text-secondary d-none d-lg-block pt-1"
       on:click={startEdit}>
       {#if editMode}
-        <Input
+        <Textarea
           autofocus
           bind:value={newBoardName}
           on:submit={submitEdit}

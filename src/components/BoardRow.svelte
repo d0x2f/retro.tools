@@ -1,12 +1,14 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Button, Spinner } from 'sveltestrap';
+  import { Spinner } from 'sveltestrap';
   import moment from 'moment';
   import { _, locale } from 'svelte-i18n';
 
   import { Icons } from '../data.js';
   import { deleteBoard } from '../api.js';
   import { isBoardEncrypted } from '../crypto.js';
+
+  import Button from './Button.svelte';
 
   export let board;
   export let nav;

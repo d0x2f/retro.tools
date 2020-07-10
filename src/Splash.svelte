@@ -1,9 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import {
-    Button,
-    CustomInput,
-    Input,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
@@ -19,6 +16,11 @@
   import { Icons, BoardTemplates } from './data.js';
   import { password } from './store.js';
   import { encrypt } from './crypto.js';
+
+  import Button from './components/Button.svelte';
+  import Input from './components/Input.svelte';
+  import Checkbox from './components/Checkbox.svelte';
+  import Select from './components/Select.svelte';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import BoardRow from './components/BoardRow.svelte';
   import LocaleSelect from './components/LocaleSelect.svelte';
@@ -121,39 +123,26 @@
     </div>
     <p class="text-primary mb-1">{$_('splash.board_name')}</p>
     <Input
-      readonly={undefined}
-      type="text"
-      name="boardName"
-      id="boardName"
       placeholder={$_('splash.board_name_example')}
       bind:value={boardName} />
     <p class="text-primary my-1">{$_('splash.template')}</p>
-    <CustomInput
-      readonly={undefined}
-      type="select"
-      name="templateSelect"
-      id="templateSelect"
-      bind:value={templateKey}>
+    <Select bind:value={templateKey}>
       {#each Object.entries(BoardTemplates) as [key, template]}
         <option value={key}>{$_(template.name)}</option>
       {/each}
-    </CustomInput>
+    </Select>
     <p class="text-primary my-1">{$_('general.encryption')}</p>
     <InputGroup>
       <InputGroupAddon addonType="prepend">
         <InputGroupText>
-          <Input
-            readonly={undefined}
+          <Checkbox
             addon
             type="checkbox"
             on:input={i => (passwordDisabled = !i.target.checked)} />
         </InputGroupText>
       </InputGroupAddon>
       <Input
-        readonly={undefined}
         type={showPassword ? 'text' : 'password'}
-        name="password"
-        id="password"
         placeholder={$_('general.password')}
         bind:disabled={passwordDisabled}
         bind:value={$password} />
@@ -171,7 +160,7 @@
     </InputGroup>
     <div class="text-right">
       <Button
-        class="mt-1"
+        class="mt-2"
         color="primary"
         on:click={newBoard}
         disabled={createBusy}>
