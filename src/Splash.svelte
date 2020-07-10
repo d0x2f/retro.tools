@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import {
-    CustomInput,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
