@@ -4,7 +4,6 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    CustomInput,
     Card,
   } from 'sveltestrap';
   import { fly } from 'svelte/transition';
@@ -15,6 +14,7 @@
   import LocaleSelect from './LocaleSelect.svelte';
   import Textarea from './Textarea.svelte';
   import EncryptedText from './EncryptedText.svelte';
+  import Checkbox from './Checkbox.svelte';
 
   import { board, password, sorted } from '../store.js';
   import { Icons } from '../data.js';
@@ -130,36 +130,23 @@
             </div>
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem
-              toggle={false}
-              disabled={!$board.owner}
-              on:click={() => ($board.cards_open = !$board.cards_open)}>
-              <CustomInput
-                type="checkbox"
+            <DropdownItem toggle={false} disabled={!$board.owner}>
+              <Checkbox
                 label={$_('board.options.new_cards_allowed')}
                 bind:checked={$board.cards_open} />
             </DropdownItem>
-            <DropdownItem
-              toggle={false}
-              disabled={!$board.owner}
-              on:click={() => ($board.voting_open = !$board.voting_open)}>
-              <CustomInput
-                type="checkbox"
+            <DropdownItem toggle={false} disabled={!$board.owner}>
+              <Checkbox
                 label={$_('board.options.voting_allowed')}
                 bind:checked={$board.voting_open} />
             </DropdownItem>
-            <DropdownItem toggle={false} on:click={() => ($sorted = !$sorted)}>
-              <CustomInput
-                type="checkbox"
+            <DropdownItem toggle={false}>
+              <Checkbox
                 label={$_('board.options.sort_by_votes')}
                 bind:checked={$sorted} />
             </DropdownItem>
-            <DropdownItem
-              toggle={false}
-              on:click={() => (showQR = !showQR)}
-              class="d-none d-lg-block">
-              <CustomInput
-                type="checkbox"
+            <DropdownItem toggle={false} class="d-none d-lg-block">
+              <Checkbox
                 label={$_('board.options.show_qr_code')}
                 bind:checked={showQR} />
             </DropdownItem>
