@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import { InputGroup, InputGroupAddon, InputGroupText } from 'sveltestrap';
   import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
@@ -127,21 +126,21 @@
       {/each}
     </Select>
     <p class="text-primary my-1">{$_('general.encryption')}</p>
-    <InputGroup>
-      <InputGroupAddon addonType="prepend">
-        <InputGroupText>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
           <Checkbox
             addon
             on:input={i => (passwordDisabled = !i.target.checked)} />
-        </InputGroupText>
-      </InputGroupAddon>
+        </div>
+      </div>
       <Input
         type={showPassword ? 'text' : 'password'}
         placeholder={$_('general.password')}
         bind:disabled={passwordDisabled}
         bind:value={$password} />
-      <InputGroupAddon addonType="append">
-        <InputGroupText>
+      <div class="input-group-append">
+        <div class="input-group-text">
           <div class="icon" on:click={() => (showPassword = !showPassword)}>
             {#if showPassword}
               <Icons.eye />
@@ -149,9 +148,9 @@
               <Icons.eyeOff />
             {/if}
           </div>
-        </InputGroupText>
-      </InputGroupAddon>
-    </InputGroup>
+        </div>
+      </div>
+    </div>
     <div class="text-right">
       <Button
         class="mt-2"

@@ -36,6 +36,7 @@ export default {
       serve({
         contentBase: ["build"],
         port: 3000,
+        historyApiFallback: true
       }),
 
     !IS_PROD && livereload({ watch: "build" }),
