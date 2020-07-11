@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "postbuild": "node postbuild.js",
-    "dev": "rollup -c -w",
+    "dev": "env BUILD_ENV=development rollup -c -w",
     "start": "sirv build --single",
     "lint": "prettier --check 'src/**/*.{js,svelte}' && eslint 'src/**/*.{js,svelte}'",
     "lint:fix": "prettier --write 'src/**/*.{js,svelte}' || eslint --fix 'src/**/*.{js,svelte}'"
@@ -29,6 +29,7 @@
     "rollup-plugin-terser": "^6.1.0"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^2.3.3",
     "clipboard": "^2.0.6",
     "clsx": "^1.1.1",
     "crayon": "^6.0.1",
