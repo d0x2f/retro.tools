@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Spinner } from 'sveltestrap';
   import moment from 'moment';
   import { _, locale } from 'svelte-i18n';
 
@@ -9,9 +8,9 @@
   import { isBoardEncrypted } from '../crypto.js';
 
   import Button from './Button.svelte';
+  import Spinner from './Spinner.svelte';
 
   export let board;
-  export let nav;
 
   const dispatch = createEventDispatcher();
   let showDeleteBoardConfirmBox = false;
@@ -21,35 +20,38 @@
     dispatch('error', { message, err });
   }
 
-  function toggleDeleteBoardConfirmBox() {
-    showDeleteBoardConfirmBox = !showDeleteBoardConfirmBox;
+  function startDelete() {
+    showDeleteBoardConfirmBox = true;
   }
 
-  async function deleteCardSubmit() {
-    toggleDeleteBoardConfirmBox();
+  function cancelDelete() {
+    showDeleteBoardConfirmBox = false;
+  }
+
+  async function submitDelete() {
     busy = true;
+    showDeleteBoardConfirmBox = false;
     try {
       await deleteBoard(board.id);
       dispatch('deleted');
     } catch (err) {
+      busy = false;
       error('error.board_delete', err);
     }
   }
 </script>
 
 <style>
-  .board-link {
+  .pointer {
     cursor: pointer;
   }
 </style>
 
 <tr>
-  <td
-    class="align-middle board-link"
-    on:click={() => nav.navigate(`/${board.id}`)}>
+  <td class="align-middle pointer" on:click={() => dispatch('click', board.id)}>
     {#if board.name}
       {#await isBoardEncrypted(board)}
-        ...
+        …
       {:then encrypted}
         {#if encrypted}
           <i class="small">{$_('general.encrypted')}</i>
@@ -59,7 +61,9 @@
       <i class="small">{$_('splash.no_name')}</i>
     {/if}
   </td>
-  <td class="text-right align-middle">
+  <td
+    class="text-right align-middle pointer"
+    on:click={() => dispatch('click', board.id)}>
     {moment(new Date(board.created_at.secs_since_epoch * 1000))
       .locale($locale)
       .fromNow()}
@@ -67,14 +71,11 @@
   {#if showDeleteBoardConfirmBox}
     <td>
       <div class="d-flex justify-content-end w-100 h-100 text-center">
-        <Button
-          color="dark"
-          class="mr-1"
-          on:click={toggleDeleteBoardConfirmBox}>
+        <Button color="dark" class="mr-1" on:click={cancelDelete}>
           <Icons.close size="1x" />
         </Button>
 
-        <Button color="danger" on:click={deleteCardSubmit}>
+        <Button color="danger" on:click={submitDelete}>
           <Icons.check size="1x" />
         </Button>
       </div>
@@ -82,7 +83,7 @@
   {:else}
     <td class="text-right">
       {#if board.owner}
-        <Button color="danger" on:click={toggleDeleteBoardConfirmBox}>
+        <Button color="danger" on:click={startDelete} disabled={busy}>
           {#if busy}
             <Spinner size="sm" color="light" />
           {:else}

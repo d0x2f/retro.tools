@@ -4,12 +4,34 @@
   let className = '';
   export { className as class };
   export let disabled = false;
-  export let value = '';
+  export let checked = false;
+  export let label = '';
   export let addon = false;
+  export let id = 'id-' + Math.floor(Math.random() * 10000);
 
-  $: classes = clsx(className, {
-    'form-check-input': !addon,
-  });
+  $: wrapperClasses = clsx(className, 'custom-checkbox', 'custom-control');
+
+  $: directClasses = clsx(className, { 'form-check-input': !addon });
 </script>
 
-<input type="checkbox" class={classes} {disabled} on:input {value} />
+{#if label}
+  <div class={wrapperClasses}>
+    <input
+      {id}
+      type="checkbox"
+      class="custom-control-input"
+      {disabled}
+      {label}
+      bind:checked
+      on:input />
+    <label class="custom-control-label" for={id}>{label}</label>
+  </div>
+{:else}
+  <input
+    {id}
+    type="checkbox"
+    class={directClasses}
+    {disabled}
+    bind:checked
+    on:input />
+{/if}

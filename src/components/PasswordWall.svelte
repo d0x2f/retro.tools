@@ -1,12 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
-  import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Spinner,
-  } from 'sveltestrap';
+  import { InputGroup, InputGroupAddon, InputGroupText } from 'sveltestrap';
 
   import { board, password } from '../store.js';
   import { checkBoardPassword } from '../crypto.js';
@@ -14,6 +9,7 @@
 
   import Button from './Button.svelte';
   import Input from './Input.svelte';
+  import Spinner from './Spinner.svelte';
 
   let showPassword = false;
   let checkBusy = false;

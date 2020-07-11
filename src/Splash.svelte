@@ -1,14 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Spinner,
-    Table,
-    Alert,
-  } from 'sveltestrap';
-  import { fade, fly } from 'svelte/transition';
+  import { InputGroup, InputGroupAddon, InputGroupText } from 'sveltestrap';
+  import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
   import { gtag } from './ga.js';
@@ -21,9 +14,11 @@
   import Input from './components/Input.svelte';
   import Checkbox from './components/Checkbox.svelte';
   import Select from './components/Select.svelte';
+  import Spinner from './components/Spinner.svelte';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
-  import BoardRow from './components/BoardRow.svelte';
+  import BoardTable from './components/BoardTable.svelte';
   import LocaleSelect from './components/LocaleSelect.svelte';
+  import Alert from './components/Alert.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
@@ -137,7 +132,6 @@
         <InputGroupText>
           <Checkbox
             addon
-            type="checkbox"
             on:input={i => (passwordDisabled = !i.target.checked)} />
         </InputGroupText>
       </InputGroupAddon>
@@ -177,31 +171,11 @@
       </Button>
     </div>
 
-    {#if boards.length > 0}
-      <div in:fade>
-        <p class="text-primary my-3">{$_('splash.your_boards')}</p>
-        <Table hover class="w-100">
-          <thead>
-            <tr>
-              <th>{$_('splash.name')}</th>
-              <th class="text-right">{$_('splash.created')}</th>
-              <th class="w-25" />
-            </tr>
-          </thead>
-          <tbody>
-            {#each boards.sort((a, b) => {
-              return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch ? 1 : -1;
-            }) as board (board.id)}
-              <BoardRow
-                {board}
-                {nav}
-                on:deleted={doGetBoards}
-                on:error={handleError} />
-            {/each}
-          </tbody>
-        </Table>
-      </div>
-    {/if}
+    <BoardTable
+      {boards}
+      on:click={({ detail: boardId }) => nav.navigate(`/${boardId}`)}
+      on:error={handleError}
+      on:deleted={doGetBoards} />
   </div>
 </div>
 

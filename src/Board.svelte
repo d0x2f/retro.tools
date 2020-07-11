@@ -1,6 +1,5 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { Alert, Spinner } from 'sveltestrap';
   import { quintOut } from 'svelte/easing';
   import { crossfade, fade, fly } from 'svelte/transition';
   import dragula from 'dragula';
@@ -14,6 +13,8 @@
   import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
+  import Spinner from './components/Spinner.svelte';
+  import Alert from './components/Alert.svelte';
 
   export let nav;
 
