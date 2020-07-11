@@ -9,7 +9,7 @@ import es from './lang/es.json';
 import ko from './lang/ko.json';
 import de from './lang/de.json';
 
-locale.subscribe(l => {
+locale.subscribe((l) => {
   if (l) moment.locale(l);
 });
 

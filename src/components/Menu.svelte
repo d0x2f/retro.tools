@@ -18,7 +18,7 @@
   let isOpen = false;
   let showQR = false;
 
-  const preventDefault = e => {
+  const preventDefault = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
