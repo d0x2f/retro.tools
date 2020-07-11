@@ -1,18 +1,14 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
-  import {
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Button,
-    Spinner,
-  } from 'sveltestrap';
 
   import { board, password } from '../store.js';
   import { checkBoardPassword } from '../crypto.js';
   import { Icons } from '../data.js';
+
+  import Button from './Button.svelte';
+  import Input from './Input.svelte';
+  import Spinner from './Spinner.svelte';
 
   let showPassword = false;
   let checkBusy = false;
@@ -60,15 +56,15 @@
   <div class="d-flex flex-column justify-content-center">
     <div bind:this={inputBox} class="box h-50 animate__animated">
       <p class="text-primary mb-1">{$_('general.password')}</p>
-      <InputGroup>
+      <div class="input-group">
         <Input
           readonly={undefined}
           type={showPassword ? 'text' : 'password'}
           name="password"
           id="password"
           bind:value={inputPassword} />
-        <InputGroupAddon addonType="append">
-          <InputGroupText>
+        <div class="input-group-append">
+          <div class="input-group-text">
             <div
               class="eye-icon"
               on:click={() => (showPassword = !showPassword)}>
@@ -78,9 +74,9 @@
                 <Icons.eyeOff />
               {/if}
             </div>
-          </InputGroupText>
-        </InputGroupAddon>
-      </InputGroup>
+          </div>
+        </div>
+      </div>
       <div class="text-right">
         <Button
           class="mt-1"

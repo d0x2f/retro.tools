@@ -1,5 +1,5 @@
-// TODO: config option
-const api_host = 'https://retro.tools';
+// Replaced by rollup during build:
+const api_host = '__apiUrl__';
 
 const common_options = {
   mode: 'cors',

@@ -6,8 +6,11 @@ import livereload from "rollup-plugin-livereload";
 import serve from "rollup-plugin-serve";
 import copy from "rollup-plugin-copy";
 import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 
-const IS_PROD = !process.env.ROLLUP_WATCH;
+// Default to production
+const IS_PROD = (process.env.BUILD_ENV ?? 'production') == 'production';
+console.log('Production:', IS_PROD);
 
 export default {
   input: "src/main.js",
@@ -19,6 +22,10 @@ export default {
   },
   plugins: [
     copy({ targets: [{ src: "public/*", dest: "build" }] }),
+
+    replace({
+      __apiUrl__: () => IS_PROD ? 'https://retro.tools' : 'http://localhost:8000'
+    }),
 
     svelte({
       dev: !IS_PROD,
@@ -36,6 +43,7 @@ export default {
       serve({
         contentBase: ["build"],
         port: 3000,
+        historyApiFallback: true
       }),
 
     !IS_PROD && livereload({ watch: "build" }),

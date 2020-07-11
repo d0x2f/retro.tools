@@ -10,7 +10,8 @@ The backend project lives at: [d0x2f/retrograde.rs](https://github.com/d0x2f/ret
 
 * Simple, clean &  intuitive interface
 * Mobile first design
-* No logins or passwords
+* No sign-ups or logins
+* Optional encryption using a password
 * Easy to share a board to your co-workers quickly with a link or an on-screen QR code
 * Open source code
 * Multiple pre-built templates

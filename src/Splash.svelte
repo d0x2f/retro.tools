@@ -1,37 +1,21 @@
 <script>
   import { onMount } from 'svelte';
-  import {
-    Button,
-    CustomInput,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Spinner,
-    Table,
-    Alert,
-  } from 'sveltestrap';
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
-  import { gtag } from './ga.js';
-  import { createRank, createBoard, getBoards } from './api.js';
-  import { Icons, BoardTemplates } from './data.js';
-  import { password } from './store.js';
-  import { encrypt } from './crypto.js';
+  import { getBoards } from './api.js';
+  import { Icons } from './data.js';
+
   import FloatingActionButton from './components/FloatingActionButton.svelte';
-  import BoardRow from './components/BoardRow.svelte';
+  import BoardTable from './components/BoardTable.svelte';
   import LocaleSelect from './components/LocaleSelect.svelte';
+  import Alert from './components/Alert.svelte';
+  import CreateForm from './components/CreateForm.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
   export let errorAlertMessage = 'error.network';
 
-  let boardName = '';
-  let templateKey = 'dropAddKeepImprove';
-  let passwordDisabled = true;
-  let showPassword = false;
-  let createBusy = false;
   let boards = [];
   let errorClearTimeout;
 
@@ -57,35 +41,6 @@
     error(message, err);
   }
 
-  async function createFromTemplate(template) {
-    let [boardNameEncrypted, encryptionTest] = await Promise.all([
-      encrypt(boardName, $password),
-      encrypt('encryptionTest', $password),
-    ]);
-    let board = await createBoard(boardNameEncrypted, { encryptionTest });
-    for (const rank of template.ranks) {
-      await createRank(board.id, rank.name, rank);
-    }
-    return board;
-  }
-
-  async function newBoard() {
-    createBusy = true;
-    if (passwordDisabled) {
-      password.set('');
-    }
-    try {
-      const board = await createFromTemplate(BoardTemplates[templateKey]);
-      gtag('event', 'conversion', {
-        send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
-      });
-      errorAlertVisible = false;
-      nav.navigate(`/${board.id}`);
-    } catch (err) {
-      error('error.creating_board', err);
-    }
-  }
-
   onMount(async () => {
     await doGetBoards();
   });
@@ -94,12 +49,6 @@
 <style>
   .scroll {
     overflow: auto;
-  }
-
-  .icon {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: -1px;
   }
 
   .bigger-icon {
@@ -119,100 +68,16 @@
       <h1 class="text-primary text-uppercase">retro.tools</h1>
       <LocaleSelect />
     </div>
-    <p class="text-primary mb-1">{$_('splash.board_name')}</p>
-    <Input
-      readonly={undefined}
-      type="text"
-      name="boardName"
-      id="boardName"
-      placeholder={$_('splash.board_name_example')}
-      bind:value={boardName} />
-    <p class="text-primary my-1">{$_('splash.template')}</p>
-    <CustomInput
-      readonly={undefined}
-      type="select"
-      name="templateSelect"
-      id="templateSelect"
-      bind:value={templateKey}>
-      {#each Object.entries(BoardTemplates) as [key, template]}
-        <option value={key}>{$_(template.name)}</option>
-      {/each}
-    </CustomInput>
-    <p class="text-primary my-1">{$_('general.encryption')}</p>
-    <InputGroup>
-      <InputGroupAddon addonType="prepend">
-        <InputGroupText>
-          <Input
-            readonly={undefined}
-            addon
-            type="checkbox"
-            on:input={i => (passwordDisabled = !i.target.checked)} />
-        </InputGroupText>
-      </InputGroupAddon>
-      <Input
-        readonly={undefined}
-        type={showPassword ? 'text' : 'password'}
-        name="password"
-        id="password"
-        placeholder={$_('general.password')}
-        bind:disabled={passwordDisabled}
-        bind:value={$password} />
-      <InputGroupAddon addonType="append">
-        <InputGroupText>
-          <div class="icon" on:click={() => (showPassword = !showPassword)}>
-            {#if showPassword}
-              <Icons.eye />
-            {:else}
-              <Icons.eyeOff />
-            {/if}
-          </div>
-        </InputGroupText>
-      </InputGroupAddon>
-    </InputGroup>
-    <div class="text-right">
-      <Button
-        class="mt-1"
-        color="primary"
-        on:click={newBoard}
-        disabled={createBusy}>
-        <div class="d-flex">
-          <div class="d-block icon">
-            {#if createBusy}
-              <Spinner size="sm" color="light" />
-            {:else}
-              <Icons.plus />
-            {/if}
-          </div>
-          {$_('splash.create')}
-        </div>
-      </Button>
-    </div>
 
-    {#if boards.length > 0}
-      <div in:fade>
-        <p class="text-primary my-3">{$_('splash.your_boards')}</p>
-        <Table hover class="w-100">
-          <thead>
-            <tr>
-              <th>{$_('splash.name')}</th>
-              <th class="text-right">{$_('splash.created')}</th>
-              <th class="w-25" />
-            </tr>
-          </thead>
-          <tbody>
-            {#each boards.sort((a, b) => {
-              return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch ? 1 : -1;
-            }) as board (board.id)}
-              <BoardRow
-                {board}
-                {nav}
-                on:deleted={doGetBoards}
-                on:error={handleError} />
-            {/each}
-          </tbody>
-        </Table>
-      </div>
-    {/if}
+    <CreateForm
+      on:error={handleError}
+      on:created={({ detail: boardId }) => nav.navigate(`/${boardId}`)} />
+
+    <BoardTable
+      {boards}
+      on:click={({ detail: boardId }) => nav.navigate(`/${boardId}`)}
+      on:error={handleError}
+      on:deleted={doGetBoards} />
   </div>
 </div>
 
