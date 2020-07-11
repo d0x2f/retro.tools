@@ -16,7 +16,6 @@
         <tr>
           <th>{$_('splash.name')}</th>
           <th class="text-right">{$_('splash.created')}</th>
-          <th class="w-25" />
         </tr>
       </thead>
       <tbody>

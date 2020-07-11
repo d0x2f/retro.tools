@@ -61,27 +61,19 @@
       <i class="small">{$_('splash.no_name')}</i>
     {/if}
   </td>
-  <td
-    class="text-right align-middle pointer"
-    on:click={() => dispatch('click', board.id)}>
-    {moment(new Date(board.created_at.secs_since_epoch * 1000))
-      .locale($locale)
-      .fromNow()}
-  </td>
-  {#if showDeleteBoardConfirmBox}
-    <td>
-      <div class="d-flex justify-content-end w-100 h-100 text-center">
-        <Button color="dark" class="mr-1" on:click={cancelDelete}>
-          <Icons.close size="1x" />
-        </Button>
+  <td class="text-right align-middle pointer">
+    {#if showDeleteBoardConfirmBox}
+      <Button color="dark" class="mr-1" on:click={cancelDelete}>
+        <Icons.close size="1x" />
+      </Button>
 
-        <Button color="danger" on:click={submitDelete}>
-          <Icons.check size="1x" />
-        </Button>
-      </div>
-    </td>
-  {:else}
-    <td class="text-right">
+      <Button color="danger" on:click={submitDelete}>
+        <Icons.check size="1x" />
+      </Button>
+    {:else}
+      {moment(new Date(board.created_at.secs_since_epoch * 1000))
+        .locale($locale)
+        .fromNow()}
       {#if board.owner}
         <Button color="danger" on:click={startDelete} disabled={busy}>
           {#if busy}
@@ -91,6 +83,6 @@
           {/if}
         </Button>
       {/if}
-    </td>
-  {/if}
+    {/if}
+  </td>
 </tr>
