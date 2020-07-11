@@ -1,30 +1,16 @@
 <script>
-  import {
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Card,
-  } from 'sveltestrap';
-  import { fly } from 'svelte/transition';
   import ClipboardJS from 'clipboard';
-  import { _ } from 'svelte-i18n';
 
-  import QRCode from './QRCode.svelte';
   import LocaleSelect from './LocaleSelect.svelte';
   import Textarea from './Textarea.svelte';
   import EncryptedText from './EncryptedText.svelte';
-  import Checkbox from './Checkbox.svelte';
+  import Menu from './Menu.svelte';
 
-  import { board, password, sorted } from '../store.js';
-  import { Icons } from '../data.js';
-  import { getCSVUrl } from '../api.js';
+  import { board, password } from '../store.js';
   import { decrypt, encrypt } from '../crypto.js';
 
   export let nav;
 
-  let optionsOpen = false;
-  let showQR = false;
   let editMode = false;
   let newBoardName = '';
 
@@ -48,48 +34,14 @@
 </script>
 
 <style>
-  .icon {
-    width: 1.5em;
-    height: 1.6em;
-    margin-top: -1px;
-  }
-
-  .smaller-icon {
-    width: 1.25em;
-    height: 1.25em;
-    margin-top: -4px;
-  }
-
   .on-top {
     z-index: 1040;
-  }
-
-  .qrcode {
-    z-index: 1040;
-    position: fixed;
-    left: 0;
-    bottom: 0;
   }
 
   .home-link {
     cursor: pointer;
   }
 </style>
-
-{#if showQR}
-  <div
-    class="shadow-lg d-none d-lg-block qrcode m-1"
-    in:fly={{ x: -200, duration: 500 }}
-    out:fly={{ x: -200, duration: 500 }}>
-    <Card class="p-1" body>
-      <QRCode
-        text="{location.origin}/{$board.id}"
-        colorDark="#007bff"
-        width="200"
-        height="200" />
-    </Card>
-  </div>
-{/if}
 
 <div class="shadow-sm on-top bg-white">
   <div class="row justify-content-between pt-1">
@@ -119,52 +71,7 @@
       <div class="mr-1">
         <LocaleSelect />
       </div>
-      <div>
-        <Dropdown
-          size="sm"
-          bind:isOpen={optionsOpen}
-          toggle={() => (optionsOpen = !optionsOpen)}>
-          <DropdownToggle color="primary">
-            <div class="icon">
-              <Icons.menu />
-            </div>
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem toggle={false} disabled={!$board.owner}>
-              <Checkbox
-                label={$_('board.options.new_cards_allowed')}
-                bind:checked={$board.cards_open} />
-            </DropdownItem>
-            <DropdownItem toggle={false} disabled={!$board.owner}>
-              <Checkbox
-                label={$_('board.options.voting_allowed')}
-                bind:checked={$board.voting_open} />
-            </DropdownItem>
-            <DropdownItem toggle={false}>
-              <Checkbox
-                label={$_('board.options.sort_by_votes')}
-                bind:checked={$sorted} />
-            </DropdownItem>
-            <DropdownItem toggle={false} class="d-none d-lg-block">
-              <Checkbox
-                label={$_('board.options.show_qr_code')}
-                bind:checked={showQR} />
-            </DropdownItem>
-            <DropdownItem href={getCSVUrl($board)}>
-              <div class="d-inline-block smaller-icon">
-                <Icons.download />
-              </div>
-              {$_('board.options.download_csv')}
-            </DropdownItem>
-            <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
-              <div class="d-inline-block smaller-icon">
-                <Icons.link />
-              </div>
-              {$_('board.options.copy_link')}
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </div>
+      <Menu />
     </div>
   </div>
   <div class="text-secondary d-lg-none px-3 text-center">

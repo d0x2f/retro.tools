@@ -1,34 +1,21 @@
 <script>
   import { onMount } from 'svelte';
-  import { InputGroup, InputGroupAddon, InputGroupText } from 'sveltestrap';
   import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
-  import { gtag } from './ga.js';
-  import { createRank, createBoard, getBoards } from './api.js';
-  import { Icons, BoardTemplates } from './data.js';
-  import { password } from './store.js';
-  import { encrypt } from './crypto.js';
+  import { getBoards } from './api.js';
+  import { Icons } from './data.js';
 
-  import Button from './components/Button.svelte';
-  import Input from './components/Input.svelte';
-  import Checkbox from './components/Checkbox.svelte';
-  import Select from './components/Select.svelte';
-  import Spinner from './components/Spinner.svelte';
   import FloatingActionButton from './components/FloatingActionButton.svelte';
   import BoardTable from './components/BoardTable.svelte';
   import LocaleSelect from './components/LocaleSelect.svelte';
   import Alert from './components/Alert.svelte';
+  import CreateForm from './components/CreateForm.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
   export let errorAlertMessage = 'error.network';
 
-  let boardName = '';
-  let templateKey = 'dropAddKeepImprove';
-  let passwordDisabled = true;
-  let showPassword = false;
-  let createBusy = false;
   let boards = [];
   let errorClearTimeout;
 
@@ -54,35 +41,6 @@
     error(message, err);
   }
 
-  async function createFromTemplate(template) {
-    let [boardNameEncrypted, encryptionTest] = await Promise.all([
-      encrypt(boardName, $password),
-      encrypt('encryptionTest', $password),
-    ]);
-    let board = await createBoard(boardNameEncrypted, { encryptionTest });
-    for (const rank of template.ranks) {
-      await createRank(board.id, rank.name, rank);
-    }
-    return board;
-  }
-
-  async function newBoard() {
-    createBusy = true;
-    if (passwordDisabled) {
-      password.set('');
-    }
-    try {
-      const board = await createFromTemplate(BoardTemplates[templateKey]);
-      gtag('event', 'conversion', {
-        send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
-      });
-      errorAlertVisible = false;
-      nav.navigate(`/${board.id}`);
-    } catch (err) {
-      error('error.creating_board', err);
-    }
-  }
-
   onMount(async () => {
     await doGetBoards();
   });
@@ -91,12 +49,6 @@
 <style>
   .scroll {
     overflow: auto;
-  }
-
-  .icon {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: -1px;
   }
 
   .bigger-icon {
@@ -116,60 +68,10 @@
       <h1 class="text-primary text-uppercase">retro.tools</h1>
       <LocaleSelect />
     </div>
-    <p class="text-primary mb-1">{$_('splash.board_name')}</p>
-    <Input
-      placeholder={$_('splash.board_name_example')}
-      bind:value={boardName} />
-    <p class="text-primary my-1">{$_('splash.template')}</p>
-    <Select bind:value={templateKey}>
-      {#each Object.entries(BoardTemplates) as [key, template]}
-        <option value={key}>{$_(template.name)}</option>
-      {/each}
-    </Select>
-    <p class="text-primary my-1">{$_('general.encryption')}</p>
-    <InputGroup>
-      <InputGroupAddon addonType="prepend">
-        <InputGroupText>
-          <Checkbox
-            addon
-            on:input={i => (passwordDisabled = !i.target.checked)} />
-        </InputGroupText>
-      </InputGroupAddon>
-      <Input
-        type={showPassword ? 'text' : 'password'}
-        placeholder={$_('general.password')}
-        bind:disabled={passwordDisabled}
-        bind:value={$password} />
-      <InputGroupAddon addonType="append">
-        <InputGroupText>
-          <div class="icon" on:click={() => (showPassword = !showPassword)}>
-            {#if showPassword}
-              <Icons.eye />
-            {:else}
-              <Icons.eyeOff />
-            {/if}
-          </div>
-        </InputGroupText>
-      </InputGroupAddon>
-    </InputGroup>
-    <div class="text-right">
-      <Button
-        class="mt-2"
-        color="primary"
-        on:click={newBoard}
-        disabled={createBusy}>
-        <div class="d-flex">
-          <div class="d-block icon">
-            {#if createBusy}
-              <Spinner size="sm" color="light" />
-            {:else}
-              <Icons.plus />
-            {/if}
-          </div>
-          {$_('splash.create')}
-        </div>
-      </Button>
-    </div>
+
+    <CreateForm
+      on:error={handleError}
+      on:created={({ detail: boardId }) => nav.navigate(`/${boardId}`)} />
 
     <BoardTable
       {boards}

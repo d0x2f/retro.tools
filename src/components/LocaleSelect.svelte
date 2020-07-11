@@ -5,9 +5,10 @@
     DropdownMenu,
     DropdownToggle,
   } from 'sveltestrap';
-  import Flag from './Flag.svelte';
   import { _, locale, locales } from 'svelte-i18n';
   import moment from 'moment';
+
+  import Flag from './Flag.svelte';
 
   let localesOpen = false;
 

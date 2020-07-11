@@ -34,7 +34,6 @@
   <div class="d-flex flex-column justify-content-center">
     <Button
       color="light"
-      size="sm"
       class="text-capitalize flex-grow-0 flex-shrink-0"
       disabled={!$board.voting_open}
       on:click={() => dispatch('toggleVote')}>
