@@ -71,7 +71,9 @@
 <div class="input-group">
   <div class="input-group-prepend">
     <div class="input-group-text">
-      <Checkbox addon on:input={i => (passwordDisabled = !i.target.checked)} />
+      <Checkbox
+        addon
+        on:input={(i) => (passwordDisabled = !i.target.checked)} />
     </div>
   </div>
   <Input

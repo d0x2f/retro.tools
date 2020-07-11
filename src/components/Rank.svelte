@@ -35,7 +35,7 @@
 
   $: {
     sortedFilteredCards = $cards
-      .filter(c => c.rank_id === rank.id && !c.uncommitted)
+      .filter((c) => c.rank_id === rank.id && !c.uncommitted)
       .sort((a, b) =>
         $sorted
           ? a.votes < b.votes
