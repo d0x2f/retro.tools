@@ -1,8 +1,6 @@
 name: CI/CD
 
-on:
-  pull_request:
-  push:
+on: ['pull_request', 'push']
 
 jobs:
   ci:
@@ -42,6 +40,12 @@ jobs:
           - 8000:8000
     steps:
     - uses: actions/checkout@v1
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: build
+    - run: npm run start &
     - uses: cypress-io/github-action@v2
       with:
         browser: chrome
