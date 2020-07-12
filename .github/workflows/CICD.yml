@@ -48,6 +48,7 @@ jobs:
           ENVIRONMENT: development
           PSQL_CONNECTION_STRING: postgres://postgres:postgres@postgres/retrograde
           PSQL_CONNECTION_POOL_SIZE: 3
+          SECURE_COOKIE: false
         ports:
           - 8000:8000
     steps:
