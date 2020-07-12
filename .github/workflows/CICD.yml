@@ -50,6 +50,9 @@ jobs:
           - 8000:8000
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
     - uses: cypress-io/github-action@v2
       with:
         build: env BUILD_ENV=development npm run build
