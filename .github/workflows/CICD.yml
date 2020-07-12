@@ -38,8 +38,8 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_PASSWORD=postgres
-          POSTGRES_DB=retrograde
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: retrograde
         ports:
           - 5432:5432
       backend:
