@@ -6,20 +6,20 @@ function createCards() {
   return {
     subscribe,
     set,
-    append: card =>
-      update(store => {
+    append: (card) =>
+      update((store) => {
         store.push(card);
         return store;
       }),
     replace: (id, card) =>
-      update(store => {
-        const index = store.findIndex(c => c.id === id);
+      update((store) => {
+        const index = store.findIndex((c) => c.id === id);
         store[index] = card;
         return store;
       }),
-    remove: id =>
-      update(store => {
-        const index = store.findIndex(c => c.id === id);
+    remove: (id) =>
+      update((store) => {
+        const index = store.findIndex((c) => c.id === id);
         store.splice(index, 1);
         return store;
       }),

@@ -49,11 +49,11 @@ context('BoardTable', () => {
         cy.get('[data-name=board-row]')
           .first()
           .invoke('attr', 'data-board-id')
-          .then(v => {
+          .then((v) => {
             boardId = v;
 
             // Store and clear session cookie
-            ownerSessionId = cy.getCookie('__session').then(cookie => {
+            ownerSessionId = cy.getCookie('__session').then((cookie) => {
               ownerSessionId = cookie.value;
               cy.clearCookie('__session');
 

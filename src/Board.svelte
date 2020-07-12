@@ -33,11 +33,11 @@
     revertOnSpill: true,
     copySortSource: false,
     copy: true,
-    moves: el => el.dataset.drag !== 'false',
+    moves: (el) => el.dataset.drag !== 'false',
     accepts: (el, target) => {
       return (
         target.dataset.rankId !==
-        $cards.find(c => c.id === el.dataset.cardId).rank_id
+        $cards.find((c) => c.id === el.dataset.cardId).rank_id
       );
     },
   });
@@ -55,7 +55,7 @@
   drake.on('drop', async (el, target) => {
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
-    const card = $cards.find(c => c.id === cardId);
+    const card = $cards.find((c) => c.id === cardId);
     const originalRankId = card.rank_id;
 
     el.parentNode.removeChild(el);
@@ -91,7 +91,7 @@
   }
 
   const [cardSend, cardReceive] = crossfade({
-    duration: d => Math.sqrt(d * 200),
+    duration: (d) => Math.sqrt(d * 200),
 
     fallback(node) {
       const style = getComputedStyle(node);
@@ -100,7 +100,7 @@
       return {
         duration: 600,
         easing: quintOut,
-        css: t => `
+        css: (t) => `
           transform: ${transform} scale(${t});
           opacity: ${t}
         `,
@@ -169,7 +169,7 @@
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
     if ($board.owner)
-      unsubscribe = board.subscribe(b => {
+      unsubscribe = board.subscribe((b) => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
