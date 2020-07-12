@@ -50,7 +50,6 @@ jobs:
       with:
         name: build
         path: build
-    - run: npm run start &
     - uses: cypress-io/github-action@v2
       with:
         start: npm start
