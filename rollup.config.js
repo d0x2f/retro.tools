@@ -11,7 +11,9 @@ import replace from '@rollup/plugin-replace';
 // Default to production
 const IS_PROD = (process.env.BUILD_ENV ?? 'production') == 'production';
 const SERVE =  !!process.env.ROLLUP_WATCH;
+
 console.log('Production:', IS_PROD);
+console.log('Serve:', SERVE);
 
 export default {
   input: "src/main.js",
