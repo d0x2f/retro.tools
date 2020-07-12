@@ -5,7 +5,7 @@
     "build": "rollup -c",
     "postbuild": "node postbuild.js",
     "dev": "env BUILD_ENV=development rollup -c -w",
-    "start": "sirv build --single",
+    "start": "sirv build --single --quiet",
     "lint": "prettier --check '{src,cypress}/**/*.{js,svelte}' && eslint '{src,cypress}/**/*.{js,svelte}'",
     "lint:fix": "prettier --write '{src,cypress}/**/*.{js,svelte}' || eslint --fix '{src,cypress}/**/*.{js,svelte}'"
   },

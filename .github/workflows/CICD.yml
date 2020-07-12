@@ -61,7 +61,7 @@ jobs:
         build: env BUILD_ENV=development npm run build
         start: npm start
         browser: chrome
-    - name: Dump docker logs on failure
+    - name: Dump docker logs
       if: always()
       uses: jwalton/gh-docker-logs@v1
 
