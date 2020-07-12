@@ -46,7 +46,7 @@ export default {
         historyApiFallback: true
       }),
 
-    !IS_PROD && livereload({ watch: "build" }),
+    !IS_PROD && process.env.ROLLUP_WATCH && livereload({ watch: "build" }),
 
     IS_PROD && terser(),
   ],
