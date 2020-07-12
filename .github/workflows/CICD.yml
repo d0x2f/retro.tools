@@ -35,12 +35,20 @@ jobs:
     needs: ci
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD=postgres
+          POSTGRES_DB=retrograde
+        ports:
+          - 5432:5432
       backend:
         image: gcr.io/retrograde/retrograde:latest
         env:
           PORT: 8000
           ALLOWED_ORIGINS: .*
           ENVIRONMENT: development
+          PSQL_CONNECTION_STRING: postgres://postgres:postgres@127.0.0.1/retrograde
         ports:
           - 8000:8000
     steps:
