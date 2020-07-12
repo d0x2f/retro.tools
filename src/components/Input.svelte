@@ -1,6 +1,8 @@
 <script>
   import clsx from 'clsx';
 
+  import { filterDataKeys } from '../utils.js';
+
   let className = '';
   export { className as class };
   export let disabled = false;
@@ -8,12 +10,17 @@
   export let type = 'text';
   export let placeholder = '';
 
+  let classes = '';
+  let data = '';
+
   $: classes = clsx(className, 'form-control');
+  $: data = filterDataKeys($$props);
 </script>
 
 {#if type == 'password'}
   <input
     type="password"
+    {...data}
     class={classes}
     {disabled}
     on:click
@@ -22,6 +29,7 @@
 {:else}
   <input
     type="text"
+    {...data}
     class={classes}
     {disabled}
     on:click

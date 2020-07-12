@@ -61,7 +61,10 @@
 
 <div data-name="create-form">
   <p class="text-primary mb-1">{$_('splash.board_name')}</p>
-  <Input placeholder={$_('splash.board_name_example')} bind:value={boardName} />
+  <Input
+    data-name="board-name-input"
+    placeholder={$_('splash.board_name_example')}
+    bind:value={boardName} />
   <p class="text-primary my-1">{$_('splash.template')}</p>
   <Select bind:value={templateKey}>
     {#each Object.entries(BoardTemplates) as [key, template]}
@@ -72,7 +75,9 @@
   <div class="input-group">
     <div class="input-group-prepend">
       <div class="input-group-text">
-        <Checkbox addon on:input={i => (passwordDisabled = !i.target.checked)} />
+        <Checkbox
+          addon
+          on:input={i => (passwordDisabled = !i.target.checked)} />
       </div>
     </div>
     <Input
@@ -97,7 +102,8 @@
       class="mt-2"
       color="primary"
       on:click={newBoard}
-      disabled={createBusy}>
+      disabled={createBusy}
+      data-name="create-button">
       <div class="d-flex">
         <div class="d-block icon">
           {#if createBusy}

@@ -47,7 +47,7 @@
   }
 </style>
 
-<tr>
+<tr data-name="board-row" data-board-id={board.id}>
   <td class="align-middle pointer" on:click={() => dispatch('click', board.id)}>
     {#if board.name}
       {#await isBoardEncrypted(board)}
@@ -63,11 +63,18 @@
   </td>
   <td class="text-right align-middle pointer">
     {#if showDeleteBoardConfirmBox}
-      <Button color="dark" class="mr-1" on:click={cancelDelete}>
+      <Button
+        data-name="delete-cancel-button"
+        color="dark"
+        class="mr-1"
+        on:click={cancelDelete}>
         <Icons.close size="1x" />
       </Button>
 
-      <Button color="danger" on:click={submitDelete}>
+      <Button
+        data-name="delete-confirm-button"
+        color="danger"
+        on:click={submitDelete}>
         <Icons.check size="1x" />
       </Button>
     {:else}
@@ -75,7 +82,11 @@
         .locale($locale)
         .fromNow()}
       {#if board.owner}
-        <Button color="danger" on:click={startDelete} disabled={busy}>
+        <Button
+          data-name="delete-button"
+          color="danger"
+          on:click={startDelete}
+          disabled={busy}>
           {#if busy}
             <Spinner size="sm" color="light" />
           {:else}

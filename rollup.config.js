@@ -42,7 +42,7 @@ export default {
     !IS_PROD &&
       serve({
         contentBase: ["build"],
-        port: 3000,
+        port: 5000,
         historyApiFallback: true
       }),
 

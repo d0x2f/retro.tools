@@ -1,9 +1,8 @@
 name: CI/CD
 
 on:
+  pull_request:
   push:
-    branches:
-    - master
 
 jobs:
   ci:
@@ -29,10 +28,30 @@ jobs:
         name: build
         path: build
 
+  cypress:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    services:
+      backend:
+        image: gcr.io/retrograde/retrograde:latest
+        env:
+          PORT: 8000
+          ALLOWED_ORIGINS: .*
+          ENVIRONMENT: development
+        ports:
+          - 8000:8000
+    steps:
+    - uses: actions/checkout@v1
+    - uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
+
   cd:
     runs-on: ubuntu-latest
-    needs: ci
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs:
+      - ci
+      - cypress
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == 'refs/heads/master'"
     steps:
     - uses: actions/checkout@v1
     - name: Download Artifact
