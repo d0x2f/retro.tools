@@ -5,15 +5,17 @@
     "build": "rollup -c",
     "postbuild": "node postbuild.js",
     "dev": "env BUILD_ENV=development rollup -c -w",
-    "start": "sirv build --single",
-    "lint": "prettier --check 'src/**/*.{js,svelte}' && eslint 'src/**/*.{js,svelte}'",
-    "lint:fix": "prettier --write 'src/**/*.{js,svelte}' || eslint --fix 'src/**/*.{js,svelte}'"
+    "start": "sirv build --single --quiet",
+    "lint": "prettier --check '{src,cypress}/**/*.{js,svelte}' && eslint '{src,cypress}/**/*.{js,svelte}'",
+    "lint:fix": "prettier --write '{src,cypress}/**/*.{js,svelte}' || eslint --fix '{src,cypress}/**/*.{js,svelte}'"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "cypress": "^4.10.0",
     "eslint": "^7.4.0",
+    "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-svelte3": "^2.7.3",
     "htmlnano": "^0.2.5",
     "posthtml": "^0.13.1",

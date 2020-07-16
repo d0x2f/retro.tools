@@ -10,7 +10,10 @@ import replace from '@rollup/plugin-replace';
 
 // Default to production
 const IS_PROD = (process.env.BUILD_ENV ?? 'production') == 'production';
+const SERVE =  !!process.env.ROLLUP_WATCH;
+
 console.log('Production:', IS_PROD);
+console.log('Serve:', SERVE);
 
 export default {
   input: "src/main.js",
@@ -39,14 +42,14 @@ export default {
     commonjs(),
     json(),
 
-    !IS_PROD &&
+    !IS_PROD && SERVE &&
       serve({
         contentBase: ["build"],
-        port: 3000,
+        port: 5000,
         historyApiFallback: true
       }),
 
-    !IS_PROD && livereload({ watch: "build" }),
+    !IS_PROD && SERVE && livereload({ watch: "build" }),
 
     IS_PROD && terser(),
   ],
