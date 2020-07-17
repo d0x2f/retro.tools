@@ -13,7 +13,7 @@
   let data = '';
 
   $: classes = clsx(className, 'btn', `btn-${color}`);
-  $: data = filterDataKeys($$props);
+  $: data = filterDataKeys($$restProps);
 </script>
 
 <button {...data} class={classes} {disabled} on:click {value}>

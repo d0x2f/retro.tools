@@ -66,6 +66,9 @@
   }
 
   async function newCard() {
+    if (newCardText.length === 0) {
+      return;
+    }
     if (!$board.cards_open) {
       if ($board.owner) {
         error($_('board.creation_disabled_as_owner'));
@@ -128,19 +131,21 @@
         <svelte:component this={rankDetails.icon} />
       </div>
     </div>
-    <div class="d-flex input-group">
+    <div class="d-flex input-group flex-nowrap">
       <Textarea
         autoresize
         on:submit={newCard}
         placeholder={$_(rank.name)}
         bind:value={newCardText}
         on:focus={() => ($focusedRank = rank.id)}
+        minWidth="5em"
         class="flex-grow-1" />
       {#if $focusedRank === rank.id}
         <Textarea
           on:submit={newCard}
           placeholder={$_('board.author')}
           bind:value={$author}
+          minWidth="5em"
           class="flex-shrink-0 flex-grow-0 w-25" />
       {/if}
     </div>

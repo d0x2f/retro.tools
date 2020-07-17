@@ -15,7 +15,6 @@
 
 <style>
   .votes {
-    min-width: 1em;
     text-align: right;
   }
 
@@ -25,8 +24,7 @@
   }
 
   .unvoted {
-    stroke-dasharray: 3;
-    opacity: 0.7;
+    color: #AAA !important;
   }
 </style>
 
@@ -34,13 +32,13 @@
   <div class="d-flex flex-column justify-content-center">
     <Button
       color="light"
-      class="text-capitalize flex-grow-0 flex-shrink-0"
+      class="text-capitalize flex-grow-0 flex-shrink-0 btn-sm mr-1"
       disabled={!$board.voting_open}
       on:click={() => dispatch('toggleVote')}>
       <div class="icon {color}" class:unvoted={!voted}>
-        <Icons.thumbsup />
+        <Icons.arrowUp />
       </div>
     </Button>
   </div>
-  <span class="votes font-weight-bold h3 mb-0 mt-0 {color}">{votes}</span>
+  <span class="votes font-weight-bold h3 mb-0 mt-0 mr-1 {color}">{votes}</span>
 </div>

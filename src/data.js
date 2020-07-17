@@ -27,6 +27,7 @@ import {
   UnlockIcon,
   EyeIcon,
   EyeOffIcon,
+  ArrowUpIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -86,6 +87,7 @@ export const Icons = {
   unlock: UnlockIcon,
   eye: EyeIcon,
   eyeOff: EyeOffIcon,
+  arrowUp: ArrowUpIcon
 };
 
 export const BoardTemplates = {

@@ -14,7 +14,7 @@
   let data = '';
 
   $: classes = clsx(className, 'form-control');
-  $: data = filterDataKeys($$props);
+  $: data = filterDataKeys($$restProps);
 </script>
 
 {#if type == 'password'}

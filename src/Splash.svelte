@@ -62,6 +62,10 @@
   }
 </style>
 
+<svelte:head>
+  <meta property="og:url" content="https://retro.tools" />
+</svelte:head>
+
 <div class="d-flex justify-content-center pt-2 scroll">
   <div class="col-lg-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
