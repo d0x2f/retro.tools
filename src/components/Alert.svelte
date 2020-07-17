@@ -13,7 +13,7 @@
   let data = '';
 
   $: classes = clsx(className, 'alert', `alert-${color}`);
-  $: data = filterDataKeys($$props);
+  $: data = filterDataKeys($$restProps);
 </script>
 
 {#if isOpen}

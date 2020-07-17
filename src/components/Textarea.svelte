@@ -7,6 +7,7 @@
   export let placeholder = '';
   export let autoresize = false;
   export let autofocus = false;
+  export let minWidth = '0px';
 
   let className = '';
   export { className as class };
@@ -74,6 +75,7 @@
 
 <textarea
   rows="1"
+  style="min-width: {minWidth}"
   bind:this={element}
   use:use
   on:focus={focus}

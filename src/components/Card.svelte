@@ -70,6 +70,9 @@
   }
 
   async function toggleVote() {
+    if (card.busy) {
+      return;
+    }
     card.busy = true;
     try {
       let newCard;
@@ -104,11 +107,15 @@
     width: 1.5em;
     height: 1.5em;
   }
+
+  .author-border {
+    opacity: 0.2;
+  }
 </style>
 
 <div class:busy={card.busy} class="w-90 shadow-sm card">
   <div class:blur={deleteMode} class="d-flex">
-    <div class="flex-grow-0">
+    <div class="flex-grow-0 bg-light">
       <Votes
         on:toggleVote={toggleVote}
         bind:votes={card.votes}
@@ -125,40 +132,42 @@
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
       {:else}
-        <div class="pl-1 float-right">
-          {#if card.owner || $board.owner}
-            <Button
-              color="danger"
-              class="text-capitalize"
-              on:click={startDelete}>
-              <div class="icon" class:voted={card.voted}>
-                <Icons.trash />
-              </div>
-            </Button>
-          {/if}
-        </div>
+        {#if card.author.length > 0}
+          <div class="m-0 w-100 small text-primary text-nowrap text-left">
+            <EncryptedText bind:text={card.author} />
+          </div>
+          <div class="border-top border-primary author-border" />
+        {:else}
+          <div class="m-0 w-100 small text-secondary text-nowrap text-left">
+            Anonymous
+          </div>
+          <div class="border-top border-secondary author-border" />
+        {/if}
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           <EncryptedText bind:text={card.description} />
-          {#if card.author.length > 0}
-            <span class="m-1 small text-primary text-nowrap float-right">
-              -
-              <EncryptedText bind:text={card.author} />
-            </span>
-          {/if}
         </div>
+      {/if}
+    </div>
+    <div class="p-1 float-right">
+      {#if card.owner || $board.owner}
+        <Button color="danger" class="btn-sm" on:click={startDelete}>
+          <div class="icon" class:voted={card.voted}>
+            <Icons.trash />
+          </div>
+        </Button>
       {/if}
     </div>
   </div>
 
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
-      <Button color="dark" class="text-capitalize" on:click={cancelDelete}>
+      <Button color="dark" class="btn-sm" on:click={cancelDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.close />
         </div>
       </Button>
 
-      <Button color="danger" class="text-capitalize" on:click={submitDelete}>
+      <Button color="danger" class="btn-sm" on:click={submitDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.check />
         </div>

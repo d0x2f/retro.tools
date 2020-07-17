@@ -271,6 +271,10 @@
   }
 </style>
 
+<svelte:head>
+  <meta property="og:url" content="https://retro.tools/{$board.id}" />
+</svelte:head>
+
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
 
   <Header {nav} />

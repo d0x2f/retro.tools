@@ -85,6 +85,7 @@
         <Button
           data-name="delete-button"
           color="danger"
+          class="ml-2"
           on:click={startDelete}
           disabled={busy}>
           {#if busy}

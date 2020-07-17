@@ -7,7 +7,7 @@
   import Menu from './Menu.svelte';
 
   import { board, password } from '../store.js';
-  import { decrypt, encrypt } from '../crypto.js';
+  import { decrypt, encrypt, checkBoardPassword } from '../crypto.js';
 
   export let nav;
 
@@ -17,7 +17,7 @@
   new ClipboardJS('button');
 
   async function startEdit() {
-    if ($board.owner) {
+    if ($board.owner && (await checkBoardPassword($board, $password))) {
       editMode = true;
       newBoardName = await decrypt($board.name, $password);
     }
@@ -62,7 +62,7 @@
           on:submit={submitEdit}
           on:cancel={cancelEdit}
           on:blur={submitEdit}
-          class="text-center" />
+          class="p-0 text-center" />
       {:else}
         <EncryptedText bind:text={$board.name} />
       {/if}
