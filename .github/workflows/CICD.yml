@@ -35,7 +35,9 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
-        browser: ["chrome", "firefox"]
+        browser:
+          - chrome
+          # - firefox
         viewport: ["viewportWidth=375,viewportHeight=667", "viewportWidth=1280,viewportHeight=800"]
     services:
       postgres:

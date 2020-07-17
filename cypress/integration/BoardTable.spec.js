@@ -21,6 +21,7 @@ context('BoardTable', () => {
     before(() => {
       cy.get('[data-name=board-name-input]').type('Test Board Name');
       cy.get('[data-name=create-button]').click();
+      cy.get('[data-name=rank]').should('exist');
       cy.visit('/');
     });
 
@@ -59,6 +60,7 @@ context('BoardTable', () => {
 
               // Visit the board and come back to generate a session as a participant
               cy.visit(`/${boardId}`);
+              cy.get('[data-name=rank]').should('exist');
               cy.visit('/');
             });
           });
