@@ -71,7 +71,10 @@
         label={$_('board.options.voting_allowed')}
         bind:checked={$board.voting_open} />
     </DropdownItem>
-    <DropdownItem data-name="sort-button" toggle={false} on:click={() => ($sorted = !$sorted)}>
+    <DropdownItem
+      data-name="sort-button"
+      toggle={false}
+      on:click={() => ($sorted = !$sorted)}>
       <ReadonlyCheckbox
         label={$_('board.options.sort_by_votes')}
         bind:checked={$sorted} />
@@ -91,7 +94,9 @@
       </div>
       {$_('board.options.download_csv')}
     </DropdownItem>
-    <DropdownItem data-name="download-csv-button" data-clipboard-text="{location.origin}/{$board.id}">
+    <DropdownItem
+      data-name="download-csv-button"
+      data-clipboard-text="{location.origin}/{$board.id}">
       <div class="d-inline-block smaller-icon">
         <Icons.link />
       </div>

@@ -138,11 +138,9 @@
               <EncryptedText bind:text={card.author} />
             </div>
           {:else}
-            <div class="text-secondary">
-              Anonymous
-            </div>
+            <div class="text-secondary">Anonymous</div>
           {/if}
-        <div class="border-top border-secondary author-border" />
+          <div class="border-top border-secondary author-border" />
         </div>
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           <EncryptedText bind:text={card.description} />
@@ -151,7 +149,11 @@
     </div>
     <div class="p-1 bg-light">
       {#if card.owner || $board.owner}
-        <Button data-name="delete-button" color="light" class="btn-sm text-danger" on:click={startDelete}>
+        <Button
+          data-name="delete-button"
+          color="light"
+          class="btn-sm text-danger"
+          on:click={startDelete}>
           <div class="icon" class:voted={card.voted}>
             <Icons.trash />
           </div>
@@ -162,13 +164,21 @@
 
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
-      <Button data-name="cancel-button" color="dark" class="btn-sm" on:click={cancelDelete}>
+      <Button
+        data-name="cancel-button"
+        color="dark"
+        class="btn-sm"
+        on:click={cancelDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.close />
         </div>
       </Button>
 
-      <Button data-name="confirm-button" color="danger" class="btn-sm" on:click={submitDelete}>
+      <Button
+        data-name="confirm-button"
+        color="danger"
+        class="btn-sm"
+        on:click={submitDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.check />
         </div>
