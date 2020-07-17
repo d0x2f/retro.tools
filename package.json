@@ -19,7 +19,7 @@
     "eslint-plugin-svelte3": "^2.7.3",
     "htmlnano": "^0.2.6",
     "posthtml": "^0.13.1",
-    "posthtml-hash": "^1.0.0",
+    "posthtml-hash": "^1.1.1",
     "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
     "rollup": "^2.21.0",
