@@ -17,7 +17,7 @@
   new ClipboardJS('button');
 
   async function startEdit() {
-    if ($board.owner && await checkBoardPassword($board, $password)) {
+    if ($board.owner && (await checkBoardPassword($board, $password))) {
       editMode = true;
       newBoardName = await decrypt($board.name, $password);
     }

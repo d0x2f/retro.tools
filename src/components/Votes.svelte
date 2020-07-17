@@ -24,7 +24,7 @@
   }
 
   .unvoted {
-    color: #AAA !important;
+    color: #aaa !important;
   }
 </style>
 

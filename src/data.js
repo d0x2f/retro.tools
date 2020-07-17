@@ -87,7 +87,7 @@ export const Icons = {
   unlock: UnlockIcon,
   eye: EyeIcon,
   eyeOff: EyeOffIcon,
-  arrowUp: ArrowUpIcon
+  arrowUp: ArrowUpIcon,
 };
 
 export const BoardTemplates = {

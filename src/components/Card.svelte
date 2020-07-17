@@ -136,12 +136,12 @@
           <div class="m-0 w-100 small text-primary text-nowrap text-left">
             <EncryptedText bind:text={card.author} />
           </div>
-          <div class="border-top border-primary author-border"></div>
+          <div class="border-top border-primary author-border" />
         {:else}
           <div class="m-0 w-100 small text-secondary text-nowrap text-left">
             Anonymous
           </div>
-          <div class="border-top border-secondary author-border"></div>
+          <div class="border-top border-secondary author-border" />
         {/if}
         <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
           <EncryptedText bind:text={card.description} />
@@ -150,10 +150,7 @@
     </div>
     <div class="p-1 float-right">
       {#if card.owner || $board.owner}
-        <Button
-          color="danger"
-          class="btn-sm"
-          on:click={startDelete}>
+        <Button color="danger" class="btn-sm" on:click={startDelete}>
           <div class="icon" class:voted={card.voted}>
             <Icons.trash />
           </div>
