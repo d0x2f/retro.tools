@@ -14,7 +14,7 @@ function createCards() {
     replace: (id, card) =>
       update((store) => {
         const index = store.findIndex((c) => c.id === id);
-        Object.assign(store[index], card);
+        store[index] = card;
         return store;
       }),
     remove: (id) =>
