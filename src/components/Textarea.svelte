@@ -3,6 +3,8 @@
   import { autoresize as autoresizer } from 'svelte-textarea-autoresize';
   import clsx from 'clsx';
 
+  import { filterDataKeys } from '../utils.js';
+
   export let value = '';
   export let placeholder = '';
   export let autoresize = false;
@@ -16,6 +18,7 @@
   let focused = true;
   let element;
   let classes;
+  let data = '';
 
   function focus() {
     focused = true;
@@ -57,6 +60,8 @@
     if (autoresize) autoresizer(el);
     if (autofocus) el.focus();
   }
+
+  $: data = filterDataKeys($$restProps);
 </script>
 
 <style>
@@ -74,6 +79,7 @@
 </style>
 
 <textarea
+  {...data}
   rows="1"
   style="min-width: {minWidth}"
   bind:this={element}

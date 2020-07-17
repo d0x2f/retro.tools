@@ -93,8 +93,8 @@ context('BoardTable', () => {
 
     after(() => {
       cy.visit('/');
-      cy.get('[data-name=delete-button]').click();
-      cy.get('[data-name=delete-confirm-button]').click();
+      cy.get('[data-name=delete-button]').each($el => $el.click());
+      cy.get('[data-name=delete-confirm-button]').each($el => $el.click());
       cy.get('[data-name=board-table]').should('not.exist');
     });
   });
