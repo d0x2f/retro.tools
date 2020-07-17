@@ -33,6 +33,10 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    stragegy:
+      matrix:
+        browser: ["chrome", "firefox"]
+        viewport: ["viewportWidth=375,viewportHeight=667", "viewportWidth=1280,viewportHeight=800"]
     services:
       postgres:
         image: postgres:12
@@ -56,20 +60,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 14.x
-    - name: Test with Mobile Viewport
-      uses: cypress-io/github-action@v2
+    - uses: cypress-io/github-action@v2
       with:
         build: env BUILD_ENV=development npm run build
         start: npm start
-        browser: chrome
-        config: viewportWidth=375,viewportHeight=667
-    - name: Test with Desktop Viewport
-      uses: cypress-io/github-action@v2
-      with:
-        build: env BUILD_ENV=development npm run build
-        start: npm start
-        browser: chrome
-        config: viewportWidth=1280,viewportHeight=800
+        browser: ${{ matrix.browser }}
+        config: ${{ matrix.viewport }}
     - name: Dump docker logs
       if: always()
       uses: jwalton/gh-docker-logs@v1
