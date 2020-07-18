@@ -125,6 +125,7 @@
     <div class="p-1 w-100 flex-grow-1">
       {#if editMode}
         <Textarea
+          data-name="card-edit-field"
           autoresize
           autofocus
           bind:value={newCardText}
@@ -132,18 +133,22 @@
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
       {:else}
-        <div class="m-0 w-100 small text-primary text-nowrap text-left">
-          {#if card.author.length > 0}
-            <div class="text-primary">
-              <EncryptedText bind:text={card.author} />
-            </div>
-          {:else}
-            <div class="text-secondary">Anonymous</div>
-          {/if}
-          <div class="border-top border-secondary author-border" />
-        </div>
-        <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
-          <EncryptedText bind:text={card.description} />
+        <div data-name="card-body" on:click={startEdit}>
+          <div class="m-0 w-100 small text-primary">
+            {#if card.author.length > 0}
+              <div class="text-primary">
+                <EncryptedText bind:text={card.author} />
+              </div>
+            {:else}
+              <div class="text-secondary">Anonymous</div>
+            {/if}
+            <div class="border-top border-secondary author-border" />
+          </div>
+          <div
+            data-name="card-content"
+            class="p-1 w-100 font-weight-bold pre-wrap">
+            <EncryptedText bind:text={card.description} />
+          </div>
         </div>
       {/if}
     </div>

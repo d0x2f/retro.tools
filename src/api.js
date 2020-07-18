@@ -1,5 +1,5 @@
 // Replaced by rollup during build:
-const api_host = '__apiUrl__';
+const api_host = '__API_URL__';
 
 const common_options = {
   mode: 'cors',

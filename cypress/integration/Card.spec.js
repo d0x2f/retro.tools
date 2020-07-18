@@ -83,6 +83,35 @@ context('Card', () => {
     });
   });
 
+  describe('when the card body is clicked', () => {
+    before(() => {
+      cy.get('[data-name=card-body]:visible').click();
+    });
+
+    it('shows an edit box', () => {
+      cy.get('[data-name=card-edit-field]').should('exist');
+    });
+
+    describe('when edit field is changed and submitted', () => {
+      before(() => {
+        cy.get('[data-name=card-edit-field]')
+          .clear()
+          .type('I changed my mind.{enter}');
+      });
+
+      it('removes the edit box', () => {
+        cy.get('[data-name=card-edit-field]').should('not.exist');
+      });
+
+      it('updates the card text', () => {
+        cy.get('[data-name=card-content]').should(
+          'contain',
+          'I changed my mind.'
+        );
+      });
+    });
+  });
+
   describe('when delete is clicked', () => {
     before(() => {
       cy.get('[data-name=delete-button]:visible').click();
