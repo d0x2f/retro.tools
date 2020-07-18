@@ -27,7 +27,7 @@ export default {
     copy({ targets: [{ src: "public/*", dest: "build" }] }),
 
     replace({
-      __IS_PROD__: IS_PROD,
+      __IS_PROD__: () => IS_PROD,
       __API_URL__: () => IS_PROD ? 'https://retro.tools' : 'http://localhost:8000'
     }),
 

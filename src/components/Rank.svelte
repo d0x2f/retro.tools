@@ -71,9 +71,9 @@
     }
     if (!$board.cards_open) {
       if ($board.owner) {
-        error($_('board.creation_disabled_as_owner'));
+        error('board.creation_disabled_as_owner');
       } else {
-        error($_('board.creation_disabled_as_participant'));
+        error('board.creation_disabled_as_participant');
       }
       return;
     }

@@ -379,7 +379,11 @@
       <div
         in:fly={{ y: 100, duration: 200 }}
         out:fly={{ y: 100, duration: 200 }}>
-        <Alert class="mb-0 py-1" color="warning" isOpen={true}>
+        <Alert
+          data-name="warning-alert"
+          class="mb-0 py-1"
+          color="warning"
+          isOpen={true}>
           {$_(errorAlertMessage)}
         </Alert>
       </div>
@@ -388,7 +392,11 @@
       <div
         in:fly={{ y: 100, duration: 200 }}
         out:fly={{ y: 100, duration: 200 }}>
-        <Alert class="mb-0 py-1" color="danger" isOpen={true}>
+        <Alert
+          data-name="error-alert"
+          class="mb-0 py-1"
+          color="danger"
+          isOpen={true}>
           {$_('error.connection_lost')}
         </Alert>
       </div>

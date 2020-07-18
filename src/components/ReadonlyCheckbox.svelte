@@ -19,7 +19,7 @@
   }
 </style>
 
-<div class={classes}>
+<div class={classes} data-checked={checked}>
   <div
     class="d-inline-block icon {checked ? 'text-primary' : 'text-secondary'}">
     {#if checked}

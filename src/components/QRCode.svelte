@@ -26,6 +26,6 @@
   $: classes = clsx(className, 'card', 'card-body');
 </script>
 
-<div class={classes}>
+<div data-name="qr-code" class={classes}>
   <div id="qrcode" />
 </div>
