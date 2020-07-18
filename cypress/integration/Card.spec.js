@@ -43,7 +43,7 @@ context('Card', () => {
       .should('have.length', 1);
   });
 
-  describe('with voting opened', () => {
+  describe('when voting is open', () => {
     before(() => {
       cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=voting-open-button]').click();
@@ -63,7 +63,7 @@ context('Card', () => {
         .should('have.class', 'unvoted');
     });
 
-    describe('with the vote made', () => {
+    describe('when a vote is made', () => {
       before(() => {
         cy.get('[data-name=vote-button]:visible').click();
       });
