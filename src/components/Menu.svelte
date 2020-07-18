@@ -1,4 +1,5 @@
 <script>
+  import ClipboardJS from 'clipboard';
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import {
@@ -17,6 +18,8 @@
 
   let isOpen = false;
   let showQR = false;
+
+  new ClipboardJS('button');
 
   const preventDefault = (e) => {
     e.preventDefault();
@@ -88,14 +91,14 @@
         label={$_('board.options.show_qr_code')}
         bind:checked={showQR} />
     </DropdownItem>
-    <DropdownItem data-name="copy-link-button" href={getCSVUrl($board)}>
+    <DropdownItem data-name="download-csv-button" href={getCSVUrl($board)}>
       <div class="d-inline-block smaller-icon">
         <Icons.download />
       </div>
       {$_('board.options.download_csv')}
     </DropdownItem>
     <DropdownItem
-      data-name="download-csv-button"
+      data-name="copy-link-button"
       data-clipboard-text="{location.origin}/{$board.id}">
       <div class="d-inline-block smaller-icon">
         <Icons.link />
