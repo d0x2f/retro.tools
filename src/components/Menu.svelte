@@ -46,13 +46,14 @@
 </style>
 
 <Dropdown size="sm" bind:isOpen toggle={() => (isOpen = !isOpen)}>
-  <DropdownToggle color="primary">
+  <DropdownToggle data-name="menu-button" color="primary">
     <div class="icon">
       <Icons.menu />
     </div>
   </DropdownToggle>
   <DropdownMenu right>
     <DropdownItem
+      data-name="cards-open-button"
       toggle={false}
       disabled={!$board.owner}
       on:click={() => ($board.cards_open = !$board.cards_open)}>
@@ -62,6 +63,7 @@
         on:click={preventDefault} />
     </DropdownItem>
     <DropdownItem
+      data-name="voting-open-button"
       toggle={false}
       disabled={!$board.owner}
       on:click={() => ($board.voting_open = !$board.voting_open)}>
@@ -69,12 +71,16 @@
         label={$_('board.options.voting_allowed')}
         bind:checked={$board.voting_open} />
     </DropdownItem>
-    <DropdownItem toggle={false} on:click={() => ($sorted = !$sorted)}>
+    <DropdownItem
+      data-name="sort-button"
+      toggle={false}
+      on:click={() => ($sorted = !$sorted)}>
       <ReadonlyCheckbox
         label={$_('board.options.sort_by_votes')}
         bind:checked={$sorted} />
     </DropdownItem>
     <DropdownItem
+      data-name="show-qr-button"
       toggle={false}
       class="d-none d-lg-block"
       on:click={() => (showQR = !showQR)}>
@@ -82,13 +88,15 @@
         label={$_('board.options.show_qr_code')}
         bind:checked={showQR} />
     </DropdownItem>
-    <DropdownItem href={getCSVUrl($board)}>
+    <DropdownItem data-name="copy-link-button" href={getCSVUrl($board)}>
       <div class="d-inline-block smaller-icon">
         <Icons.download />
       </div>
       {$_('board.options.download_csv')}
     </DropdownItem>
-    <DropdownItem data-clipboard-text="{location.origin}/{$board.id}">
+    <DropdownItem
+      data-name="download-csv-button"
+      data-clipboard-text="{location.origin}/{$board.id}">
       <div class="d-inline-block smaller-icon">
         <Icons.link />
       </div>

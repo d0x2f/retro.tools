@@ -124,8 +124,8 @@
   }
 </style>
 
-<div class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
-  <div class="border-bottom d-flex p-2 mb-2 {rankDetails.classes.color}">
+<div data-name="rank" class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
+  <div class="border-bottom d-flex py-2 mb-2 {rankDetails.classes.color}">
     <div class="d-flex flex-column justify-content-center flex-shrink-0">
       <div class="icon px-2">
         <svelte:component this={rankDetails.icon} />
@@ -134,6 +134,7 @@
     <div class="d-flex input-group flex-nowrap">
       <Textarea
         autoresize
+        data-name="card-text-input"
         on:submit={newCard}
         placeholder={$_(rank.name)}
         bind:value={newCardText}
@@ -142,6 +143,7 @@
         class="flex-grow-1" />
       {#if $focusedRank === rank.id}
         <Textarea
+          data-name="card-author-input"
           on:submit={newCard}
           placeholder={$_('board.author')}
           bind:value={$author}

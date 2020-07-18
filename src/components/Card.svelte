@@ -113,7 +113,7 @@
   }
 </style>
 
-<div class:busy={card.busy} class="w-90 shadow-sm card">
+<div data-name="card" class:busy={card.busy} class="w-90 shadow-sm card">
   <div class:blur={deleteMode} class="d-flex">
     <div class="flex-grow-0 bg-light">
       <Votes
@@ -125,6 +125,7 @@
     <div class="p-1 w-100 flex-grow-1">
       {#if editMode}
         <Textarea
+          data-name="card-edit-field"
           autoresize
           autofocus
           bind:value={newCardText}
@@ -132,25 +133,32 @@
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
       {:else}
-        {#if card.author.length > 0}
-          <div class="m-0 w-100 small text-primary text-nowrap text-left">
-            <EncryptedText bind:text={card.author} />
+        <div data-name="card-body" on:click={startEdit}>
+          <div class="m-0 w-100 small text-primary">
+            {#if card.author.length > 0}
+              <div class="text-primary">
+                <EncryptedText bind:text={card.author} />
+              </div>
+            {:else}
+              <div class="text-secondary">Anonymous</div>
+            {/if}
+            <div class="border-top border-secondary author-border" />
           </div>
-          <div class="border-top border-primary author-border" />
-        {:else}
-          <div class="m-0 w-100 small text-secondary text-nowrap text-left">
-            Anonymous
+          <div
+            data-name="card-content"
+            class="p-1 w-100 font-weight-bold pre-wrap">
+            <EncryptedText bind:text={card.description} />
           </div>
-          <div class="border-top border-secondary author-border" />
-        {/if}
-        <div class="p-1 w-100 font-weight-bold pre-wrap" on:click={startEdit}>
-          <EncryptedText bind:text={card.description} />
         </div>
       {/if}
     </div>
-    <div class="p-1 float-right">
+    <div class="p-1 bg-light">
       {#if card.owner || $board.owner}
-        <Button color="danger" class="btn-sm" on:click={startDelete}>
+        <Button
+          data-name="delete-button"
+          color="light"
+          class="btn-sm text-danger"
+          on:click={startDelete}>
           <div class="icon" class:voted={card.voted}>
             <Icons.trash />
           </div>
@@ -161,13 +169,21 @@
 
   {#if deleteMode}
     <div class="position-absolute w-100 h-100 p-1 text-right">
-      <Button color="dark" class="btn-sm" on:click={cancelDelete}>
+      <Button
+        data-name="cancel-button"
+        color="dark"
+        class="btn-sm"
+        on:click={cancelDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.close />
         </div>
       </Button>
 
-      <Button color="danger" class="btn-sm" on:click={submitDelete}>
+      <Button
+        data-name="confirm-button"
+        color="danger"
+        class="btn-sm"
+        on:click={submitDelete}>
         <div class="icon" class:voted={card.voted}>
           <Icons.check />
         </div>

@@ -84,8 +84,8 @@
       {#if board.owner}
         <Button
           data-name="delete-button"
-          color="danger"
-          class="ml-2"
+          color="light"
+          class="ml-2 text-danger"
           on:click={startDelete}
           disabled={busy}>
           {#if busy}
