@@ -52,9 +52,16 @@ context('Menu', () => {
       cy.get('[data-name=sort-button]').should('be.visible');
     });
 
-    it('shows the qr code button', () => {
-      cy.get('[data-name=show-qr-button]').should('be.visible');
-    });
+    // This button only shows on viewports with width >= 992px
+    if (Cypress.config('viewportWidth') >= 992) {
+      it('shows the qr code button', () => {
+        cy.get('[data-name=show-qr-button]').should('be.visible');
+      });
+    } else {
+      it('does not show the qr code button', () => {
+        cy.get('[data-name=show-qr-button]').should('not.be.visible');
+      });
+    }
 
     it('shows the copy link button', () => {
       cy.get('[data-name=copy-link-button]').should('be.visible');
@@ -62,6 +69,10 @@ context('Menu', () => {
 
     it('shows the download csv button', () => {
       cy.get('[data-name=download-csv-button]').should('be.visible');
+    });
+
+    after(() => {
+      cy.get('[data-name=menu-button]').click();
     });
   });
 
@@ -84,6 +95,7 @@ context('Menu', () => {
       before(() => {
         cy.get('[data-name=menu-button]').click();
         cy.get('[data-name=cards-open-button]').click();
+        cy.get('[data-name=menu-button]').click();
         cy.get('[data-name=rank]:visible')
           .first()
           .find('[data-name=card-text-input]')
@@ -100,10 +112,6 @@ context('Menu', () => {
         // Ensure it goes away
         cy.get('[data-name=warning-alert]').should('not.exist');
       });
-
-      after(() => {
-        cy.get('[data-name=menu-button]').click();
-      });
     });
 
     after(() => {
@@ -117,6 +125,7 @@ context('Menu', () => {
     before(() => {
       cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=cards-open-button]').click();
+      cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=rank]:visible')
         .first()
         .find('[data-name=card-text-input]')
@@ -134,6 +143,7 @@ context('Menu', () => {
       before(() => {
         cy.get('[data-name=menu-button]').click();
         cy.get('[data-name=voting-open-button]').click();
+        cy.get('[data-name=menu-button]').click();
       });
 
       it('shows the vote button', () => {
@@ -142,7 +152,6 @@ context('Menu', () => {
     });
 
     after(() => {
-      cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=delete-button]:visible').each(($el) => $el.click());
       cy.get('[data-name=confirm-button]:visible').each(($el) => $el.click());
       cy.get('[data-name=card]').should('not.exist');
@@ -181,6 +190,7 @@ context('Menu', () => {
       before(() => {
         cy.get('[data-name=menu-button]').click();
         cy.get('[data-name=sort-button]').click();
+        cy.get('[data-name=menu-button]').click();
       });
 
       it('shows the cards in order of vote count', () => {
@@ -192,10 +202,6 @@ context('Menu', () => {
           .last()
           .find('[data-name=vote-count]')
           .should('have.text', '0');
-      });
-
-      after(() => {
-        cy.get('[data-name=menu-button]').click();
       });
     });
 
@@ -219,13 +225,15 @@ context('Menu', () => {
         before(() => {
           cy.get('[data-name=menu-button]').click();
           cy.get('[data-name=show-qr-button]').click();
+          cy.get('[data-name=menu-button]').click();
         });
 
         it('shows the qr code', () => {
-          cy.get('[data-name=qr-code]').should('exist');
+          cy.get('[data-name=qr-code]').should('be.visible');
         });
 
         after(() => {
+          cy.get('[data-name=menu-button]').click();
           cy.get('[data-name=show-qr-button]').click();
           cy.get('[data-name=menu-button]').click();
         });
@@ -247,11 +255,6 @@ context('Menu', () => {
   // });
 
   context('copy link', () => {
-    before(() => {
-      cy.get('[data-name=menu-button]').click();
-      cy.get('[data-name=copy-link-button]').click();
-    });
-
     it('has the board link as its clipboard data', () => {
       cy.get('[data-name=copy-link-button]')
         .should('have.attr', 'data-clipboard-text')
@@ -263,6 +266,7 @@ context('Menu', () => {
     //   before(() => {
     //     cy.get('[data-name=menu-button]').click();
     //     cy.get('[data-name=copy-link-button]').click();
+    //     cy.get('[data-name=menu-button]').click();
     //   });
 
     //   it('copies the board link into the clipboard', () => {});
