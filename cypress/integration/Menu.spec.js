@@ -11,32 +11,28 @@ context('Menu', () => {
     cy.get('[data-name=cards-open-button]')
       .children()
       .first()
-      .its('data-checked')
-      .should('be', 'true');
+      .should('have.attr', 'data-checked', 'true');
   });
 
   it('has voting disallowed by default', () => {
     cy.get('[data-name=voting-open-button]')
       .children()
       .first()
-      .its('data-checked')
-      .should('be', 'false');
+      .should('have.attr', 'data-checked', 'false');
   });
 
   it('should not be sorted by default', () => {
     cy.get('[data-name=sort-button]')
       .children()
       .first()
-      .its('data-checked')
-      .should('be', 'false');
+      .should('have.attr', 'data-checked', 'false');
   });
 
   it('should not show the qr code by default', () => {
     cy.get('[data-name=show-qr-button]')
       .children()
       .first()
-      .its('data-checked')
-      .should('be', 'false');
+      .should('have.attr', 'data-checked', 'false');
   });
 
   describe('when the menu button is clicked', () => {
@@ -104,6 +100,10 @@ context('Menu', () => {
         // Ensure it goes away
         cy.get('[data-name=warning-alert]').should('not.exist');
       });
+
+      after(() => {
+        cy.get('[data-name=menu-button]').click();
+      });
     });
 
     after(() => {
@@ -142,6 +142,7 @@ context('Menu', () => {
     });
 
     after(() => {
+      cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=delete-button]:visible').each(($el) => $el.click());
       cy.get('[data-name=confirm-button]:visible').each(($el) => $el.click());
       cy.get('[data-name=card]').should('not.exist');
@@ -165,8 +166,14 @@ context('Menu', () => {
 
     describe('when sorting is disabled', () => {
       it('shows the cards in order of creation', () => {
-        cy.get('[data-name=card]').first().find('[data-name=vote-count]').should('have.text', '0');
-        cy.get('[data-name=card]').last().find('[data-name=vote-count]').should('have.text', '1');
+        cy.get('[data-name=card]')
+          .first()
+          .find('[data-name=vote-count]')
+          .should('have.text', '0');
+        cy.get('[data-name=card]')
+          .last()
+          .find('[data-name=vote-count]')
+          .should('have.text', '1');
       });
     });
 
@@ -177,8 +184,18 @@ context('Menu', () => {
       });
 
       it('shows the cards in order of vote count', () => {
-        cy.get('[data-name=card]').first().find('[data-name=vote-count]').should('have.text', '1');
-        cy.get('[data-name=card]').last().find('[data-name=vote-count]').should('have.text', '0');
+        cy.get('[data-name=card]')
+          .first()
+          .find('[data-name=vote-count]')
+          .should('have.text', '1');
+        cy.get('[data-name=card]')
+          .last()
+          .find('[data-name=vote-count]')
+          .should('have.text', '0');
+      });
+
+      after(() => {
+        cy.get('[data-name=menu-button]').click();
       });
     });
 
@@ -189,27 +206,35 @@ context('Menu', () => {
     });
   });
 
-  context('qr code', () => {
-    describe('when disabled', () => {
-      it('does not show the qr code', () => {
-        cy.get('[data-name=qr-code]').should('not.exist');
+  // This button only shows on viewports with width >= 992px
+  if (Cypress.config('viewportWidth') >= 992) {
+    context('qr code', () => {
+      describe('when disabled', () => {
+        it('does not show the qr code', () => {
+          cy.get('[data-name=qr-code]').should('not.exist');
+        });
+      });
+
+      describe('when enabled', () => {
+        before(() => {
+          cy.get('[data-name=menu-button]').click();
+          cy.get('[data-name=show-qr-button]').click();
+        });
+
+        it('shows the qr code', () => {
+          cy.get('[data-name=qr-code]').should('exist');
+        });
+
+        after(() => {
+          cy.get('[data-name=show-qr-button]').click();
+          cy.get('[data-name=menu-button]').click();
+        });
       });
     });
+  }
 
-    describe('when enabled', () => {
-      before(() => {
-        cy.get('[data-name=menu-button]').click();
-        cy.get('[data-name=show-qr-button]').click();
-      });
-
-      it('shows the qr code', () => {
-        cy.get('[data-name=qr-code]').should('exist');
-      });
-    });
-  });
-
-  // TOOD: this doesn't seem possible to test at the moment
-  //       see: https://github.com/cypress-io/cypress/issues/949
+  // TOOD: This doesn't seem possible to test at the moment
+  //       See: https://github.com/cypress-io/cypress/issues/949
   // context('csv download', () => {
   //   describe('when clicked', () => {
   //     before(() => {
@@ -220,6 +245,29 @@ context('Menu', () => {
   //     it('prompts to save the csv file', () => {});
   //   });
   // });
+
+  context('copy link', () => {
+    before(() => {
+      cy.get('[data-name=menu-button]').click();
+      cy.get('[data-name=copy-link-button]').click();
+    });
+
+    it('has the board link as its clipboard data', () => {
+      cy.get('[data-name=copy-link-button]')
+        .should('have.attr', 'data-clipboard-text')
+        .and('match', /http:\/\/localhost:5000\/[a-zA-Z0-9]+/i);
+    });
+
+    // TODO: Not sure how to check actual clipboard contents.
+    // describe('when clicked', () => {
+    //   before(() => {
+    //     cy.get('[data-name=menu-button]').click();
+    //     cy.get('[data-name=copy-link-button]').click();
+    //   });
+
+    //   it('copies the board link into the clipboard', () => {});
+    // });
+  });
 
   after(() => {
     cy.visit('/');

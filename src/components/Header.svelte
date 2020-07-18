@@ -1,6 +1,4 @@
 <script>
-  import ClipboardJS from 'clipboard';
-
   import LocaleSelect from './LocaleSelect.svelte';
   import Textarea from './Textarea.svelte';
   import EncryptedText from './EncryptedText.svelte';
@@ -13,8 +11,6 @@
 
   let editMode = false;
   let newBoardName = '';
-
-  new ClipboardJS('button');
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
