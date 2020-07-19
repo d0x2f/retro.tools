@@ -42,6 +42,7 @@
 <div class="shadow-sm on-top bg-white">
   <div class="row justify-content-between pt-1">
     <div
+      data-name="home-link"
       class="col text-primary text-uppercase font-weight-bold h5 pt-1 ml-2
       home-link"
       on:click={nav.navigate('/')}>
@@ -49,10 +50,12 @@
     </div>
 
     <div
+      data-name="board-title"
       class="col text-center text-secondary d-none d-lg-block pt-1"
       on:click={startEdit}>
       {#if editMode}
         <Textarea
+          data-name="board-title-edit-field"
           autofocus
           bind:value={newBoardName}
           on:submit={submitEdit}
@@ -70,7 +73,9 @@
       <Menu />
     </div>
   </div>
-  <div class="text-secondary d-lg-none px-3 text-center">
+  <div
+    data-name="board-title"
+    class="text-secondary d-lg-none px-3 text-center">
     <EncryptedText bind:text={$board.name} />
   </div>
 </div>
