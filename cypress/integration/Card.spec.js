@@ -15,29 +15,15 @@ context('Card', () => {
       .type('Test Author{enter}');
   });
 
-  it('shows the card', () => {
-    cy.get('[data-name=card]:visible').should('have.length', 1);
-  });
-
-  it('shows the author', () => {
-    cy.get('[data-name=card]:visible').contains('Test Author');
-  });
-
-  it('contains the card text', () => {
+  it('shows the card with expected content', () => {
+    cy.get('[data-name=card]:visible')
+      .should('have.length', 1)
+      .contains('Test Author');
     cy.get('[data-name=card]:visible').contains('Test card content');
-  });
-
-  it('has vote count of zero', () => {
     cy.get('[data-name=card]:visible')
       .find('[data-name=vote-count]')
       .should('have.text', '0');
-  });
-
-  it('does not show the vote button', () => {
     cy.get('[data-name=vote-button]:visible').should('not.exist');
-  });
-
-  it('shows a delete button', () => {
     cy.get('[data-name=card]:visible')
       .find('[data-name=delete-button]')
       .should('have.length', 1);
@@ -50,13 +36,10 @@ context('Card', () => {
       cy.get('[data-name=menu-button]').click();
     });
 
-    it('has vote count of zero', () => {
+    it('shows zero votes and an vote button', () => {
       cy.get('[data-name=card]:visible')
         .find('[data-name=vote-count]')
         .should('have.text', '0');
-    });
-
-    it('shows the vote button with the non-voted style', () => {
       cy.get('[data-name=vote-button]:visible')
         .should('have.length', 1)
         .children()
@@ -68,17 +51,14 @@ context('Card', () => {
         cy.get('[data-name=vote-button]:visible').click();
       });
 
-      it('shows the vote button with the voted style', () => {
+      it('shows one vote and an activated vote button', () => {
+        cy.get('[data-name=card]:visible')
+          .find('[data-name=vote-count]')
+          .should('have.text', '1');
         cy.get('[data-name=vote-button]:visible')
           .should('have.length', 1)
           .children()
           .should('not.have.class', 'unvoted');
-      });
-
-      it('has vote count of one', () => {
-        cy.get('[data-name=card]:visible')
-          .find('[data-name=vote-count]')
-          .should('have.text', '1');
       });
     });
   });
@@ -99,11 +79,8 @@ context('Card', () => {
           .type('I changed my mind.{enter}');
       });
 
-      it('removes the edit box', () => {
+      it('removes the edit box and updates the card', () => {
         cy.get('[data-name=card-edit-field]').should('not.exist');
-      });
-
-      it('updates the card text', () => {
         cy.get('[data-name=card-content]').should(
           'contain',
           'I changed my mind.'
@@ -132,11 +109,8 @@ context('Card', () => {
       });
 
       it('does not delete the card', () => {
-        cy.get('[data-name=card]:visible').should('exist');
-      });
-
-      it('removes the confirm/cancel buttons', () => {
         cy.get('[data-name=card]:visible')
+          .should('exist')
           .find('[data-name=cancel-button]')
           .should('not.exist');
         cy.get('[data-name=card]:visible')
@@ -162,8 +136,8 @@ context('Card', () => {
 
   after(() => {
     cy.visit('/');
-    cy.get('[data-name=delete-button]').each(($el) => $el.click());
-    cy.get('[data-name=delete-confirm-button]').each(($el) => $el.click());
+    cy.get('[data-name=delete-button]').click({ multiple: true });
+    cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
     cy.get('[data-name=board-table]').should('not.exist');
   });
 });

@@ -26,15 +26,9 @@ context('BoardTable', () => {
     });
 
     context('As the owner', () => {
-      it('shows the board list table', () => {
+      it('has a row for the board including the delete button', () => {
         cy.get('[data-name=board-table]').should('exist');
-      });
-
-      it('shows the board row', () => {
         cy.get('[data-name=board-row]').should('have.length', 1);
-      });
-
-      it('shows the delete button', () => {
         cy.get('[data-name=board-row]')
           .first()
           .find('[data-name=delete-button]')
@@ -66,21 +60,12 @@ context('BoardTable', () => {
           });
       });
 
-      it('shows the board list table', () => {
+      it('shows a row for the board without the delete button', () => {
         cy.get('[data-name=board-table]').should('exist');
-      });
-
-      it('shows the board row', () => {
         cy.get('[data-name=board-row]').should('have.length', 1);
-      });
-
-      it('is the expected board', () => {
         cy.get('[data-name=board-row]')
           .first()
           .should('have.attr', 'data-board-id', boardId);
-      });
-
-      it('does not show the delete button', () => {
         cy.get('[data-name=board-row]')
           .first()
           .find('[data-name=delete-button]')
@@ -95,8 +80,8 @@ context('BoardTable', () => {
 
     after(() => {
       cy.visit('/');
-      cy.get('[data-name=delete-button]').each(($el) => $el.click());
-      cy.get('[data-name=delete-confirm-button]').each(($el) => $el.click());
+      cy.get('[data-name=delete-button]').click({ multiple: true });
+      cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
       cy.get('[data-name=board-table]').should('not.exist');
     });
   });

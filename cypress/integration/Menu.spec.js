@@ -7,28 +7,19 @@ context('Menu', () => {
     cy.get('[data-name=create-button]').click();
   });
 
-  it('has new cards allowed by default', () => {
+  it('has the expected default settings', () => {
     cy.get('[data-name=cards-open-button]')
       .children()
       .first()
       .should('have.attr', 'data-checked', 'true');
-  });
-
-  it('has voting disallowed by default', () => {
     cy.get('[data-name=voting-open-button]')
       .children()
       .first()
       .should('have.attr', 'data-checked', 'false');
-  });
-
-  it('should not be sorted by default', () => {
     cy.get('[data-name=sort-button]')
       .children()
       .first()
       .should('have.attr', 'data-checked', 'false');
-  });
-
-  it('should not show the qr code by default', () => {
     cy.get('[data-name=show-qr-button]')
       .children()
       .first()
@@ -40,35 +31,19 @@ context('Menu', () => {
       cy.get('[data-name=menu-button]').click();
     });
 
-    it('shows the cards allowed button', () => {
+    it('shows all the buttons', () => {
       cy.get('[data-name=cards-open-button]').should('be.visible');
-    });
-
-    it('shows the voting allowed button', () => {
       cy.get('[data-name=voting-open-button]').should('be.visible');
-    });
-
-    it('shows the sort button', () => {
       cy.get('[data-name=sort-button]').should('be.visible');
-    });
-
-    // This button only shows on viewports with width >= 992px
-    if (Cypress.config('viewportWidth') >= 992) {
-      it('shows the qr code button', () => {
-        cy.get('[data-name=show-qr-button]').should('be.visible');
-      });
-    } else {
-      it('does not show the qr code button', () => {
-        cy.get('[data-name=show-qr-button]').should('not.be.visible');
-      });
-    }
-
-    it('shows the copy link button', () => {
       cy.get('[data-name=copy-link-button]').should('be.visible');
-    });
-
-    it('shows the download csv button', () => {
       cy.get('[data-name=download-csv-button]').should('be.visible');
+
+      // This button only shows on viewports with width >= 992px
+      if (Cypress.config('viewportWidth') >= 992) {
+        cy.get('[data-name=show-qr-button]').should('be.visible');
+      } else {
+        cy.get('[data-name=show-qr-button]').should('not.be.visible');
+      }
     });
 
     after(() => {
@@ -115,8 +90,8 @@ context('Menu', () => {
     });
 
     after(() => {
-      cy.get('[data-name=delete-button]:visible').each(($el) => $el.click());
-      cy.get('[data-name=confirm-button]:visible').each(($el) => $el.click());
+      cy.get('[data-name=delete-button]:visible').click({ multiple: true });
+      cy.get('[data-name=confirm-button]:visible').click({ multiple: true });
       cy.get('[data-name=card]').should('not.exist');
     });
   });
@@ -152,8 +127,8 @@ context('Menu', () => {
     });
 
     after(() => {
-      cy.get('[data-name=delete-button]:visible').each(($el) => $el.click());
-      cy.get('[data-name=confirm-button]:visible').each(($el) => $el.click());
+      cy.get('[data-name=delete-button]:visible').click({ multiple: true });
+      cy.get('[data-name=confirm-button]:visible').click({ multiple: true });
       cy.get('[data-name=card]').should('not.exist');
     });
   });
@@ -206,8 +181,8 @@ context('Menu', () => {
     });
 
     after(() => {
-      cy.get('[data-name=delete-button]:visible').each(($el) => $el.click());
-      cy.get('[data-name=confirm-button]:visible').each(($el) => $el.click());
+      cy.get('[data-name=delete-button]:visible').click({ multiple: true });
+      cy.get('[data-name=confirm-button]:visible').click({ multiple: true });
       cy.get('[data-name=card]').should('not.exist');
     });
   });
@@ -275,8 +250,8 @@ context('Menu', () => {
 
   after(() => {
     cy.visit('/');
-    cy.get('[data-name=delete-button]').each(($el) => $el.click());
-    cy.get('[data-name=delete-confirm-button]').each(($el) => $el.click());
+    cy.get('[data-name=delete-button]').click({ multiple: true });
+    cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
     cy.get('[data-name=board-table]').should('not.exist');
   });
 });
