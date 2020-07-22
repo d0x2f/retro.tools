@@ -13,7 +13,7 @@
     "@rollup/plugin-commonjs": "^13.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
-    "cypress": "^4.10.0",
+    "cypress": "^4.11.0",
     "eslint": "^7.5.0",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-svelte3": "^2.7.3",
