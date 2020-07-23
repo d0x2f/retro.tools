@@ -8,8 +8,6 @@
   import { _, locale, locales, dictionary } from 'svelte-i18n';
   import moment from 'moment';
 
-  import Flag from './Flag.svelte';
-
   let localesOpen = false;
 
   function setLocale(l) {
@@ -24,7 +22,7 @@
   bind:isOpen={localesOpen}
   toggle={() => (localesOpen = !localesOpen)}>
   <DropdownToggle caret data-name="locale-select-button" color="light">
-    {#if $dictionary.hasOwnProperty($locale)}
+    {#if $locale in $dictionary}
       {$_('language.' + $locale)}
     {:else}{$_('language.en')}{/if}
   </DropdownToggle>

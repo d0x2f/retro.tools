@@ -6,7 +6,6 @@
   import { getBoards } from './api.js';
   import { Icons } from './data.js';
 
-  import FloatingActionButton from './components/FloatingActionButton.svelte';
   import BoardTable from './components/BoardTable.svelte';
   import LocaleSelect from './components/LocaleSelect.svelte';
   import Alert from './components/Alert.svelte';
