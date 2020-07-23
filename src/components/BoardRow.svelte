@@ -48,7 +48,9 @@
 </style>
 
 <tr data-name="board-row" data-board-id={board.id}>
-  <td class="align-middle pointer" on:click={() => dispatch('click', board.id)}>
+  <td
+    class="align-middle pointer border-top-0"
+    on:click={() => dispatch('click', board.id)}>
     {#if board.name}
       {#await isBoardEncrypted(board)}
         …
@@ -61,7 +63,7 @@
       <i class="small">{$_('splash.no_name')}</i>
     {/if}
   </td>
-  <td class="text-right align-middle pointer">
+  <td class="text-right align-middle pointer border-top-0">
     {#if showDeleteBoardConfirmBox}
       <Button
         data-name="delete-cancel-button"
