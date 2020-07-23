@@ -124,7 +124,7 @@
     <div class="d-flex justify-content-center">
       <div class="top-section">
         <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
-          Simple. Retros.
+          {$_('splash.hero_text')}
         </h1>
         <div class="d-flex flex-column justify-content-center">
           <CreateForm

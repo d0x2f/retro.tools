@@ -92,7 +92,7 @@
     class="ml-1 mt-2 small pointer"
     on:click={() => (optionsExpanded = !optionsExpanded)}>
     {#if optionsExpanded}▾{:else}▸{/if}
-    more
+    {$_('splash.settings')}
   </div>
   {#if optionsExpanded}
     <div in:slide out:slide>
