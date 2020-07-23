@@ -26,9 +26,7 @@
   <DropdownToggle caret data-name="locale-select-button" color="light">
     {#if $dictionary.hasOwnProperty($locale)}
       {$_('language.' + $locale)}
-    {:else}
-      {$_('language.en')}
-    {/if}
+    {:else}{$_('language.en')}{/if}
   </DropdownToggle>
   <DropdownMenu right class="mw-0">
     {#each $locales.sort() as locale}
