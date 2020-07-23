@@ -214,9 +214,9 @@
             <Icons.lock />
           </div>
           <div class="card-body">
-            <h5 class="card-title">Encryption</h5>
+            <h5 class="card-title">End to End Encryption</h5>
             <p class="card-text">
-              End to end encryption is optionally available using a password.
+              Board encryption is optionally available using a password.
               <br />
               <br />
               All encryption is handled by the browser and our backend sees

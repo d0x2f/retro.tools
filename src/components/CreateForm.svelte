@@ -89,9 +89,9 @@
     </div>
   </div>
   <div
-    class="text-center mt-2 small pointer"
+    class="ml-1 mt-2 small pointer"
     on:click={() => (optionsExpanded = !optionsExpanded)}>
-    {#if optionsExpanded}-{:else}+{/if}
+    {#if optionsExpanded}▾{:else}▸{/if}
     more
   </div>
   {#if optionsExpanded}
