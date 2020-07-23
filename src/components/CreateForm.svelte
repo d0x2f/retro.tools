@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
+  import { slide } from 'svelte/transition';
 
   import { gtag } from '../ga.js';
   import { Icons, BoardTemplates } from '../data.js';
@@ -20,6 +21,7 @@
   let passwordDisabled = true;
   let showPassword = false;
   let createBusy = false;
+  let optionsExpanded = false;
 
   async function createFromTemplate(template) {
     let [boardNameEncrypted, encryptionTest] = await Promise.all([
@@ -57,63 +59,75 @@
     height: 1.5em;
     margin-top: -1px;
   }
+
+  .pointer {
+    cursor: pointer;
+  }
 </style>
 
-<div data-name="create-form">
-  <p class="text-primary mb-1">{$_('splash.board_name')}</p>
-  <Input
-    data-name="board-name-input"
-    placeholder={$_('splash.board_name_example')}
-    bind:value={boardName} />
-  <p class="text-primary my-1">{$_('splash.template')}</p>
-  <Select bind:value={templateKey}>
-    {#each Object.entries(BoardTemplates) as [key, template]}
-      <option value={key}>{$_(template.name)}</option>
-    {/each}
-  </Select>
-  <p class="text-primary my-1">{$_('general.encryption')}</p>
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <div class="input-group-text">
-        <Checkbox
-          addon
-          on:input={(i) => (passwordDisabled = !i.target.checked)} />
-      </div>
-    </div>
+<div data-name="create-form" class="text-dark">
+  <div class="d-flex">
     <Input
-      type={showPassword ? 'text' : 'password'}
-      placeholder={$_('general.password')}
-      bind:disabled={passwordDisabled}
-      bind:value={$password} />
-    <div class="input-group-append">
-      <div class="input-group-text">
-        <div class="icon" on:click={() => (showPassword = !showPassword)}>
-          {#if showPassword}
-            <Icons.eye />
-          {:else}
-            <Icons.eyeOff />
-          {/if}
+      data-name="board-name-input"
+      placeholder={$_('splash.board_name_example')}
+      bind:value={boardName} />
+    <div class="flex-grow-0 flex-shrink-0">
+      <Button
+        class="ml-2"
+        color="primary"
+        on:click={newBoard}
+        disabled={createBusy}
+        data-name="create-button">
+        <div class="d-flex">
+          {#if createBusy}
+            <div class="d-block icon">
+              <Spinner size="sm" color="light" />
+            </div>
+          {:else}{$_('splash.create')}{/if}
+        </div>
+      </Button>
+    </div>
+  </div>
+  <div
+    class="ml-1 mt-2 small pointer"
+    on:click={() => (optionsExpanded = !optionsExpanded)}>
+    {#if optionsExpanded}▾{:else}▸{/if}
+    more
+  </div>
+  {#if optionsExpanded}
+    <div in:slide out:slide>
+      <p class="my-1 small">{$_('splash.template')}</p>
+      <Select bind:value={templateKey}>
+        {#each Object.entries(BoardTemplates) as [key, template]}
+          <option value={key}>{$_(template.name)}</option>
+        {/each}
+      </Select>
+      <p class="my-1 small">{$_('general.encryption')}</p>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <Checkbox
+              addon
+              on:input={(i) => (passwordDisabled = !i.target.checked)} />
+          </div>
+        </div>
+        <Input
+          type={showPassword ? 'text' : 'password'}
+          placeholder={$_('general.password')}
+          bind:disabled={passwordDisabled}
+          bind:value={$password} />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <div class="icon" on:click={() => (showPassword = !showPassword)}>
+              {#if showPassword}
+                <Icons.eye />
+              {:else}
+                <Icons.eyeOff />
+              {/if}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="text-right">
-    <Button
-      class="mt-2"
-      color="primary"
-      on:click={newBoard}
-      disabled={createBusy}
-      data-name="create-button">
-      <div class="d-flex">
-        <div class="d-block icon">
-          {#if createBusy}
-            <Spinner size="sm" color="light" />
-          {:else}
-            <Icons.plus />
-          {/if}
-        </div>
-        {$_('splash.create')}
-      </div>
-    </Button>
-  </div>
+  {/if}
 </div>

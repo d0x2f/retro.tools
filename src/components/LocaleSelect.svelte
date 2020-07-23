@@ -5,10 +5,8 @@
     DropdownMenu,
     DropdownToggle,
   } from 'sveltestrap';
-  import { _, locale, locales } from 'svelte-i18n';
+  import { _, locale, locales, dictionary } from 'svelte-i18n';
   import moment from 'moment';
-
-  import Flag from './Flag.svelte';
 
   let localesOpen = false;
 
@@ -23,16 +21,17 @@
   size="sm"
   bind:isOpen={localesOpen}
   toggle={() => (localesOpen = !localesOpen)}>
-  <DropdownToggle data-name="locale-select-button" color="light">
-    <Flag code={$locale} />
+  <DropdownToggle caret data-name="locale-select-button" color="light">
+    {#if $locale in $dictionary}
+      {$_('language.' + $locale)}
+    {:else}{$_('language.en')}{/if}
   </DropdownToggle>
-  <DropdownMenu right>
+  <DropdownMenu right class="mw-0">
     {#each $locales.sort() as locale}
       <DropdownItem
         data-name="locale-select-{locale}"
         toggle={true}
         on:click={() => setLocale(locale)}>
-        <Flag code={locale} />
         {$_('language.' + locale)}
       </DropdownItem>
     {/each}
