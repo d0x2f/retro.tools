@@ -51,14 +51,52 @@
     overflow: auto;
   }
 
-  .bigger-icon {
-    width: 2em;
-    height: 2em;
+  .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-top: -2px;
   }
 
-  .right {
-    right: 0;
-    left: auto;
+  .links > a {
+    color: #000;
+  }
+
+  .links > a:hover {
+    text-decoration: none;
+  }
+
+  .card-text {
+    opacity: 0.7;
+  }
+
+  .card {
+    flex-basis: 10em;
+    max-width: 20em;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin: 1em;
+    background-color: #0000;
+    border: 0;
+  }
+
+  .card-top {
+    height: 3em;
+    width: 3em;
+    margin: 0 auto;
+  }
+
+  .card-title {
+    text-align: center;
+  }
+
+  .top-section {
+    width: 40em;
+  }
+
+  .mid-section {
+    flex-basis: 100px;
+    flex-shrink: 0;
   }
 </style>
 
@@ -66,22 +104,128 @@
   <meta property="og:url" content="https://retro.tools" />
 </svelte:head>
 
-<div class="d-flex justify-content-center pt-2 scroll">
-  <div class="col-lg-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="text-primary text-uppercase">retro.tools</h1>
+<div class="d-flex flex-column scroll bg-primary h-100">
+  <div class="p-2 pb-5 bg-light">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="text-primary text-uppercase p-0 m-0">retro.tools</h3>
+      <div class="links text-right flex-grow-1 small pr-2 text-nowrap">
+        <a
+          href="https://github.com/d0x2f/retrograde.js"
+          target="_blank"
+          class="p-1">
+          <div class="icon">
+            <Icons.github />
+          </div>
+          GitHub
+        </a>
+      </div>
       <LocaleSelect />
     </div>
-
-    <CreateForm
-      on:error={handleError}
-      on:created={({ detail: boardId }) => nav.navigate(`/${boardId}`)} />
-
-    <BoardTable
-      {boards}
-      on:click={({ detail: boardId }) => nav.navigate(`/${boardId}`)}
-      on:error={handleError}
-      on:deleted={doGetBoards} />
+    <hr class="mt-1 mb-4" />
+    <div class="d-flex justify-content-center">
+      <div class="top-section">
+        <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
+          Simple. Retros.
+        </h1>
+        <div class="d-flex flex-column justify-content-center">
+          <CreateForm
+            on:error={handleError}
+            on:created={({ detail: boardId }) => nav.navigate(`/${boardId}`)} />
+          <BoardTable
+            {boards}
+            on:click={({ detail: boardId }) => nav.navigate(`/${boardId}`)}
+            on:error={handleError}
+            on:deleted={doGetBoards} />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light flex-grow-1 mid-section" />
+  <div class="d-flex justify-content-center py-5 bg-primary text-white">
+    <div class="d-flex flex-column">
+      <div class="d-flex justify-content-around py-4 flex-wrap">
+        <div class="card">
+          <div class="card-top">
+            <Icons.anonymous />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Anonymous</h5>
+            <p class="card-text">
+              No personal information is stored and you're free to delete boards
+              for absolute certainty.
+              <br />
+              <br />
+              <a
+                class="text-white"
+                target="_blank"
+                href="https://github.com/d0x2f/retrograde.js">
+                Our code
+              </a>
+              is publicly available for anyone to verify.
+              <br />
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.phone />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Simple, Clean & Intuitive</h5>
+            <p class="card-text">
+              Our primary design goal is simplicity, we believe that tools
+              should be easy to understand and require no manual.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.code />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Free & Open Source</h5>
+            <p class="card-text">
+              Retro.tools is free to use and the source code is available on
+              <a
+                class="text-white"
+                target="_blank"
+                href="https://github.com/d0x2f/retrograde.js">
+                GitHub.
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.login />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">No Logins!</h5>
+            <p class="card-text">
+              To stay anonymous and convenient, we won't ask you to create an
+              account or to provide any other information, simply click and go!
+              <br />
+              <br />
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.lock />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Encryption</h5>
+            <p class="card-text">
+              End to end encryption is optionally available using a password.
+              <br />
+              <br />
+              All encryption is handled by the browser and our backend sees
+              nothing but encrypted data!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -95,10 +239,3 @@
     </Alert>
   </div>
 {/if}
-
-<div class="fixed-bottom bigger-icon m-1 right">
-  <FloatingActionButton
-    className="btn-dark"
-    icon={Icons.github}
-    on:click={() => window.open('https://github.com/d0x2f/retrograde.js', '_blank')} />
-</div>

@@ -28,6 +28,11 @@ import {
   EyeIcon,
   EyeOffIcon,
   ArrowUpIcon,
+  ShieldIcon,
+  UserCheckIcon,
+  SmartphoneIcon,
+  CodeIcon,
+  LogInIcon,
 } from 'svelte-feather-icons';
 
 export const Colors = {
@@ -88,6 +93,11 @@ export const Icons = {
   eye: EyeIcon,
   eyeOff: EyeOffIcon,
   arrowUp: ArrowUpIcon,
+  lock: ShieldIcon,
+  anonymous: UserCheckIcon,
+  phone: SmartphoneIcon,
+  code: CodeIcon,
+  login: LogInIcon,
 };
 
 export const BoardTemplates = {

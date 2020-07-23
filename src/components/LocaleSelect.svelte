@@ -23,17 +23,16 @@
   size="sm"
   bind:isOpen={localesOpen}
   toggle={() => (localesOpen = !localesOpen)}>
-  <DropdownToggle data-name="locale-select-button" color="light">
-    <Flag code={$locale} />
+  <DropdownToggle caret data-name="locale-select-button" color="light">
+    {$locale}
   </DropdownToggle>
-  <DropdownMenu right>
+  <DropdownMenu right class="mw-0">
     {#each $locales.sort() as locale}
       <DropdownItem
         data-name="locale-select-{locale}"
         toggle={true}
         on:click={() => setLocale(locale)}>
-        <Flag code={locale} />
-        {$_('language.' + locale)}
+        {locale}
       </DropdownItem>
     {/each}
   </DropdownMenu>
