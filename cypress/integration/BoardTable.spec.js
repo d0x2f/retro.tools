@@ -6,13 +6,11 @@ context('BoardTable', () => {
     cy.clearCookie('__session');
 
     cy.visit('/');
-
-    // Ensure there are no existing boards for a clean slate
-    cy.get('[data-name=board-table]').should('not.exist');
   });
 
   context('With no existing boards', () => {
     it('does not show the board list table', () => {
+      cy.get('[data-name=board-list-button]').should('not.exist');
       cy.get('[data-name=board-table]').should('not.exist');
     });
   });
@@ -23,6 +21,7 @@ context('BoardTable', () => {
       cy.get('[data-name=create-button]').click();
       cy.get('[data-name=rank]').should('exist');
       cy.visit('/');
+      cy.get('[data-name=board-list-button]').click();
     });
 
     context('As the owner', () => {
@@ -56,6 +55,7 @@ context('BoardTable', () => {
               cy.visit(`/${boardId}`);
               cy.get('[data-name=rank]').should('exist');
               cy.visit('/');
+              cy.get('[data-name=board-list-button]').click();
             });
           });
       });
@@ -80,6 +80,7 @@ context('BoardTable', () => {
 
     after(() => {
       cy.visit('/');
+      cy.get('[data-name=board-list-button]').click();
       cy.get('[data-name=delete-button]').click({ multiple: true });
       cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
       cy.get('[data-name=board-table]').should('not.exist');

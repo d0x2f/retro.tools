@@ -136,6 +136,7 @@ context('Card', () => {
 
   after(() => {
     cy.visit('/');
+    cy.get('[data-name=board-list-button]').click();
     cy.get('[data-name=delete-button]').click({ multiple: true });
     cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
     cy.get('[data-name=board-table]').should('not.exist');
