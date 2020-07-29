@@ -17,6 +17,7 @@
 
   let boards = [];
   let errorClearTimeout;
+  let paypalForm;
 
   async function doGetBoards() {
     // If the getBoards request fails, just silently omit the board list
@@ -38,6 +39,11 @@
 
   function handleError({ detail: { message, err } }) {
     error(message, err);
+  }
+
+  function donate() {
+    if (!paypalForm) return;
+    paypalForm.submit();
   }
 
   onMount(async () => {
@@ -97,6 +103,10 @@
     flex-basis: 100px;
     flex-shrink: 0;
   }
+
+  .donate-button {
+    cursor: pointer;
+  }
 </style>
 
 <svelte:head>
@@ -117,6 +127,12 @@
           </div>
           GitHub
         </a>
+        <span class="p-1 donate-button" on:click={donate}>
+          <div class="icon text-danger">
+            <Icons.heart />
+          </div>
+          {$_('general.donate')}
+        </span>
       </div>
       <LocaleSelect />
     </div>
@@ -227,6 +243,15 @@
     </div>
   </div>
 </div>
+
+<form
+  bind:this={paypalForm}
+  action="https://www.paypal.com/cgi-bin/webscr"
+  method="post"
+  target="_blank">
+  <input type="hidden" name="cmd" value="_s-xclick" />
+  <input type="hidden" name="hosted_button_id" value="FJMVB9QFZQ79J" />
+</form>
 
 {#if errorAlertVisible}
   <div

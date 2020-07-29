@@ -18,7 +18,7 @@
 {#if boards.length > 0}
   <div
     data-name="board-list-button"
-    class="ml-1 mt-2 small pointer"
+    class="ml-1 mt-2 small pointer text-dark"
     on:click={() => (expanded = !expanded)}>
     {#if expanded}▾{:else}▸{/if}
     {$_('splash.your_boards')}
