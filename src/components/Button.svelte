@@ -9,7 +9,7 @@
   export let value = '';
   export let color = 'secondary';
   export let href = false;
-  export let target = "_top";
+  export let target = '_top';
 
   let classes = '';
   let data = '';

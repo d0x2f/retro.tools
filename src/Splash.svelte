@@ -107,7 +107,9 @@
 <div class="d-flex flex-column scroll bg-primary h-100">
   <div class="px-2 pt-1 pb-5 bg-light">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="text-primary text-uppercase font-weight-bold p-0 m-0">retro.tools</h3>
+      <h3 class="text-primary text-uppercase font-weight-bold p-0 m-0">
+        retro.tools
+      </h3>
       <div class="links text-right flex-grow-1 small text-nowrap">
         <Button
           color="light"

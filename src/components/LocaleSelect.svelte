@@ -19,9 +19,7 @@
   }
 </script>
 
-<Dropdown
-  bind:isOpen={localesOpen}
-  toggle={() => (localesOpen = !localesOpen)}>
+<Dropdown bind:isOpen={localesOpen} toggle={() => (localesOpen = !localesOpen)}>
   <DropdownToggle caret data-name="locale-select-button" color="light" {size}>
     {#if $locale in $dictionary}
       {$_('language.' + $locale)}
