@@ -40,18 +40,17 @@
 </style>
 
 <div class="shadow-sm on-top bg-white">
-  <div class="row justify-content-between pt-1">
-    <div
+  <div class="d-flex justify-content-between pt-1">
+    <h3
       data-name="home-link"
-      class="col text-primary text-uppercase font-weight-bold h5 pt-1 ml-2
-      home-link"
+      class="text-primary text-uppercase font-weight-bold px-2 m-0 home-link"
       on:click={nav.navigate('/')}>
       retro.tools
-    </div>
+    </h3>
 
     <div
       data-name="board-title"
-      class="col text-center text-secondary d-none d-lg-block pt-1"
+      class="text-center text-secondary d-none d-lg-block pt-1"
       on:click={startEdit}>
       {#if editMode}
         <Textarea
@@ -66,9 +65,9 @@
         <EncryptedText bind:text={$board.name} />
       {/if}
     </div>
-    <div class="col d-flex mb-1 mr-1 justify-content-end">
+    <div class="d-flex mb-1 mr-1 justify-content-end">
       <div class="mr-1">
-        <LocaleSelect />
+        <LocaleSelect size="sm" />
       </div>
       <Menu />
     </div>

@@ -8,6 +8,8 @@
   export let disabled = false;
   export let value = '';
   export let color = 'secondary';
+  export let href = false;
+  export let target = '_top';
 
   let classes = '';
   let data = '';
@@ -16,6 +18,12 @@
   $: data = filterDataKeys($$restProps);
 </script>
 
-<button {...data} class={classes} {disabled} on:click {value}>
-  <slot />
-</button>
+{#if href}
+  <a {...data} class={classes} {disabled} on:click {value} {href} {target}>
+    <slot />
+  </a>
+{:else}
+  <button {...data} class={classes} {disabled} on:click {value}>
+    <slot />
+  </button>
+{/if}

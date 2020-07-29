@@ -8,6 +8,8 @@
   import { _, locale, locales, dictionary } from 'svelte-i18n';
   import moment from 'moment';
 
+  export let size = '';
+
   let localesOpen = false;
 
   function setLocale(l) {
@@ -17,11 +19,8 @@
   }
 </script>
 
-<Dropdown
-  size="sm"
-  bind:isOpen={localesOpen}
-  toggle={() => (localesOpen = !localesOpen)}>
-  <DropdownToggle caret data-name="locale-select-button" color="light">
+<Dropdown bind:isOpen={localesOpen} toggle={() => (localesOpen = !localesOpen)}>
+  <DropdownToggle caret data-name="locale-select-button" color="light" {size}>
     {#if $locale in $dictionary}
       {$_('language.' + $locale)}
     {:else}{$_('language.en')}{/if}
