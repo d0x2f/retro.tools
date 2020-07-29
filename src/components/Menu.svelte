@@ -18,7 +18,6 @@
 
   let isOpen = false;
   let showQR = false;
-  let paypalForm;
 
   new ClipboardJS('button');
 
@@ -26,11 +25,6 @@
     e.preventDefault();
     e.stopPropagation();
   };
-
-  function donate() {
-    if (!paypalForm) return;
-    paypalForm.submit();
-  }
 </script>
 
 <style>
@@ -112,7 +106,10 @@
       {$_('board.options.copy_link')}
     </DropdownItem>
     <DropdownItem divider />
-    <DropdownItem data-name="donate-button" on:click={donate}>
+    <DropdownItem
+      data-name="donate-button"
+      target="_blank"
+      href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url">
       <div class="d-inline-block smaller-icon text-danger">
         <Icons.heart />
       </div>
@@ -121,15 +118,6 @@
 
   </DropdownMenu>
 </Dropdown>
-
-<form
-  bind:this={paypalForm}
-  action="https://www.paypal.com/cgi-bin/webscr"
-  method="post"
-  target="_blank">
-  <input type="hidden" name="cmd" value="_s-xclick" />
-  <input type="hidden" name="hosted_button_id" value="FJMVB9QFZQ79J" />
-</form>
 
 {#if showQR}
   <div

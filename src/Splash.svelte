@@ -10,6 +10,7 @@
   import LocaleSelect from './components/LocaleSelect.svelte';
   import Alert from './components/Alert.svelte';
   import CreateForm from './components/CreateForm.svelte';
+  import Button from './components/Button.svelte';
 
   export let nav;
   export let errorAlertVisible = false;
@@ -17,7 +18,6 @@
 
   let boards = [];
   let errorClearTimeout;
-  let paypalForm;
 
   async function doGetBoards() {
     // If the getBoards request fails, just silently omit the board list
@@ -39,11 +39,6 @@
 
   function handleError({ detail: { message, err } }) {
     error(message, err);
-  }
-
-  function donate() {
-    if (!paypalForm) return;
-    paypalForm.submit();
   }
 
   onMount(async () => {
@@ -103,10 +98,6 @@
     flex-basis: 100px;
     flex-shrink: 0;
   }
-
-  .donate-button {
-    cursor: pointer;
-  }
 </style>
 
 <svelte:head>
@@ -114,25 +105,30 @@
 </svelte:head>
 
 <div class="d-flex flex-column scroll bg-primary h-100">
-  <div class="p-2 pb-5 bg-light">
+  <div class="px-2 pt-1 pb-5 bg-light">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="text-primary text-uppercase p-0 m-0">retro.tools</h3>
-      <div class="links text-right flex-grow-1 small pr-2 text-nowrap">
-        <a
+      <h3 class="text-primary text-uppercase font-weight-bold p-0 m-0">retro.tools</h3>
+      <div class="links text-right flex-grow-1 small text-nowrap">
+        <Button
+          color="light"
           href="https://github.com/d0x2f/retrograde.js"
           target="_blank"
-          class="p-1">
+          class="mr-1">
           <div class="icon">
             <Icons.github />
           </div>
           GitHub
-        </a>
-        <span class="p-1 donate-button" on:click={donate}>
+        </Button>
+        <Button
+          color="light"
+          class="mr-1"
+          href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
+          target="_blank">
           <div class="icon text-danger">
             <Icons.heart />
           </div>
           {$_('general.donate')}
-        </span>
+        </Button>
       </div>
       <LocaleSelect />
     </div>
@@ -243,15 +239,6 @@
     </div>
   </div>
 </div>
-
-<form
-  bind:this={paypalForm}
-  action="https://www.paypal.com/cgi-bin/webscr"
-  method="post"
-  target="_blank">
-  <input type="hidden" name="cmd" value="_s-xclick" />
-  <input type="hidden" name="hosted_button_id" value="FJMVB9QFZQ79J" />
-</form>
 
 {#if errorAlertVisible}
   <div
