@@ -37,7 +37,7 @@
     accepts: (el, target) => {
       return (
         target.dataset.rankId !==
-        $cards.find((c) => c.id === el.dataset.cardId).rank_id
+        $cards.find((c) => c.id === el.dataset.cardId).column
       );
     },
   });
@@ -56,17 +56,17 @@
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
     const card = $cards.find((c) => c.id === cardId);
-    const originalRankId = card.rank_id;
+    const originalRankId = card.column;
 
     el.parentNode.removeChild(el);
-    card.rank_id = rankId;
+    card.column = rankId;
     card.busy = true;
     $cards = $cards; // Trigger a redraw so the card picks up that it's busy
     try {
       cards.replace(card.id, await updateCard($board, card, originalRankId));
     } catch (err) {
       error('error.updating_card', err);
-      card.rank_id = originalRankId; // Send the card back
+      card.column = originalRankId; // Send the card back
       card.busy = false;
       $cards = $cards; // Force redraw
     }

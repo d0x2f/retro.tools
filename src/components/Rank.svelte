@@ -35,7 +35,7 @@
 
   $: {
     sortedFilteredCards = $cards
-      .filter((c) => c.rank_id === rank.id && !c.uncommitted)
+      .filter((c) => c.column === rank.id && !c.uncommitted)
       .sort((a, b) =>
         $sorted
           ? a.votes < b.votes
@@ -43,6 +43,7 @@
             : -1
           : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
       );
+    console.log(rank, $cards)
   }
 
   $: {
@@ -87,7 +88,7 @@
       name: 'Card',
       description: encryptedCardText,
       author: encryptedAuthor,
-      rank_id: rank.id,
+      column: rank.id,
       uncommitted: true,
       votes: 0,
       created_at: {
