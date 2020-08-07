@@ -41,9 +41,8 @@
           ? a.votes < b.votes
             ? 1
             : -1
-          : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
+          : a.created_at > b.created_at
       );
-    console.log(rank, $cards)
   }
 
   $: {
@@ -91,9 +90,7 @@
       column: rank.id,
       uncommitted: true,
       votes: 0,
-      created_at: {
-        secs_since_epoch: Date.now() / 1000,
-      },
+      created_at: Date.now() / 1000,
     });
     try {
       cards.replace(

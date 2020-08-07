@@ -80,7 +80,7 @@
         <Icons.check size="1x" />
       </Button>
     {:else}
-      {moment(new Date(board.created_at.secs_since_epoch * 1000))
+      {moment(new Date(board.created_at * 1000))
         .locale($locale)
         .fromNow()}
       {#if board.owner}

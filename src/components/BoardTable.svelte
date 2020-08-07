@@ -28,7 +28,7 @@
       <Table hover class="w-100">
         <tbody>
           {#each boards.sort((a, b) => {
-            return b.created_at.secs_since_epoch > a.created_at.secs_since_epoch ? 1 : -1;
+            return b.created_at > a.created_at ? 1 : -1;
           }) as board (board.id)}
             <BoardRow {board} on:click on:deleted on:error />
           {/each}
