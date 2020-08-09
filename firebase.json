@@ -10,7 +10,7 @@
       {
         "source": "/boards{,/**}",
         "run": {
-          "serviceId": "retrotools-api",
+          "serviceId": "retrotools",
           "region": "us-east1"
         }
       },
