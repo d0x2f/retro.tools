@@ -38,11 +38,12 @@ export async function updateBoard(board) {
   });
 }
 
-export async function createRank(boardId, name, data) {
+export async function createRank(boardId, name, position, data) {
   return requestJson(`${api_host}/boards/${boardId}/columns`, {
     method: 'POST',
     body: JSON.stringify({
       name,
+      position,
       data,
     }),
     ...common_options,
@@ -56,6 +57,7 @@ export async function createBoard(name, data) {
       name,
       data,
       cards_open: true,
+      voting_open: false,
     }),
     ...common_options,
   });
@@ -80,44 +82,32 @@ export async function updateCard(board, card, currentRankId) {
   if (!currentRankId) {
     currentRankId = card.column;
   }
-  return requestJson(
-    `${api_host}/boards/${board.id}/cards/${card.id}`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(card),
-      ...common_options,
-    }
-  );
+  return requestJson(`${api_host}/boards/${board.id}/cards/${card.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(card),
+    ...common_options,
+  });
 }
 
 export function deleteCard(board, card) {
-  return request(
-    `${api_host}/boards/${board.id}/cards/${card.id}`,
-    {
-      method: 'DELETE',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
 
 export async function agree(board, card) {
-  return request(
-    `${api_host}/boards/${board.id}/cards/${card.id}/vote`,
-    {
-      method: 'PUT',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
+    method: 'PUT',
+    ...common_options,
+  });
 }
 
 export async function undoAgree(board, card) {
-  return request(
-    `${api_host}/boards/${board.id}/cards/${card.id}/vote`,
-    {
-      method: 'DELETE',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
 
 export function deleteRank(boardId, rankId) {

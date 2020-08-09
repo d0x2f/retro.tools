@@ -28,6 +28,7 @@
   let connectionLost = false;
   let passwordRequired = false;
   let busy = true;
+  let sortedRanks = [];
 
   let drake = dragula({
     revertOnSpill: true,
@@ -88,6 +89,10 @@
         tabButtonWidth = 'col-3';
         break;
     }
+  }
+
+  $: {
+    sortedRanks = $ranks.sort((a, b) => (a.position < b.position ? -1 : 1));
   }
 
   const [cardSend, cardReceive] = crossfade({
@@ -302,14 +307,14 @@
       <div
         class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
         min-vh-90">
-        {#each $ranks as rank, i (rank.id)}
+        {#each sortedRanks as rank, i (rank.id)}
           <Rank
             bind:rank
             bind:drake
             on:error={handleError}
             send={cardSend}
             receive={cardReceive} />
-          {#if i !== $ranks.length - 1}
+          {#if i !== sortedRanks.length - 1}
             <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
           {/if}
         {:else}
@@ -321,7 +326,7 @@
     <div
       transition:fade={{ duration: 200 }}
       class="d-block flex-grow-1 d-lg-none scroll">
-      {#each $ranks as rank (rank.id)}
+      {#each sortedRanks as rank (rank.id)}
         {#if rank.id == $focusedRank}
           <Rank bind:rank on:error={handleError} />
         {/if}
@@ -358,7 +363,7 @@
         </div>
       {/if}
       <div class="d-flex border-top w-100">
-        {#each $ranks as rank (rank.id)}
+        {#each sortedRanks as rank (rank.id)}
           <div class="flex-grow-1 {tabButtonWidth} px-0">
             <input
               readonly={undefined}

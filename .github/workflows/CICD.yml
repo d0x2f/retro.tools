@@ -40,21 +40,14 @@ jobs:
           # - firefox
         viewport: ["viewportWidth=375,viewportHeight=667", "viewportWidth=1280,viewportHeight=800"]
     services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: retrograde
       backend:
         image: gcr.io/retrograde/retrograde:latest
         env:
           PORT: 8000
-          ALLOWED_ORIGINS: .*
-          SECRET_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          ALLOWED_ORIGIN: http://localhost:5000
+          RUST_LOG: info
           ENVIRONMENT: development
-          PSQL_CONNECTION_STRING: postgres://postgres:postgres@postgres/retrograde
-          PSQL_CONNECTION_POOL_SIZE: 3
-          SECURE_COOKIE: false
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
         ports:
           - 8000:8000
     steps:

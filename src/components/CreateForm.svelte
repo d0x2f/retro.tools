@@ -30,7 +30,10 @@
     ]);
     let board = await createBoard(boardNameEncrypted, { encryptionTest });
     for (const rank of template.ranks) {
-      await createRank(board.id, rank.name, rank);
+      await createRank(board.id, rank.name, rank.position, {
+        icon: rank.icon,
+        color: rank.color,
+      });
     }
     return board;
   }
