@@ -47,6 +47,7 @@ jobs:
           ALLOWED_ORIGIN: http://localhost:5000
           RUST_LOG: info
           ENVIRONMENT: development
+          FIRESTORE_PROJECT: retrotools-284402
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
         ports:
           - 8000:8000
