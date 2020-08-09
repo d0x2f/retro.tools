@@ -41,7 +41,7 @@ jobs:
         viewport: ["viewportWidth=375,viewportHeight=667", "viewportWidth=1280,viewportHeight=800"]
     services:
       backend:
-        image: gcr.io/retrograde/retrograde:latest
+        image: gcr.io/${{ secrets.GCP_PROJECT }}/retrograde:latest
         env:
           PORT: 8000
           ALLOWED_ORIGIN: http://localhost:5000
