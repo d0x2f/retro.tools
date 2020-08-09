@@ -35,13 +35,9 @@
 
   $: {
     sortedFilteredCards = $cards
-      .filter((c) => c.rank_id === rank.id && !c.uncommitted)
+      .filter((c) => c.column === rank.id && !c.uncommitted)
       .sort((a, b) =>
-        $sorted
-          ? a.votes < b.votes
-            ? 1
-            : -1
-          : a.created_at.secs_since_epoch > b.created_at.secs_since_epoch
+        $sorted ? (a.votes < b.votes ? 1 : -1) : a.created_at > b.created_at
       );
   }
 
@@ -87,12 +83,10 @@
       name: 'Card',
       description: encryptedCardText,
       author: encryptedAuthor,
-      rank_id: rank.id,
+      column: rank.id,
       uncommitted: true,
       votes: 0,
-      created_at: {
-        secs_since_epoch: Date.now() / 1000,
-      },
+      created_at: Date.now() / 1000,
     });
     try {
       cards.replace(

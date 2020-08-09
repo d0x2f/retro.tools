@@ -27,7 +27,7 @@ export async function getBoards() {
 }
 
 export async function getRanks(boardId) {
-  return requestJson(`${api_host}/boards/${boardId}/ranks`, common_options);
+  return requestJson(`${api_host}/boards/${boardId}/columns`, common_options);
 }
 
 export async function updateBoard(board) {
@@ -38,11 +38,12 @@ export async function updateBoard(board) {
   });
 }
 
-export async function createRank(boardId, name, data) {
-  return requestJson(`${api_host}/boards/${boardId}/ranks`, {
+export async function createRank(boardId, name, position, data) {
+  return requestJson(`${api_host}/boards/${boardId}/columns`, {
     method: 'POST',
     body: JSON.stringify({
       name,
+      position,
       data,
     }),
     ...common_options,
@@ -56,6 +57,7 @@ export async function createBoard(name, data) {
       name,
       data,
       cards_open: true,
+      voting_open: false,
     }),
     ...common_options,
   });
@@ -66,11 +68,10 @@ export async function getCards(boardId) {
 }
 
 export async function createCard(boardId, rankId, text, author) {
-  return requestJson(`${api_host}/boards/${boardId}/ranks/${rankId}/cards`, {
+  return requestJson(`${api_host}/boards/${boardId}/columns/${rankId}/cards`, {
     method: 'POST',
     body: JSON.stringify({
-      name: 'Card',
-      description: text,
+      text,
       author,
     }),
     ...common_options,
@@ -79,50 +80,38 @@ export async function createCard(boardId, rankId, text, author) {
 
 export async function updateCard(board, card, currentRankId) {
   if (!currentRankId) {
-    currentRankId = card.rank_id;
+    currentRankId = card.column;
   }
-  return requestJson(
-    `${api_host}/boards/${board.id}/ranks/${currentRankId}/cards/${card.id}`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(card),
-      ...common_options,
-    }
-  );
+  return requestJson(`${api_host}/boards/${board.id}/cards/${card.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(card),
+    ...common_options,
+  });
 }
 
 export function deleteCard(board, card) {
-  return request(
-    `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}`,
-    {
-      method: 'DELETE',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
 
 export async function agree(board, card) {
-  return requestJson(
-    `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
-    {
-      method: 'POST',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
+    method: 'PUT',
+    ...common_options,
+  });
 }
 
 export async function undoAgree(board, card) {
-  return requestJson(
-    `${api_host}/boards/${board.id}/ranks/${card.rank_id}/cards/${card.id}/vote`,
-    {
-      method: 'DELETE',
-      ...common_options,
-    }
-  );
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
+    method: 'DELETE',
+    ...common_options,
+  });
 }
 
 export function deleteRank(boardId, rankId) {
-  return request(`${api_host}/boards/${boardId}/ranks/${rankId}`, {
+  return request(`${api_host}/boards/${boardId}/columns/${rankId}`, {
     method: 'DELETE',
     ...common_options,
   });

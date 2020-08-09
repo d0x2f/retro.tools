@@ -28,7 +28,7 @@
     if (!card.owner) {
       return;
     }
-    newCardText = await decrypt(card.description, $password);
+    newCardText = await decrypt(card.text, $password);
     editMode = true;
   }
 
@@ -39,11 +39,11 @@
   async function submitEdit() {
     const newCard = {
       ...card,
-      description: await encrypt(newCardText, $password),
+      text: await encrypt(newCardText, $password),
       busy: true,
     };
     try {
-      cards.replace(card.id, await updateCard($board, newCard, card.rank_id));
+      cards.replace(card.id, await updateCard($board, newCard, card.column));
       editMode = false;
     } catch (err) {
       error('error.updating_card', err);
@@ -75,13 +75,19 @@
     }
     card.busy = true;
     try {
-      let newCard;
       if (card.voted) {
-        newCard = await undoAgree($board, card);
+        let response = await undoAgree($board, card);
+        if (response.ok) {
+          card.votes -= 1;
+          card.voted = false;
+        }
       } else {
-        newCard = await agree($board, card);
+        let response = await agree($board, card);
+        if (response.ok) {
+          card.votes += 1;
+          card.voted = true;
+        }
       }
-      cards.replace(card.id, newCard);
     } catch (err) {
       error('error.vote_failed', err);
     } finally {
@@ -147,7 +153,7 @@
           <div
             data-name="card-content"
             class="p-1 w-100 font-weight-bold pre-wrap">
-            <EncryptedText bind:text={card.description} />
+            <EncryptedText bind:text={card.text} />
           </div>
         </div>
       {/if}
