@@ -57,7 +57,7 @@ export async function createBoard(name, data) {
       name,
       data,
       cards_open: true,
-      voting_open: false,
+      voting_open: true,
     }),
     ...common_options,
   });
