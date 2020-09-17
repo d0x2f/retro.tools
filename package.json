@@ -22,7 +22,7 @@
     "posthtml-hash": "^1.1.1",
     "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
-    "rollup": "^2.23.0",
+    "rollup": "^2.27.0",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
