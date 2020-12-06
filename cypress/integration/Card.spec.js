@@ -56,8 +56,7 @@ context('Card', () => {
       cy.get('[data-name=card]:visible')
         .find('[data-name=vote-count]')
         .should('have.text', '1');
-      cy.get('[data-name=vote-button]:visible')
-        .should('not.exist');
+      cy.get('[data-name=vote-button]:visible').should('not.exist');
     });
   });
 
