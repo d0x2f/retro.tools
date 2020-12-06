@@ -15,7 +15,7 @@ context('Menu', () => {
     cy.get('[data-name=voting-open-button]')
       .children()
       .first()
-      .should('have.attr', 'data-checked', 'false');
+      .should('have.attr', 'data-checked', 'true');
     cy.get('[data-name=sort-button]')
       .children()
       .first()
@@ -108,21 +108,21 @@ context('Menu', () => {
         .should('have.value', '');
     });
 
-    describe('when voting is not allowed', () => {
-      it('does not show the vote button', () => {
-        cy.get('[data-name=vote-button]:visible').should('not.exist');
+    describe('when voting is allowed', () => {
+      it('shows the vote button', () => {
+        cy.get('[data-name=vote-button]:visible').should('exist');
       });
     });
 
-    describe('when voting is allowed', () => {
+    describe('when voting is not allowed', () => {
       before(() => {
         cy.get('[data-name=menu-button]').click();
         cy.get('[data-name=voting-open-button]').click();
         cy.get('[data-name=menu-button]').click();
       });
 
-      it('shows the vote button', () => {
-        cy.get('[data-name=vote-button]:visible').should('exist');
+      it('does not show the vote button', () => {
+        cy.get('[data-name=vote-button]:visible').should('not.exist');
       });
     });
 
