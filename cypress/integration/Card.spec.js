@@ -23,43 +23,41 @@ context('Card', () => {
     cy.get('[data-name=card]:visible')
       .find('[data-name=vote-count]')
       .should('have.text', '0');
-    cy.get('[data-name=vote-button]:visible').should('not.exist');
+    cy.get('[data-name=vote-button]:visible');
     cy.get('[data-name=card]:visible')
       .find('[data-name=delete-button]')
       .should('have.length', 1);
   });
 
-  describe('when voting is open', () => {
+  describe('when a vote is made', () => {
+    before(() => {
+      cy.get('[data-name=vote-button]:visible').click();
+    });
+
+    it('shows one vote and an activated vote button', () => {
+      cy.get('[data-name=card]:visible')
+        .find('[data-name=vote-count]')
+        .should('have.text', '1');
+      cy.get('[data-name=vote-button]:visible')
+        .should('have.length', 1)
+        .children()
+        .should('not.have.class', 'unvoted');
+    });
+  });
+
+  describe('when voting is closed', () => {
     before(() => {
       cy.get('[data-name=menu-button]').click();
       cy.get('[data-name=voting-open-button]').click();
       cy.get('[data-name=menu-button]').click();
     });
 
-    it('shows zero votes and an vote button', () => {
+    it('shows zero votes and no vote button', () => {
       cy.get('[data-name=card]:visible')
         .find('[data-name=vote-count]')
-        .should('have.text', '0');
+        .should('have.text', '1');
       cy.get('[data-name=vote-button]:visible')
-        .should('have.length', 1)
-        .children()
-        .should('have.class', 'unvoted');
-    });
-
-    describe('when a vote is made', () => {
-      before(() => {
-        cy.get('[data-name=vote-button]:visible').click();
-      });
-
-      it('shows one vote and an activated vote button', () => {
-        cy.get('[data-name=card]:visible')
-          .find('[data-name=vote-count]')
-          .should('have.text', '1');
-        cy.get('[data-name=vote-button]:visible')
-          .should('have.length', 1)
-          .children()
-          .should('not.have.class', 'unvoted');
-      });
+        .should('not.exist');
     });
   });
 
