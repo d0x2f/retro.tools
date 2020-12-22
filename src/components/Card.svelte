@@ -5,6 +5,7 @@
   import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
   import { Icons } from '../data.js';
   import { decrypt, encrypt } from '../crypto.js';
+  import { _ } from 'svelte-i18n';
 
   import Textarea from './Textarea.svelte';
   import Votes from './Votes.svelte';
@@ -146,7 +147,7 @@
                 <EncryptedText bind:text={card.author} />
               </div>
             {:else}
-              <div class="text-secondary">Anonymous</div>
+              <div class="text-secondary">{$_('card.anonymous')}</div>
             {/if}
             <div class="border-top border-secondary author-border" />
           </div>
