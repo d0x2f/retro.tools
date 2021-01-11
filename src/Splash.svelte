@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
 
   import { getBoards } from './api.js';
   import { Icons } from './data.js';
@@ -12,7 +13,6 @@
   import CreateForm from './components/CreateForm.svelte';
   import Button from './components/Button.svelte';
 
-  export let nav;
   export let errorAlertVisible = false;
   export let errorAlertMessage = 'error.network';
 
@@ -56,14 +56,6 @@
     width: 1em;
     height: 1em;
     margin-top: -2px;
-  }
-
-  .links > a {
-    color: #000;
-  }
-
-  .links > a:hover {
-    text-decoration: none;
   }
 
   .card-text {
@@ -143,10 +135,10 @@
         <div class="d-flex flex-column justify-content-center">
           <CreateForm
             on:error={handleError}
-            on:created={({ detail: boardId }) => nav.navigate(`/${boardId}`)} />
+            on:created={({ detail: boardId }) => navigate(`/${boardId}`)} />
           <BoardTable
             {boards}
-            on:click={({ detail: boardId }) => nav.navigate(`/${boardId}`)}
+            on:click={({ detail: boardId }) => navigate(`/${boardId}`)}
             on:error={handleError}
             on:deleted={doGetBoards} />
         </div>

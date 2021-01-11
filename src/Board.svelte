@@ -4,9 +4,16 @@
   import { crossfade, fade, fly } from 'svelte/transition';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
 
   import { board, ranks, cards, focusedRank, password } from './store.js';
-  import { updateBoard, updateCard, getCards, getBoard } from './api.js';
+  import {
+    updateBoard,
+    updateCard,
+    getCards,
+    getBoard,
+    getRanks,
+  } from './api.js';
   import { getRankDetails } from './data.js';
   import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
 
@@ -16,7 +23,7 @@
   import Spinner from './components/Spinner.svelte';
   import Alert from './components/Alert.svelte';
 
-  export let nav;
+  export let boardId;
 
   let tabButtonWidth = '';
   let hidden = false;
@@ -34,11 +41,11 @@
     revertOnSpill: true,
     copySortSource: false,
     copy: true,
-    moves: (el) => el.dataset.drag !== 'false',
+    moves: el => el.dataset.drag !== 'false',
     accepts: (el, target) => {
       return (
         target.dataset.rankId !==
-        $cards.find((c) => c.id === el.dataset.cardId).column
+        $cards.find(c => c.id === el.dataset.cardId).column
       );
     },
   });
@@ -56,7 +63,7 @@
   drake.on('drop', async (el, target) => {
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
-    const card = $cards.find((c) => c.id === cardId);
+    const card = $cards.find(c => c.id === cardId);
     const originalRankId = card.column;
 
     el.parentNode.removeChild(el);
@@ -96,7 +103,7 @@
   }
 
   const [cardSend, cardReceive] = crossfade({
-    duration: (d) => Math.sqrt(d * 200),
+    duration: d => Math.sqrt(d * 200),
 
     fallback(node) {
       const style = getComputedStyle(node);
@@ -105,7 +112,7 @@
       return {
         duration: 600,
         easing: quintOut,
-        css: (t) => `
+        css: t => `
           transform: ${transform} scale(${t});
           opacity: ${t}
         `,
@@ -127,17 +134,23 @@
   }
 
   async function update() {
-    if (!hidden) {
+    if (!hidden || $board.id === 'none') {
       try {
-        const [b, c] = await Promise.all([
-          getBoard($board.id),
-          getCards($board.id),
+        const [b, r, c] = await Promise.all([
+          getBoard(boardId),
+          getRanks(boardId),
+          getCards(boardId),
         ]);
         board.set(b);
+        ranks.set(r);
         cards.set(c);
         connectionLost = false;
       } catch {
         connectionLost = true;
+      }
+      if ($board.error == 'Not Found') {
+        navigate('/not-found');
+        throw new Error('Board not found');
       }
     }
   }
@@ -174,7 +187,7 @@
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
     if ($board.owner)
-      unsubscribe = board.subscribe((b) => {
+      unsubscribe = board.subscribe(b => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
@@ -277,12 +290,11 @@
 </style>
 
 <svelte:head>
-  <meta property="og:url" content="https://retro.tools/{$board.id}" />
+  <meta property="og:url" content="https://retro.tools/{boardId}" />
 </svelte:head>
 
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
-
-  <Header {nav} />
+  <Header />
 
   {#if busy}
     <div
