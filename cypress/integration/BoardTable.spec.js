@@ -54,6 +54,7 @@ context('BoardTable', () => {
               // Visit the board and come back to generate a session as a participant
               cy.visit(`/${boardId}`);
               cy.get('[data-name=rank]').should('exist');
+              cy.reload();
               cy.visit('/');
               cy.get('[data-name=board-list-button]').click();
             });
