@@ -1,5 +1,6 @@
 <script>
   import { Router, Route } from 'svelte-routing';
+  import { fade } from 'svelte/transition';
 
   import { gtag } from './ga.js';
 
@@ -15,14 +16,20 @@
 
 <Router {url}>
   <Route path="/">
-    <Splash />
+    <div class="h-100" in:fade out:fade>
+      <Splash />
+    </div>
   </Route>
   <Route path="/not-found">
-    <Splash
-      errorAlertVisible="true"
-      errorAlertMessage="error.board_not_found" />
+    <div class="h-100" in:fade out:fade>
+      <Splash
+        errorAlertVisible="true"
+        errorAlertMessage="error.board_not_found" />
+    </div>
   </Route>
   <Route path="/:id" let:params>
-    <Board boardId={params.id} />
+    <div class="h-100" in:fade out:fade>
+      <Board boardId={params.id} />
+    </div>
   </Route>
 </Router>
