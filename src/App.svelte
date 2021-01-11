@@ -1,5 +1,5 @@
 <script>
-  import { Router, Link, Route } from 'svelte-routing';
+  import { Router, Route } from 'svelte-routing';
 
   import { gtag } from './ga.js';
 
