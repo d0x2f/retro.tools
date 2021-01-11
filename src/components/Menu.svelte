@@ -21,7 +21,7 @@
 
   new ClipboardJS('button');
 
-  const preventDefault = e => {
+  const preventDefault = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
