@@ -4,9 +4,16 @@
   import { crossfade, fade, fly } from 'svelte/transition';
   import dragula from 'dragula';
   import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
 
   import { board, ranks, cards, focusedRank, password } from './store.js';
-  import { updateBoard, updateCard, getCards, getBoard } from './api.js';
+  import {
+    updateBoard,
+    updateCard,
+    getCards,
+    getBoard,
+    getRanks,
+  } from './api.js';
   import { getRankDetails } from './data.js';
   import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
 
@@ -16,7 +23,7 @@
   import Spinner from './components/Spinner.svelte';
   import Alert from './components/Alert.svelte';
 
-  export let nav;
+  export let boardId;
 
   let tabButtonWidth = '';
   let hidden = false;
@@ -127,17 +134,23 @@
   }
 
   async function update() {
-    if (!hidden) {
+    if (!hidden || $board.id === 'none') {
       try {
-        const [b, c] = await Promise.all([
-          getBoard($board.id),
-          getCards($board.id),
+        const [b, r, c] = await Promise.all([
+          getBoard(boardId),
+          getRanks(boardId),
+          getCards(boardId),
         ]);
         board.set(b);
+        ranks.set(r);
         cards.set(c);
         connectionLost = false;
       } catch {
         connectionLost = true;
+      }
+      if ($board.error == 'Not Found') {
+        navigate('/not-found');
+        throw new Error('Board not found');
       }
     }
   }
@@ -277,12 +290,11 @@
 </style>
 
 <svelte:head>
-  <meta property="og:url" content="https://retro.tools/{$board.id}" />
+  <meta property="og:url" content="https://retro.tools/{boardId}" />
 </svelte:head>
 
 <div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
-
-  <Header {nav} />
+  <Header />
 
   {#if busy}
     <div

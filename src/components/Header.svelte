@@ -1,4 +1,6 @@
 <script>
+  import { navigate } from 'svelte-routing';
+
   import LocaleSelect from './LocaleSelect.svelte';
   import Textarea from './Textarea.svelte';
   import EncryptedText from './EncryptedText.svelte';
@@ -6,8 +8,6 @@
 
   import { board, password } from '../store.js';
   import { decrypt, encrypt, checkBoardPassword } from '../crypto.js';
-
-  export let nav;
 
   let editMode = false;
   let newBoardName = '';
@@ -44,7 +44,7 @@
     <h3
       data-name="home-link"
       class="text-primary text-uppercase font-weight-bold px-2 m-0 home-link"
-      on:click={nav.navigate('/')}>
+      on:click={() => navigate('/')}>
       retro.tools
     </h3>
 
