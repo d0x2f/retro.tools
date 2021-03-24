@@ -19,4 +19,4 @@ The backend project lives at: [d0x2f/retrograde.rs](https://github.com/d0x2f/ret
 * Easy to share a board to your co-workers quickly with a link or an on-screen QR code
 * Open source
 * Multiple pre-built templates
-* English, German, Spanish and Korean translations (contributions very welcome!)
+* English, German, Korean, Russian and Spanish translations (contributions very welcome!)
