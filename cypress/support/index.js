@@ -1,3 +1,3 @@
 Cypress.Cookies.defaults({
-  whitelist: '__session',
+  preserve: '__session',
 });
