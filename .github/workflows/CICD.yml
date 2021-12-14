@@ -7,28 +7,28 @@ on:
     - master
 
 jobs:
-  # ci:
-  #   runs-on: ubuntu-latest
-  #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #   - name: Use Node.js 16.x
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: 16.x
-  #   - name: Install
-  #     run: npm install
-  #   - name: Lint
-  #     run: npm run lint
-  #   - name: Audit
-  #     run: npm audit --production
-  #   - name: Build
-  #     run: npm run build
-  #   - name: Archive Production Artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: build
-  #       path: build
+  ci:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - name: Install
+      run: npm install
+    - name: Lint
+      run: npm run lint
+    - name: Audit
+      run: npm audit --production
+    - name: Build
+      run: npm run build
+    - name: Archive Production Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build
 
   # cypress:
   #   runs-on: ubuntu-latest
@@ -68,8 +68,8 @@ jobs:
 
   cd:
     runs-on: ubuntu-latest
-    # needs:
-    #   - ci
+    needs:
+      - ci
     #   - cypress
     if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == 'refs/heads/master'"
     steps:
