@@ -3,7 +3,7 @@
   import { _ } from 'svelte-i18n';
 
   import { board, password } from '../store.js';
-  import { checkBoardPassword } from '../crypto.js';
+  import { checkBoardPassword } from '../encryption.js';
   import { Icons } from '../data.js';
 
   import Button from './Button.svelte';

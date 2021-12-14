@@ -124,6 +124,21 @@ export function deleteBoard(boardId) {
   });
 }
 
+export async function react(board, card, reaction) {
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/react`, {
+    method: 'PUT',
+    body: JSON.stringify({ emoji: reaction }),
+    ...common_options,
+  });
+}
+
+export async function undoReact(board, card) {
+  return request(`${api_host}/boards/${board.id}/cards/${card.id}/react`, {
+    method: 'DELETE',
+    ...common_options,
+  });
+}
+
 export function getCSVUrl(board) {
   return `${api_host}/boards/${board.id}/csv`;
 }

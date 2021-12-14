@@ -7,7 +7,7 @@
   import Menu from './Menu.svelte';
 
   import { board, password } from '../store.js';
-  import { decrypt, encrypt, checkBoardPassword } from '../crypto.js';
+  import { decrypt, encrypt, checkBoardPassword } from '../encryption.js';
 
   let editMode = false;
   let newBoardName = '';

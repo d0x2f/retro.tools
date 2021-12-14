@@ -34,7 +34,7 @@ export default {
     svelte({
       dev: !IS_PROD,
       css: (css) => {
-        css.write("build/bundle.[hash].css", !IS_PROD);
+        css.write("bundle.[hash].css", !IS_PROD);
       },
     }),
 

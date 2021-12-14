@@ -32,6 +32,9 @@ export const board = writable({
   max_votes: 0,
   name: 'Unknown Board',
   voting_open: false,
+  data: {
+    encryptionTest: "encryptionTest"
+  }
 });
 
 export const ranks = writable([]);

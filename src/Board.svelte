@@ -15,7 +15,7 @@
     getRanks,
   } from './api.js';
   import { getRankDetails } from './data.js';
-  import { checkBoardPassword, isBoardEncrypted } from './crypto.js';
+  import { checkBoardPassword, isBoardEncrypted } from './encryption.js';
 
   import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';

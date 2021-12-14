@@ -1,22 +1,35 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { slide } from 'svelte/transition';
+  import Emoji from 'svelte-emoji';
+  import { Popover } from 'sveltestrap';
+  import { _ } from 'svelte-i18n';
 
   import { board, cards, password } from '../store.js';
-  import { updateCard, deleteCard, agree, undoAgree } from '../api.js';
+  import {
+    updateCard,
+    deleteCard,
+    agree,
+    undoAgree,
+    react,
+    undoReact,
+  } from '../api.js';
   import { Icons } from '../data.js';
-  import { decrypt, encrypt } from '../crypto.js';
-  import { _ } from 'svelte-i18n';
+  import { decrypt, encrypt } from '../encryption.js';
+  import { clickOutside } from '../utils.js';
 
   import Textarea from './Textarea.svelte';
   import Votes from './Votes.svelte';
   import EncryptedText from './EncryptedText.svelte';
   import Button from './Button.svelte';
+  import ReactDrawer from './ReactDrawer.svelte';
 
   export let card;
   export let color = 'text-primary';
 
   let editMode = false;
   let deleteMode = false;
+  let reactDrawOpen = false;
   let newCardText = '';
 
   const dispatch = createEventDispatcher();
@@ -95,6 +108,23 @@
       card.busy = false;
     }
   }
+
+  async function doReact(event) {
+    const emoji = event.detail;
+    reactDrawOpen = false;
+    if (card.reacted === emoji) {
+      card.reactions[card.reacted] -= 1;
+      card.reacted = '';
+      return undoReact($board, card);
+    } else {
+      if (card.reacted !== '') {
+        card.reactions[card.reacted] -= 1;
+      }
+      card.reactions[emoji] = (card.reactions[emoji] ?? 0) + 1;
+      card.reacted = emoji;
+      await react($board, card, emoji);
+    }
+  }
 </script>
 
 <style>
@@ -118,6 +148,14 @@
   .author-border {
     opacity: 0.2;
   }
+
+  .grayscale {
+    filter: grayscale(100%);
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
 </style>
 
 <div data-name="card" class:busy={card.busy} class="w-90 shadow-sm card">
@@ -140,20 +178,56 @@
           on:cancel={cancelEdit}
           on:blur={submitEdit} />
       {:else}
-        <div data-name="card-body" on:click={startEdit}>
-          <div class="m-0 w-100 small text-primary">
-            {#if card.author.length > 0}
-              <div class="text-primary">
-                <EncryptedText bind:text={card.author} />
+        <div data-name="card-body">
+          <div class="m-0 w-100 small">
+            <div class="d-flex">
+              <div class="flex-grow-1">
+                {#if card.author.length > 0}
+                  <div class="text-primary">
+                    <EncryptedText bind:text={card.author} />
+                  </div>
+                {:else}
+                  <div class="text-secondary">{$_('card.anonymous')}</div>
+                {/if}
               </div>
-            {:else}
-              <div class="text-secondary">{$_('card.anonymous')}</div>
-            {/if}
+              <div
+                id={`react-drawer-button-${card.id}`}
+                class="d-flex flex-wrap justify-content-end pointer">
+                {#if Object.entries(card.reactions).filter(([_, v]) => v > 0).length > 0}
+                  {#each Object.entries(card.reactions)
+                    .sort(([ak, av], [bk, bv]) =>
+                      av === bv ? bk.localeCompare(ak) : bv - av
+                    )
+                    .filter(([_, v]) => v > 0) as [emoji, count]}
+                    <div
+                      class="pl-1 text-nowrap {card.reacted === emoji ? 'text-primary' : ''}"
+                      in:slide>
+                      {emoji} {count}
+                    </div>
+                  {/each}
+                {:else}
+                  <div class="grayscale">
+                    <Emoji symbol="👍" label="smile" />
+                  </div>
+                {/if}
+              </div>
+              <Popover
+                placement="right"
+                target={`react-drawer-button-${card.id}`}
+                bind:isOpen={reactDrawOpen}>
+                <div
+                  use:clickOutside
+                  on:clickOutside={() => (reactDrawOpen = !reactDrawOpen)}>
+                  <ReactDrawer on:selected={doReact} current={card.reacted} />
+                </div>
+              </Popover>
+            </div>
             <div class="border-top border-secondary author-border" />
           </div>
           <div
             data-name="card-content"
-            class="p-1 w-100 font-weight-bold pre-wrap">
+            class="p-1 w-100 pre-wrap"
+            on:click={startEdit}>
             <EncryptedText bind:text={card.text} />
           </div>
         </div>

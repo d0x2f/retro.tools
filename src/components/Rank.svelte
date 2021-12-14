@@ -14,7 +14,7 @@
   } from '../store.js';
   import { getRankDetails, Icons } from '../data.js';
   import { createCard } from '../api.js';
-  import { encrypt } from '../crypto.js';
+  import { encrypt } from '../encryption.js';
 
   import Card from './Card.svelte';
   import Textarea from './Textarea.svelte';

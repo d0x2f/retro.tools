@@ -6,7 +6,7 @@
   import { gtag } from '../ga.js';
   import { Icons, BoardTemplates } from '../data.js';
   import { password } from '../store.js';
-  import { encrypt } from '../crypto.js';
+  import { encrypt } from '../encryption.js';
   import { createRank, createBoard } from '../api.js';
 
   import Button from './Button.svelte';

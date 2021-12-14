@@ -5,7 +5,7 @@
 
   import { Icons } from '../data.js';
   import { deleteBoard } from '../api.js';
-  import { isBoardEncrypted } from '../crypto.js';
+  import { isBoardEncrypted } from '../encryption.js';
 
   import Button from './Button.svelte';
   import Spinner from './Spinner.svelte';

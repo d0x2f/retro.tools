@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
 
   import { password, board } from '../store.js';
-  import { decrypt, checkBoardPassword } from '../crypto.js';
+  import { decrypt, checkBoardPassword } from '../encryption.js';
 
   export let text;
 </script>
