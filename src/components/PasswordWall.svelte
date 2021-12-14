@@ -33,6 +33,56 @@
   }
 </script>
 
+<div class="d-flex justify-content-center w-100 h-100">
+  <div class="d-flex flex-column justify-content-center">
+    <div bind:this={inputBox} class="box h-50 animate__animated">
+      <p class="text-primary mb-1">{$_('general.password')}</p>
+      <div class="input-group">
+        <Input
+          readonly={undefined}
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          id="password"
+          bind:value={inputPassword}
+        />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <div
+              class="eye-icon"
+              on:click={() => (showPassword = !showPassword)}
+            >
+              {#if showPassword}
+                <Icons.eye />
+              {:else}
+                <Icons.eyeOff />
+              {/if}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <Button
+          class="mt-1"
+          color="primary"
+          on:click={checkPassword}
+          disabled={checkBusy}
+        >
+          <div class="d-flex">
+            <div class="d-block unlock-icon">
+              {#if checkBusy}
+                <Spinner size="sm" color="light" />
+              {:else}
+                <Icons.unlock />
+              {/if}
+            </div>
+            {$_('board.unlock')}
+          </div>
+        </Button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <style>
   .box {
     width: 20em;
@@ -51,50 +101,3 @@
     margin-right: 4px;
   }
 </style>
-
-<div class="d-flex justify-content-center w-100 h-100">
-  <div class="d-flex flex-column justify-content-center">
-    <div bind:this={inputBox} class="box h-50 animate__animated">
-      <p class="text-primary mb-1">{$_('general.password')}</p>
-      <div class="input-group">
-        <Input
-          readonly={undefined}
-          type={showPassword ? 'text' : 'password'}
-          name="password"
-          id="password"
-          bind:value={inputPassword} />
-        <div class="input-group-append">
-          <div class="input-group-text">
-            <div
-              class="eye-icon"
-              on:click={() => (showPassword = !showPassword)}>
-              {#if showPassword}
-                <Icons.eye />
-              {:else}
-                <Icons.eyeOff />
-              {/if}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="text-right">
-        <Button
-          class="mt-1"
-          color="primary"
-          on:click={checkPassword}
-          disabled={checkBusy}>
-          <div class="d-flex">
-            <div class="d-block unlock-icon">
-              {#if checkBusy}
-                <Spinner size="sm" color="light" />
-              {:else}
-                <Icons.unlock />
-              {/if}
-            </div>
-            {$_('board.unlock')}
-          </div>
-        </Button>
-      </div>
-    </div>
-  </div>
-</div>

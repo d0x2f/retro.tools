@@ -127,6 +127,132 @@
   }
 </script>
 
+<div data-name="card" class:busy={card.busy} class="w-90 shadow-sm card">
+  <div class:blur={deleteMode} class="d-flex">
+    <div class="flex-grow-0 bg-light">
+      <Votes
+        on:toggleVote={toggleVote}
+        bind:votes={card.votes}
+        bind:voted={card.voted}
+        bind:color
+      />
+    </div>
+    <div class="p-1 w-100 flex-grow-1">
+      {#if editMode}
+        <Textarea
+          data-name="card-edit-field"
+          autoresize
+          autofocus
+          bind:value={newCardText}
+          on:submit={submitEdit}
+          on:cancel={cancelEdit}
+          on:blur={submitEdit}
+        />
+      {:else}
+        <div data-name="card-body">
+          <div class="m-0 w-100 small">
+            <div class="d-flex">
+              <div class="flex-grow-1">
+                {#if card.author.length > 0}
+                  <div class="text-primary">
+                    <EncryptedText bind:text={card.author} />
+                  </div>
+                {:else}
+                  <div class="text-secondary">{$_('card.anonymous')}</div>
+                {/if}
+              </div>
+              <div
+                id={`react-drawer-button-${card.id}`}
+                class="d-flex flex-wrap justify-content-end pointer"
+              >
+                {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
+                  {#each Object.entries(card.reactions)
+                    .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av) )
+                    .filter(([, v]) => v > 0) as [emoji, count]}
+                    <div
+                      class="pl-1 text-nowrap {card.reacted === emoji
+                        ? 'text-primary'
+                        : ''}"
+                      in:slide
+                    >
+                      {emoji}
+                      {count}
+                    </div>
+                  {/each}
+                {:else}
+                  <div class="grayscale">
+                    <Emoji symbol="👍" label="smile" />
+                  </div>
+                {/if}
+              </div>
+              <Popover
+                placement="right"
+                target={`react-drawer-button-${card.id}`}
+                bind:isOpen={reactDrawOpen}
+              >
+                <div
+                  use:clickOutside
+                  on:clickOutside={() => (reactDrawOpen = !reactDrawOpen)}
+                >
+                  <ReactDrawer on:selected={doReact} current={card.reacted} />
+                </div>
+              </Popover>
+            </div>
+            <div class="border-top border-secondary author-border" />
+          </div>
+          <div
+            data-name="card-content"
+            class="p-1 w-100 pre-wrap"
+            on:click={startEdit}
+          >
+            <EncryptedText bind:text={card.text} />
+          </div>
+        </div>
+      {/if}
+    </div>
+    <div class="p-1 bg-light">
+      {#if card.owner || $board.owner}
+        <Button
+          data-name="delete-button"
+          color="light"
+          class="btn-sm text-danger"
+          on:click={startDelete}
+        >
+          <div class="icon" class:voted={card.voted}>
+            <Icons.trash />
+          </div>
+        </Button>
+      {/if}
+    </div>
+  </div>
+
+  {#if deleteMode}
+    <div class="position-absolute w-100 h-100 p-1 text-right">
+      <Button
+        data-name="cancel-button"
+        color="dark"
+        class="btn-sm"
+        on:click={cancelDelete}
+      >
+        <div class="icon" class:voted={card.voted}>
+          <Icons.close />
+        </div>
+      </Button>
+
+      <Button
+        data-name="confirm-button"
+        color="danger"
+        class="btn-sm"
+        on:click={submitDelete}
+      >
+        <div class="icon" class:voted={card.voted}>
+          <Icons.check />
+        </div>
+      </Button>
+    </div>
+  {/if}
+</div>
+
 <style>
   .busy {
     opacity: 0.66;
@@ -157,118 +283,3 @@
     cursor: pointer;
   }
 </style>
-
-<div data-name="card" class:busy={card.busy} class="w-90 shadow-sm card">
-  <div class:blur={deleteMode} class="d-flex">
-    <div class="flex-grow-0 bg-light">
-      <Votes
-        on:toggleVote={toggleVote}
-        bind:votes={card.votes}
-        bind:voted={card.voted}
-        bind:color />
-    </div>
-    <div class="p-1 w-100 flex-grow-1">
-      {#if editMode}
-        <Textarea
-          data-name="card-edit-field"
-          autoresize
-          autofocus
-          bind:value={newCardText}
-          on:submit={submitEdit}
-          on:cancel={cancelEdit}
-          on:blur={submitEdit} />
-      {:else}
-        <div data-name="card-body">
-          <div class="m-0 w-100 small">
-            <div class="d-flex">
-              <div class="flex-grow-1">
-                {#if card.author.length > 0}
-                  <div class="text-primary">
-                    <EncryptedText bind:text={card.author} />
-                  </div>
-                {:else}
-                  <div class="text-secondary">{$_('card.anonymous')}</div>
-                {/if}
-              </div>
-              <div
-                id={`react-drawer-button-${card.id}`}
-                class="d-flex flex-wrap justify-content-end pointer">
-                {#if Object.entries(card.reactions).filter(([_, v]) => v > 0).length > 0}
-                  {#each Object.entries(card.reactions)
-                    .sort(([ak, av], [bk, bv]) =>
-                      av === bv ? bk.localeCompare(ak) : bv - av
-                    )
-                    .filter(([_, v]) => v > 0) as [emoji, count]}
-                    <div
-                      class="pl-1 text-nowrap {card.reacted === emoji ? 'text-primary' : ''}"
-                      in:slide>
-                      {emoji} {count}
-                    </div>
-                  {/each}
-                {:else}
-                  <div class="grayscale">
-                    <Emoji symbol="👍" label="smile" />
-                  </div>
-                {/if}
-              </div>
-              <Popover
-                placement="right"
-                target={`react-drawer-button-${card.id}`}
-                bind:isOpen={reactDrawOpen}>
-                <div
-                  use:clickOutside
-                  on:clickOutside={() => (reactDrawOpen = !reactDrawOpen)}>
-                  <ReactDrawer on:selected={doReact} current={card.reacted} />
-                </div>
-              </Popover>
-            </div>
-            <div class="border-top border-secondary author-border" />
-          </div>
-          <div
-            data-name="card-content"
-            class="p-1 w-100 pre-wrap"
-            on:click={startEdit}>
-            <EncryptedText bind:text={card.text} />
-          </div>
-        </div>
-      {/if}
-    </div>
-    <div class="p-1 bg-light">
-      {#if card.owner || $board.owner}
-        <Button
-          data-name="delete-button"
-          color="light"
-          class="btn-sm text-danger"
-          on:click={startDelete}>
-          <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
-          </div>
-        </Button>
-      {/if}
-    </div>
-  </div>
-
-  {#if deleteMode}
-    <div class="position-absolute w-100 h-100 p-1 text-right">
-      <Button
-        data-name="cancel-button"
-        color="dark"
-        class="btn-sm"
-        on:click={cancelDelete}>
-        <div class="icon" class:voted={card.voted}>
-          <Icons.close />
-        </div>
-      </Button>
-
-      <Button
-        data-name="confirm-button"
-        color="danger"
-        class="btn-sm"
-        on:click={submitDelete}>
-        <div class="icon" class:voted={card.voted}>
-          <Icons.check />
-        </div>
-      </Button>
-    </div>
-  {/if}
-</div>

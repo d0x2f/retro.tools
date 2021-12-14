@@ -25,7 +25,8 @@
     {disabled}
     on:click
     bind:value
-    {placeholder} />
+    {placeholder}
+  />
 {:else}
   <input
     type="text"
@@ -34,5 +35,6 @@
     {disabled}
     on:click
     bind:value
-    {placeholder} />
+    {placeholder}
+  />
 {/if}

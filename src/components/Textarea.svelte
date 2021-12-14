@@ -64,6 +64,20 @@
   $: data = filterDataKeys($$restProps);
 </script>
 
+<textarea
+  {...data}
+  rows="1"
+  style="min-width: {minWidth}"
+  bind:this={element}
+  use:use
+  on:focus={focus}
+  on:blur={blur}
+  on:keydown={keyDown}
+  class={classes}
+  bind:value
+  {placeholder}
+/>
+
 <style>
   textarea {
     resize: none;
@@ -77,16 +91,3 @@
     transition: border-color 0.5s;
   }
 </style>
-
-<textarea
-  {...data}
-  rows="1"
-  style="min-width: {minWidth}"
-  bind:this={element}
-  use:use
-  on:focus={focus}
-  on:blur={blur}
-  on:keydown={keyDown}
-  class={classes}
-  bind:value
-  {placeholder} />

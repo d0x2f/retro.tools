@@ -213,6 +213,164 @@
   });
 </script>
 
+<svelte:head>
+  <meta property="og:url" content="https://retro.tools/{boardId}" />
+</svelte:head>
+
+<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
+  <Header />
+
+  {#if busy}
+    <div
+      transition:fade={{ duration: 200 }}
+      class="position-absolute w-100 h-100"
+    >
+      <div class="d-flex justify-content-center h-100">
+        <div class="d-flex flex-column justify-content-center">
+          <Spinner color="primary" />
+        </div>
+      </div>
+    </div>
+  {:else if passwordRequired}
+    <div
+      transition:fade={{ duration: 200 }}
+      class="w-100 h-100 position-absolute"
+    >
+      <PasswordWall on:accepted={checkPassword} />
+    </div>
+  {:else}
+    <div
+      transition:fade={{ duration: 200 }}
+      class="d-none d-lg-block scroll h-100"
+    >
+      <div
+        class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
+        min-vh-90"
+      >
+        {#each sortedRanks as rank, i (rank.id)}
+          <Rank
+            bind:rank
+            bind:drake
+            on:error={handleError}
+            send={cardSend}
+            receive={cardReceive}
+          />
+          {#if i !== sortedRanks.length - 1}
+            <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+          {/if}
+        {:else}
+          <p class="text-center text-secondary">There are no columns!</p>
+        {/each}
+      </div>
+    </div>
+
+    <div
+      transition:fade={{ duration: 200 }}
+      class="d-block flex-grow-1 d-lg-none scroll"
+    >
+      {#each sortedRanks as rank (rank.id)}
+        {#if rank.id == $focusedRank}
+          <Rank bind:rank on:error={handleError} />
+        {/if}
+      {:else}
+        <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
+      {/each}
+    </div>
+
+    <div transition:fade={{ duration: 200 }} class="d-lg-none tab-buttons">
+      {#if errorAlertVisible}
+        <div
+          in:fly={{ x: -200, duration: 200 }}
+          out:fly={{ x: -200, duration: 200 }}
+        >
+          <Alert
+            data-name="warning-alert"
+            class="mb-0 py-1"
+            color="warning"
+            isOpen={true}
+          >
+            {$_(errorAlertMessage)}
+          </Alert>
+        </div>
+      {/if}
+      {#if connectionLost}
+        <div
+          in:fly={{ x: -200, duration: 200 }}
+          out:fly={{ x: -200, duration: 200 }}
+        >
+          <Alert
+            data-name="error-alert"
+            class="mb-0 py-1"
+            color="danger"
+            isOpen={true}
+          >
+            {$_('error.connection_lost')}
+          </Alert>
+        </div>
+      {/if}
+      <div class="d-flex border-top w-100">
+        {#each sortedRanks as rank (rank.id)}
+          <div class="flex-grow-1 {tabButtonWidth} px-0">
+            <input
+              readonly={undefined}
+              type="radio"
+              id={rank.id}
+              bind:group={$focusedRank}
+              value={rank.id}
+            />
+            <label
+              for={rank.id}
+              class="px-0 border-top text-uppercase {$focusedRank == rank.id
+                ? getRankDetails(rank).classes.selected
+                : getRankDetails(rank).classes.deselected + ' border-light'}
+              col"
+            >
+              <div class="icon d-inline-block">
+                <svelte:component this={getRankDetails(rank).icon} />
+              </div>
+              <br />
+              {$_(rank.name)}
+            </label>
+          </div>
+        {/each}
+      </div>
+    </div>
+  {/if}
+
+  <div class="fixed-bottom d-none d-lg-block">
+    {#if errorAlertVisible}
+      <div
+        in:fly={{ y: 100, duration: 200 }}
+        out:fly={{ y: 100, duration: 200 }}
+      >
+        <Alert
+          data-name="warning-alert"
+          class="mb-0 py-1"
+          color="warning"
+          isOpen={true}
+        >
+          {$_(errorAlertMessage)}
+        </Alert>
+      </div>
+    {/if}
+    {#if connectionLost}
+      <div
+        in:fly={{ y: 100, duration: 200 }}
+        out:fly={{ y: 100, duration: 200 }}
+      >
+        <Alert
+          data-name="error-alert"
+          class="mb-0 py-1"
+          color="danger"
+          isOpen={true}
+        >
+          {$_('error.connection_lost')}
+        </Alert>
+      </div>
+    {/if}
+  </div>
+</div>
+
 <style>
   .scroll {
     overflow: auto;
@@ -288,143 +446,3 @@
     }
   }
 </style>
-
-<svelte:head>
-  <meta property="og:url" content="https://retro.tools/{boardId}" />
-</svelte:head>
-
-<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
-  <Header />
-
-  {#if busy}
-    <div
-      transition:fade={{ duration: 200 }}
-      class="position-absolute w-100 h-100">
-      <div class="d-flex justify-content-center h-100">
-        <div class="d-flex flex-column justify-content-center">
-          <Spinner color="primary" />
-        </div>
-      </div>
-    </div>
-  {:else if passwordRequired}
-    <div
-      transition:fade={{ duration: 200 }}
-      class="w-100 h-100 position-absolute">
-      <PasswordWall on:accepted={checkPassword} />
-    </div>
-  {:else}
-    <div
-      transition:fade={{ duration: 200 }}
-      class="d-none d-lg-block scroll h-100">
-      <div
-        class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
-        min-vh-90">
-        {#each sortedRanks as rank, i (rank.id)}
-          <Rank
-            bind:rank
-            bind:drake
-            on:error={handleError}
-            send={cardSend}
-            receive={cardReceive} />
-          {#if i !== sortedRanks.length - 1}
-            <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
-          {/if}
-        {:else}
-          <p class="text-center text-secondary">There are no columns!</p>
-        {/each}
-      </div>
-    </div>
-
-    <div
-      transition:fade={{ duration: 200 }}
-      class="d-block flex-grow-1 d-lg-none scroll">
-      {#each sortedRanks as rank (rank.id)}
-        {#if rank.id == $focusedRank}
-          <Rank bind:rank on:error={handleError} />
-        {/if}
-      {:else}
-        <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
-      {/each}
-    </div>
-
-    <div transition:fade={{ duration: 200 }} class="d-lg-none tab-buttons">
-      {#if errorAlertVisible}
-        <div
-          in:fly={{ x: -200, duration: 200 }}
-          out:fly={{ x: -200, duration: 200 }}>
-          <Alert
-            data-name="warning-alert"
-            class="mb-0 py-1"
-            color="warning"
-            isOpen={true}>
-            {$_(errorAlertMessage)}
-          </Alert>
-        </div>
-      {/if}
-      {#if connectionLost}
-        <div
-          in:fly={{ x: -200, duration: 200 }}
-          out:fly={{ x: -200, duration: 200 }}>
-          <Alert
-            data-name="error-alert"
-            class="mb-0 py-1"
-            color="danger"
-            isOpen={true}>
-            {$_('error.connection_lost')}
-          </Alert>
-        </div>
-      {/if}
-      <div class="d-flex border-top w-100">
-        {#each sortedRanks as rank (rank.id)}
-          <div class="flex-grow-1 {tabButtonWidth} px-0">
-            <input
-              readonly={undefined}
-              type="radio"
-              id={rank.id}
-              bind:group={$focusedRank}
-              value={rank.id} />
-            <label
-              for={rank.id}
-              class="px-0 border-top text-uppercase {$focusedRank == rank.id ? getRankDetails(rank).classes.selected : getRankDetails(rank).classes.deselected + ' border-light'}
-              col">
-              <div class="icon d-inline-block">
-                <svelte:component this={getRankDetails(rank).icon} />
-              </div>
-              <br />
-              {$_(rank.name)}
-            </label>
-          </div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  <div class="fixed-bottom d-none d-lg-block">
-    {#if errorAlertVisible}
-      <div
-        in:fly={{ y: 100, duration: 200 }}
-        out:fly={{ y: 100, duration: 200 }}>
-        <Alert
-          data-name="warning-alert"
-          class="mb-0 py-1"
-          color="warning"
-          isOpen={true}>
-          {$_(errorAlertMessage)}
-        </Alert>
-      </div>
-    {/if}
-    {#if connectionLost}
-      <div
-        in:fly={{ y: 100, duration: 200 }}
-        out:fly={{ y: 100, duration: 200 }}>
-        <Alert
-          data-name="error-alert"
-          class="mb-0 py-1"
-          color="danger"
-          isOpen={true}>
-          {$_('error.connection_lost')}
-        </Alert>
-      </div>
-    {/if}
-  </div>
-</div>

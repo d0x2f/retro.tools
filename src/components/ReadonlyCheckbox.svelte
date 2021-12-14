@@ -11,17 +11,10 @@
   $: classes = clsx(className, { 'text-secondary': !checked });
 </script>
 
-<style>
-  .icon {
-    width: 1.25em;
-    height: 1.25em;
-    margin-top: -4px;
-  }
-</style>
-
 <div class={classes} data-checked={checked}>
   <div
-    class="d-inline-block icon {checked ? 'text-primary' : 'text-secondary'}">
+    class="d-inline-block icon {checked ? 'text-primary' : 'text-secondary'}"
+  >
     {#if checked}
       <Icons.check />
     {:else}
@@ -30,3 +23,11 @@
   </div>
   {label}
 </div>
+
+<style>
+  .icon {
+    width: 1.25em;
+    height: 1.25em;
+    margin-top: -4px;
+  }
+</style>

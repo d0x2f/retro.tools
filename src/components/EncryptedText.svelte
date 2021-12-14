@@ -7,10 +7,6 @@
   export let text;
 </script>
 
-<style>
-
-</style>
-
 {#if text}
   {#await decrypt(text, $password)}
     …
@@ -22,3 +18,6 @@
     {/await}
   {/await}
 {/if}
+
+<style>
+</style>

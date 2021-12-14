@@ -107,17 +107,6 @@
   });
 </script>
 
-<style>
-  .header {
-    text-align: center;
-  }
-
-  .icon {
-    width: 1.5em;
-    box-sizing: content-box;
-  }
-</style>
-
 <div data-name="rank" class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
   <div class="border-bottom d-flex py-2 mb-2 {rankDetails.classes.color}">
     <div class="d-flex flex-column justify-content-center flex-shrink-0">
@@ -134,7 +123,8 @@
         bind:value={newCardText}
         on:focus={() => ($focusedRank = rank.id)}
         minWidth="5em"
-        class="flex-grow-1" />
+        class="flex-grow-1"
+      />
       {#if $focusedRank === rank.id}
         <Textarea
           data-name="card-author-input"
@@ -142,14 +132,16 @@
           placeholder={$_('board.author')}
           bind:value={$author}
           minWidth="5em"
-          class="flex-shrink-0 flex-grow-0 w-25" />
+          class="flex-shrink-0 flex-grow-0 w-25"
+        />
       {/if}
     </div>
     <div class="d-lg-none ml-1">
       <Button
         color="light"
         disabled={newCardText.length == 0}
-        on:click={newCard}>
+        on:click={newCard}
+      >
         <div class="icon">
           <Icons.enter />
         </div>
@@ -166,7 +158,8 @@
             out:send={{ key: card.id }}
             animate:flip={{ duration: 200 }}
             class="py-1"
-            data-drag={!(card.owner || $board.owner) ? 'false' : 'true'}>
+            data-drag={!(card.owner || $board.owner) ? 'false' : 'true'}
+          >
             <Card {card} on:error color={rankDetails.classes.color} />
           </div>
         {/each}
@@ -181,9 +174,21 @@
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div
         class="text-secondary text-center mt-5 text-center float-right w-100"
-        data-drag="false">
+        data-drag="false"
+      >
         <small>{$_('board.no_cards')}</small>
       </div>
     {/if}
   </div>
 </div>
+
+<style>
+  .header {
+    text-align: center;
+  }
+
+  .icon {
+    width: 1.5em;
+    box-sizing: content-box;
+  }
+</style>

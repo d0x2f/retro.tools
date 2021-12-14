@@ -41,16 +41,11 @@
   }
 </script>
 
-<style>
-  .pointer {
-    cursor: pointer;
-  }
-</style>
-
 <tr data-name="board-row" data-board-id={board.id}>
   <td
     class="align-middle pointer border-top-0"
-    on:click={() => dispatch('click', board.id)}>
+    on:click={() => dispatch('click', board.id)}
+  >
     {#if board.name}
       {#await isBoardEncrypted(board)}
         …
@@ -69,14 +64,16 @@
         data-name="delete-cancel-button"
         color="dark"
         class="mr-1"
-        on:click={cancelDelete}>
+        on:click={cancelDelete}
+      >
         <Icons.close size="1x" />
       </Button>
 
       <Button
         data-name="delete-confirm-button"
         color="danger"
-        on:click={submitDelete}>
+        on:click={submitDelete}
+      >
         <Icons.check size="1x" />
       </Button>
     {:else}
@@ -89,7 +86,8 @@
           color="light"
           class="ml-2 text-danger"
           on:click={startDelete}
-          disabled={busy}>
+          disabled={busy}
+        >
           {#if busy}
             <Spinner size="sm" color="light" />
           {:else}
@@ -100,3 +98,9 @@
     {/if}
   </td>
 </tr>
+
+<style>
+  .pointer {
+    cursor: pointer;
+  }
+</style>

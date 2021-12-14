@@ -24,7 +24,8 @@
     <div class="h-100" in:fade out:fade>
       <Splash
         errorAlertVisible="true"
-        errorAlertMessage="error.board_not_found" />
+        errorAlertMessage="error.board_not_found"
+      />
     </div>
   </Route>
   <Route path="/:id" let:params>

@@ -56,31 +56,21 @@
   }
 </script>
 
-<style>
-  .icon {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: -1px;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
-</style>
-
 <div data-name="create-form" class="text-dark">
   <div class="d-flex">
     <Input
       data-name="board-name-input"
       placeholder={$_('splash.board_name_example')}
-      bind:value={boardName} />
+      bind:value={boardName}
+    />
     <div class="flex-grow-0 flex-shrink-0">
       <Button
         class="ml-2"
         color="primary"
         on:click={newBoard}
         disabled={createBusy}
-        data-name="create-button">
+        data-name="create-button"
+      >
         <div class="d-flex">
           {#if createBusy}
             <div class="d-block icon">
@@ -93,7 +83,8 @@
   </div>
   <div
     class="ml-1 mt-2 small pointer"
-    on:click={() => (optionsExpanded = !optionsExpanded)}>
+    on:click={() => (optionsExpanded = !optionsExpanded)}
+  >
     {#if optionsExpanded}▾{:else}▸{/if}
     {$_('splash.settings')}
   </div>
@@ -111,14 +102,16 @@
           <div class="input-group-text">
             <Checkbox
               addon
-              on:input={(i) => (passwordDisabled = !i.target.checked)} />
+              on:input={(i) => (passwordDisabled = !i.target.checked)}
+            />
           </div>
         </div>
         <Input
           type={showPassword ? 'text' : 'password'}
           placeholder={$_('general.password')}
           bind:disabled={passwordDisabled}
-          bind:value={$password} />
+          bind:value={$password}
+        />
         <div class="input-group-append">
           <div class="input-group-text">
             <div class="icon" on:click={() => (showPassword = !showPassword)}>
@@ -134,3 +127,15 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: -1px;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+</style>

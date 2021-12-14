@@ -23,7 +23,8 @@
       {disabled}
       {label}
       bind:checked
-      on:input />
+      on:input
+    />
     <label class="custom-control-label" for={id}>{label}</label>
   </div>
 {:else}
@@ -33,5 +34,6 @@
     class={directClasses}
     {disabled}
     bind:checked
-    on:input />
+    on:input
+  />
 {/if}

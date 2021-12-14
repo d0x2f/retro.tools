@@ -30,7 +30,8 @@
       <DropdownItem
         data-name="locale-select-{locale}"
         toggle={true}
-        on:click={() => setLocale(locale)}>
+        on:click={() => setLocale(locale)}
+      >
         {$_('language.' + locale)}
       </DropdownItem>
     {/each}

@@ -1,7 +1,7 @@
 /*eslint-env node*/
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2021,
     sourceType: 'module',
   },
   env: {
@@ -9,7 +9,7 @@ module.exports = {
     browser: true,
     "cypress/globals": true
   },
-  plugins: ['svelte3', 'cypress'],
+  plugins: ['prettier', 'svelte3', 'cypress'],
   extends: ['eslint:recommended'],
   overrides: [
     {

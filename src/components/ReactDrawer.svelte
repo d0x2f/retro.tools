@@ -28,6 +28,18 @@
   const dispatch = createEventDispatcher();
 </script>
 
+<div class="d-flex flex-wrap justify-content-around">
+  {#each emojis as emoji}
+    <div
+      class="emoji"
+      class:selected={emoji === current}
+      on:click={dispatch('selected', emoji)}
+    >
+      {emoji}
+    </div>
+  {/each}
+</div>
+
 <style>
   .emoji {
     cursor: pointer;
@@ -46,14 +58,3 @@
     border-radius: 6px;
   }
 </style>
-
-<div class="d-flex flex-wrap justify-content-around">
-  {#each emojis as emoji}
-    <div
-      class="emoji"
-      class:selected={emoji === current}
-      on:click={dispatch('selected', emoji)}>
-      {emoji}
-    </div>
-  {/each}
-</div>

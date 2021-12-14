@@ -230,15 +230,13 @@ export var QRCode;
       var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
       for (let i = 0; i < 18; i++) {
         let mod = !test && ((bits >> i) & 1) == 1;
-        this.modules[Math.floor(i / 3)][
-          (i % 3) + this.moduleCount - 8 - 3
-        ] = mod;
+        this.modules[Math.floor(i / 3)][(i % 3) + this.moduleCount - 8 - 3] =
+          mod;
       }
       for (let i = 0; i < 18; i++) {
         let mod = !test && ((bits >> i) & 1) == 1;
-        this.modules[(i % 3) + this.moduleCount - 8 - 3][
-          Math.floor(i / 3)
-        ] = mod;
+        this.modules[(i % 3) + this.moduleCount - 8 - 3][Math.floor(i / 3)] =
+          mod;
       }
     },
     setupTypeInfo: function (test, maskPattern) {

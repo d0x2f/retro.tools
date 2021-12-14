@@ -46,6 +46,166 @@
   });
 </script>
 
+<svelte:head>
+  <meta property="og:url" content="https://retro.tools" />
+</svelte:head>
+
+<div class="d-flex flex-column scroll bg-primary h-100">
+  <div class="px-2 pt-1 pb-5 bg-light">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="text-primary text-uppercase font-weight-bold p-0 m-0">
+        retro.tools
+      </h3>
+      <div class="links text-right flex-grow-1 small text-nowrap">
+        <Button
+          color="light"
+          href="https://github.com/d0x2f/retrograde.js"
+          target="_blank"
+          class="mr-1"
+        >
+          <div class="icon">
+            <Icons.github />
+          </div>
+          GitHub
+        </Button>
+        <Button
+          color="light"
+          class="mr-1"
+          href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
+          target="_blank"
+        >
+          <div class="icon text-danger">
+            <Icons.heart />
+          </div>
+          {$_('general.donate')}
+        </Button>
+      </div>
+      <LocaleSelect />
+    </div>
+    <hr class="mt-1 mb-4" />
+    <div class="d-flex justify-content-center">
+      <div class="top-section">
+        <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
+          {$_('splash.hero_text')}
+        </h1>
+        <div class="d-flex flex-column justify-content-center">
+          <CreateForm
+            on:error={handleError}
+            on:created={({ detail: boardId }) => navigate(`/${boardId}`)}
+          />
+          <BoardTable
+            {boards}
+            on:click={({ detail: boardId }) => navigate(`/${boardId}`)}
+            on:error={handleError}
+            on:deleted={doGetBoards}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light flex-grow-1 mid-section" />
+  <div class="d-flex justify-content-center py-5 bg-primary text-white">
+    <div class="d-flex flex-column">
+      <div class="d-flex justify-content-around py-4 flex-wrap">
+        <div class="card">
+          <div class="card-top">
+            <Icons.anonymous />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Anonymous</h5>
+            <p class="card-text">
+              No personal information is stored and you're free to delete boards
+              for absolute certainty.
+              <br />
+              <br />
+              <a
+                class="text-white"
+                target="_blank"
+                href="https://github.com/d0x2f/retrograde.js"
+              >
+                Our code
+              </a>
+              is publicly available for anyone to verify.
+              <br />
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.phone />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Simple, Clean & Intuitive</h5>
+            <p class="card-text">
+              Our primary design goal is simplicity, we believe that tools
+              should be easy to understand and require no manual.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.code />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Free & Open Source</h5>
+            <p class="card-text">
+              Retro.tools is free to use and the source code is available on
+              <a
+                class="text-white"
+                target="_blank"
+                href="https://github.com/d0x2f/retrograde.js"
+              >
+                GitHub.
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.login />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">No Logins!</h5>
+            <p class="card-text">
+              To stay anonymous and convenient, we won't ask you to create an
+              account or to provide any other information, simply click and go!
+              <br />
+              <br />
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <Icons.lock />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">End to End Encryption</h5>
+            <p class="card-text">
+              Board encryption is optionally available using a password.
+              <br />
+              <br />
+              All encryption is handled by the browser and our backend sees nothing
+              but encrypted data!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#if errorAlertVisible}
+  <div
+    class="fixed-bottom"
+    in:fly={{ y: 100, duration: 200 }}
+    out:fly={{ y: 100, duration: 200 }}
+  >
+    <Alert class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
+      {$_(errorAlertMessage)}
+    </Alert>
+  </div>
+{/if}
+
 <style>
   .scroll {
     overflow: auto;
@@ -91,156 +251,3 @@
     flex-shrink: 0;
   }
 </style>
-
-<svelte:head>
-  <meta property="og:url" content="https://retro.tools" />
-</svelte:head>
-
-<div class="d-flex flex-column scroll bg-primary h-100">
-  <div class="px-2 pt-1 pb-5 bg-light">
-    <div class="d-flex justify-content-between align-items-center">
-      <h3 class="text-primary text-uppercase font-weight-bold p-0 m-0">
-        retro.tools
-      </h3>
-      <div class="links text-right flex-grow-1 small text-nowrap">
-        <Button
-          color="light"
-          href="https://github.com/d0x2f/retrograde.js"
-          target="_blank"
-          class="mr-1">
-          <div class="icon">
-            <Icons.github />
-          </div>
-          GitHub
-        </Button>
-        <Button
-          color="light"
-          class="mr-1"
-          href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
-          target="_blank">
-          <div class="icon text-danger">
-            <Icons.heart />
-          </div>
-          {$_('general.donate')}
-        </Button>
-      </div>
-      <LocaleSelect />
-    </div>
-    <hr class="mt-1 mb-4" />
-    <div class="d-flex justify-content-center">
-      <div class="top-section">
-        <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
-          {$_('splash.hero_text')}
-        </h1>
-        <div class="d-flex flex-column justify-content-center">
-          <CreateForm
-            on:error={handleError}
-            on:created={({ detail: boardId }) => navigate(`/${boardId}`)} />
-          <BoardTable
-            {boards}
-            on:click={({ detail: boardId }) => navigate(`/${boardId}`)}
-            on:error={handleError}
-            on:deleted={doGetBoards} />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="bg-light flex-grow-1 mid-section" />
-  <div class="d-flex justify-content-center py-5 bg-primary text-white">
-    <div class="d-flex flex-column">
-      <div class="d-flex justify-content-around py-4 flex-wrap">
-        <div class="card">
-          <div class="card-top">
-            <Icons.anonymous />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Anonymous</h5>
-            <p class="card-text">
-              No personal information is stored and you're free to delete boards
-              for absolute certainty.
-              <br />
-              <br />
-              <a
-                class="text-white"
-                target="_blank"
-                href="https://github.com/d0x2f/retrograde.js">
-                Our code
-              </a>
-              is publicly available for anyone to verify.
-              <br />
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-top">
-            <Icons.phone />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Simple, Clean & Intuitive</h5>
-            <p class="card-text">
-              Our primary design goal is simplicity, we believe that tools
-              should be easy to understand and require no manual.
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-top">
-            <Icons.code />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Free & Open Source</h5>
-            <p class="card-text">
-              Retro.tools is free to use and the source code is available on
-              <a
-                class="text-white"
-                target="_blank"
-                href="https://github.com/d0x2f/retrograde.js">
-                GitHub.
-              </a>
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-top">
-            <Icons.login />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">No Logins!</h5>
-            <p class="card-text">
-              To stay anonymous and convenient, we won't ask you to create an
-              account or to provide any other information, simply click and go!
-              <br />
-              <br />
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-top">
-            <Icons.lock />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">End to End Encryption</h5>
-            <p class="card-text">
-              Board encryption is optionally available using a password.
-              <br />
-              <br />
-              All encryption is handled by the browser and our backend sees
-              nothing but encrypted data!
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{#if errorAlertVisible}
-  <div
-    class="fixed-bottom"
-    in:fly={{ y: 100, duration: 200 }}
-    out:fly={{ y: 100, duration: 200 }}>
-    <Alert class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
-      {$_(errorAlertMessage)}
-    </Alert>
-  </div>
-{/if}
