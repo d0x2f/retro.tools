@@ -181,7 +181,7 @@
                   {/each}
                 {:else}
                   <div class="grayscale">
-                    <Emoji symbol="👍" label="smile" />
+                    <Emoji symbol="🙂" label="smile" />
                   </div>
                 {/if}
               </div>
