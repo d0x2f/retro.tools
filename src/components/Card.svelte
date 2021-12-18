@@ -32,6 +32,8 @@
   let reactDrawOpen = false;
   let newCardText = '';
 
+  const cardSlug = (Math.random() + 1).toString(36).substring(7);
+
   const dispatch = createEventDispatcher();
 
   function error(message, err) {
@@ -162,7 +164,7 @@
                 {/if}
               </div>
               <div
-                id={`react-drawer-button-${card.id}`}
+                id={`react-drawer-button-${cardSlug}`}
                 class="d-flex flex-wrap justify-content-end pointer"
               >
                 {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
@@ -186,8 +188,8 @@
                 {/if}
               </div>
               <Popover
-                placement="right"
-                target={`react-drawer-button-${card.id}`}
+                placement="auto"
+                target={`react-drawer-button-${cardSlug}`}
                 bind:isOpen={reactDrawOpen}
               >
                 <div
