@@ -37,7 +37,9 @@
     sortedFilteredCards = $cards
       .filter((c) => c.column === rank.id && !c.uncommitted)
       .sort((a, b) =>
-        $sorted ? (a.votes < b.votes ? 1 : -1) : a.created_at > b.created_at
+        $sorted
+          ? b.votes - a.votes || a.created_at - b.created_at
+          : a.created_at - b.created_at
       );
   }
 
