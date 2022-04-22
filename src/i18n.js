@@ -10,6 +10,7 @@ import es from './lang/es.json';
 import ko from './lang/ko.json';
 import de from './lang/de.json';
 import ru from './lang/ru.json';
+import pt_BR from './lang/pt_BR.json';
 
 locale.subscribe((l) => {
   if (l) moment.locale(l);
@@ -20,6 +21,7 @@ addMessages('es', es);
 addMessages('ko', ko);
 addMessages('de', de);
 addMessages('ru', ru);
+addMessages('pt_BR', pt_BR);
 
 init({
   fallbackLocale: 'en',
