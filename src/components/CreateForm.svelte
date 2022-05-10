@@ -4,7 +4,7 @@
   import { slide } from 'svelte/transition';
 
   import { gtag } from '../ga.js';
-  import { Icons, BoardTemplates } from '../data.js';
+  import { Icons, BoardTemplates, IceBreakingOptions } from '../data.js';
   import { password } from '../store.js';
   import { encrypt } from '../encryption.js';
   import { createRank, createBoard } from '../api.js';
@@ -18,6 +18,7 @@
   const dispatch = createEventDispatcher();
   let boardName = '';
   let templateKey = 'dropAddKeepImprove';
+  let iceBreakingQuestion = '';
   let passwordDisabled = true;
   let showPassword = false;
   let createBusy = false;
@@ -28,7 +29,7 @@
       encrypt(boardName, $password),
       encrypt('encryptionTest', $password),
     ]);
-    let board = await createBoard(boardNameEncrypted, { encryptionTest });
+    let board = await createBoard(boardNameEncrypted, { encryptionTest }, iceBreakingQuestion);
     for (const rank of template.ranks) {
       await createRank(board.id, rank.name, rank.position, {
         icon: rank.icon,
@@ -124,6 +125,11 @@
           </div>
         </div>
       </div>
+      <p class="my-1 small">{$_('splash.icebreaking')}</p>
+      <Input
+        placeholder={$_('splash.icebreaking_example')}
+        bind:value={iceBreakingQuestion}
+      />
     </div>
   {/if}
 </div>
