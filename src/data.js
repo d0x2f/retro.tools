@@ -207,7 +207,3 @@ export function getRankDetails(rank) {
     classes: Colors[rank.data.color],
   };
 }
-
-export async function getIceBreakQuestion(board) {
-  return board.ice_breaking || '';
-}

@@ -14,21 +14,15 @@
     getBoard,
     getRanks,
   } from './api.js';
-  import { getRankDetails, getIceBreakQuestion } from './data.js';
-  import {
-    decrypt,
-    encrypt,
-    checkBoardPassword,
-    isBoardEncrypted,
-  } from './encryption.js';
+  import { getRankDetails } from './data.js';
+  import { checkBoardPassword, isBoardEncrypted } from './encryption.js';
 
   import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';
   import Header from './components/Header.svelte';
   import Spinner from './components/Spinner.svelte';
   import Alert from './components/Alert.svelte';
-  import Textarea from './components/Textarea.svelte';
-  import EncryptedText from './components/EncryptedText.svelte';
+  import IceBreaker from './components/IceBreaker.svelte';
 
   export let boardId;
 
@@ -43,9 +37,6 @@
   let passwordRequired = false;
   let busy = true;
   let sortedRanks = [];
-  let showIceBreaking = false;
-  let iceBreakingEditMode = false;
-  let newIceBreakingText = '';
 
   let drake = dragula({
     revertOnSpill: true,
@@ -165,12 +156,6 @@
     }
   }
 
-  async function checkIceBreak() {
-    newIceBreakingText = await getIceBreakQuestion($board);
-    showIceBreaking = newIceBreakingText !== '';
-    return showIceBreaking;
-  }
-
   async function checkPassword() {
     if (await isBoardEncrypted($board)) {
       passwordRequired = !(await checkBoardPassword($board, $password));
@@ -195,7 +180,6 @@
     // Update on initial load
     await update();
     await checkPassword();
-    await checkIceBreak();
 
     // Show first rank initially
     if ($ranks[0]) $focusedRank = $ranks[0].id;
@@ -229,22 +213,6 @@
     unsubscribe && unsubscribe();
     refreshIntervalId && clearInterval(refreshIntervalId);
   });
-
-  async function startEditIceBreak() {
-    if ($board.owner && (await checkBoardPassword($board, $password))) {
-      iceBreakingEditMode = true;
-      newIceBreakingText = await decrypt($board.ice_breaking, $password);
-    }
-  }
-
-  function cancelEditIceBreak() {
-    iceBreakingEditMode = false;
-  }
-
-  async function submitEditIceBreak() {
-    $board.ice_breaking = await encrypt(newIceBreakingText, $password);
-    iceBreakingEditMode = false;
-  }
 </script>
 
 <svelte:head>
@@ -277,29 +245,7 @@
       transition:fade={{ duration: 200 }}
       class="d-none d-lg-block scroll h-100"
     >
-      {#if showIceBreaking}
-        <div class="w-50 p-3 mx-auto">
-          <div class="card text-center" on:click={startEditIceBreak}>
-            <div class="card-body">
-              <h5 class="card-title">{$_('splash.icebreaking')}</h5>
-              {#if iceBreakingEditMode}
-                <Textarea
-                  data-name="board-ice-breaking-question-edit-field"
-                  autofocus
-                  bind:value={newIceBreakingText}
-                  on:submit={submitEditIceBreak}
-                  on:cancel={cancelEditIceBreak}
-                  on:blur={submitEditIceBreak}
-                  class="p-0 text-center"
-                />
-              {:else}
-                <EncryptedText bind:text={$board.ice_breaking} />
-              {/if}
-            </div>
-          </div>
-        </div>
-      {/if}
-
+      <IceBreaker class="w-50" />
       <div
         class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
         min-vh-90"
@@ -325,6 +271,7 @@
       transition:fade={{ duration: 200 }}
       class="d-block flex-grow-1 d-lg-none scroll"
     >
+      <IceBreaker class="w-100" />
       {#each sortedRanks as rank (rank.id)}
         {#if rank.id == $focusedRank}
           <Rank bind:rank on:error={handleError} />
