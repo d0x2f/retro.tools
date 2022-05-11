@@ -245,7 +245,7 @@
       transition:fade={{ duration: 200 }}
       class="d-none d-lg-block scroll h-100"
     >
-      <IceBreaker class="w-50" />
+      <IceBreaker data-name="ice-breaker-message" class="w-50" />
       <div
         class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
         min-vh-90"
@@ -271,7 +271,7 @@
       transition:fade={{ duration: 200 }}
       class="d-block flex-grow-1 d-lg-none scroll"
     >
-      <IceBreaker class="w-100" />
+      <IceBreaker data-name="ice-breaker-message" class="w-100" />
       {#each sortedRanks as rank (rank.id)}
         {#if rank.id == $focusedRank}
           <Rank bind:rank on:error={handleError} />

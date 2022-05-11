@@ -87,6 +87,7 @@
     </div>
   </div>
   <div
+    data-name="more-settings-button"
     class="ml-1 mt-2 small pointer"
     on:click={() => (optionsExpanded = !optionsExpanded)}
   >
@@ -131,6 +132,7 @@
       </div>
       <p class="my-1 small">{$_('splash.icebreaking')}</p>
       <Input
+        data-name="ice-breaker-question-input"
         placeholder={$_('splash.icebreaking_example')}
         bind:value={iceBreakingQuestion}
       />

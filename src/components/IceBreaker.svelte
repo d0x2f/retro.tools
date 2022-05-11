@@ -52,7 +52,6 @@
         <h5 class="card-title">{$_('splash.icebreaking')}</h5>
         {#if iceBreakingEditMode}
           <Textarea
-            data-name="board-ice-breaking-question-edit-field"
             autofocus
             bind:value={newIceBreakingText}
             on:submit={submitEdit}
@@ -61,7 +60,9 @@
             class="p-0 text-center"
           />
         {:else}
-          <EncryptedText bind:text={$board.ice_breaking} />
+          <EncryptedText
+            bind:text={$board.ice_breaking}
+          />
         {/if}
       </div>
     </div>
