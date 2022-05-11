@@ -208,15 +208,6 @@ export function getRankDetails(rank) {
   };
 }
 
-export const IceBreakingOptions = {
-  yesPlease: {
-    name: 'splash.icebreaking.yes_please'
-  },
-  noThankYou: {
-    name: 'splash.icebreaking.no_thank_you'
-  },
-};
-
 export async function getIceBreakQuestion(board) {
   return board.ice_breaking || '';
 }

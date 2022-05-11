@@ -15,7 +15,12 @@
     getRanks,
   } from './api.js';
   import { getRankDetails, getIceBreakQuestion } from './data.js';
-  import { decrypt, encrypt, checkBoardPassword, isBoardEncrypted } from './encryption.js';
+  import {
+    decrypt,
+    encrypt,
+    checkBoardPassword,
+    isBoardEncrypted,
+  } from './encryption.js';
 
   import PasswordWall from './components/PasswordWall.svelte';
   import Rank from './components/Rank.svelte';
@@ -277,19 +282,19 @@
           <div class="card text-center" on:click={startEditIceBreak}>
             <div class="card-body">
               <h5 class="card-title">{$_('splash.icebreaking')}</h5>
-                {#if iceBreakingEditMode}
-                  <Textarea
-                    data-name="board-ice-breaking-question-edit-field"
-                    autofocus
-                    bind:value={newIceBreakingText}
-                    on:submit={submitEditIceBreak}
-                    on:cancel={cancelEditIceBreak}
-                    on:blur={submitEditIceBreak}
-                    class="p-0 text-center"
-                  />
-                {:else}
-                  <EncryptedText bind:text={$board.ice_breaking} />
-                {/if}
+              {#if iceBreakingEditMode}
+                <Textarea
+                  data-name="board-ice-breaking-question-edit-field"
+                  autofocus
+                  bind:value={newIceBreakingText}
+                  on:submit={submitEditIceBreak}
+                  on:cancel={cancelEditIceBreak}
+                  on:blur={submitEditIceBreak}
+                  class="p-0 text-center"
+                />
+              {:else}
+                <EncryptedText bind:text={$board.ice_breaking} />
+              {/if}
             </div>
           </div>
         </div>
