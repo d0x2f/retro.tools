@@ -36,7 +36,9 @@ context('Header', () => {
 
   describe('when the app title is clicked', () => {
     before(() => {
+      cy.intercept('boards').as('getBoards');
       cy.get('[data-name=home-link]').click();
+      cy.wait('@getBoards');
     });
 
     it('navigates to the splash page', () => {
@@ -53,7 +55,9 @@ context('Header', () => {
   });
 
   after(() => {
+    cy.intercept('boards').as('getBoards');
     cy.visit('/');
+    cy.wait('@getBoards');
     cy.get('[data-name=board-list-button]').click();
     cy.get('[data-name=delete-button]').click({ multiple: true });
     cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
