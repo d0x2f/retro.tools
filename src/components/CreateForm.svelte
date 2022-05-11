@@ -18,6 +18,7 @@
   const dispatch = createEventDispatcher();
   let boardName = '';
   let templateKey = 'dropAddKeepImprove';
+  let iceBreakingQuestion = '';
   let passwordDisabled = true;
   let showPassword = false;
   let createBusy = false;
@@ -28,7 +29,11 @@
       encrypt(boardName, $password),
       encrypt('encryptionTest', $password),
     ]);
-    let board = await createBoard(boardNameEncrypted, { encryptionTest });
+    let board = await createBoard(
+      boardNameEncrypted,
+      { encryptionTest },
+      iceBreakingQuestion
+    );
     for (const rank of template.ranks) {
       await createRank(board.id, rank.name, rank.position, {
         icon: rank.icon,
@@ -82,6 +87,7 @@
     </div>
   </div>
   <div
+    data-name="more-settings-button"
     class="ml-1 mt-2 small pointer"
     on:click={() => (optionsExpanded = !optionsExpanded)}
   >
@@ -124,6 +130,12 @@
           </div>
         </div>
       </div>
+      <p class="my-1 small">{$_('splash.icebreaking')}</p>
+      <Input
+        data-name="ice-breaker-question-input"
+        placeholder={$_('splash.icebreaking_example')}
+        bind:value={iceBreakingQuestion}
+      />
     </div>
   {/if}
 </div>

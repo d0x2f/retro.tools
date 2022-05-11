@@ -22,6 +22,7 @@
   import Header from './components/Header.svelte';
   import Spinner from './components/Spinner.svelte';
   import Alert from './components/Alert.svelte';
+  import IceBreaker from './components/IceBreaker.svelte';
 
   export let boardId;
 
@@ -170,6 +171,7 @@
       a.name === b.name &&
       a.voting_open === b.voting_open &&
       a.cards_open === b.cards_open &&
+      a.ice_breaking === b.ice_breaking &&
       JSON.stringify(a.data) === JSON.stringify(b.data)
     );
   }
@@ -243,6 +245,7 @@
       transition:fade={{ duration: 200 }}
       class="d-none d-lg-block scroll h-100"
     >
+      <IceBreaker class="w-50" />
       <div
         class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
         min-vh-90"
@@ -268,6 +271,7 @@
       transition:fade={{ duration: 200 }}
       class="d-block flex-grow-1 d-lg-none scroll"
     >
+      <IceBreaker class="w-100" />
       {#each sortedRanks as rank (rank.id)}
         {#if rank.id == $focusedRank}
           <Rank bind:rank on:error={handleError} />
