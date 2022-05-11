@@ -60,7 +60,9 @@
             class="p-0 text-center"
           />
         {:else}
-          <EncryptedText bind:text={$board.ice_breaking} />
+          <div data-name="ice-breaker-message">
+            <EncryptedText bind:text={$board.ice_breaking} />
+          </div>
         {/if}
       </div>
     </div>
