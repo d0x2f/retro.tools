@@ -17,6 +17,16 @@ context('IceBreaker', () => {
         .should('have.length', 1)
         .should('have.text', 'Testing ice breaker question');
     });
+
+    after(() => {
+      cy.intercept('boards').as('getBoards');
+      cy.visit('/');
+      cy.wait('@getBoards');
+      cy.get('[data-name=board-list-button]').click();
+      cy.get('[data-name=delete-button]').click({ multiple: true });
+      cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
+      cy.get('[data-name=board-table]').should('not.exist');
+    });
   });
 
   describe('Without Ice breaker question', () => {
@@ -28,6 +38,16 @@ context('IceBreaker', () => {
 
     it('should not exist an ice breaker question', () => {
       cy.get('[data-name=ice-breaker-message]:visible').should('not.exist');
+    });
+
+    after(() => {
+      cy.intercept('boards').as('getBoards');
+      cy.visit('/');
+      cy.wait('@getBoards');
+      cy.get('[data-name=board-list-button]').click();
+      cy.get('[data-name=delete-button]').click({ multiple: true });
+      cy.get('[data-name=delete-confirm-button]').click({ multiple: true });
+      cy.get('[data-name=board-table]').should('not.exist');
     });
   });
 });
