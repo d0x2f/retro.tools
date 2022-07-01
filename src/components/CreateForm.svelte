@@ -23,6 +23,8 @@
   let showPassword = false;
   let createBusy = false;
   let optionsExpanded = false;
+  let useCustomTemplateInput = false;
+  let customTemplateRanks = '';
 
   async function createFromTemplate(template) {
     let [boardNameEncrypted, encryptionTest] = await Promise.all([
@@ -43,13 +45,45 @@
     return board;
   }
 
+  async function getBoardTemplate(templateKey) {
+    if (templateKey !== 'custom') {
+      return BoardTemplates[templateKey];
+    }
+
+    // validations
+    const ranks = customTemplateRanks.split(',');
+    if (ranks.length <= 1 || ranks.length > 4) {
+      throw 'Invalid custom template';
+    }
+
+    // creation
+    const ranksList = [];
+    const names = ['first', 'second', 'third', 'fourth'];
+    const icons = ['thumbsup', 'meh', 'thumbsdown', 'smile'];
+    const colors = ['green', 'blue', 'red', 'cyan'];
+    for (let rankIdx in ranks) {
+      ranksList.push({
+        name: `board.template.custom.column.${names[rankIdx].trim()}`,
+        icon: icons[rankIdx],
+        color: colors[rankIdx],
+        position: rankIdx,
+      });
+    }
+
+    return {
+      name: 'board.template.custom.name',
+      ranks: ranksList
+    };
+  }
+
   async function newBoard() {
     createBusy = true;
     if (passwordDisabled) {
       password.set('');
     }
     try {
-      const board = await createFromTemplate(BoardTemplates[templateKey]);
+      const template = await getBoardTemplate(templateKey);
+      const board = await createFromTemplate(template);
       gtag('event', 'conversion', {
         send_to: 'AW-996832467/QhvrCJDnrcABENPpqdsD',
       });
@@ -58,6 +92,10 @@
       dispatch('error', { message: 'error.creating_board', err });
       createBusy = false;
     }
+  }
+
+  async function templateNameChanged() {
+    useCustomTemplateInput = templateKey === 'custom';
   }
 </script>
 
@@ -97,11 +135,21 @@
   {#if optionsExpanded}
     <div in:slide out:slide>
       <p class="my-1 small">{$_('splash.template')}</p>
-      <Select bind:value={templateKey}>
+      <Select bind:value={templateKey} onchange={templateNameChanged}>
         {#each Object.entries(BoardTemplates) as [key, template]}
           <option value={key}>{$_(template.name)}</option>
         {/each}
       </Select>
+      <!-- ini -->
+      {#if useCustomTemplateInput}
+        <p class="my-1 small">{$_('board.template.custom.label')}</p>
+        <Input
+            type={'text'}
+            placeholder={$_('board.template.custom.column.first')}
+            bind:value={customTemplateRanks}
+          />
+      {/if}
+      <!-- fim -->
       <p class="my-1 small">{$_('general.encryption')}</p>
       <div class="input-group">
         <div class="input-group-prepend">

@@ -199,6 +199,17 @@ export const BoardTemplates = {
       },
     ],
   },
+  custom: {
+    name: 'board.template.custom.name',
+    ranks: [
+      {
+        name: 'board.template.custom.column.first',
+        icon: 'thumbsup',
+        color: 'green',
+        position: 0,
+      }
+    ],
+  },
 };
 
 export function getRankDetails(rank) {
