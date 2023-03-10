@@ -60,7 +60,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - uses: cypress-io/github-action@v2
+      - uses: cypress-io/github-action@v5
         with:
           build: npm run build
           start: npm run preview
