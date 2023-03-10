@@ -1,20 +1,20 @@
 <script>
-  import { onMount } from 'svelte';
-  import { fly } from 'svelte/transition';
-  import { _ } from 'svelte-i18n';
-  import { navigate } from 'svelte-routing';
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
+  import { _ } from "svelte-i18n";
+  import { navigate } from "svelte-routing";
 
-  import { getBoards } from './api.js';
-  import { Icons } from './data.js';
+  import { getBoards } from "./api.js";
+  import { Icons } from "./data.js";
 
-  import BoardTable from './components/BoardTable.svelte';
-  import LocaleSelect from './components/LocaleSelect.svelte';
-  import Alert from './components/Alert.svelte';
-  import CreateForm from './components/CreateForm.svelte';
-  import Button from './components/Button.svelte';
+  import BoardTable from "./components/BoardTable.svelte";
+  import LocaleSelect from "./components/LocaleSelect.svelte";
+  import Alert from "./components/Alert.svelte";
+  import CreateForm from "./components/CreateForm.svelte";
+  import Button from "./components/Button.svelte";
 
   export let errorAlertVisible = false;
-  export let errorAlertMessage = 'error.network';
+  export let errorAlertMessage = "error.network";
 
   let boards = [];
   let errorClearTimeout;
@@ -79,7 +79,7 @@
           <div class="icon text-danger">
             <Icons.heart size="100%" />
           </div>
-          {$_('general.donate')}
+          {$_("general.donate")}
         </Button>
       </div>
       <LocaleSelect />
@@ -88,7 +88,7 @@
     <div class="d-flex justify-content-center">
       <div class="top-section">
         <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
-          {$_('splash.hero_text')}
+          {$_("splash.hero_text")}
         </h1>
         <div class="d-flex flex-column justify-content-center">
           <CreateForm
@@ -180,7 +180,7 @@
         </div>
         <div class="card">
           <div class="card-top">
-            <Icons.lock size="100%"/>
+            <Icons.lock size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">End to End Encryption</h5>

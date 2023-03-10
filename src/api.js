@@ -1,11 +1,11 @@
 let api_host = window.origin;
 
 const common_options = {
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'include',
+  mode: "cors",
+  cache: "no-cache",
+  credentials: "include",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 };
 
@@ -31,7 +31,7 @@ export async function getRanks(boardId) {
 
 export async function updateBoard(board) {
   return requestJson(`${api_host}/boards/${board.id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     body: JSON.stringify(board),
     ...common_options,
   });
@@ -39,7 +39,7 @@ export async function updateBoard(board) {
 
 export async function createRank(boardId, name, position, data) {
   return requestJson(`${api_host}/boards/${boardId}/columns`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       name,
       position,
@@ -51,7 +51,7 @@ export async function createRank(boardId, name, position, data) {
 
 export async function createBoard(name, data, ice_breaking) {
   return requestJson(`${api_host}/boards`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       name,
       data,
@@ -69,7 +69,7 @@ export async function getCards(boardId) {
 
 export async function createCard(boardId, rankId, text, author) {
   return requestJson(`${api_host}/boards/${boardId}/columns/${rankId}/cards`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       text,
       author,
@@ -83,7 +83,7 @@ export async function updateCard(board, card, currentRankId) {
     currentRankId = card.column;
   }
   return requestJson(`${api_host}/boards/${board.id}/cards/${card.id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     body: JSON.stringify(card),
     ...common_options,
   });
@@ -91,42 +91,42 @@ export async function updateCard(board, card, currentRankId) {
 
 export function deleteCard(board, card) {
   return request(`${api_host}/boards/${board.id}/cards/${card.id}`, {
-    method: 'DELETE',
+    method: "DELETE",
     ...common_options,
   });
 }
 
 export async function agree(board, card) {
   return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
-    method: 'PUT',
+    method: "PUT",
     ...common_options,
   });
 }
 
 export async function undoAgree(board, card) {
   return request(`${api_host}/boards/${board.id}/cards/${card.id}/vote`, {
-    method: 'DELETE',
+    method: "DELETE",
     ...common_options,
   });
 }
 
 export function deleteRank(boardId, rankId) {
   return request(`${api_host}/boards/${boardId}/columns/${rankId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     ...common_options,
   });
 }
 
 export function deleteBoard(boardId) {
   return request(`${api_host}/boards/${boardId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     ...common_options,
   });
 }
 
 export async function react(board, card, reaction) {
   return request(`${api_host}/boards/${board.id}/cards/${card.id}/react`, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify({ emoji: reaction }),
     ...common_options,
   });
@@ -134,7 +134,7 @@ export async function react(board, card, reaction) {
 
 export async function undoReact(board, card) {
   return request(`${api_host}/boards/${board.id}/cards/${card.id}/react`, {
-    method: 'DELETE',
+    method: "DELETE",
     ...common_options,
   });
 }

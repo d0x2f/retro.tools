@@ -118,9 +118,9 @@
         <div class="input-group-append">
           <Button on:click={() => (showPassword = !showPassword)}>
             {#if showPassword}
-              <Icons.eye/>
+              <Icons.eye />
             {:else}
-              <Icons.eyeOff/>
+              <Icons.eyeOff />
             {/if}
           </Button>
         </div>

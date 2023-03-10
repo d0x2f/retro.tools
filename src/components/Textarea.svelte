@@ -1,47 +1,47 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { autoresize as autoresizer } from 'svelte-textarea-autoresize';
-  import clsx from 'clsx';
+  import { createEventDispatcher } from "svelte";
+  import { autoresize as autoresizer } from "svelte-textarea-autoresize";
+  import clsx from "clsx";
 
-  import { filterDataKeys } from '../utils.js';
+  import { filterDataKeys } from "../utils.js";
 
-  export let value = '';
-  export let placeholder = '';
+  export let value = "";
+  export let placeholder = "";
   export let autoresize = false;
   export let autofocus = false;
-  export let minWidth = '0px';
+  export let minWidth = "0px";
 
-  let className = '';
+  let className = "";
   export { className as class };
 
   const dispatch = createEventDispatcher();
   let focused = true;
   let element;
   let classes;
-  let data = '';
+  let data = "";
 
   function focus() {
     focused = true;
-    dispatch('focus');
+    dispatch("focus");
   }
 
   function blur() {
     focused = false;
-    dispatch('blur');
+    dispatch("blur");
   }
 
   function keyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
       // 'enter' key (and not shift + enter)
       if (value.length > 0) {
-        dispatch('submit', {
+        dispatch("submit", {
           text: value,
         });
       }
       event.preventDefault();
     } else if (event.keyCode === 27) {
       // 'escape' key
-      dispatch('cancel');
+      dispatch("cancel");
     }
   }
 
@@ -49,11 +49,11 @@
   // when it's cleared via svelte reactively.
   $: {
     if (element && value.length == 0) {
-      element.value = '';
-      element.dispatchEvent(new Event('input'));
+      element.value = "";
+      element.dispatchEvent(new Event("input"));
     }
 
-    classes = clsx(className, 'form-control');
+    classes = clsx(className, "form-control");
   }
 
   function use(el) {

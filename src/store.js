@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 function createCards() {
   const { subscribe, set, update } = writable([]);
@@ -28,21 +28,21 @@ function createCards() {
 
 export const board = writable({
   cards_open: false,
-  id: 'none',
+  id: "none",
   max_votes: 0,
-  name: 'Unknown Board',
+  name: "Unknown Board",
   voting_open: false,
-  ice_breaking: '',
-  error: '',
+  ice_breaking: "",
+  error: "",
   owner: false,
   data: {
-    encryptionTest: 'encryptionTest',
+    encryptionTest: "encryptionTest",
   },
 });
 
 export const ranks = writable([]);
 export const cards = createCards();
 export const sorted = writable(false);
-export const password = writable('');
-export const author = writable('');
-export const focusedRank = writable('');
+export const password = writable("");
+export const author = writable("");
+export const focusedRank = writable("");

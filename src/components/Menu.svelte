@@ -1,25 +1,25 @@
 <script>
-  import ClipboardJS from 'clipboard';
-  import { _ } from 'svelte-i18n';
-  import { fly } from 'svelte/transition';
+  import ClipboardJS from "clipboard";
+  import { _ } from "svelte-i18n";
+  import { fly } from "svelte/transition";
   import {
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from 'sveltestrap';
+  } from "sveltestrap";
 
-  import { Icons } from '../data.js';
-  import { board, sorted } from '../store.js';
-  import { getCSVUrl } from '../api.js';
+  import { Icons } from "../data.js";
+  import { board, sorted } from "../store.js";
+  import { getCSVUrl } from "../api.js";
 
-  import QRCode from './QRCode.svelte';
-  import ReadonlyCheckbox from './ReadonlyCheckbox.svelte';
+  import QRCode from "./QRCode.svelte";
+  import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
 
   let isOpen = false;
   let showQR = false;
 
-  new ClipboardJS('button');
+  new ClipboardJS("button");
 
   const preventDefault = (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@
       on:click={() => ($board.cards_open = !$board.cards_open)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.new_cards_allowed')}
+        label={$_("board.options.new_cards_allowed")}
         bind:checked={$board.cards_open}
         on:click={preventDefault}
       />
@@ -53,7 +53,7 @@
       on:click={() => ($board.voting_open = !$board.voting_open)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.voting_allowed')}
+        label={$_("board.options.voting_allowed")}
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
@@ -63,7 +63,7 @@
       on:click={() => ($sorted = !$sorted)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.sort_by_votes')}
+        label={$_("board.options.sort_by_votes")}
         bind:checked={$sorted}
       />
     </DropdownItem>
@@ -74,7 +74,7 @@
       on:click={() => (showQR = !showQR)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.show_qr_code')}
+        label={$_("board.options.show_qr_code")}
         bind:checked={showQR}
       />
     </DropdownItem>
@@ -82,7 +82,7 @@
       <div class="d-inline-block smaller-icon">
         <Icons.download size="100%" />
       </div>
-      {$_('board.options.download_csv')}
+      {$_("board.options.download_csv")}
     </DropdownItem>
     <DropdownItem
       data-name="copy-link-button"
@@ -91,7 +91,7 @@
       <div class="d-inline-block smaller-icon">
         <Icons.link size="100%" />
       </div>
-      {$_('board.options.copy_link')}
+      {$_("board.options.copy_link")}
     </DropdownItem>
     <DropdownItem divider />
     <DropdownItem
@@ -102,7 +102,7 @@
       <div class="d-inline-block smaller-icon text-danger">
         <Icons.heart size="100%" />
       </div>
-      {$_('general.donate')}
+      {$_("general.donate")}
     </DropdownItem>
   </DropdownMenu>
 </Dropdown>

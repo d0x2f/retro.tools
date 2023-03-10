@@ -1,10 +1,10 @@
 <script>
-  import { slide } from 'svelte/transition';
-  import { _ } from 'svelte-i18n';
-  import { Button } from 'sveltestrap';
+  import { slide } from "svelte/transition";
+  import { _ } from "svelte-i18n";
+  import { Button } from "sveltestrap";
 
-  import Table from './Table.svelte';
-  import BoardRow from './BoardRow.svelte';
+  import Table from "./Table.svelte";
+  import BoardRow from "./BoardRow.svelte";
 
   export let boards = [];
   let expanded = false;
@@ -18,7 +18,7 @@
     on:click={() => (expanded = !expanded)}
   >
     {#if expanded}▾{:else}▸{/if}
-    {$_('splash.your_boards')}
+    {$_("splash.your_boards")}
   </Button>
   {#if expanded}
     <div in:slide out:slide data-name="board-table" class="text-dark">

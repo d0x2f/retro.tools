@@ -1,23 +1,23 @@
 <script>
-  import clsx from 'clsx';
+  import clsx from "clsx";
 
-  import { filterDataKeys } from '../utils.js';
+  import { filterDataKeys } from "../utils.js";
 
-  let className = '';
+  let className = "";
   export { className as class };
   export let disabled = false;
-  export let value = '';
-  export let type = 'text';
-  export let placeholder = '';
+  export let value = "";
+  export let type = "text";
+  export let placeholder = "";
 
-  let classes = '';
-  let data = '';
+  let classes = "";
+  let data = "";
 
-  $: classes = clsx(className, 'form-control');
+  $: classes = clsx(className, "form-control");
   $: data = filterDataKeys($$restProps);
 </script>
 
-{#if type == 'password'}
+{#if type == "password"}
   <input
     type="password"
     {...data}
@@ -38,7 +38,6 @@
     {placeholder}
   />
 {/if}
-
 
 <style>
   input {

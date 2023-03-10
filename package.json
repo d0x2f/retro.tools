@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "prettier --check '{src,cypress}/**/*.{js,svelte}' && eslint '{src,cypress}/**/*.{js,svelte}'",
+    "lint:fix": "prettier --write '{src,cypress}/**/*.{js,svelte}'; eslint --fix '{src,cypress}/**/*.{js,svelte}'"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",

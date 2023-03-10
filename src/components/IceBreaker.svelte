@@ -1,24 +1,24 @@
 <script>
-  import clsx from 'clsx';
-  import { onMount } from 'svelte';
-  import { _ } from 'svelte-i18n';
-  import { board, password } from '../store.js';
-  import { decrypt, encrypt, checkBoardPassword } from '../encryption.js';
+  import clsx from "clsx";
+  import { onMount } from "svelte";
+  import { _ } from "svelte-i18n";
+  import { board, password } from "../store.js";
+  import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
 
-  import Textarea from './Textarea.svelte';
-  import EncryptedText from './EncryptedText.svelte';
+  import Textarea from "./Textarea.svelte";
+  import EncryptedText from "./EncryptedText.svelte";
 
   let showIceBreaking = false;
   let iceBreakingEditMode = false;
-  let newIceBreakingText = '';
+  let newIceBreakingText = "";
 
-  let classes = '';
-  let className = '';
+  let classes = "";
+  let className = "";
   export { className as class };
 
   async function checkIceBreak() {
-    newIceBreakingText = $board.ice_breaking || '';
-    showIceBreaking = newIceBreakingText !== '';
+    newIceBreakingText = $board.ice_breaking || "";
+    showIceBreaking = newIceBreakingText !== "";
     return showIceBreaking;
   }
 
@@ -42,14 +42,14 @@
     checkIceBreak();
   });
 
-  $: classes = clsx(className, 'p-3', 'mx-auto');
+  $: classes = clsx(className, "p-3", "mx-auto");
 </script>
 
 {#if showIceBreaking}
   <div class={classes}>
     <div class="card text-center" on:click={startEdit}>
       <div class="card-body">
-        <h5 class="card-title">{$_('splash.icebreaking')}</h5>
+        <h5 class="card-title">{$_("splash.icebreaking")}</h5>
         {#if iceBreakingEditMode}
           <Textarea
             autofocus
