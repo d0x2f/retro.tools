@@ -38,3 +38,10 @@
     {placeholder}
   />
 {/if}
+
+
+<style>
+  input {
+    height: 40px;
+  }
+</style>

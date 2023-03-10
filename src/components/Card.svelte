@@ -221,7 +221,7 @@
           on:click={startDelete}
         >
           <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
+            <Icons.trash size="100%" />
           </div>
         </Button>
       {/if}
@@ -237,7 +237,7 @@
         on:click={cancelDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.close />
+          <Icons.close size="100%" />
         </div>
       </Button>
 
@@ -248,7 +248,7 @@
         on:click={submitDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.check />
+          <Icons.check size="100%" />
         </div>
       </Button>
     </div>

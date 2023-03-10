@@ -16,9 +16,9 @@
     class="d-inline-block icon {checked ? 'text-primary' : 'text-secondary'}"
   >
     {#if checked}
-      <Icons.check />
+      <Icons.check size="100%" />
     {:else}
-      <Icons.close />
+      <Icons.close size="100%" />
     {/if}
   </div>
   {label}

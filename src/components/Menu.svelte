@@ -30,7 +30,7 @@
 <Dropdown size="sm" bind:isOpen toggle={() => (isOpen = !isOpen)}>
   <DropdownToggle data-name="menu-button" color="primary">
     <div class="icon">
-      <Icons.menu />
+      <Icons.menu size="100%" />
     </div>
   </DropdownToggle>
   <DropdownMenu right>
@@ -80,7 +80,7 @@
     </DropdownItem>
     <DropdownItem data-name="download-csv-button" href={getCSVUrl($board)}>
       <div class="d-inline-block smaller-icon">
-        <Icons.download />
+        <Icons.download size="100%" />
       </div>
       {$_('board.options.download_csv')}
     </DropdownItem>
@@ -89,7 +89,7 @@
       data-clipboard-text="{location.origin}/{$board.id}"
     >
       <div class="d-inline-block smaller-icon">
-        <Icons.link />
+        <Icons.link size="100%" />
       </div>
       {$_('board.options.copy_link')}
     </DropdownItem>
@@ -100,7 +100,7 @@
       href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
     >
       <div class="d-inline-block smaller-icon text-danger">
-        <Icons.heart />
+        <Icons.heart size="100%" />
       </div>
       {$_('general.donate')}
     </DropdownItem>

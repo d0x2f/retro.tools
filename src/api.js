@@ -1,5 +1,4 @@
-// Replaced by rollup during build:
-const api_host = '__API_URL__';
+let api_host = window.origin;
 
 const common_options = {
   mode: 'cors',
@@ -10,12 +9,12 @@ const common_options = {
   },
 };
 
-async function request() {
-  return fetch(...arguments);
+async function request(input, init) {
+  return fetch(input, init);
 }
 
-async function requestJson() {
-  return (await fetch(...arguments)).json();
+async function requestJson(input, init) {
+  return (await fetch(input, init)).json();
 }
 
 export async function getBoard(boardId) {

@@ -46,18 +46,13 @@
           bind:value={inputPassword}
         />
         <div class="input-group-append">
-          <div class="input-group-text">
-            <div
-              class="eye-icon"
-              on:click={() => (showPassword = !showPassword)}
-            >
-              {#if showPassword}
-                <Icons.eye />
-              {:else}
-                <Icons.eyeOff />
-              {/if}
-            </div>
-          </div>
+          <Button on:click={() => (showPassword = !showPassword)}>
+            {#if showPassword}
+              <Icons.eye />
+            {:else}
+              <Icons.eyeOff />
+            {/if}
+          </Button>
         </div>
       </div>
       <div class="text-right">
@@ -72,7 +67,7 @@
               {#if checkBusy}
                 <Spinner size="sm" color="light" />
               {:else}
-                <Icons.unlock />
+                <Icons.unlock size="100%" />
               {/if}
             </div>
             {$_('board.unlock')}
@@ -86,12 +81,6 @@
 <style>
   .box {
     width: 20em;
-  }
-
-  .eye-icon {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: -1px;
   }
 
   .unlock-icon {

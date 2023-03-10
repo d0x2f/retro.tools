@@ -24,7 +24,7 @@
         on:click={() => dispatch('toggleVote')}
       >
         <div class="icon {color}" class:unvoted={!voted}>
-          <Icons.arrowUp />
+          <Icons.arrowUp size="100%" />
         </div>
       </Button>
     </div>

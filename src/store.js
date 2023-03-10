@@ -33,6 +33,8 @@ export const board = writable({
   name: 'Unknown Board',
   voting_open: false,
   ice_breaking: '',
+  error: '',
+  owner: false,
   data: {
     encryptionTest: 'encryptionTest',
   },

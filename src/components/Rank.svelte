@@ -21,9 +21,9 @@
   import Button from './Button.svelte';
 
   export let rank;
-  export let send = false;
-  export let receive = false;
-  export let drake = false;
+  export let send = null;
+  export let receive = null;
+  export let drake = null;
 
   let dropTarget;
   let rankDetails = getRankDetails(rank);
@@ -147,7 +147,7 @@
         on:click={newCard}
       >
         <div class="icon">
-          <Icons.enter />
+          <Icons.enter size="100%"/>
         </div>
       </Button>
     </div>
