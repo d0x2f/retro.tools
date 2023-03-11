@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { slide } from 'svelte/transition';
-  import Emoji from 'svelte-emoji';
-  import { Popover } from 'sveltestrap';
-  import { _ } from 'svelte-i18n';
+  import { createEventDispatcher } from "svelte";
+  import { slide } from "svelte/transition";
+  import Emoji from "svelte-emoji";
+  import { Popover } from "sveltestrap";
+  import { _ } from "svelte-i18n";
 
-  import { board, cards, password } from '../store.js';
+  import { board, cards, password } from "../store.js";
   import {
     updateCard,
     deleteCard,
@@ -13,31 +13,31 @@
     undoAgree,
     react,
     undoReact,
-  } from '../api.js';
-  import { Icons } from '../data.js';
-  import { decrypt, encrypt } from '../encryption.js';
-  import { clickOutside } from '../utils.js';
+  } from "../api.js";
+  import { Icons } from "../data.js";
+  import { decrypt, encrypt } from "../encryption.js";
+  import { clickOutside } from "../utils.js";
 
-  import Textarea from './Textarea.svelte';
-  import Votes from './Votes.svelte';
-  import EncryptedText from './EncryptedText.svelte';
-  import Button from './Button.svelte';
-  import ReactDrawer from './ReactDrawer.svelte';
+  import Textarea from "./Textarea.svelte";
+  import Votes from "./Votes.svelte";
+  import EncryptedText from "./EncryptedText.svelte";
+  import Button from "./Button.svelte";
+  import ReactDrawer from "./ReactDrawer.svelte";
 
   export let card;
-  export let color = 'text-primary';
+  export let color = "text-primary";
 
   let editMode = false;
   let deleteMode = false;
   let reactDrawOpen = false;
-  let newCardText = '';
+  let newCardText = "";
 
   const cardSlug = (Math.random() + 1).toString(36).substring(7);
 
   const dispatch = createEventDispatcher();
 
   function error(message, err) {
-    dispatch('error', { message, err });
+    dispatch("error", { message, err });
   }
 
   async function startEdit() {
@@ -62,7 +62,7 @@
       cards.replace(card.id, await updateCard($board, newCard, card.column));
       editMode = false;
     } catch (err) {
-      error('error.updating_card', err);
+      error("error.updating_card", err);
     }
   }
 
@@ -81,7 +81,7 @@
       await deleteCard($board, card);
       cards.remove(card.id);
     } catch (err) {
-      error('error.card_delete', err);
+      error("error.card_delete", err);
     }
   }
 
@@ -105,7 +105,7 @@
         }
       }
     } catch (err) {
-      error('error.vote_failed', err);
+      error("error.vote_failed", err);
     } finally {
       card.busy = false;
     }
@@ -116,10 +116,10 @@
     reactDrawOpen = false;
     if (card.reacted === emoji) {
       card.reactions[card.reacted] -= 1;
-      card.reacted = '';
+      card.reacted = "";
       return undoReact($board, card);
     } else {
-      if (card.reacted !== '') {
+      if (card.reacted !== "") {
         card.reactions[card.reacted] -= 1;
       }
       card.reactions[emoji] = (card.reactions[emoji] ?? 0) + 1;
@@ -160,7 +160,7 @@
                     <EncryptedText bind:text={card.author} />
                   </div>
                 {:else}
-                  <div class="text-secondary">{$_('card.anonymous')}</div>
+                  <div class="text-secondary">{$_("card.anonymous")}</div>
                 {/if}
               </div>
               <div
@@ -221,7 +221,7 @@
           on:click={startDelete}
         >
           <div class="icon" class:voted={card.voted}>
-            <Icons.trash />
+            <Icons.trash size="100%" />
           </div>
         </Button>
       {/if}
@@ -237,7 +237,7 @@
         on:click={cancelDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.close />
+          <Icons.close size="100%" />
         </div>
       </Button>
 
@@ -248,7 +248,7 @@
         on:click={submitDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.check />
+          <Icons.check size="100%" />
         </div>
       </Button>
     </div>

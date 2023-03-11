@@ -1,37 +1,37 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
-  import { quintOut } from 'svelte/easing';
-  import { crossfade, fade, fly } from 'svelte/transition';
-  import dragula from 'dragula';
-  import { _ } from 'svelte-i18n';
-  import { navigate } from 'svelte-routing';
+  import { onMount, onDestroy } from "svelte";
+  import { quintOut } from "svelte/easing";
+  import { crossfade, fade, fly } from "svelte/transition";
+  import dragula from "dragula";
+  import { _ } from "svelte-i18n";
+  import { navigate } from "svelte-routing";
 
-  import { board, ranks, cards, focusedRank, password } from './store.js';
+  import { board, ranks, cards, focusedRank, password } from "./store.js";
   import {
     updateBoard,
     updateCard,
     getCards,
     getBoard,
     getRanks,
-  } from './api.js';
-  import { getRankDetails } from './data.js';
-  import { checkBoardPassword, isBoardEncrypted } from './encryption.js';
+  } from "./api.js";
+  import { getRankDetails } from "./data.js";
+  import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
 
-  import PasswordWall from './components/PasswordWall.svelte';
-  import Rank from './components/Rank.svelte';
-  import Header from './components/Header.svelte';
-  import Spinner from './components/Spinner.svelte';
-  import Alert from './components/Alert.svelte';
-  import IceBreaker from './components/IceBreaker.svelte';
+  import PasswordWall from "./components/PasswordWall.svelte";
+  import Rank from "./components/Rank.svelte";
+  import Header from "./components/Header.svelte";
+  import Spinner from "./components/Spinner.svelte";
+  import Alert from "./components/Alert.svelte";
+  import IceBreaker from "./components/IceBreaker.svelte";
 
   export let boardId;
 
-  let tabButtonWidth = '';
+  let tabButtonWidth = "";
   let hidden = false;
   let refreshIntervalId;
   let unsubscribe;
   let errorAlertVisible = false;
-  let errorAlertMessage = 'Network error!';
+  let errorAlertMessage = "Network error!";
   let errorClearTimeout;
   let connectionLost = false;
   let passwordRequired = false;
@@ -42,7 +42,7 @@
     revertOnSpill: true,
     copySortSource: false,
     copy: true,
-    moves: (el) => el.dataset.drag !== 'false',
+    moves: (el) => el.dataset.drag !== "false",
     accepts: (el, target) => {
       return (
         target.dataset.rankId !==
@@ -51,17 +51,17 @@
     },
   });
 
-  drake.on('over', (_el, container) => {
-    const emptyText = container.querySelector('small');
-    if (emptyText) emptyText.parentElement.classList.add('d-none');
+  drake.on("over", (_el, container) => {
+    const emptyText = container.querySelector("small");
+    if (emptyText) emptyText.parentElement.classList.add("d-none");
   });
 
-  drake.on('out', (_el, container) => {
-    const emptyText = container.querySelector('small');
-    if (emptyText) emptyText.parentElement.classList.remove('d-none');
+  drake.on("out", (_el, container) => {
+    const emptyText = container.querySelector("small");
+    if (emptyText) emptyText.parentElement.classList.remove("d-none");
   });
 
-  drake.on('drop', async (el, target) => {
+  drake.on("drop", async (el, target) => {
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
     const card = $cards.find((c) => c.id === cardId);
@@ -74,7 +74,7 @@
     try {
       cards.replace(card.id, await updateCard($board, card, originalRankId));
     } catch (err) {
-      error('error.updating_card', err);
+      error("error.updating_card", err);
       card.column = originalRankId; // Send the card back
       card.busy = false;
       $cards = $cards; // Force redraw
@@ -84,17 +84,17 @@
   $: {
     switch ($ranks.length) {
       case 1:
-        tabButtonWidth = 'col-12';
+        tabButtonWidth = "col-12";
         break;
       case 2:
-        tabButtonWidth = 'col-6';
+        tabButtonWidth = "col-6";
         break;
       case 3:
-        tabButtonWidth = 'col-4';
+        tabButtonWidth = "col-4";
         break;
       case 4:
       default:
-        tabButtonWidth = 'col-3';
+        tabButtonWidth = "col-3";
         break;
     }
   }
@@ -108,7 +108,7 @@
 
     fallback(node) {
       const style = getComputedStyle(node);
-      const transform = style.transform === 'none' ? '' : style.transform;
+      const transform = style.transform === "none" ? "" : style.transform;
 
       return {
         duration: 600,
@@ -135,7 +135,7 @@
   }
 
   async function update() {
-    if (!hidden || $board.id === 'none') {
+    if (!hidden || $board.id === "none") {
       try {
         const [b, r, c] = await Promise.all([
           getBoard(boardId),
@@ -149,9 +149,9 @@
       } catch {
         connectionLost = true;
       }
-      if ($board.error == 'Not Found') {
-        navigate('/not-found');
-        throw new Error('Board not found');
+      if ($board.error == "Not Found") {
+        navigate("/not-found");
+        throw new Error("Board not found");
       }
     }
   }
@@ -161,7 +161,7 @@
       passwordRequired = !(await checkBoardPassword($board, $password));
     } else {
       passwordRequired = false;
-      password.set('');
+      password.set("");
     }
     return passwordRequired;
   }
@@ -193,7 +193,7 @@
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
-          error('error.updating_settings', err);
+          error("error.updating_settings", err);
         }
         previousBoard = { ...b };
       });
@@ -203,8 +203,8 @@
     refreshIntervalId = setInterval(async () => await update(), 10000);
 
     // Keep track of page visibility so we can pause updates while hidden
-    document.addEventListener('visibilitychange', () => {
-      hidden = document['hidden'];
+    document.addEventListener("visibilitychange", () => {
+      hidden = document["hidden"];
     });
     busy = false;
   });
@@ -277,7 +277,7 @@
           <Rank bind:rank on:error={handleError} />
         {/if}
       {:else}
-        <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
+        <p class="text-center text-secondary mt-5">{$_("board.no_columns")}</p>
       {/each}
     </div>
 
@@ -308,7 +308,7 @@
             color="danger"
             isOpen={true}
           >
-            {$_('error.connection_lost')}
+            {$_("error.connection_lost")}
           </Alert>
         </div>
       {/if}
@@ -368,7 +368,7 @@
           color="danger"
           isOpen={true}
         >
-          {$_('error.connection_lost')}
+          {$_("error.connection_lost")}
         </Alert>
       </div>
     {/if}
@@ -415,12 +415,12 @@
     text-align: center;
   }
 
-  input[type='radio'] {
+  input[type="radio"] {
     display: none;
     margin: 10px;
   }
 
-  input[type='radio'] + label {
+  input[type="radio"] + label {
     display: inline-block;
     flex: 1 1;
     margin: -2px;

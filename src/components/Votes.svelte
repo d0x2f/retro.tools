@@ -1,15 +1,15 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import clsx from 'clsx';
+  import { createEventDispatcher } from "svelte";
+  import clsx from "clsx";
 
-  import { board } from '../store.js';
-  import { Icons } from '../data.js';
+  import { board } from "../store.js";
+  import { Icons } from "../data.js";
 
-  import Button from './Button.svelte';
+  import Button from "./Button.svelte";
 
   export let votes = 0;
   export let voted = false;
-  export let color = '';
+  export let color = "";
 
   const dispatch = createEventDispatcher();
 </script>
@@ -21,19 +21,19 @@
         data-name="vote-button"
         color="light"
         class="text-capitalize flex-grow-0 flex-shrink-0 btn-sm mr-1"
-        on:click={() => dispatch('toggleVote')}
+        on:click={() => dispatch("toggleVote")}
       >
         <div class="icon {color}" class:unvoted={!voted}>
-          <Icons.arrowUp />
+          <Icons.arrowUp size="100%" />
         </div>
       </Button>
     </div>
   {/if}
   <span
     data-name="vote-count"
-    class={clsx('votes font-weight-bold h3 mb-0 mt-0', color, {
-      'mr-1': $board.voting_open,
-      'px-2': !$board.voting_open,
+    class={clsx("votes font-weight-bold h3 mb-0 mt-0", color, {
+      "mr-1": $board.voting_open,
+      "px-2": !$board.voting_open,
     })}
   >
     {votes}

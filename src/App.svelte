@@ -1,17 +1,11 @@
 <script>
-  import { Router, Route } from 'svelte-routing';
-  import { fade } from 'svelte/transition';
+  import { Router, Route } from "svelte-routing";
+  import { fade } from "svelte/transition";
 
-  import { gtag } from './ga.js';
+  import Splash from "./Splash.svelte";
+  import Board from "./Board.svelte";
 
-  import Splash from './Splash.svelte';
-  import Board from './Board.svelte';
-
-  export let url = '';
-
-  gtag('js', new Date());
-  gtag('config', 'UA-73143855-2');
-  gtag('config', 'AW-996832467');
+  export let url = "";
 </script>
 
 <Router {url}>
@@ -23,7 +17,7 @@
   <Route path="/not-found">
     <div class="h-100" in:fade out:fade>
       <Splash
-        errorAlertVisible="true"
+        errorAlertVisible={true}
         errorAlertMessage="error.board_not_found"
       />
     </div>

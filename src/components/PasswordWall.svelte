@@ -1,18 +1,18 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { _ } from 'svelte-i18n';
+  import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
 
-  import { board, password } from '../store.js';
-  import { checkBoardPassword } from '../encryption.js';
-  import { Icons } from '../data.js';
+  import { board, password } from "../store.js";
+  import { checkBoardPassword } from "../encryption.js";
+  import { Icons } from "../data.js";
 
-  import Button from './Button.svelte';
-  import Input from './Input.svelte';
-  import Spinner from './Spinner.svelte';
+  import Button from "./Button.svelte";
+  import Input from "./Input.svelte";
+  import Spinner from "./Spinner.svelte";
 
   let showPassword = false;
   let checkBusy = false;
-  let inputPassword = '';
+  let inputPassword = "";
   let inputBox;
 
   const dispatch = createEventDispatcher();
@@ -21,13 +21,13 @@
     checkBusy = true;
     if (await checkBoardPassword($board, inputPassword)) {
       password.set(inputPassword);
-      dispatch('accepted');
+      dispatch("accepted");
       return;
     }
-    inputBox.classList.add('animate__shakeX');
+    inputBox.classList.add("animate__shakeX");
     setTimeout(() => {
-      inputBox.classList.remove('animate__shakeX');
-      inputPassword = '';
+      inputBox.classList.remove("animate__shakeX");
+      inputPassword = "";
       checkBusy = false;
     }, 500);
   }
@@ -36,28 +36,23 @@
 <div class="d-flex justify-content-center w-100 h-100">
   <div class="d-flex flex-column justify-content-center">
     <div bind:this={inputBox} class="box h-50 animate__animated">
-      <p class="text-primary mb-1">{$_('general.password')}</p>
+      <p class="text-primary mb-1">{$_("general.password")}</p>
       <div class="input-group">
         <Input
           readonly={undefined}
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           name="password"
           id="password"
           bind:value={inputPassword}
         />
         <div class="input-group-append">
-          <div class="input-group-text">
-            <div
-              class="eye-icon"
-              on:click={() => (showPassword = !showPassword)}
-            >
-              {#if showPassword}
-                <Icons.eye />
-              {:else}
-                <Icons.eyeOff />
-              {/if}
-            </div>
-          </div>
+          <Button on:click={() => (showPassword = !showPassword)}>
+            {#if showPassword}
+              <Icons.eye />
+            {:else}
+              <Icons.eyeOff />
+            {/if}
+          </Button>
         </div>
       </div>
       <div class="text-right">
@@ -72,10 +67,10 @@
               {#if checkBusy}
                 <Spinner size="sm" color="light" />
               {:else}
-                <Icons.unlock />
+                <Icons.unlock size="100%" />
               {/if}
             </div>
-            {$_('board.unlock')}
+            {$_("board.unlock")}
           </div>
         </Button>
       </div>
@@ -86,12 +81,6 @@
 <style>
   .box {
     width: 20em;
-  }
-
-  .eye-icon {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: -1px;
   }
 
   .unlock-icon {

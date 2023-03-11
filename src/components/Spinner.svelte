@@ -1,14 +1,14 @@
 <script>
-  import clsx from 'clsx';
+  import clsx from "clsx";
 
-  let className = '';
+  let className = "";
   export { className as class };
-  export let size = 'md';
-  export let color = 'primary';
+  export let size = "md";
+  export let color = "primary";
 
   $: classes = clsx(
     className,
-    'spinner-border',
+    "spinner-border",
     `spinner-border-${size}`,
     `text-${color}`
   );

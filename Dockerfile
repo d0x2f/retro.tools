@@ -9,6 +9,6 @@ STOPSIGNAL SIGQUIT
 WORKDIR /srv
 RUN apk --no-cache add gettext
 COPY --from=build /srv/container/ /srv/
-COPY --from=build /srv/public /usr/share/nginx/html
+COPY --from=build /srv/dist /usr/share/nginx/html
 ENTRYPOINT ["/srv/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]

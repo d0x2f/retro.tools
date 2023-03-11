@@ -4,26 +4,26 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from 'sveltestrap';
-  import { _, locale, locales, dictionary } from 'svelte-i18n';
-  import moment from 'moment';
+  } from "sveltestrap";
+  import { _, locale, locales, dictionary } from "svelte-i18n";
+  import moment from "moment";
 
-  export let size = '';
+  export let size = "";
 
   let localesOpen = false;
 
   function setLocale(l) {
     locale.set(l);
     moment.locale(l);
-    window.localStorage.setItem('locale', l);
+    window.localStorage.setItem("locale", l);
   }
 </script>
 
 <Dropdown bind:isOpen={localesOpen} toggle={() => (localesOpen = !localesOpen)}>
   <DropdownToggle caret data-name="locale-select-button" color="light" {size}>
     {#if $locale in $dictionary}
-      {$_('language.' + $locale)}
-    {:else}{$_('language.en')}{/if}
+      {$_("language." + $locale)}
+    {:else}{$_("language.en")}{/if}
   </DropdownToggle>
   <DropdownMenu right class="mw-0">
     {#each $locales.sort() as locale}
@@ -32,7 +32,7 @@
         toggle={true}
         on:click={() => setLocale(locale)}
       >
-        {$_('language.' + locale)}
+        {$_("language." + locale)}
       </DropdownItem>
     {/each}
   </DropdownMenu>

@@ -1,25 +1,25 @@
 <script>
-  import ClipboardJS from 'clipboard';
-  import { _ } from 'svelte-i18n';
-  import { fly } from 'svelte/transition';
+  import ClipboardJS from "clipboard";
+  import { _ } from "svelte-i18n";
+  import { fly } from "svelte/transition";
   import {
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from 'sveltestrap';
+  } from "sveltestrap";
 
-  import { Icons } from '../data.js';
-  import { board, sorted } from '../store.js';
-  import { getCSVUrl } from '../api.js';
+  import { Icons } from "../data.js";
+  import { board, sorted } from "../store.js";
+  import { getCSVUrl } from "../api.js";
 
-  import QRCode from './QRCode.svelte';
-  import ReadonlyCheckbox from './ReadonlyCheckbox.svelte';
+  import QRCode from "./QRCode.svelte";
+  import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
 
   let isOpen = false;
   let showQR = false;
 
-  new ClipboardJS('button');
+  new ClipboardJS("button");
 
   const preventDefault = (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@
 <Dropdown size="sm" bind:isOpen toggle={() => (isOpen = !isOpen)}>
   <DropdownToggle data-name="menu-button" color="primary">
     <div class="icon">
-      <Icons.menu />
+      <Icons.menu size="100%" />
     </div>
   </DropdownToggle>
   <DropdownMenu right>
@@ -41,7 +41,7 @@
       on:click={() => ($board.cards_open = !$board.cards_open)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.new_cards_allowed')}
+        label={$_("board.options.new_cards_allowed")}
         bind:checked={$board.cards_open}
         on:click={preventDefault}
       />
@@ -53,7 +53,7 @@
       on:click={() => ($board.voting_open = !$board.voting_open)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.voting_allowed')}
+        label={$_("board.options.voting_allowed")}
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
@@ -63,7 +63,7 @@
       on:click={() => ($sorted = !$sorted)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.sort_by_votes')}
+        label={$_("board.options.sort_by_votes")}
         bind:checked={$sorted}
       />
     </DropdownItem>
@@ -74,24 +74,24 @@
       on:click={() => (showQR = !showQR)}
     >
       <ReadonlyCheckbox
-        label={$_('board.options.show_qr_code')}
+        label={$_("board.options.show_qr_code")}
         bind:checked={showQR}
       />
     </DropdownItem>
     <DropdownItem data-name="download-csv-button" href={getCSVUrl($board)}>
       <div class="d-inline-block smaller-icon">
-        <Icons.download />
+        <Icons.download size="100%" />
       </div>
-      {$_('board.options.download_csv')}
+      {$_("board.options.download_csv")}
     </DropdownItem>
     <DropdownItem
       data-name="copy-link-button"
       data-clipboard-text="{location.origin}/{$board.id}"
     >
       <div class="d-inline-block smaller-icon">
-        <Icons.link />
+        <Icons.link size="100%" />
       </div>
-      {$_('board.options.copy_link')}
+      {$_("board.options.copy_link")}
     </DropdownItem>
     <DropdownItem divider />
     <DropdownItem
@@ -100,9 +100,9 @@
       href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
     >
       <div class="d-inline-block smaller-icon text-danger">
-        <Icons.heart />
+        <Icons.heart size="100%" />
       </div>
-      {$_('general.donate')}
+      {$_("general.donate")}
     </DropdownItem>
   </DropdownMenu>
 </Dropdown>

@@ -1,8 +1,8 @@
 <script>
-  import { _ } from 'svelte-i18n';
+  import { _ } from "svelte-i18n";
 
-  import { password, board } from '../store.js';
-  import { decrypt, checkBoardPassword } from '../encryption.js';
+  import { password, board } from "../store.js";
+  import { decrypt, checkBoardPassword } from "../encryption.js";
 
   export let text;
 </script>
@@ -14,10 +14,7 @@
     {#await checkBoardPassword($board, $password)}
       …
     {:then decrypted}
-      {#if !decrypted}{$_('general.encrypted')}{:else}{string}{/if}
+      {#if !decrypted}{$_("general.encrypted")}{:else}{string}{/if}
     {/await}
   {/await}
 {/if}
-
-<style>
-</style>

@@ -1,20 +1,20 @@
 <script>
-  import { onMount } from 'svelte';
-  import { fly } from 'svelte/transition';
-  import { _ } from 'svelte-i18n';
-  import { navigate } from 'svelte-routing';
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
+  import { _ } from "svelte-i18n";
+  import { navigate } from "svelte-routing";
 
-  import { getBoards } from './api.js';
-  import { Icons } from './data.js';
+  import { getBoards } from "./api.js";
+  import { Icons } from "./data.js";
 
-  import BoardTable from './components/BoardTable.svelte';
-  import LocaleSelect from './components/LocaleSelect.svelte';
-  import Alert from './components/Alert.svelte';
-  import CreateForm from './components/CreateForm.svelte';
-  import Button from './components/Button.svelte';
+  import BoardTable from "./components/BoardTable.svelte";
+  import LocaleSelect from "./components/LocaleSelect.svelte";
+  import Alert from "./components/Alert.svelte";
+  import CreateForm from "./components/CreateForm.svelte";
+  import Button from "./components/Button.svelte";
 
   export let errorAlertVisible = false;
-  export let errorAlertMessage = 'error.network';
+  export let errorAlertMessage = "error.network";
 
   let boards = [];
   let errorClearTimeout;
@@ -60,11 +60,12 @@
         <Button
           color="light"
           href="https://github.com/d0x2f/retrograde.js"
+          rel="noreferrer"
           target="_blank"
           class="mr-1"
         >
           <div class="icon">
-            <Icons.github />
+            <Icons.github size="100%" />
           </div>
           GitHub
         </Button>
@@ -72,12 +73,13 @@
           color="light"
           class="mr-1"
           href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
+          rel="noreferrer"
           target="_blank"
         >
           <div class="icon text-danger">
-            <Icons.heart />
+            <Icons.heart size="100%" />
           </div>
-          {$_('general.donate')}
+          {$_("general.donate")}
         </Button>
       </div>
       <LocaleSelect />
@@ -86,7 +88,7 @@
     <div class="d-flex justify-content-center">
       <div class="top-section">
         <h1 class="text-center mb-5 text-dark" style="margin-top: 100px;">
-          {$_('splash.hero_text')}
+          {$_("splash.hero_text")}
         </h1>
         <div class="d-flex flex-column justify-content-center">
           <CreateForm
@@ -109,7 +111,7 @@
       <div class="d-flex justify-content-around py-4 flex-wrap">
         <div class="card">
           <div class="card-top">
-            <Icons.anonymous />
+            <Icons.anonymous size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">Anonymous</h5>
@@ -121,6 +123,7 @@
               <a
                 class="text-white"
                 target="_blank"
+                rel="noreferrer"
                 href="https://github.com/d0x2f/retrograde.js"
               >
                 Our code
@@ -132,7 +135,7 @@
         </div>
         <div class="card">
           <div class="card-top">
-            <Icons.phone />
+            <Icons.phone size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">Simple, Clean & Intuitive</h5>
@@ -144,7 +147,7 @@
         </div>
         <div class="card">
           <div class="card-top">
-            <Icons.code />
+            <Icons.code size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">Free & Open Source</h5>
@@ -152,6 +155,7 @@
               Retro.tools is free to use and the source code is available on
               <a
                 class="text-white"
+                rel="noreferrer"
                 target="_blank"
                 href="https://github.com/d0x2f/retrograde.js"
               >
@@ -162,7 +166,7 @@
         </div>
         <div class="card">
           <div class="card-top">
-            <Icons.login />
+            <Icons.login size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">No Logins!</h5>
@@ -176,7 +180,7 @@
         </div>
         <div class="card">
           <div class="card-top">
-            <Icons.lock />
+            <Icons.lock size="100%" />
           </div>
           <div class="card-body">
             <h5 class="card-title">End to End Encryption</h5>

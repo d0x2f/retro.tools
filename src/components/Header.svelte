@@ -1,16 +1,16 @@
 <script>
-  import { navigate } from 'svelte-routing';
+  import { navigate } from "svelte-routing";
 
-  import LocaleSelect from './LocaleSelect.svelte';
-  import Textarea from './Textarea.svelte';
-  import EncryptedText from './EncryptedText.svelte';
-  import Menu from './Menu.svelte';
+  import LocaleSelect from "./LocaleSelect.svelte";
+  import Textarea from "./Textarea.svelte";
+  import EncryptedText from "./EncryptedText.svelte";
+  import Menu from "./Menu.svelte";
 
-  import { board, password } from '../store.js';
-  import { decrypt, encrypt, checkBoardPassword } from '../encryption.js';
+  import { board, password } from "../store.js";
+  import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
 
   let editMode = false;
-  let newBoardName = '';
+  let newBoardName = "";
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
@@ -34,7 +34,7 @@
     <h3
       data-name="home-link"
       class="text-primary text-uppercase font-weight-bold px-2 m-0 home-link"
-      on:click={() => navigate('/')}
+      on:click={() => navigate("/")}
     >
       retro.tools
     </h3>

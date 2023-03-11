@@ -1,18 +1,18 @@
 <script>
-  import clsx from 'clsx';
-  import { fade } from 'svelte/transition';
+  import clsx from "clsx";
+  import { fade } from "svelte/transition";
 
-  import { filterDataKeys } from '../utils.js';
+  import { filterDataKeys } from "../utils.js";
 
-  let className = '';
+  let className = "";
   export { className as class };
   export let isOpen = true;
-  export let color = 'success';
+  export let color = "success";
 
-  let classes = '';
-  let data = '';
+  let classes = "";
+  let data = "";
 
-  $: classes = clsx(className, 'alert', `alert-${color}`);
+  $: classes = clsx(className, "alert", `alert-${color}`);
   $: data = filterDataKeys($$restProps);
 </script>
 

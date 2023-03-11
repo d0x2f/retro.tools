@@ -1,17 +1,17 @@
 <script>
-  import clsx from 'clsx';
+  import clsx from "clsx";
 
-  let className = '';
+  let className = "";
   export { className as class };
   export let disabled = false;
   export let checked = false;
-  export let label = '';
+  export let label = "";
   export let addon = false;
-  export let id = 'id-' + Math.floor(Math.random() * 10000);
+  export let id = "id-" + Math.floor(Math.random() * 10000);
 
-  $: wrapperClasses = clsx(className, 'custom-checkbox', 'custom-control');
+  $: wrapperClasses = clsx(className, "custom-checkbox", "custom-control");
 
-  $: directClasses = clsx(className, { 'form-check-input': !addon });
+  $: directClasses = clsx(className, { "form-check-input": !addon });
 </script>
 
 {#if label}

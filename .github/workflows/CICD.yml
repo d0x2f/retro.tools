@@ -4,31 +4,31 @@ on:
   pull_request:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.x
-    - name: Install
-      run: npm install
-    - name: Lint
-      run: npm run lint
-    - name: Audit
-      run: npm audit --production
-    - name: Build
-      run: npm run build
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: build
-        path: build
+      - uses: actions/checkout@v1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Audit
+        run: npm audit --production
+      - name: Build
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
 
   cypress:
     runs-on: ubuntu-latest
@@ -38,13 +38,17 @@ jobs:
         browser:
           - chrome
           # - firefox
-        viewport: ["viewportWidth=375,viewportHeight=667", "viewportWidth=1280,viewportHeight=800"]
+        viewport:
+          [
+            "viewportWidth=375,viewportHeight=667",
+            "viewportWidth=1280,viewportHeight=800",
+          ]
     services:
       backend:
         image: gcr.io/retrotools-284402/retrograde:latest
         env:
           PORT: 8000
-          ALLOWED_ORIGIN: http://localhost:5000
+          ALLOWED_ORIGIN: http://localhost:4173
           RUST_LOG: info
           ENVIRONMENT: development
           FIRESTORE_PROJECT: retrotools-284402
@@ -52,19 +56,19 @@ jobs:
         ports:
           - 8000:8000
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 16.x
-    - uses: cypress-io/github-action@v2
-      with:
-        build: env BUILD_ENV=development npm run build
-        start: npm start
-        browser: ${{ matrix.browser }}
-        config: ${{ matrix.viewport }}
-    - name: Dump docker logs
-      if: always()
-      uses: jwalton/gh-docker-logs@v1
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm run preview
+          browser: ${{ matrix.browser }}
+          config: ${{ matrix.viewport }}
+      - name: Dump docker logs
+        if: always()
+        uses: jwalton/gh-docker-logs@v1
 
   cd:
     runs-on: ubuntu-latest
@@ -73,15 +77,15 @@ jobs:
       - cypress
     if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == 'refs/heads/master'"
     steps:
-    - uses: actions/checkout@v1
-    - name: Download Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build
-        path: build
-    - name: Deploy
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only hosting
-      env:
-        GCP_SA_KEY: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
+      - uses: actions/checkout@v1
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Deploy
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}

@@ -1,12 +1,12 @@
 <script>
-  import clsx from 'clsx';
+  import clsx from "clsx";
 
-  let className = '';
+  let className = "";
   export { className as class };
   export let disabled = false;
-  export let value = '';
+  export let value = "";
 
-  $: classes = clsx(className, 'custom-select');
+  $: classes = clsx(className, "custom-select");
 </script>
 
 <select class={classes} {disabled} bind:value>

@@ -1,23 +1,25 @@
 <script>
-  import { slide } from 'svelte/transition';
-  import { _ } from 'svelte-i18n';
+  import { slide } from "svelte/transition";
+  import { _ } from "svelte-i18n";
+  import { Button } from "sveltestrap";
 
-  import Table from './Table.svelte';
-  import BoardRow from './BoardRow.svelte';
+  import Table from "./Table.svelte";
+  import BoardRow from "./BoardRow.svelte";
 
   export let boards = [];
   let expanded = false;
 </script>
 
 {#if boards.length > 0}
-  <div
+  <Button
+    color="light"
     data-name="board-list-button"
-    class="ml-1 mt-2 small pointer text-dark"
+    class="mt-2 text-left"
     on:click={() => (expanded = !expanded)}
   >
     {#if expanded}▾{:else}▸{/if}
-    {$_('splash.your_boards')}
-  </div>
+    {$_("splash.your_boards")}
+  </Button>
   {#if expanded}
     <div in:slide out:slide data-name="board-table" class="text-dark">
       <Table hover class="w-100">
@@ -32,9 +34,3 @@
     </div>
   {/if}
 {/if}
-
-<style>
-  .pointer {
-    cursor: pointer;
-  }
-</style>

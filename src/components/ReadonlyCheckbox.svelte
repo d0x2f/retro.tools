@@ -1,14 +1,14 @@
 <script>
-  import clsx from 'clsx';
+  import clsx from "clsx";
 
-  import { Icons } from '../data.js';
+  import { Icons } from "../data.js";
 
-  let className = '';
+  let className = "";
   export { className as class };
   export let checked = false;
-  export let label = '';
+  export let label = "";
 
-  $: classes = clsx(className, { 'text-secondary': !checked });
+  $: classes = clsx(className, { "text-secondary": !checked });
 </script>
 
 <div class={classes} data-checked={checked}>
@@ -16,9 +16,9 @@
     class="d-inline-block icon {checked ? 'text-primary' : 'text-secondary'}"
   >
     {#if checked}
-      <Icons.check />
+      <Icons.check size="100%" />
     {:else}
-      <Icons.close />
+      <Icons.close size="100%" />
     {/if}
   </div>
   {label}
