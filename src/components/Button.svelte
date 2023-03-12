@@ -8,11 +8,11 @@
   export let disabled = false;
   export let value = "";
   export let color = "secondary";
-  export let href = false;
+  export let href = null;
   export let target = "_top";
 
   let classes = "";
-  let data = "";
+  let data = {};
 
   $: classes = clsx(className, "btn", `btn-${color}`);
   $: data = filterDataKeys($$restProps);

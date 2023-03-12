@@ -17,6 +17,10 @@ async function requestJson(input, init) {
   return (await fetch(input, init)).json();
 }
 
+export async function createAuthToken() {
+  return (await request(`${api_host}/auth`, common_options)).text();
+}
+
 export async function getBoard(boardId) {
   return requestJson(`${api_host}/boards/${boardId}`, common_options);
 }

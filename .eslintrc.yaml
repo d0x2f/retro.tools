@@ -5,8 +5,10 @@ env:
   es6: true
   browser: true
   cypress/globals: true
-plugins: ["prettier", "svelte3", "cypress"]
+plugins: ["svelte3", "prettier", "cypress"]
 extends: ["eslint:recommended"]
 overrides:
-  - files: ["**/*.svelte"]
+  - files: ["*.svelte"]
     processor: "svelte3/svelte3"
+rules:
+  prettier/prettier: "error"

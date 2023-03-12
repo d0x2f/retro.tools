@@ -46,3 +46,5 @@ export const sorted = writable(false);
 export const password = writable("");
 export const author = writable("");
 export const focusedRank = writable("");
+export const firebaseToken = writable("");
+export const uid = writable("");

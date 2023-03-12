@@ -16,6 +16,7 @@
   } from "./api.js";
   import { getRankDetails } from "./data.js";
   import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
+  import { subscribeToCards } from "./firestore.js";
 
   import PasswordWall from "./components/PasswordWall.svelte";
   import Rank from "./components/Rank.svelte";
@@ -29,7 +30,8 @@
   let tabButtonWidth = "";
   let hidden = false;
   let refreshIntervalId;
-  let unsubscribe;
+  let unsubscribePoll;
+  let unsubscribeCards;
   let errorAlertVisible = false;
   let errorAlertMessage = "Network error!";
   let errorClearTimeout;
@@ -176,6 +178,16 @@
     );
   }
 
+  // Triggered when a card was added or updated
+  function onCardUpdate(card) {
+    cards.replace(card.id, card);
+  }
+
+  // Triggered when a card is deleted
+  function onCardDelete(cardId) {
+    cards.remove(cardId);
+  }
+
   onMount(async () => {
     // Update on initial load
     await update();
@@ -184,12 +196,12 @@
     // Show first rank initially
     if ($ranks[0]) $focusedRank = $ranks[0].id;
 
-    // Subscribe to board changes so we can post updates.
+    // Subscribe to local changes to $board so we can post updates.
     // Compare updated boards to their last known value
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
     if ($board.owner)
-      unsubscribe = board.subscribe((b) => {
+      unsubscribePoll = board.subscribe((b) => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
@@ -198,9 +210,14 @@
         previousBoard = { ...b };
       });
 
-    // Create an interval timer to resync updates
-    refreshIntervalId && clearInterval(refreshIntervalId);
-    refreshIntervalId = setInterval(async () => await update(), 10000);
+    // Subscribe to card updates
+    unsubscribeCards = await subscribeToCards(
+      $board.id,
+      onCardUpdate,
+      onCardDelete
+    );
+
+    // TODO: Subscribe to board and columns
 
     // Keep track of page visibility so we can pause updates while hidden
     document.addEventListener("visibilitychange", () => {
@@ -210,7 +227,7 @@
   });
 
   onDestroy(() => {
-    unsubscribe && unsubscribe();
+    unsubscribeCards && unsubscribeCards();
     refreshIntervalId && clearInterval(refreshIntervalId);
   });
 </script>

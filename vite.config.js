@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,7 +9,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/boards": "http://localhost:8000"
-    }
-  }
-})
+      "/boards": "http://localhost:8000",
+      "/auth": "http://localhost:8000",
+    },
+  },
+});
