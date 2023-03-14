@@ -156,7 +156,14 @@
   }
 
   onMount(async () => {
-    board.set(await getBoard(boardId));
+    const b = await getBoard(boardId);
+
+    if (b.error == "Not Found") {
+      navigate("/not-found");
+      return;
+    }
+
+    board.set(b);
     ranks.set(await getRanks(boardId));
     await checkPassword();
 

@@ -1,4 +1,4 @@
-let api_host = import.meta.env.VITE_API_HOST;
+let api_host = window.origin;
 
 const common_options = {
   mode: "cors",

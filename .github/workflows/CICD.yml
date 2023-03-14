@@ -50,7 +50,7 @@ jobs:
           node-version: 16.x
       - uses: cypress-io/github-action@v5
         with:
-          build: npm run build
+          build: npm run build -- --mode=development
           start: npm run preview
           browser: ${{ matrix.browser }}
           config: ${{ matrix.viewport }}
