@@ -43,18 +43,6 @@ jobs:
             "viewportWidth=375,viewportHeight=667",
             "viewportWidth=1280,viewportHeight=800",
           ]
-    services:
-      backend:
-        image: gcr.io/retrotools-284402/retrograde:latest
-        env:
-          PORT: 8000
-          ALLOWED_ORIGIN: http://localhost:4173
-          RUST_LOG: info
-          ENVIRONMENT: development
-          FIRESTORE_PROJECT: retrotools-284402
-          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_ACCOUNT_CREDENTIALS }}
-        ports:
-          - 8000:8000
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -62,7 +50,7 @@ jobs:
           node-version: 16.x
       - uses: cypress-io/github-action@v5
         with:
-          build: npm run build
+          build: npm run build -- --mode=development
           start: npm run preview
           browser: ${{ matrix.browser }}
           config: ${{ matrix.viewport }}

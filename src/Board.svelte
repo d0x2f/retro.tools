@@ -7,15 +7,14 @@
   import { navigate } from "svelte-routing";
 
   import { board, ranks, cards, focusedRank, password } from "./store.js";
-  import {
-    updateBoard,
-    updateCard,
-    getCards,
-    getBoard,
-    getRanks,
-  } from "./api.js";
+  import { updateBoard, updateCard, getBoard, getRanks } from "./api.js";
   import { getRankDetails } from "./data.js";
   import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
+  import {
+    subscribeToBoard,
+    subscribeToCards,
+    subscribeToRanks,
+  } from "./firestore.js";
 
   import PasswordWall from "./components/PasswordWall.svelte";
   import Rank from "./components/Rank.svelte";
@@ -26,10 +25,12 @@
 
   export let boardId;
 
+  let unsubscribeLocalBoard,
+    unsubscribeBoard,
+    unsubscribeRanks,
+    unsubscribeCards;
+
   let tabButtonWidth = "";
-  let hidden = false;
-  let refreshIntervalId;
-  let unsubscribe;
   let errorAlertVisible = false;
   let errorAlertMessage = "Network error!";
   let errorClearTimeout;
@@ -134,28 +135,6 @@
     error(message, err);
   }
 
-  async function update() {
-    if (!hidden || $board.id === "none") {
-      try {
-        const [b, r, c] = await Promise.all([
-          getBoard(boardId),
-          getRanks(boardId),
-          getCards(boardId),
-        ]);
-        board.set(b);
-        ranks.set(r);
-        cards.set(c);
-        connectionLost = false;
-      } catch {
-        connectionLost = true;
-      }
-      if ($board.error == "Not Found") {
-        navigate("/not-found");
-        throw new Error("Board not found");
-      }
-    }
-  }
-
   async function checkPassword() {
     if (await isBoardEncrypted($board)) {
       passwordRequired = !(await checkBoardPassword($board, $password));
@@ -177,19 +156,26 @@
   }
 
   onMount(async () => {
-    // Update on initial load
-    await update();
+    const b = await getBoard(boardId);
+
+    if (b.error == "Not Found") {
+      navigate("/not-found");
+      return;
+    }
+
+    board.set(b);
+    ranks.set(await getRanks(boardId));
     await checkPassword();
 
     // Show first rank initially
     if ($ranks[0]) $focusedRank = $ranks[0].id;
 
-    // Subscribe to board changes so we can post updates.
+    // Subscribe to local changes to $board so we can post updates.
     // Compare updated boards to their last known value
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
-    if ($board.owner)
-      unsubscribe = board.subscribe((b) => {
+    if ($board.owner) {
+      unsubscribeLocalBoard = board.subscribe((b) => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
@@ -197,21 +183,43 @@
         }
         previousBoard = { ...b };
       });
+    }
 
-    // Create an interval timer to resync updates
-    refreshIntervalId && clearInterval(refreshIntervalId);
-    refreshIntervalId = setInterval(async () => await update(), 10000);
+    // If we're not the owner, subscribe to remote changes
+    if (!$board.owner) {
+      unsubscribeBoard = await subscribeToBoard(
+        boardId,
+        (b) => board.set(b),
+        () => {
+          navigate("/not-found");
+        }
+      );
+    }
 
-    // Keep track of page visibility so we can pause updates while hidden
-    document.addEventListener("visibilitychange", () => {
-      hidden = document["hidden"];
-    });
+    // Subscribe to card updates
+    unsubscribeCards = await subscribeToCards(
+      boardId,
+      (card) => cards.replace(card.id, card),
+      (card) => cards.replace(card.id, card),
+      (cardId) => cards.remove(cardId)
+    );
+
+    // Subscribe to card updates
+    unsubscribeRanks = await subscribeToRanks(
+      boardId,
+      (rank) => ranks.replace(rank.id, rank),
+      (rank) => ranks.replace(rank.id, rank),
+      (rankId) => ranks.remove(rankId)
+    );
+
     busy = false;
   });
 
   onDestroy(() => {
-    unsubscribe && unsubscribe();
-    refreshIntervalId && clearInterval(refreshIntervalId);
+    unsubscribeLocalBoard && unsubscribeLocalBoard();
+    unsubscribeBoard && unsubscribeBoard();
+    unsubscribeRanks && unsubscribeRanks();
+    unsubscribeCards && unsubscribeCards();
   });
 </script>
 

@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
-    "cypress": "^12.7.0",
+    "cypress": "^12.8.0",
     "eslint": "^8.4.1",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-prettier": "^4.0.0",
@@ -26,6 +26,8 @@
     "clsx": "^1.2.1",
     "crypto-js": "^4.1.1",
     "dragula": "^3.7.3",
+    "firebase": "^9.17.2",
+    "jose": "^4.13.1",
     "moment": "^2.29.4",
     "svelte-emoji": "^1.0.2",
     "svelte-feather-icons": "^4.0.0",

@@ -15,6 +15,13 @@
         }
       },
       {
+        "source": "/auth{,/**}",
+        "run": {
+          "serviceId": "retrotools",
+          "region": "us-east1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

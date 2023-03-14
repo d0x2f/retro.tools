@@ -1,26 +1,27 @@
 import { writable } from "svelte/store";
 
-function createCards() {
+function createSet() {
   const { subscribe, set, update } = writable([]);
 
   return {
     subscribe,
     set,
-    append: (card) =>
-      update((store) => {
-        store.push(card);
-        return store;
-      }),
     replace: (id, card) =>
       update((store) => {
         const index = store.findIndex((c) => c.id === id);
-        store[index] = card;
+        if (index !== -1) {
+          store[index] = card;
+        } else {
+          store.push(card);
+        }
         return store;
       }),
     remove: (id) =>
       update((store) => {
         const index = store.findIndex((c) => c.id === id);
-        store.splice(index, 1);
+        if (index !== -1) {
+          store.splice(index, 1);
+        }
         return store;
       }),
   };
@@ -40,9 +41,11 @@ export const board = writable({
   },
 });
 
-export const ranks = writable([]);
-export const cards = createCards();
+export const ranks = createSet();
+export const cards = createSet();
 export const sorted = writable(false);
 export const password = writable("");
 export const author = writable("");
 export const focusedRank = writable("");
+export const firebaseToken = writable("");
+export const uid = writable("");

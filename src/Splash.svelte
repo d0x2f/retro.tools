@@ -41,9 +41,7 @@
     error(message, err);
   }
 
-  onMount(async () => {
-    await doGetBoards();
-  });
+  onMount(doGetBoards);
 </script>
 
 <svelte:head>
