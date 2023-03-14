@@ -94,13 +94,11 @@
       if (card.voted) {
         let response = await undoAgree($board, card);
         if (response.ok) {
-          card.votes -= 1;
           card.voted = false;
         }
       } else {
         let response = await agree($board, card);
         if (response.ok) {
-          card.votes += 1;
           card.voted = true;
         }
       }
@@ -115,15 +113,8 @@
     const emoji = event.detail;
     reactDrawOpen = false;
     if (card.reacted === emoji) {
-      card.reactions[card.reacted] -= 1;
-      card.reacted = "";
       return undoReact($board, card);
     } else {
-      if (card.reacted !== "") {
-        card.reactions[card.reacted] -= 1;
-      }
-      card.reactions[emoji] = (card.reactions[emoji] ?? 0) + 1;
-      card.reacted = emoji;
       await react($board, card, emoji);
     }
   }
