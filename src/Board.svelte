@@ -7,16 +7,14 @@
   import { navigate } from "svelte-routing";
 
   import { board, ranks, cards, focusedRank, password } from "./store.js";
-  import {
-    updateBoard,
-    updateCard,
-    getCards,
-    getBoard,
-    getRanks,
-  } from "./api.js";
+  import { updateBoard, updateCard, getBoard, getRanks } from "./api.js";
   import { getRankDetails } from "./data.js";
   import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
-  import { subscribeToCards } from "./firestore.js";
+  import {
+    subscribeToBoard,
+    subscribeToCards,
+    subscribeToRanks,
+  } from "./firestore.js";
 
   import PasswordWall from "./components/PasswordWall.svelte";
   import Rank from "./components/Rank.svelte";
@@ -27,11 +25,12 @@
 
   export let boardId;
 
+  let unsubscribeLocalBoard,
+    unsubscribeBoard,
+    unsubscribeRanks,
+    unsubscribeCards;
+
   let tabButtonWidth = "";
-  let hidden = false;
-  let refreshIntervalId;
-  let unsubscribePoll;
-  let unsubscribeCards;
   let errorAlertVisible = false;
   let errorAlertMessage = "Network error!";
   let errorClearTimeout;
@@ -136,28 +135,6 @@
     error(message, err);
   }
 
-  async function update() {
-    if (!hidden || $board.id === "none") {
-      try {
-        const [b, r, c] = await Promise.all([
-          getBoard(boardId),
-          getRanks(boardId),
-          getCards(boardId),
-        ]);
-        board.set(b);
-        ranks.set(r);
-        cards.set(c);
-        connectionLost = false;
-      } catch {
-        connectionLost = true;
-      }
-      if ($board.error == "Not Found") {
-        navigate("/not-found");
-        throw new Error("Board not found");
-      }
-    }
-  }
-
   async function checkPassword() {
     if (await isBoardEncrypted($board)) {
       passwordRequired = !(await checkBoardPassword($board, $password));
@@ -178,19 +155,9 @@
     );
   }
 
-  // Triggered when a card was added or updated
-  function onCardUpdate(card) {
-    cards.replace(card.id, card);
-  }
-
-  // Triggered when a card is deleted
-  function onCardDelete(cardId) {
-    cards.remove(cardId);
-  }
-
   onMount(async () => {
-    // Update on initial load
-    await update();
+    board.set(await getBoard(boardId));
+    ranks.set(await getRanks(boardId));
     await checkPassword();
 
     // Show first rank initially
@@ -200,8 +167,8 @@
     // Compare updated boards to their last known value
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
-    if ($board.owner)
-      unsubscribePoll = board.subscribe((b) => {
+    if ($board.owner) {
+      unsubscribeLocalBoard = board.subscribe((b) => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
@@ -209,26 +176,43 @@
         }
         previousBoard = { ...b };
       });
+    }
+
+    // If we're not the owner, subscribe to remote changes
+    if (!$board.owner) {
+      unsubscribeBoard = await subscribeToBoard(
+        boardId,
+        (b) => board.set(b),
+        () => {
+          navigate("/not-found");
+        }
+      );
+    }
 
     // Subscribe to card updates
     unsubscribeCards = await subscribeToCards(
-      $board.id,
-      onCardUpdate,
-      onCardDelete
+      boardId,
+      (card) => cards.replace(card.id, card),
+      (card) => cards.replace(card.id, card),
+      (cardId) => cards.remove(cardId)
     );
 
-    // TODO: Subscribe to board and columns
+    // Subscribe to card updates
+    unsubscribeRanks = await subscribeToRanks(
+      boardId,
+      (rank) => ranks.replace(rank.id, rank),
+      (rank) => ranks.replace(rank.id, rank),
+      (rankId) => ranks.remove(rankId)
+    );
 
-    // Keep track of page visibility so we can pause updates while hidden
-    document.addEventListener("visibilitychange", () => {
-      hidden = document["hidden"];
-    });
     busy = false;
   });
 
   onDestroy(() => {
+    unsubscribeLocalBoard && unsubscribeLocalBoard();
+    unsubscribeBoard && unsubscribeBoard();
+    unsubscribeRanks && unsubscribeRanks();
     unsubscribeCards && unsubscribeCards();
-    refreshIntervalId && clearInterval(refreshIntervalId);
   });
 </script>
 

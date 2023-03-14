@@ -35,7 +35,7 @@
 
   $: {
     sortedFilteredCards = $cards
-      .filter((c) => c.column === rank.id && !c.uncommitted)
+      .filter((c) => c.column === rank.id)
       .sort((a, b) =>
         $sorted
           ? b.votes - a.votes || a.created_at - b.created_at
@@ -76,29 +76,14 @@
       return;
     }
 
-    const tempId = Math.floor(Math.random() * 10000);
     const encryptedCardText = await encrypt(newCardText, $password);
     const encryptedAuthor =
       $author.length > 0 ? await encrypt($author, $password) : "";
-    cards.append({
-      id: tempId,
-      name: "Card",
-      description: encryptedCardText,
-      author: encryptedAuthor,
-      column: rank.id,
-      uncommitted: true,
-      votes: 0,
-      created_at: Date.now() / 1000,
-    });
     try {
-      cards.replace(
-        tempId,
-        await createCard($board.id, rank.id, encryptedCardText, encryptedAuthor)
-      );
       newCardText = "";
+      await createCard($board.id, rank.id, encryptedCardText, encryptedAuthor);
     } catch (err) {
       error("error.creating_card", err);
-      cards.remove(tempId);
     }
   }
 

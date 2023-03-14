@@ -7,6 +7,20 @@ export default defineConfig({
   define: {
     global: "window", // hack for dragula
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("firebase")) {
+            return "firebase";
+          }
+          if (id.includes("crypto-js")) {
+            return "crypto-js";
+          }
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       "/boards": "http://localhost:8000",
