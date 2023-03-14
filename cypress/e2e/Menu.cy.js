@@ -82,12 +82,13 @@ context("Menu", () => {
     cy.get("[data-name=delete-button]:visible").click({ multiple: true });
     cy.get("[data-name=confirm-button]:visible").click({ multiple: true });
     cy.get("[data-name=card]").should("not.exist");
-  });
 
-  it("can toggle voting", () => {
     cy.get("[data-name=menu-button]").click();
     cy.get("[data-name=cards-open-button]").click();
     cy.get("[data-name=menu-button]").click();
+  });
+
+  it("can toggle voting", () => {
     cy.get("[data-name=rank]:visible")
       .first()
       .find("[data-name=card-text-input]")
