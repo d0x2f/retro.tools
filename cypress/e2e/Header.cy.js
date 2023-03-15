@@ -28,7 +28,6 @@ context("Header", () => {
     cy.get("[data-name=menu-button]").should("be.visible");
   });
 
-  // Title is only editable on viewports with width >= 992px
   it("allows updating the board title", () => {
     // wait for board contents to fully load
     cy.get("[data-name=rank]").should("be.visible");
