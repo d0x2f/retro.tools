@@ -9,6 +9,7 @@
 
   import Button from "./Button.svelte";
   import Spinner from "./Spinner.svelte";
+  import { colorMode } from "../store.js";
 
   export let board;
 
@@ -43,7 +44,8 @@
 
 <tr data-name="board-row" data-board-id={board.id}>
   <td
-    class="align-middle pointer border-top-0"
+    class="align-middle pointer border-top-0 color-mode-transition"
+    on:keypress={null}
     on:click={() => dispatch("click", board.id)}
   >
     {#if board.name}
@@ -58,12 +60,12 @@
       <i class="small">{$_("splash.no_name")}</i>
     {/if}
   </td>
-  <td class="text-right align-middle pointer border-top-0">
+  <td class="text-end align-middle pointer border-top-0 color-mode-transition">
     {#if showDeleteBoardConfirmBox}
       <Button
         data-name="delete-cancel-button"
         color="dark"
-        class="mr-1"
+        class="me-1"
         on:click={cancelDelete}
       >
         <Icons.close size="1x" />
@@ -83,13 +85,13 @@
       {#if board.owner}
         <Button
           data-name="delete-button"
-          color="light"
-          class="ml-2 text-danger"
+          color={$colorMode}
+          class="ms-2 text-danger"
           on:click={startDelete}
           disabled={busy}
         >
           {#if busy}
-            <Spinner size="sm" color="light" />
+            <Spinner size="sm" color={$colorMode} />
           {:else}
             <Icons.trash size="1x" />
           {/if}

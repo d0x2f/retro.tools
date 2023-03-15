@@ -14,8 +14,16 @@ body {
   transition: opacity 0s linear;
 }
 
+.color-mode-transition, .bg-light, .bg-dark, .text-dark, .text-light, input, textarea, select, .input-group-text {
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, .15s filter ease-in-out !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rt-fade {
+    transition: none;
+  }
+
+  .color-mode-transition, .bg-light, .bg-dark, .text-dark, .text-light, input, textarea, select, .input-group-text {
     transition: none;
   }
 }
@@ -68,3 +76,16 @@ body {
   min-width: 0px !important;
 }
 
+.bg-dark-accent {
+  background-color: #282c31 !important;
+  border: 0 !important;
+}
+
+.bg-light-accent {
+  background-color: #f3f4f5 !important;
+  border: 0 !important;
+}
+
+.big-text {
+  font-size: 1.5rem !important;
+}

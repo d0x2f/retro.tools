@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { Button, ButtonGroup } from "sveltestrap";
+  import { colorMode } from "../store";
 
   // rows as shown in the app
   export let emojis = [
@@ -20,8 +21,8 @@
     <ButtonGroup>
       {#each emojiRow as emoji}
         <Button
-          color={emoji === current ? "dark" : "light"}
-          on:click={dispatch("selected", emoji)}
+          color={emoji === current ? "secondary" : $colorMode}
+          on:click={() => dispatch("selected", emoji)}
         >
           {emoji}
         </Button>

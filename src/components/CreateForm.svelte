@@ -4,7 +4,7 @@
   import { slide } from "svelte/transition";
 
   import { Icons, BoardTemplates } from "../data.js";
-  import { password } from "../store.js";
+  import { colorMode, darkMode, password } from "../store.js";
   import { encrypt } from "../encryption.js";
   import { createRank, createBoard } from "../api.js";
 
@@ -24,14 +24,16 @@
   let optionsExpanded = false;
 
   async function createFromTemplate(template) {
-    let [boardNameEncrypted, encryptionTest] = await Promise.all([
-      encrypt(boardName, $password),
-      encrypt("encryptionTest", $password),
-    ]);
+    let [boardNameEncrypted, encryptionTest, iceBreakingQuestionEncrypted] =
+      await Promise.all([
+        encrypt(boardName, $password),
+        encrypt("encryptionTest", $password),
+        encrypt(iceBreakingQuestion, $password),
+      ]);
     let board = await createBoard(
       boardNameEncrypted,
       { encryptionTest },
-      iceBreakingQuestion
+      iceBreakingQuestionEncrypted
     );
     for (const rank of template.ranks) {
       await createRank(board.id, rank.name, rank.position, {
@@ -57,7 +59,7 @@
   }
 </script>
 
-<div data-name="create-form" class="text-dark">
+<div data-name="create-form">
   <div class="d-flex">
     <Input
       data-name="board-name-input"
@@ -66,8 +68,9 @@
     />
     <div class="flex-grow-0 flex-shrink-0">
       <Button
-        class="ml-2"
-        color="primary"
+        class="ms-2"
+        color={$darkMode ? "secondary" : "primary"}
+        textColor={$colorMode}
         on:click={newBoard}
         disabled={createBusy}
         data-name="create-button"
@@ -75,7 +78,7 @@
         <div class="d-flex">
           {#if createBusy}
             <div class="d-block icon">
-              <Spinner size="sm" color="light" />
+              <Spinner size="sm" color={$colorMode} />
             </div>
           {:else}{$_("splash.create")}{/if}
         </div>
@@ -83,9 +86,9 @@
     </div>
   </div>
   <Button
-    color="light"
+    color={$colorMode}
     data-name="more-settings-button"
-    class="text-left mt-2 w-100"
+    class="text-start mt-2 w-100"
     on:click={() => (optionsExpanded = !optionsExpanded)}
   >
     {#if optionsExpanded}▾{:else}▸{/if}
@@ -101,13 +104,11 @@
       </Select>
       <p class="my-1 small">{$_("general.encryption")}</p>
       <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <Checkbox
-              addon
-              on:input={(i) => (passwordDisabled = !i.target.checked)}
-            />
-          </div>
+        <div class="input-group-text">
+          <Checkbox
+            addon
+            on:input={(i) => (passwordDisabled = !i.target.checked)}
+          />
         </div>
         <Input
           type={showPassword ? "text" : "password"}
@@ -115,15 +116,13 @@
           bind:disabled={passwordDisabled}
           bind:value={$password}
         />
-        <div class="input-group-append">
-          <Button on:click={() => (showPassword = !showPassword)}>
-            {#if showPassword}
-              <Icons.eye />
-            {:else}
-              <Icons.eyeOff />
-            {/if}
-          </Button>
-        </div>
+        <Button on:click={() => (showPassword = !showPassword)}>
+          {#if showPassword}
+            <Icons.eye />
+          {:else}
+            <Icons.eyeOff />
+          {/if}
+        </Button>
       </div>
       <p class="my-1 small">{$_("splash.icebreaking")}</p>
       <Input

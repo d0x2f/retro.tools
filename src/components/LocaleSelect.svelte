@@ -7,6 +7,7 @@
   } from "sveltestrap";
   import { _, locale, locales, dictionary } from "svelte-i18n";
   import moment from "moment";
+  import { colorMode } from "../store";
 
   export let size = "";
 
@@ -20,7 +21,13 @@
 </script>
 
 <Dropdown bind:isOpen={localesOpen} toggle={() => (localesOpen = !localesOpen)}>
-  <DropdownToggle caret data-name="locale-select-button" color="light" {size}>
+  <DropdownToggle
+    caret
+    data-name="locale-select-button"
+    color={$colorMode}
+    class="text-body"
+    {size}
+  >
     {#if $locale in $dictionary}
       {$_("language." + $locale)}
     {:else}{$_("language.en")}{/if}

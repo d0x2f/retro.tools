@@ -7,6 +7,7 @@
     author,
     board,
     cards,
+    colorMode,
     focusedRank,
     password,
     ranks,
@@ -94,7 +95,7 @@
   });
 </script>
 
-<div data-name="rank" class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
+<div data-name="rank" class="rank flex-grow-0 flex-shrink-0 px-3 {columnWidth}">
   <div class="border-bottom d-flex py-2 mb-2 {rankDetails.classes.color}">
     <!-- icon -->
     <div class="d-flex flex-column justify-content-center flex-shrink-0">
@@ -125,9 +126,9 @@
         />
       {/if}
     </div>
-    <div class="d-lg-none ml-1">
+    <div class="d-lg-none ms-1">
       <Button
-        color="light"
+        color={$colorMode}
         disabled={newCardText.length == 0}
         on:click={newCard}
       >

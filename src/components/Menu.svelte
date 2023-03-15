@@ -10,7 +10,7 @@
   } from "sveltestrap";
 
   import { Icons } from "../data.js";
-  import { board, sorted } from "../store.js";
+  import { board, colorMode, darkMode, sorted } from "../store.js";
   import { getCSVUrl } from "../api.js";
 
   import QRCode from "./QRCode.svelte";
@@ -27,10 +27,10 @@
   };
 </script>
 
-<Dropdown size="sm" bind:isOpen toggle={() => (isOpen = !isOpen)}>
-  <DropdownToggle data-name="menu-button" color="primary">
-    <div class="icon">
-      <Icons.menu size="100%" />
+<Dropdown bind:isOpen toggle={() => (isOpen = !isOpen)}>
+  <DropdownToggle data-name="menu-button" color={$colorMode}>
+    <div class="icon" class:text-body={$darkMode} class:text-white={$darkMode}>
+      <Icons.menu class="align-top" size="100%" />
     </div>
   </DropdownToggle>
   <DropdownMenu right>
@@ -127,7 +127,6 @@
   .icon {
     width: 1.5em;
     height: 1.6em;
-    margin-top: -1px;
   }
 
   .smaller-icon {

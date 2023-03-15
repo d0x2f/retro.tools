@@ -29,11 +29,10 @@
     "firebase": "^9.17.2",
     "jose": "^4.13.1",
     "moment": "^2.29.4",
-    "svelte-emoji": "^1.0.2",
     "svelte-feather-icons": "^4.0.0",
     "svelte-i18n": "^3.6.0",
     "svelte-routing": "^1.6.0",
     "svelte-textarea-autoresize": "^1.0.0",
-    "sveltestrap": "^5.10.0"
+    "sveltestrap": "^5"
   }
 }

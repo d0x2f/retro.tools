@@ -1,13 +1,15 @@
 <script>
   import { navigate } from "svelte-routing";
+  import { Input } from "sveltestrap";
 
   import LocaleSelect from "./LocaleSelect.svelte";
-  import Textarea from "./Textarea.svelte";
   import EncryptedText from "./EncryptedText.svelte";
   import Menu from "./Menu.svelte";
 
-  import { board, password } from "../store.js";
+  import { board, colorMode, password, darkMode } from "../store.js";
   import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
+  import Button from "./Button.svelte";
+  import { Icons } from "../data";
 
   let editMode = false;
   let newBoardName = "";
@@ -29,11 +31,14 @@
   }
 </script>
 
-<div class="shadow-sm on-top bg-white">
+<div class="on-top">
   <div class="d-flex justify-content-between pt-1">
     <h3
       data-name="home-link"
-      class="text-primary text-uppercase font-weight-bold px-2 m-0 home-link"
+      class="text-uppercase fw-bold px-2 m-0 home-link"
+      class:text-primary={!$darkMode}
+      class:text-secondary={$darkMode}
+      on:keypress={null}
       on:click={() => navigate("/")}
     >
       retro.tools
@@ -41,39 +46,78 @@
 
     <div
       data-name="board-title"
-      class="text-center text-secondary d-none d-lg-block pt-1"
+      class="text-center d-none m-0 d-lg-block h3 w-50 text-body"
+      on:keypress={null}
       on:click={startEdit}
     >
       {#if editMode}
-        <Textarea
+        <Input
           data-name="board-title-edit-field"
           autofocus
           bind:value={newBoardName}
           on:submit={submitEdit}
           on:cancel={cancelEdit}
           on:blur={submitEdit}
-          class="p-0 text-center"
+          class="p-0 text-center big-text border-0"
         />
       {:else}
         <EncryptedText bind:text={$board.name} />
       {/if}
     </div>
-    <div class="d-flex mb-1 mr-1 justify-content-end">
-      <div class="mr-1">
-        <LocaleSelect size="sm" />
+    <div class="d-flex mb-1 me-1 justify-content-end">
+      <Button
+        id="darkLightToggle"
+        color={$colorMode}
+        on:click={() => {
+          $darkMode = !$darkMode;
+          window.localStorage.setItem("darkModePreference", $colorMode);
+        }}
+      >
+        <div class="icon">
+          {#if $darkMode}
+            <Icons.sunrise class="align-top" size="100%" />
+          {:else}
+            <Icons.sunset class="align-top" size="100%" />
+          {/if}
+        </div>
+      </Button>
+      <div class="me-1">
+        <LocaleSelect />
       </div>
       <Menu />
     </div>
   </div>
+  <hr class="my-1 d-lg-none" />
   <div
     data-name="board-title"
-    class="text-secondary d-lg-none px-3 text-center"
+    class="text-secondary d-lg-none px-3 text-center text-body"
+    on:keypress={null}
+    on:click={startEdit}
   >
-    <EncryptedText bind:text={$board.name} />
+    {#if editMode}
+      <Input
+        data-name="board-title-edit-field"
+        autofocus
+        bind:value={newBoardName}
+        on:submit={submitEdit}
+        on:cancel={cancelEdit}
+        on:blur={submitEdit}
+        class="p-0 text-center border-0"
+      />
+    {:else}
+      <EncryptedText bind:text={$board.name} />
+    {/if}
   </div>
+  <hr class="my-0" />
 </div>
 
 <style>
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+    filter: brightness(0.6);
+  }
+
   .on-top {
     z-index: 1040;
   }

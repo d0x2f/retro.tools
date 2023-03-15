@@ -6,7 +6,7 @@
   export let disabled = false;
   export let value = "";
 
-  $: classes = clsx(className, "custom-select");
+  $: classes = clsx(className, "form-select");
 </script>
 
 <select class={classes} {disabled} bind:value>

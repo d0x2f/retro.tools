@@ -82,10 +82,7 @@ export async function createCard(boardId, rankId, text, author) {
   });
 }
 
-export async function updateCard(board, card, currentRankId) {
-  if (!currentRankId) {
-    currentRankId = card.column;
-  }
+export async function updateCard(board, card) {
   return requestJson(`${api_host}/boards/${board.id}/cards/${card.id}`, {
     method: "PATCH",
     body: JSON.stringify(card),
