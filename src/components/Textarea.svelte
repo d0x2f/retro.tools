@@ -15,20 +15,9 @@
   export { className as class };
 
   const dispatch = createEventDispatcher();
-  let focused = true;
   let element;
   let classes;
-  let data = "";
-
-  function focus() {
-    focused = true;
-    dispatch("focus");
-  }
-
-  function blur() {
-    focused = false;
-    dispatch("blur");
-  }
+  let data = {};
 
   function keyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
@@ -70,8 +59,8 @@
   style="min-width: {minWidth}"
   bind:this={element}
   use:use
-  on:focus={focus}
-  on:blur={blur}
+  on:focus
+  on:blur
   on:keydown={keyDown}
   class={classes}
   bind:value

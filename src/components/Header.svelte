@@ -1,6 +1,5 @@
 <script>
   import { navigate } from "svelte-routing";
-  import { Input } from "sveltestrap";
 
   import LocaleSelect from "./LocaleSelect.svelte";
   import EncryptedText from "./EncryptedText.svelte";
@@ -10,6 +9,7 @@
   import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
   import Button from "./Button.svelte";
   import { Icons } from "../data";
+  import Input from "./Input.svelte";
 
   let editMode = false;
   let newBoardName = "";
