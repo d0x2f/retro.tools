@@ -51,7 +51,7 @@
 
 <div class="d-flex flex-column scroll h-100">
   <div class="px-2 pt-1 pb-5 bg-{$colorMode}">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
       <h3
         class="text-uppercase fw-bold p-0 m-0"
         class:text-primary={!$darkMode}

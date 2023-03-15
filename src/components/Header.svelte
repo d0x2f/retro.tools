@@ -87,7 +87,7 @@
       <Menu />
     </div>
   </div>
-  <hr class="my-1 d-lg-none" />
+  <hr class="my-0 d-lg-none" />
   <div
     data-name="board-title"
     class="text-secondary d-lg-none px-3 text-center text-body"
