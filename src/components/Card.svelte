@@ -1,11 +1,10 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import Emoji from "svelte-emoji";
   import { Popover } from "sveltestrap";
   import { _ } from "svelte-i18n";
 
-  import { board, cards, password } from "../store.js";
+  import { board, cards, colorMode, darkMode, password } from "../store.js";
   import {
     updateCard,
     deleteCard,
@@ -120,9 +119,11 @@
   }
 </script>
 
-<div data-name="card" class:busy={card.busy} class="w-90 shadow-sm card">
+<div data-name="card" class:busy={card.busy} class="card bg-{$colorMode}">
   <div class:blur={deleteMode} class="d-flex">
-    <div class="flex-grow-0 bg-light">
+    <div
+      class="flex-grow-0 bg-{$colorMode}-accent rounded-start color-mode-transition pt-2"
+    >
       <Votes
         on:toggleVote={toggleVote}
         bind:votes={card.votes}
@@ -130,7 +131,7 @@
         bind:color
       />
     </div>
-    <div class="p-1 w-100 flex-grow-1">
+    <div class="p-1 pt-0 w-100 flex-grow-1">
       {#if editMode}
         <Textarea
           data-name="card-edit-field"
@@ -143,15 +144,17 @@
         />
       {:else}
         <div data-name="card-body">
-          <div class="m-0 w-100 small">
-            <div class="d-flex">
+          <div class="m-0 w-100">
+            <div class="d-flex flex-wrap">
               <div class="flex-grow-1">
                 {#if card.author.length > 0}
-                  <div class="text-primary">
+                  <div class:text-primary={!$darkMode} class="fw-bold pb-1">
                     <EncryptedText bind:text={card.author} />
                   </div>
                 {:else}
-                  <div class="text-secondary">{$_("card.anonymous")}</div>
+                  <div class="text-secondary fw-bold">
+                    {$_("card.anonymous")}
+                  </div>
                 {/if}
               </div>
               <div
@@ -162,19 +165,22 @@
                   {#each Object.entries(card.reactions)
                     .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av) )
                     .filter(([, v]) => v > 0) as [emoji, count]}
-                    <div
-                      class="pl-1 text-nowrap {card.reacted === emoji
-                        ? 'text-primary'
-                        : ''}"
-                      in:slide
+                    <span
+                      class="badge m-1 color-mode-transition"
+                      class:text-body={$darkMode}
+                      class:text-bg-light={!$darkMode && card.reacted !== emoji}
+                      class:text-bg-primary={!$darkMode &&
+                        card.reacted === emoji}
+                      class:bg-dark-accent={$darkMode && card.reacted === emoji}
+                      class:text-bg-dark={$darkMode && card.reacted !== emoji}
+                      in:slide>{emoji}&nbsp;&nbsp;{count}</span
                     >
-                      {emoji}
-                      {count}
-                    </div>
                   {/each}
                 {:else}
-                  <div class="grayscale">
-                    <Emoji symbol="🙂" label="smile" />
+                  <div class="badge m-1">
+                    <span class="grayscale-{$colorMode} color-mode-transition"
+                      >🙂</span
+                    >
                   </div>
                 {/if}
               </div>
@@ -196,6 +202,7 @@
           <div
             data-name="card-content"
             class="p-1 w-100 pre-wrap"
+            on:keypress={null}
             on:click={startEdit}
           >
             <EncryptedText bind:text={card.text} />
@@ -203,16 +210,17 @@
         </div>
       {/if}
     </div>
-    <div class="p-1 bg-light">
+    <div class="p-1 bg-{$colorMode}-accent rounded-end color-mode-transition">
       {#if card.owner || $board.owner}
         <Button
           data-name="delete-button"
-          color="light"
-          class="btn-sm text-danger"
+          color={$colorMode}
+          textColor={!$darkMode ? "danger" : "body"}
+          class="bg-{$colorMode}-accent pt-3"
           on:click={startDelete}
         >
           <div class="icon" class:voted={card.voted}>
-            <Icons.trash size="100%" />
+            <Icons.trash class="align-top" size="100%" />
           </div>
         </Button>
       {/if}
@@ -220,10 +228,10 @@
   </div>
 
   {#if deleteMode}
-    <div class="position-absolute w-100 h-100 p-1 text-right">
+    <div class="position-absolute w-100 h-100 p-3 text-end">
       <Button
         data-name="cancel-button"
-        color="dark"
+        color="success"
         class="btn-sm"
         on:click={cancelDelete}
       >
@@ -268,7 +276,11 @@
     opacity: 0.2;
   }
 
-  .grayscale {
+  .grayscale-dark {
+    filter: grayscale(100%) brightness(0.5);
+  }
+
+  .grayscale-light {
     filter: grayscale(100%);
   }
 

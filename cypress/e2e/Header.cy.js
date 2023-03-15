@@ -28,23 +28,20 @@ context("Header", () => {
     cy.get("[data-name=menu-button]").should("be.visible");
   });
 
-  // Title is only editable on viewports with width >= 992px
-  if (Cypress.config("viewportWidth") >= 992) {
-    it("allows updating the board title", () => {
-      // wait for board contents to fully load
-      cy.get("[data-name=rank]:visible").should("have.length", 4);
-      cy.get("[data-name=board-title]:visible").click();
-      cy.get("[data-name=board-title-edit-field]")
-        .should("have.length", 1)
-        .should("have.value", "Test Board Name")
-        .clear()
-        .type("My New Board Title{enter}")
-        .should("not.exist");
-      cy.get("[data-name=board-title]:visible")
-        .should("have.length", 1)
-        .should("have.text", "My New Board Title");
-    });
-  }
+  it("allows updating the board title", () => {
+    // wait for board contents to fully load
+    cy.get("[data-name=rank]").should("be.visible");
+    cy.get("[data-name=board-title]:visible").click();
+    cy.get("[data-name=board-title-edit-field]:visible")
+      .should("have.length", 1)
+      .should("have.value", "Test Board Name")
+      .clear()
+      .type("My New Board Title{enter}")
+      .should("not.exist");
+    cy.get("[data-name=board-title]:visible")
+      .should("have.length", 1)
+      .should("have.text", "My New Board Title");
+  });
 
   it("navigates to the splash page when the title is clicked", () => {
     cy.get("[data-name=home-link]").click();

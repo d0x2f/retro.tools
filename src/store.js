@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 
 function createSet() {
   const { subscribe, set, update } = writable([]);
@@ -49,3 +49,13 @@ export const author = writable("");
 export const focusedRank = writable("");
 export const firebaseToken = writable("");
 export const uid = writable("");
+
+export const darkMode = writable(
+  window.localStorage.getItem("darkModePreference") !== null
+    ? window.localStorage.getItem("darkModePreference") === "dark"
+    : window.matchMedia("(prefers-color-scheme: dark)").matches
+);
+
+export const colorMode = derived(darkMode, ($darkMode) =>
+  $darkMode ? "dark" : "light"
+);

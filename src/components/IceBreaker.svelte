@@ -2,10 +2,11 @@
   import clsx from "clsx";
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
+  import { Input } from "sveltestrap";
+
   import { board, password } from "../store.js";
   import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
 
-  import Textarea from "./Textarea.svelte";
   import EncryptedText from "./EncryptedText.svelte";
 
   let showIceBreaking = false;
@@ -15,12 +16,6 @@
   let classes = "";
   let className = "";
   export { className as class };
-
-  async function checkIceBreak() {
-    newIceBreakingText = $board.ice_breaking || "";
-    showIceBreaking = newIceBreakingText !== "";
-    return showIceBreaking;
-  }
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
@@ -38,33 +33,36 @@
     iceBreakingEditMode = false;
   }
 
-  onMount(async () => {
-    checkIceBreak();
+  onMount(() => {
+    newIceBreakingText = $board.ice_breaking || "";
+    showIceBreaking = newIceBreakingText !== "";
   });
 
-  $: classes = clsx(className, "p-3", "mx-auto");
+  $: classes = clsx(
+    className,
+    "p-3",
+    "mx-auto",
+    "d-flex",
+    "justify-content-center"
+  );
 </script>
 
 {#if showIceBreaking}
-  <div class={classes}>
-    <div class="card text-center" on:click={startEdit}>
-      <div class="card-body">
-        <h5 class="card-title">{$_("splash.icebreaking")}</h5>
-        {#if iceBreakingEditMode}
-          <Textarea
-            autofocus
-            bind:value={newIceBreakingText}
-            on:submit={submitEdit}
-            on:cancel={cancelEdit}
-            on:blur={submitEdit}
-            class="p-0 text-center"
-          />
-        {:else}
-          <div data-name="ice-breaker-message">
-            <EncryptedText bind:text={$board.ice_breaking} />
-          </div>
-        {/if}
-      </div>
-    </div>
+  <div class={classes} on:click={startEdit} on:keypress={null}>
+    {#if iceBreakingEditMode}
+      <Input
+        autofocus
+        bind:value={newIceBreakingText}
+        on:submit={submitEdit}
+        on:cancel={cancelEdit}
+        on:blur={submitEdit}
+        class="p-0 text-center border-0"
+      />
+    {:else}
+      <span class="fw-bold text-nowrap me-1">{$_("splash.icebreaking")}:</span>
+      <span data-name="ice-breaker-message">
+        <EncryptedText bind:text={$board.ice_breaking} />
+      </span>
+    {/if}
   </div>
 {/if}

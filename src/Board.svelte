@@ -1,12 +1,18 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import { quintOut } from "svelte/easing";
-  import { crossfade, fade, fly } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import dragula from "dragula";
   import { _ } from "svelte-i18n";
   import { navigate } from "svelte-routing";
 
-  import { board, ranks, cards, focusedRank, password } from "./store.js";
+  import {
+    board,
+    ranks,
+    cards,
+    focusedRank,
+    password,
+    colorMode,
+  } from "./store.js";
   import { updateBoard, updateCard, getBoard, getRanks } from "./api.js";
   import { getRankDetails } from "./data.js";
   import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
@@ -30,7 +36,6 @@
     unsubscribeRanks,
     unsubscribeCards;
 
-  let tabButtonWidth = "";
   let errorAlertVisible = false;
   let errorAlertMessage = "Network error!";
   let errorClearTimeout;
@@ -73,7 +78,7 @@
     card.busy = true;
     $cards = $cards; // Trigger a redraw so the card picks up that it's busy
     try {
-      cards.replace(card.id, await updateCard($board, card, originalRankId));
+      cards.replace(card.id, await updateCard($board, card));
     } catch (err) {
       error("error.updating_card", err);
       card.column = originalRankId; // Send the card back
@@ -83,44 +88,8 @@
   });
 
   $: {
-    switch ($ranks.length) {
-      case 1:
-        tabButtonWidth = "col-12";
-        break;
-      case 2:
-        tabButtonWidth = "col-6";
-        break;
-      case 3:
-        tabButtonWidth = "col-4";
-        break;
-      case 4:
-      default:
-        tabButtonWidth = "col-3";
-        break;
-    }
-  }
-
-  $: {
     sortedRanks = $ranks.sort((a, b) => (a.position < b.position ? -1 : 1));
   }
-
-  const [cardSend, cardReceive] = crossfade({
-    duration: (d) => Math.sqrt(d * 200),
-
-    fallback(node) {
-      const style = getComputedStyle(node);
-      const transform = style.transform === "none" ? "" : style.transform;
-
-      return {
-        duration: 600,
-        easing: quintOut,
-        css: (t) => `
-          transform: ${transform} scale(${t});
-          opacity: ${t}
-        `,
-      };
-    },
-  });
 
   function error(message, err) {
     if (err) console.error(err);
@@ -227,7 +196,7 @@
   <meta property="og:url" content="https://retro.tools/{boardId}" />
 </svelte:head>
 
-<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-light">
+<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-{$colorMode}">
   <Header />
 
   {#if busy}
@@ -255,19 +224,15 @@
     >
       <IceBreaker class="w-50" />
       <div
-        class="d-none d-lg-flex justify-content-center py-3 overflow-hidden
+        class="d-none d-lg-flex justify-content-center overflow-hidden
         min-vh-90"
       >
         {#each sortedRanks as rank, i (rank.id)}
-          <Rank
-            bind:rank
-            bind:drake
-            on:error={handleError}
-            send={cardSend}
-            receive={cardReceive}
-          />
+          <Rank bind:rank bind:drake on:error={handleError} />
           {#if i !== sortedRanks.length - 1}
-            <div class="spacer my-5 flex-grow-0 flex-shrink-0" />
+            <div
+              class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0 color-mode-transition"
+            />
           {/if}
         {:else}
           <p class="text-center text-secondary">There are no columns!</p>
@@ -320,30 +285,30 @@
           </Alert>
         </div>
       {/if}
-      <div class="d-flex border-top w-100">
+      <div class="d-flex border-top w-100 justify-content-around">
         {#each sortedRanks as rank (rank.id)}
-          <div class="flex-grow-1 {tabButtonWidth} px-0">
-            <input
-              readonly={undefined}
-              type="radio"
-              id={rank.id}
-              bind:group={$focusedRank}
-              value={rank.id}
-            />
-            <label
-              for={rank.id}
-              class="px-0 border-top text-uppercase {$focusedRank == rank.id
-                ? getRankDetails(rank).classes.selected
-                : getRankDetails(rank).classes.deselected + ' border-light'}
+          <input
+            readonly={undefined}
+            type="radio"
+            id={rank.id}
+            bind:group={$focusedRank}
+            value={rank.id}
+          />
+          <label
+            for={rank.id}
+            class="px-0 border-top text-uppercase {$focusedRank == rank.id
+              ? getRankDetails(rank).classes.selected
+              : getRankDetails(rank).classes.deselected +
+                ' border-' +
+                $colorMode}
               col"
-            >
-              <div class="icon d-inline-block">
-                <svelte:component this={getRankDetails(rank).icon} />
-              </div>
-              <br />
-              {$_(rank.name)}
-            </label>
-          </div>
+          >
+            <div class="icon d-inline-block">
+              <svelte:component this={getRankDetails(rank).icon} />
+            </div>
+            <br />
+            {$_(rank.name)}
+          </label>
         {/each}
       </div>
     </div>
@@ -388,8 +353,12 @@
     overflow: auto;
   }
 
-  .spacer {
+  .spacer-light {
     border-right: 0.1em solid #e6e6e6;
+  }
+
+  .spacer-dark {
+    border-right: 0.1em solid #495057;
   }
 
   .add-button {

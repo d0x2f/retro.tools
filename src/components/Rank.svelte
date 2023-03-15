@@ -7,6 +7,7 @@
     author,
     board,
     cards,
+    colorMode,
     focusedRank,
     password,
     ranks,
@@ -21,8 +22,6 @@
   import Button from "./Button.svelte";
 
   export let rank;
-  export let send = null;
-  export let receive = null;
   export let drake = null;
 
   let dropTarget;
@@ -94,7 +93,7 @@
   });
 </script>
 
-<div data-name="rank" class="rank flex-grow-0 flex-shrink-0 {columnWidth}">
+<div data-name="rank" class="rank flex-grow-0 flex-shrink-0 px-3 {columnWidth}">
   <div class="border-bottom d-flex py-2 mb-2 {rankDetails.classes.color}">
     <!-- icon -->
     <div class="d-flex flex-column justify-content-center flex-shrink-0">
@@ -125,9 +124,9 @@
         />
       {/if}
     </div>
-    <div class="d-lg-none ml-1">
+    <div class="d-lg-none ms-1">
       <Button
-        color="light"
+        color={$colorMode}
         disabled={newCardText.length == 0}
         on:click={newCard}
       >
@@ -139,26 +138,22 @@
   </div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
     {#if $cards}
-      {#if send}
-        {#each sortedFilteredCards as card (card.id)}
-          <div
-            data-card-id={card.id}
-            in:receive={{ key: card.id }}
-            out:send={{ key: card.id }}
-            animate:flip={{ duration: 200 }}
-            class="py-1"
-            data-drag={!(card.owner || $board.owner) ? "false" : "true"}
-          >
-            <Card {card} on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {:else}
-        {#each sortedFilteredCards as card (card.id)}
-          <div animate:flip={{ duration: 200 }} class="py-2">
-            <Card bind:card on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {/if}
+      {#each sortedFilteredCards as card (card.id)}
+        <div
+          data-card-id={card.id}
+          animate:flip={{ duration: 200 }}
+          class="py-1"
+          data-drag={!(card.owner || $board.owner) ? "false" : "true"}
+        >
+          <Card {card} on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
+    {:else}
+      {#each sortedFilteredCards as card (card.id)}
+        <div animate:flip={{ duration: 200 }} class="py-2">
+          <Card bind:card on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div

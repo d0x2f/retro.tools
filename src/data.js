@@ -33,6 +33,8 @@ import {
   SmartphoneIcon,
   CodeIcon,
   LogInIcon,
+  SunsetIcon,
+  SunriseIcon,
 } from "svelte-feather-icons";
 
 export const Colors = {
@@ -98,6 +100,8 @@ export const Icons = {
   phone: SmartphoneIcon,
   code: CodeIcon,
   login: LogInIcon,
+  sunrise: SunriseIcon,
+  sunset: SunsetIcon,
 };
 
 export const BoardTemplates = {

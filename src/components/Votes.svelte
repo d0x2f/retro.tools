@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import clsx from "clsx";
 
-  import { board } from "../store.js";
+  import { board, colorMode } from "../store.js";
   import { Icons } from "../data.js";
 
   import Button from "./Button.svelte";
@@ -19,20 +19,20 @@
     <div class="d-flex flex-column justify-content-center">
       <Button
         data-name="vote-button"
-        color="light"
-        class="text-capitalize flex-grow-0 flex-shrink-0 btn-sm mr-1"
+        color={$colorMode}
+        class="flex-grow-0 flex-shrink-0 p-1 bg-{$colorMode}-accent"
         on:click={() => dispatch("toggleVote")}
       >
         <div class="icon {color}" class:unvoted={!voted}>
-          <Icons.arrowUp size="100%" />
+          <Icons.arrowUp class="align-top" size="100%" />
         </div>
       </Button>
     </div>
   {/if}
   <span
     data-name="vote-count"
-    class={clsx("votes font-weight-bold h3 mb-0 mt-0", color, {
-      "mr-1": $board.voting_open,
+    class={clsx("votes font-weight-bold h3 mb-0 mt-0 text-center", color, {
+      "me-1": $board.voting_open,
       "px-2": !$board.voting_open,
     })}
   >
@@ -43,6 +43,7 @@
 <style>
   .votes {
     text-align: right;
+    min-width: 25px;
   }
 
   .icon {

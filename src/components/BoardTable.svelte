@@ -1,10 +1,12 @@
 <script>
   import { slide } from "svelte/transition";
   import { _ } from "svelte-i18n";
-  import { Button } from "sveltestrap";
+
+  import { colorMode } from "../store";
 
   import Table from "./Table.svelte";
   import BoardRow from "./BoardRow.svelte";
+  import Button from "./Button.svelte";
 
   export let boards = [];
   let expanded = false;
@@ -12,9 +14,9 @@
 
 {#if boards.length > 0}
   <Button
-    color="light"
+    color={$colorMode}
     data-name="board-list-button"
-    class="mt-2 text-left"
+    class="mt-2 text-start"
     on:click={() => (expanded = !expanded)}
   >
     {#if expanded}▾{:else}▸{/if}

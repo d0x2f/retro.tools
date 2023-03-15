@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
-  import { board, password } from "../store.js";
+  import { board, colorMode, darkMode, password } from "../store.js";
   import { checkBoardPassword } from "../encryption.js";
   import { Icons } from "../data.js";
 
@@ -36,7 +36,9 @@
 <div class="d-flex justify-content-center w-100 h-100">
   <div class="d-flex flex-column justify-content-center">
     <div bind:this={inputBox} class="box h-50 animate__animated">
-      <p class="text-primary mb-1">{$_("general.password")}</p>
+      <p class="mb-1" class:text-primary={!$darkMode}>
+        {$_("general.password")}
+      </p>
       <div class="input-group">
         <Input
           readonly={undefined}
@@ -45,27 +47,25 @@
           id="password"
           bind:value={inputPassword}
         />
-        <div class="input-group-append">
-          <Button on:click={() => (showPassword = !showPassword)}>
-            {#if showPassword}
-              <Icons.eye />
-            {:else}
-              <Icons.eyeOff />
-            {/if}
-          </Button>
-        </div>
+        <Button on:click={() => (showPassword = !showPassword)}>
+          {#if showPassword}
+            <Icons.eye />
+          {:else}
+            <Icons.eyeOff />
+          {/if}
+        </Button>
       </div>
-      <div class="text-right">
+      <div class="text-end">
         <Button
           class="mt-1"
-          color="primary"
+          color={$darkMode ? "dark" : "primary"}
           on:click={checkPassword}
           disabled={checkBusy}
         >
           <div class="d-flex">
             <div class="d-block unlock-icon">
               {#if checkBusy}
-                <Spinner size="sm" color="light" />
+                <Spinner size="sm" color={$colorMode} />
               {:else}
                 <Icons.unlock size="100%" />
               {/if}
