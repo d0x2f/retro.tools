@@ -145,7 +145,7 @@
       {:else}
         <div data-name="card-body">
           <div class="m-0 w-100">
-            <div class="d-flex">
+            <div class="d-flex flex-wrap">
               <div class="flex-grow-1">
                 {#if card.author.length > 0}
                   <div class:text-primary={!$darkMode} class="fw-bold pb-1">

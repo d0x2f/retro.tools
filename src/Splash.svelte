@@ -59,7 +59,7 @@
       >
         retro.tools
       </h3>
-      <div class="text-end flex-grow-1 text-nowrapv d-flex justify-content-end">
+      <div class="text-end flex-grow-1 text-nowrap d-flex justify-content-end">
         <Button
           id="darkLightToggle"
           color={$colorMode}
