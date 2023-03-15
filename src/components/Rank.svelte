@@ -22,8 +22,6 @@
   import Button from "./Button.svelte";
 
   export let rank;
-  export let send = null;
-  export let receive = null;
   export let drake = null;
 
   let dropTarget;
@@ -140,26 +138,22 @@
   </div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
     {#if $cards}
-      {#if send}
-        {#each sortedFilteredCards as card (card.id)}
-          <div
-            data-card-id={card.id}
-            in:receive={{ key: card.id }}
-            out:send={{ key: card.id }}
-            animate:flip={{ duration: 200 }}
-            class="py-1"
-            data-drag={!(card.owner || $board.owner) ? "false" : "true"}
-          >
-            <Card {card} on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {:else}
-        {#each sortedFilteredCards as card (card.id)}
-          <div animate:flip={{ duration: 200 }} class="py-2">
-            <Card bind:card on:error color={rankDetails.classes.color} />
-          </div>
-        {/each}
-      {/if}
+      {#each sortedFilteredCards as card (card.id)}
+        <div
+          data-card-id={card.id}
+          animate:flip={{ duration: 200 }}
+          class="py-1"
+          data-drag={!(card.owner || $board.owner) ? "false" : "true"}
+        >
+          <Card {card} on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
+    {:else}
+      {#each sortedFilteredCards as card (card.id)}
+        <div animate:flip={{ duration: 200 }} class="py-2">
+          <Card bind:card on:error color={rankDetails.classes.color} />
+        </div>
+      {/each}
     {/if}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div

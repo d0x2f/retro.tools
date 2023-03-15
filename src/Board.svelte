@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import { quintOut } from "svelte/easing";
-  import { crossfade, fade, fly } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import dragula from "dragula";
   import { _ } from "svelte-i18n";
   import { navigate } from "svelte-routing";
@@ -77,7 +76,7 @@
     el.parentNode.removeChild(el);
     card.column = rankId;
     card.busy = true;
-    // $cards = $cards; // Trigger a redraw so the card picks up that it's busy
+    $cards = $cards; // Trigger a redraw so the card picks up that it's busy
     try {
       cards.replace(card.id, await updateCard($board, card));
     } catch (err) {
@@ -91,24 +90,6 @@
   $: {
     sortedRanks = $ranks.sort((a, b) => (a.position < b.position ? -1 : 1));
   }
-
-  const [cardSend, cardReceive] = crossfade({
-    duration: (d) => Math.sqrt(d * 200),
-
-    fallback(node) {
-      const style = getComputedStyle(node);
-      const transform = style.transform === "none" ? "" : style.transform;
-
-      return {
-        duration: 600,
-        easing: quintOut,
-        css: (t) => `
-          transform: ${transform} scale(${t});
-          opacity: ${t}
-        `,
-      };
-    },
-  });
 
   function error(message, err) {
     if (err) console.error(err);
@@ -247,13 +228,7 @@
         min-vh-90"
       >
         {#each sortedRanks as rank, i (rank.id)}
-          <Rank
-            bind:rank
-            bind:drake
-            on:error={handleError}
-            send={cardSend}
-            receive={cardReceive}
-          />
+          <Rank bind:rank bind:drake on:error={handleError} />
           {#if i !== sortedRanks.length - 1}
             <div
               class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0 color-mode-transition"
