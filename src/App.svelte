@@ -21,7 +21,6 @@
       const systemPreference = e.matches;
       const appPreference = window.localStorage.getItem("darkModePreference");
 
-      console.log({ systemPreference, appPreference });
       // Update color theme if the user hasn't set an app preference
       if (appPreference) {
         $darkMode = appPreference === "dark";
