@@ -112,9 +112,8 @@ function normaliseCard(document) {
     reactions,
     reacted,
     created_at: new Date(
-      // Bit of a hack, there doesn't seem to be
-      // a proper way to get the creation time
-      document._document.createTime.timestamp.seconds * 1000
+      data?.created_at?.seconds ?? // Added 16 Mar 2023
+        document._document.createTime.timestamp.seconds * 1000 // Bit of a hack
     ),
   };
 }

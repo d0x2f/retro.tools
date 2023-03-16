@@ -285,7 +285,7 @@
           </Alert>
         </div>
       {/if}
-      <div class="d-flex border-top w-100 justify-content-around">
+      <div class="d-flex w-100 justify-content-around">
         {#each sortedRanks as rank (rank.id)}
           <input
             readonly={undefined}
@@ -296,12 +296,9 @@
           />
           <label
             for={rank.id}
-            class="px-0 border-top text-uppercase {$focusedRank == rank.id
-              ? getRankDetails(rank).classes.selected
-              : getRankDetails(rank).classes.deselected +
-                ' border-' +
-                $colorMode}
-              col"
+            class="px-0 m-0 border-top text-uppercase color-mode-transition {$focusedRank == rank.id
+              ? getRankDetails(rank).classes.selected + ' border-2'
+              : getRankDetails(rank).classes.deselected}"
           >
             <div class="icon d-inline-block">
               <svelte:component this={getRankDetails(rank).icon} />

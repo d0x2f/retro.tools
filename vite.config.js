@@ -23,8 +23,13 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // Cloud
       "/boards": "https://retrotools-dev-7kiihsiuqq-nw.a.run.app",
       "/auth": "https://retrotools-dev-7kiihsiuqq-nw.a.run.app",
+
+      // Local
+      // "/boards": "http://localhost:8000",
+      // "/auth": "http://localhost:8000",
     },
   },
 });
