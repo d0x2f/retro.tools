@@ -296,7 +296,8 @@
           />
           <label
             for={rank.id}
-            class="px-0 m-0 border-top text-uppercase color-mode-transition {$focusedRank == rank.id
+            class="px-0 m-0 border-top text-uppercase color-mode-transition {$focusedRank ==
+            rank.id
               ? getRankDetails(rank).classes.selected + ' border-2'
               : getRankDetails(rank).classes.deselected}"
           >
