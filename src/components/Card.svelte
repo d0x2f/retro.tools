@@ -121,9 +121,7 @@
 
 <div data-name="card" class:busy={card.busy} class="card bg-{$colorMode}">
   <div class:blur={deleteMode} class="d-flex">
-    <div
-      class="flex-grow-0 bg-{$colorMode}-accent rounded-start pt-2"
-    >
+    <div class="flex-grow-0 bg-{$colorMode}-accent rounded-start pt-2">
       <Votes
         on:toggleVote={toggleVote}
         bind:votes={card.votes}
@@ -178,9 +176,7 @@
                   {/each}
                 {:else}
                   <div class="badge m-1">
-                    <span class="grayscale-{$colorMode}"
-                      >🙂</span
-                    >
+                    <span class="grayscale-{$colorMode}">🙂</span>
                   </div>
                 {/if}
               </div>

@@ -230,9 +230,7 @@
         {#each sortedRanks as rank, i (rank.id)}
           <Rank bind:rank bind:drake on:error={handleError} />
           {#if i !== sortedRanks.length - 1}
-            <div
-              class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0"
-            />
+            <div class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0" />
           {/if}
         {:else}
           <p class="text-center text-secondary">There are no columns!</p>
@@ -296,8 +294,7 @@
           />
           <label
             for={rank.id}
-            class="px-0 m-0 border-top text-uppercase {$focusedRank ==
-            rank.id
+            class="px-0 m-0 border-top text-uppercase {$focusedRank == rank.id
               ? getRankDetails(rank).classes.selected + ' border-2'
               : getRankDetails(rank).classes.deselected}"
           >
