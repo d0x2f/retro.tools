@@ -64,7 +64,9 @@
     <Input
       data-name="board-name-input"
       placeholder={$_("splash.board_name_example")}
+      class="h-100"
       bind:value={boardName}
+      on:submit={newBoard}
     />
     <div class="flex-grow-0 flex-shrink-0">
       <Button

@@ -44,7 +44,7 @@
 
 <tr data-name="board-row" data-board-id={board.id}>
   <td
-    class="align-middle pointer border-top-0 color-mode-transition"
+    class="align-middle pointer border-top-0"
     on:keypress={null}
     on:click={() => dispatch("click", board.id)}
   >
@@ -60,11 +60,12 @@
       <i class="small">{$_("splash.no_name")}</i>
     {/if}
   </td>
-  <td class="text-end align-middle pointer border-top-0 color-mode-transition">
+  <td class="text-end align-middle pointer border-top-0">
     {#if showDeleteBoardConfirmBox}
       <Button
         data-name="delete-cancel-button"
-        color="dark"
+        color="secondary"
+        textColor="light"
         class="me-1"
         on:click={cancelDelete}
       >
@@ -74,6 +75,7 @@
       <Button
         data-name="delete-confirm-button"
         color="danger"
+        textColor="light"
         on:click={submitDelete}
       >
         <Icons.check size="1x" />

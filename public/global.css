@@ -3,6 +3,10 @@ body {
   height: 100vh;
 }
 
+* {
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, .15s filter ease-in-out !important;
+}
+
 .router-view {
   height: 100vh;
   display: flex;
@@ -14,16 +18,8 @@ body {
   transition: opacity 0s linear;
 }
 
-.color-mode-transition, .bg-light, .bg-dark, .text-dark, .text-light, input, textarea, select, .input-group-text {
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, .15s filter ease-in-out !important;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .rt-fade {
-    transition: none;
-  }
-
-  .color-mode-transition, .bg-light, .bg-dark, .text-dark, .text-light, input, textarea, select, .input-group-text {
+  * {
     transition: none;
   }
 }

@@ -122,7 +122,7 @@
 <div data-name="card" class:busy={card.busy} class="card bg-{$colorMode}">
   <div class:blur={deleteMode} class="d-flex">
     <div
-      class="flex-grow-0 bg-{$colorMode}-accent rounded-start color-mode-transition pt-2"
+      class="flex-grow-0 bg-{$colorMode}-accent rounded-start pt-2"
     >
       <Votes
         on:toggleVote={toggleVote}
@@ -166,7 +166,7 @@
                     .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av) )
                     .filter(([, v]) => v > 0) as [emoji, count]}
                     <span
-                      class="badge m-1 color-mode-transition"
+                      class="badge m-1"
                       class:text-body={$darkMode}
                       class:text-bg-light={!$darkMode && card.reacted !== emoji}
                       class:text-bg-primary={!$darkMode &&
@@ -178,7 +178,7 @@
                   {/each}
                 {:else}
                   <div class="badge m-1">
-                    <span class="grayscale-{$colorMode} color-mode-transition"
+                    <span class="grayscale-{$colorMode}"
                       >🙂</span
                     >
                   </div>
@@ -210,7 +210,7 @@
         </div>
       {/if}
     </div>
-    <div class="p-1 bg-{$colorMode}-accent rounded-end color-mode-transition">
+    <div class="p-1 bg-{$colorMode}-accent rounded-end">
       {#if card.owner || $board.owner}
         <Button
           data-name="delete-button"
@@ -231,23 +231,25 @@
     <div class="position-absolute w-100 h-100 p-3 text-end">
       <Button
         data-name="cancel-button"
-        color="success"
+        color="secondary"
+        textColor="light"
         class="btn-sm"
         on:click={cancelDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.close size="100%" />
+          <Icons.close size="1x" />
         </div>
       </Button>
 
       <Button
         data-name="confirm-button"
         color="danger"
+        textColor="light"
         class="btn-sm"
         on:click={submitDelete}
       >
         <div class="icon" class:voted={card.voted}>
-          <Icons.check size="100%" />
+          <Icons.check size="1x" />
         </div>
       </Button>
     </div>
