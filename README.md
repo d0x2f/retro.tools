@@ -25,3 +25,5 @@ The backend projects live at:
 * Brazilian Portugese, English, German, Korean, Russian, and Spanish translations (contributions very welcome!)
 
 # Contributing
+
+See the contribution guide at [CONTRIBUTING.md](./CONTRIBUTING.md).
