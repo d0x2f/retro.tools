@@ -8,7 +8,9 @@ A free and open source online retrospective meeting tool.
 
 Hosted at [retro.tools](https://retro.tools), free for anyone to use.
 
-The backend project lives at: [d0x2f/retrograde.rs](https://github.com/d0x2f/retrograde.rs).
+The backend projects live at:
+- [d0x2f/retro.tools-backend](https://github.com/d0x2f/retro.tools-backend).
+- [d0x2f/retro.tools-cloud-functions](https://github.com/d0x2f/retro.tools-cloud-functions).
 
 <h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">Features</h1>
 
