@@ -1,9 +1,7 @@
 <h1 style="color:#007bff;font-weight:700;text-transform:uppercase;">RETRO.TOOLS</h1>
 
-<img width="1000" src="">
-
-![Fancy logo](./resources/screenshot-dark.png#gh-dark-mode-only)
-![Fancy logo](./resources/screenshot-light.png#gh-light-mode-only)
+![Screenshot](./resources/screenshot-dark.png#gh-dark-mode-only)
+![Screenshot](./resources/screenshot-light.png#gh-light-mode-only)
 
 # Brief
 
