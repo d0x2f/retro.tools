@@ -78,7 +78,7 @@
         </Button>
         <Button
           color={$colorMode}
-          href="https://github.com/d0x2f/retrograde.js"
+          href="https://github.com/d0x2f/retro.tools"
           rel="noreferrer"
           target="_blank"
           class="me-1"
@@ -147,7 +147,7 @@
                 class="text-{$colorMode}"
                 target="_blank"
                 rel="noreferrer"
-                href="https://github.com/d0x2f/retrograde.js"
+                href="https://github.com/d0x2f/retro.tools"
               >
                 Our code
               </a>
@@ -180,7 +180,7 @@
                 class="text-{$colorMode}"
                 rel="noreferrer"
                 target="_blank"
-                href="https://github.com/d0x2f/retrograde.js"
+                href="https://github.com/d0x2f/retro.tools"
               >
                 GitHub.
               </a>
