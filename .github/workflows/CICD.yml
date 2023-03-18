@@ -53,7 +53,7 @@ jobs:
           build: npm run build -- --mode=development
           start: npm run preview
           browser: ${{ matrix.browser }}
-          config: ${{ matrix.viewport }},baseUrl=http://127.0.0.1:4173
+          config: ${{ matrix.viewport }},baseUrl=http://localhost:4173
       - name: Dump docker logs
         if: always()
         uses: jwalton/gh-docker-logs@v1
