@@ -50,7 +50,7 @@
 </svelte:head>
 
 <div class="d-flex flex-column scroll h-100">
-  <div class="px-2 pt-1 pb-5 bg-{$colorMode}">
+  <div class="px-2 pt-1 pb-5">
     <div class="d-flex justify-content-between align-items-center flex-wrap">
       <h3
         class="text-uppercase fw-bold p-0 m-0"
@@ -63,6 +63,8 @@
         <Button
           id="darkLightToggle"
           color={$colorMode}
+          textColor="body"
+          class="me-1"
           on:click={() => {
             $darkMode = !$darkMode;
             window.localStorage.setItem("darkModePreference", $colorMode);
@@ -78,6 +80,7 @@
         </Button>
         <Button
           color={$colorMode}
+          textColor="body"
           href="https://github.com/d0x2f/retro.tools"
           rel="noreferrer"
           target="_blank"
@@ -90,6 +93,7 @@
         </Button>
         <Button
           color={$colorMode}
+          textColor="body"
           class="me-1"
           href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
           rel="noreferrer"
@@ -124,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="bg-{$colorMode} flex-grow-1 mid-section" />
+  <div class="flex-grow-1 mid-section" />
   <div
     class="d-flex justify-content-center py-5 text-{$colorMode}"
     class:bg-primary={!$darkMode}

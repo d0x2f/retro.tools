@@ -21,17 +21,23 @@
     dispatch("error", { message, err });
   }
 
-  function startDelete() {
+  function startDelete(e) {
     showDeleteBoardConfirmBox = true;
+    e.preventDefault();
+    e.stopPropagation();
   }
 
-  function cancelDelete() {
+  function cancelDelete(e) {
     showDeleteBoardConfirmBox = false;
+    e.preventDefault();
+    e.stopPropagation();
   }
 
-  async function submitDelete() {
+  async function submitDelete(e) {
     busy = true;
     showDeleteBoardConfirmBox = false;
+    e.preventDefault();
+    e.stopPropagation();
     try {
       await deleteBoard(board.id);
       dispatch("deleted");
@@ -42,12 +48,13 @@
   }
 </script>
 
-<tr data-name="board-row" data-board-id={board.id}>
-  <td
-    class="align-middle pointer border-top-0"
-    on:keypress={null}
-    on:click={() => dispatch("click", board.id)}
-  >
+<tr
+  data-name="board-row"
+  data-board-id={board.id}
+  on:keypress={null}
+  on:click={() => dispatch("click", board.id)}
+>
+  <td class="pointer border-top-0">
     {#if board.name}
       {#await isBoardEncrypted(board)}
         …
@@ -60,7 +67,7 @@
       <i class="small">{$_("splash.no_name")}</i>
     {/if}
   </td>
-  <td class="text-end align-middle pointer border-top-0">
+  <td class="text-end pointer border-top-0">
     {#if showDeleteBoardConfirmBox}
       <Button
         data-name="delete-cancel-button"

@@ -10,21 +10,54 @@
   } from "sveltestrap";
 
   import { Icons } from "../data.js";
-  import { board, colorMode, darkMode, sorted } from "../store.js";
-  import { getCSVUrl } from "../api.js";
+  import { board, colorMode, darkMode, ranks, sorted } from "../store.js";
+  import { createRank, getCSVUrl } from "../api.js";
 
   import QRCode from "./QRCode.svelte";
   import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
+  import { createEventDispatcher } from "svelte";
+  import { navigate } from "svelte-routing";
 
   let isOpen = false;
   let showQR = false;
 
   new ClipboardJS("button");
 
+  const dispatch = createEventDispatcher();
+
   const preventDefault = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
+
+  function error(message, err) {
+    dispatch("error", { message, err });
+  }
+
+  async function addRank() {
+    try {
+      await createRank(
+        $board.id,
+        "general.untitled",
+        Math.max(...$ranks.map((r) => r.position)) + 1,
+        {
+          color: "plain",
+          icon: "plus",
+        }
+      );
+    } catch (err) {
+      error("error.network", err);
+    }
+  }
+
+  // async function doDeleteBoard() {
+  //   try {
+  //     await deleteBoard($board.id);
+  //     navigate("/");
+  //   } catch (err) {
+  //     error("error.board_delete", err);
+  //   }
+  // }
 </script>
 
 <Dropdown bind:isOpen toggle={() => (isOpen = !isOpen)}>
@@ -34,6 +67,19 @@
     </div>
   </DropdownToggle>
   <DropdownMenu right>
+    {#if $board.owner}
+      <DropdownItem
+        data-name="add-column-button"
+        on:click={addRank}
+        disabled={$ranks.length >= 6}
+      >
+        <div class="d-inline-block icon position-relative" style="top: 4px">
+          <Icons.plus class="align-top" size="1x" />
+        </div>
+        {$_("board.options.new_column")}
+      </DropdownItem>
+      <DropdownItem divider />
+    {/if}
     <DropdownItem
       data-name="cards-open-button"
       toggle={false}
@@ -57,6 +103,7 @@
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
+    <DropdownItem divider />
     <DropdownItem
       data-name="sort-button"
       toggle={false}
@@ -78,9 +125,10 @@
         bind:checked={showQR}
       />
     </DropdownItem>
+    <DropdownItem divider />
     <DropdownItem data-name="download-csv-button" href={getCSVUrl($board)}>
-      <div class="d-inline-block smaller-icon">
-        <Icons.download size="100%" />
+      <div class="d-inline-block icon position-relative" style="top: 2px">
+        <Icons.download class="align-top" size="1x" />
       </div>
       {$_("board.options.download_csv")}
     </DropdownItem>
@@ -88,8 +136,8 @@
       data-name="copy-link-button"
       data-clipboard-text="{location.origin}/{$board.id}"
     >
-      <div class="d-inline-block smaller-icon">
-        <Icons.link size="100%" />
+      <div class="d-inline-block icon position-relative" style="top: 3px">
+        <Icons.link size="1x" class="align-top" />
       </div>
       {$_("board.options.copy_link")}
     </DropdownItem>
@@ -99,11 +147,26 @@
       target="_blank"
       href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
     >
-      <div class="d-inline-block smaller-icon text-danger">
-        <Icons.heart size="100%" />
+      <div
+        class="d-inline-block icon text-danger position-relative"
+        style="top: -2px"
+      >
+        <Icons.heart size="1x" />
       </div>
       {$_("general.donate")}
     </DropdownItem>
+    <!-- {#if $board.owner}
+      <DropdownItem divider />
+      <DropdownItem data-name="delete=baord-button" on:click={doDeleteBoard}>
+        <div
+          class="d-inline-block icon text-danger position-relative"
+          style="top: -3px"
+        >
+          <Icons.delete size="1x" />
+        </div>
+        {$_("board.delete")}
+      </DropdownItem>
+    {/if} -->
   </DropdownMenu>
 </Dropdown>
 
@@ -127,12 +190,6 @@
   .icon {
     width: 1.5em;
     height: 1.6em;
-  }
-
-  .smaller-icon {
-    width: 1.25em;
-    height: 1.25em;
-    margin-top: -4px;
   }
 
   .qrcode {

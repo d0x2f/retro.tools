@@ -8,10 +8,16 @@
   import { _, locale, locales, dictionary } from "svelte-i18n";
   import moment from "moment";
   import { colorMode } from "../store";
+  import clsx from "clsx";
 
   export let size = "";
 
+  let className = "";
+  export { className as class };
+
   let localesOpen = false;
+
+  $: classes = clsx(className);
 
   function setLocale(l) {
     locale.set(l);
@@ -20,12 +26,16 @@
   }
 </script>
 
-<Dropdown bind:isOpen={localesOpen} toggle={() => (localesOpen = !localesOpen)}>
+<Dropdown
+  bind:isOpen={localesOpen}
+  toggle={() => (localesOpen = !localesOpen)}
+  class={classes}
+>
   <DropdownToggle
     caret
     data-name="locale-select-button"
     color={$colorMode}
-    class="text-body"
+    class="text-body h-100"
     {size}
   >
     {#if $locale in $dictionary}

@@ -82,9 +82,13 @@ function normaliseBoard(document) {
 
 function normaliseRank(document) {
   const data = document.data();
+  let dataField = {};
+  try {
+    dataField = JSON.parse(data.data);
+  } catch {}
   return {
     ...data,
-    data: JSON.parse(data.data),
+    data: dataField,
     id: document.id,
   };
 }

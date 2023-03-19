@@ -41,7 +41,6 @@
       </p>
       <div class="input-group">
         <Input
-          readonly={undefined}
           type={showPassword ? "text" : "password"}
           name="password"
           id="password"

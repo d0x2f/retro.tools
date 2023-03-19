@@ -13,23 +13,23 @@
     react,
     undoReact,
   } from "../api.js";
-  import { Icons } from "../data.js";
   import { decrypt, encrypt } from "../encryption.js";
   import { clickOutside } from "../utils.js";
 
   import Textarea from "./Textarea.svelte";
   import Votes from "./Votes.svelte";
   import EncryptedText from "./EncryptedText.svelte";
-  import Button from "./Button.svelte";
   import ReactDrawer from "./ReactDrawer.svelte";
+  import Button from "./Button.svelte";
+  import { Icons } from "../data.js";
 
   export let card;
-  export let color = "text-primary";
+  export let color;
 
   let editMode = false;
-  let deleteMode = false;
   let reactDrawOpen = false;
   let newCardText = "";
+  let deleteConfirmMode = false;
 
   const cardSlug = (Math.random() + 1).toString(36).substring(7);
 
@@ -58,23 +58,14 @@
       busy: true,
     };
     try {
-      cards.replace(card.id, await updateCard($board, newCard, card.column));
+      cards.replace(card.id, await updateCard($board, newCard));
       editMode = false;
     } catch (err) {
       error("error.updating_card", err);
     }
   }
 
-  function startDelete() {
-    deleteMode = true;
-  }
-
-  function cancelDelete() {
-    deleteMode = false;
-  }
-
-  async function submitDelete() {
-    deleteMode = false;
+  async function doDelete() {
     card.busy = true;
     try {
       await deleteCard($board, card);
@@ -120,8 +111,8 @@
 </script>
 
 <div data-name="card" class:busy={card.busy} class="card bg-{$colorMode}">
-  <div class:blur={deleteMode} class="d-flex">
-    <div class="flex-grow-0 bg-{$colorMode}-accent rounded-start pt-2">
+  <div class="d-flex" class:blur={deleteConfirmMode}>
+    <div class="p-1 pt-votes flex-grow-0 bg-{$colorMode}-accent rounded-start">
       <Votes
         on:toggleVote={toggleVote}
         bind:votes={card.votes}
@@ -181,7 +172,6 @@
                 {/if}
               </div>
               <Popover
-                placement="auto"
                 target={`react-drawer-button-${cardSlug}`}
                 bind:isOpen={reactDrawOpen}
               >
@@ -206,33 +196,32 @@
         </div>
       {/if}
     </div>
-    <div class="p-1 bg-{$colorMode}-accent rounded-end">
+    <div class="p-1 pt-3 bg-{$colorMode}-accent rounded-end">
       {#if card.owner || $board.owner}
         <Button
           data-name="delete-button"
-          color={$colorMode}
           textColor={!$darkMode ? "danger" : "body"}
-          class="bg-{$colorMode}-accent pt-3"
-          on:click={startDelete}
+          class="bg-{$colorMode}-accent"
+          on:click={() => (deleteConfirmMode = true)}
         >
-          <div class="icon" class:voted={card.voted}>
-            <Icons.trash class="align-top" size="100%" />
+          <div class="icon">
+            <Icons.trash class="align-top" size="1.4x" />
           </div>
         </Button>
       {/if}
     </div>
   </div>
 
-  {#if deleteMode}
+  {#if deleteConfirmMode}
     <div class="position-absolute w-100 h-100 p-3 text-end">
       <Button
         data-name="cancel-button"
         color="secondary"
         textColor="light"
         class="btn-sm"
-        on:click={cancelDelete}
+        on:click={() => (deleteConfirmMode = false)}
       >
-        <div class="icon" class:voted={card.voted}>
+        <div class="icon">
           <Icons.close size="1x" />
         </div>
       </Button>
@@ -242,9 +231,9 @@
         color="danger"
         textColor="light"
         class="btn-sm"
-        on:click={submitDelete}
+        on:click={doDelete}
       >
-        <div class="icon" class:voted={card.voted}>
+        <div class="icon">
           <Icons.check size="1x" />
         </div>
       </Button>
@@ -253,6 +242,10 @@
 </div>
 
 <style>
+  .pt-votes {
+    padding-top: 0.85rem !important;
+  }
+
   .busy {
     opacity: 0.66;
   }

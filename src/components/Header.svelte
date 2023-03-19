@@ -68,6 +68,7 @@
       <Button
         id="darkLightToggle"
         color={$colorMode}
+        class="me-1"
         on:click={() => {
           $darkMode = !$darkMode;
           window.localStorage.setItem("darkModePreference", $colorMode);
@@ -81,16 +82,14 @@
           {/if}
         </div>
       </Button>
-      <div class="me-1">
-        <LocaleSelect />
-      </div>
-      <Menu />
+      <LocaleSelect class="me-1 h-100" />
+      <Menu on:error />
     </div>
   </div>
   <hr class="my-0 d-lg-none" />
   <div
     data-name="board-title"
-    class="text-secondary d-lg-none px-3 text-center text-body"
+    class="text-secondary d-lg-none h3 p-1 text-center text-body"
     on:keypress={null}
     on:click={startEdit}
   >

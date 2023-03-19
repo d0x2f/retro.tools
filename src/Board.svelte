@@ -12,9 +12,10 @@
     focusedRank,
     password,
     colorMode,
+    colors,
   } from "./store.js";
   import { updateBoard, updateCard, getBoard, getRanks } from "./api.js";
-  import { getRankDetails } from "./data.js";
+  import { Icons } from "./data.js";
   import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
   import {
     subscribeToBoard,
@@ -88,7 +89,7 @@
   });
 
   $: {
-    sortedRanks = $ranks.sort((a, b) => (a.position < b.position ? -1 : 1));
+    sortedRanks = $ranks.sort((a, b) => a.position - b.position);
   }
 
   function error(message, err) {
@@ -178,7 +179,12 @@
       boardId,
       (rank) => ranks.replace(rank.id, rank),
       (rank) => ranks.replace(rank.id, rank),
-      (rankId) => ranks.remove(rankId)
+      (rankId) => {
+        ranks.remove(rankId);
+        if ($focusedRank == rankId) {
+          $focusedRank = $ranks[0]?.id;
+        }
+      }
     );
 
     busy = false;
@@ -285,8 +291,8 @@
       {/if}
       <div class="d-flex w-100 justify-content-around">
         {#each sortedRanks as rank (rank.id)}
+          {@const color = $colors[rank.data.color]}
           <input
-            readonly={undefined}
             type="radio"
             id={rank.id}
             bind:group={$focusedRank}
@@ -294,12 +300,15 @@
           />
           <label
             for={rank.id}
-            class="px-0 m-0 border-top text-uppercase {$focusedRank == rank.id
-              ? getRankDetails(rank).classes.selected + ' border-2'
-              : getRankDetails(rank).classes.deselected}"
+            class="px-0 m-0 border-top text-uppercase"
+            class:border-2={$focusedRank == rank.id}
+            style="
+            border-color: {color}
+            !important; color: {color}
+            "
           >
             <div class="icon d-inline-block">
-              <svelte:component this={getRankDetails(rank).icon} />
+              <svelte:component this={Icons[rank.data.icon]} />
             </div>
             <br />
             {$_(rank.name)}
