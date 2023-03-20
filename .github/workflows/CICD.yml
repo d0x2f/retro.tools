@@ -57,6 +57,11 @@ jobs:
       - name: Dump docker logs
         if: always()
         uses: jwalton/gh-docker-logs@v1
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: cypress/videos
 
   cd:
     runs-on: ubuntu-latest
