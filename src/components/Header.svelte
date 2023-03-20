@@ -32,17 +32,19 @@
 </script>
 
 <div class="on-top">
-  <div class="d-flex justify-content-between pt-1">
-    <h3
-      data-name="home-link"
-      class="text-uppercase fw-bold px-2 m-0 home-link"
-      class:text-primary={!$darkMode}
-      class:text-secondary={$darkMode}
-      on:keypress={null}
-      on:click={() => navigate("/")}
-    >
-      retro.tools
-    </h3>
+  <div class="d-flex justify-content-between flex-wrap">
+    <div class="d-flex flex-column justify-content-center">
+      <h3
+        data-name="home-link"
+        class="text-uppercase fw-bold ps-2 m-0 home-link"
+        class:text-primary={!$darkMode}
+        class:text-secondary={$darkMode}
+        on:keypress={null}
+        on:click={() => navigate("/")}
+      >
+        retro.tools
+      </h3>
+    </div>
 
     <div
       data-name="board-title"
@@ -64,7 +66,7 @@
         <EncryptedText bind:text={$board.name} />
       {/if}
     </div>
-    <div class="d-flex mb-1 me-1 justify-content-end">
+    <div class="d-flex flex-grow-1 mb-1 me-1 justify-content-end">
       <Button
         id="darkLightToggle"
         color={$colorMode}
@@ -89,7 +91,7 @@
   <hr class="my-0 d-lg-none" />
   <div
     data-name="board-title"
-    class="text-secondary d-lg-none h3 p-1 text-center text-body"
+    class="text-secondary d-lg-none h3 pt-1 text-center text-body"
     on:keypress={null}
     on:click={startEdit}
   >
