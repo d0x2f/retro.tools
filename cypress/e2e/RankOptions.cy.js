@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context("Columns", () => {
+context("RankOptions", () => {
   before(() => {
     cy.login();
     cy.visit("/");
@@ -30,19 +30,19 @@ context("Columns", () => {
 
     cy.get("[data-name=rank]:visible")
       .first()
-      .find("[data-name=rank-options]")
+      .find("[data-name=rank-options]:visible")
       .should("exist");
 
     cy.get("[data-name=rank]:visible")
       .first()
-      .find("[data-name=card-text-input]")
+      .find("[data-name=card-text-input]:visible")
       .invoke("attr", "placeholder")
       .should("eq", "Drop");
 
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
       "patchColumn"
     );
-    cy.get("[data-name=rank-options] input")
+    cy.get("[data-name=rank-options] input:visible")
       .first()
       .clear()
       .type("New Title{enter}");

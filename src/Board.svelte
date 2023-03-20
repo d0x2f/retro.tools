@@ -291,7 +291,7 @@
           </Alert>
         </div>
       {/if}
-      <div class="d-flex w-100 justify-content-around">
+      <div class="d-flex w-100 justify-content-around" data-name="rank-tabs">
         {#each sortedRanks as rank (rank.id)}
           {@const color = $colors[rank.data.color]}
           <input
