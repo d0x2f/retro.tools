@@ -85,3 +85,7 @@ body {
 .big-text {
   font-size: 1.5rem !important;
 }
+
+[data-bs-theme="light"] {
+  --bs-body-bg: #f8f9fa !important;
+}

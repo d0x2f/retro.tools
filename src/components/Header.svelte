@@ -109,7 +109,7 @@
       <EncryptedText bind:text={$board.name} />
     {/if}
   </div>
-  <hr class="my-0" />
+  <hr class="my-0 mx-2" />
 </div>
 
 <style>

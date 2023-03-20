@@ -202,7 +202,7 @@
   <meta property="og:url" content="https://retro.tools/{boardId}" />
 </svelte:head>
 
-<div class="d-flex h-100 flex-column fixed-top fixed-bottom bg-{$colorMode}">
+<div class="d-flex h-100 flex-column fixed-top fixed-bottom">
   <Header />
 
   {#if busy}
