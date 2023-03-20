@@ -35,7 +35,7 @@
   }
 </script>
 
-<div class={classes}>
+<div class={classes} data-name="rank-options">
   <Input
     type="text"
     bind:value={rankName}
@@ -46,7 +46,7 @@
       doUpdate();
     }}
   />
-  <ButtonGroup class="w-100 m-1">
+  <ButtonGroup class="w-100 m-1" data-name="rank-options-colors">
     {#each Object.entries($colors) as [name, color]}
       <SSButton
         style="background-color: {color};"
@@ -62,7 +62,10 @@
     {/each}
   </ButtonGroup>
   {#each ColumnIcons as row}
-    <div class="w-100 mx-1 d-flex justify-content-around w-100 my-1">
+    <div
+      class="w-100 mx-1 d-flex justify-content-around w-100 my-1"
+      data-name="rank-options-icons"
+    >
       {#each row as name}
         <div
           on:keypress={null}

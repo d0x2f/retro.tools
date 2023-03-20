@@ -43,7 +43,7 @@ import {
 
 export const Colors = {
   light: {
-    red: "#ff0000",
+    red: "#dc3545",
     green: "#329F5B",
     blue: "#0197F6",
     yellow: "#E3B23C",

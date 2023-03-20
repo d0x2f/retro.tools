@@ -122,7 +122,10 @@
   class="rank flex-grow-0 flex-shrink-0 px-3 {columnWidth}"
   class:busy={rank.busy}
 >
-  <div style="position: relative; display: flex; flex-direction: column;">
+  <div
+    style="position: relative; display: flex; flex-direction: column;"
+    data-name="rank-header"
+  >
     <div
       class="d-flex pt-2 mb-2"
       style="color: {$colors[rank.data.color]}"
@@ -131,9 +134,10 @@
       <div class="d-flex flex-column justify-content-center flex-shrink-0">
         <div
           class="icon px-2"
+          role="button"
+          data-name="rank-options-button"
           on:keypress={null}
           on:click={toggleOptions}
-          role="button"
         >
           <svelte:component this={Icons[rank.data.icon]} />
         </div>
