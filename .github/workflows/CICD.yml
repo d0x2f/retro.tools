@@ -57,11 +57,13 @@ jobs:
       - name: Dump docker logs
         if: always()
         uses: jwalton/gh-docker-logs@v1
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@v2
+      - name: Save cypress test videos as artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
           name: videos
           path: cypress/videos
+          retention-days: 5
 
   cd:
     runs-on: ubuntu-latest
