@@ -2,11 +2,11 @@
   import clsx from "clsx";
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
-  import { Input } from "sveltestrap";
 
   import { board, password } from "../store.js";
   import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
 
+  import Input from "./Input.svelte";
   import EncryptedText from "./EncryptedText.svelte";
 
   let showIceBreaking = false;
@@ -33,9 +33,9 @@
     iceBreakingEditMode = false;
   }
 
-  onMount(() => {
+  onMount(async () => {
     newIceBreakingText = $board.ice_breaking || "";
-    showIceBreaking = newIceBreakingText !== "";
+    showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== "";
   });
 
   $: classes = clsx(
