@@ -26,6 +26,7 @@
   "error.creating_card": "Erro ao criar cartão!",
   "error.updating_card": "Atualização do Cartão falhou!",
   "error.vote_failed": "Votar falhou!",
+  "board.template.empty.name": "Vazio",
   "board.template.drop_add_keep_improve.name": "Parar, Começar, Continuar, Melhorar",
   "board.template.drop_add_keep_improve.column.drop": "Parar",
   "board.template.drop_add_keep_improve.column.add": "Começar",

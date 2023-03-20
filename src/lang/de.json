@@ -25,6 +25,7 @@
   "error.creating_card": "Fehler bei der Erstellung der Karte!",
   "error.updating_card": "Fehler beim Bearbeiten der Karte!",
   "error.vote_failed": "Abstimmung fehlgeschlagen!",
+  "board.template.empty.name": "Leer",
   "board.template.drop_add_keep_improve.name": "Weglassen, Hinzufügen, Behalten, Verbessern",
   "board.template.drop_add_keep_improve.column.drop": "Weglassen",
   "board.template.drop_add_keep_improve.column.add": "Hinzufügen",

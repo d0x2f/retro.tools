@@ -25,6 +25,7 @@
   "error.creating_card": "¡Error al crear la tarjeta!",
   "error.updating_card": "¡Error al editar la tarjeta!",
   "error.vote_failed": "¡Voto fallido!",
+  "board.template.empty.name": "Vacío",
   "board.template.drop_add_keep_improve.name": "Eliminar, Agregar, Mantener, Mejorar",
   "board.template.drop_add_keep_improve.column.drop": "Eliminar",
   "board.template.drop_add_keep_improve.column.add": "Agregar",

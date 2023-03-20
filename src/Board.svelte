@@ -239,7 +239,9 @@
             <div class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0" />
           {/if}
         {:else}
-          <p class="text-center text-secondary">There are no columns!</p>
+          <p class="text-center text-secondary mt-5">
+            {$_("board.no_columns")}
+          </p>
         {/each}
       </div>
     </div>

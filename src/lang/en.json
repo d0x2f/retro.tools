@@ -26,6 +26,7 @@
   "error.creating_card": "Error creating card!",
   "error.updating_card": "Card update failed!",
   "error.vote_failed": "Vote failed!",
+  "board.template.empty.name": "Empty",
   "board.template.drop_add_keep_improve.name": "Drop, Add, Keep, Improve",
   "board.template.drop_add_keep_improve.column.drop": "Drop",
   "board.template.drop_add_keep_improve.column.add": "Add",

@@ -45,7 +45,7 @@
         retro.tools
       </h3>
     </div>
-
+    <div class="flex-grow-1" />
     <div
       data-name="board-title"
       class="text-center d-none m-0 d-lg-block h3 w-50 text-body"

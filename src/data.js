@@ -208,4 +208,8 @@ export const BoardTemplates = {
       },
     ],
   },
+  empty: {
+    name: "board.template.empty.name",
+    ranks: [],
+  },
 };

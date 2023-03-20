@@ -25,6 +25,7 @@
   "error.creating_card": "카드 생성 중 오류가 발생하였습니다!",
   "error.updating_card": "카드 수정 중 오류가 발생하였습니다",
   "error.vote_failed": "투표에 실패하였습니다!",
+  "board.template.empty.name": "공허한",
   "board.template.drop_add_keep_improve.name": "중단, 추가, 유지, 개선",
   "board.template.drop_add_keep_improve.column.drop": "중단",
   "board.template.drop_add_keep_improve.column.add": " 추가",
