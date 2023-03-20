@@ -143,6 +143,16 @@
     </DropdownItem>
     <DropdownItem divider />
     <DropdownItem
+      data-name="feedback-button"
+      target="_blank"
+      href="https://docs.google.com/forms/d/e/1FAIpQLSdaMyFE4tSe2834TNlpnPcn8W9ijViZ_Bsl_bvBqFOwtxG4jA/viewform?usp=sf_link"
+    >
+      <div class="d-inline-block icon position-relative" style="top: -2px">
+        <Icons.externalLink size="1x" />
+      </div>
+      {$_("general.feedback")}
+    </DropdownItem>
+    <DropdownItem
       data-name="donate-button"
       target="_blank"
       href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FJMVB9QFZQ79J&amp;source=url"
