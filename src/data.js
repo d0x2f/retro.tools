@@ -39,6 +39,7 @@ import {
   TrendingDownIcon,
   AwardIcon,
   MinusIcon,
+  ExternalLinkIcon,
 } from "svelte-feather-icons";
 
 export const Colors = {
@@ -101,6 +102,7 @@ export const Icons = {
   sunset: SunsetIcon,
   columns: ColumnsIcon,
   award: AwardIcon,
+  externalLink: ExternalLinkIcon,
 };
 
 export const ColumnIcons = [
