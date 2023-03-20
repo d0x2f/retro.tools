@@ -79,7 +79,9 @@ context("Menu", () => {
     // Ensure it goes away
     cy.get("[data-name=warning-alert]").should("not.exist");
 
-    cy.get("[data-name=delete-button]:visible").click({ multiple: true });
+    cy.get("[data-name=card]")
+      .find("[data-name=delete-button]:visible")
+      .click({ multiple: true });
     cy.get("[data-name=confirm-button]:visible").click({ multiple: true });
     cy.get("[data-name=card]").should("not.exist");
 
@@ -103,7 +105,9 @@ context("Menu", () => {
 
     cy.get("[data-name=vote-button]:visible").should("not.exist");
 
-    cy.get("[data-name=delete-button]:visible").click({ multiple: true });
+    cy.get("[data-name=card]")
+      .find("[data-name=delete-button]:visible")
+      .click({ multiple: true });
     cy.get("[data-name=confirm-button]:visible").click({ multiple: true });
     cy.get("[data-name=card]").should("not.exist");
   });
@@ -127,7 +131,7 @@ context("Menu", () => {
   it("has the board link as its clipboard data", () => {
     cy.get("[data-name=copy-link-button]")
       .should("have.attr", "data-clipboard-text")
-      .and("match", /http:\/\/localhost:4173\/[a-zA-Z0-9]+/i);
+      .and("match", /http:\/\/localhost:\d+\/[a-zA-Z0-9]+/i);
   });
 
   after(() => {

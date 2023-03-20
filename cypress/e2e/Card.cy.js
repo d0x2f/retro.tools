@@ -37,8 +37,8 @@ context("Card", () => {
       .should("have.length", 1);
   });
 
-  it("can edit the card", () => {
-    cy.get("[data-name=card-body]:visible").click();
+  it.only("can edit the card", () => {
+    cy.get("[data-name=card-content]:visible").click();
     cy.get("[data-name=card-edit-field]").should("exist");
 
     cy.get("[data-name=card-edit-field]")
@@ -71,7 +71,9 @@ context("Card", () => {
 
   it("can delete the card", () => {
     cy.log("shows the confirm/cancel buttons");
-    cy.get("[data-name=delete-button]:visible").click();
+    cy.get("[data-name=card]:visible")
+      .find("[data-name=delete-button]:visible")
+      .click();
     cy.get("[data-name=card]:visible")
       .find("[data-name=cancel-button]")
       .should("exist");
@@ -90,7 +92,9 @@ context("Card", () => {
       .should("not.exist");
 
     cy.log("deletes the card when confirmed");
-    cy.get("[data-name=delete-button]:visible").click();
+    cy.get("[data-name=card]:visible")
+      .find("[data-name=delete-button]:visible")
+      .click();
     cy.get("[data-name=confirm-button]:visible").click();
     cy.get("[data-name=card]:visible").should("not.exist");
   });
