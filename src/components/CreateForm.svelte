@@ -89,11 +89,14 @@
   </div>
   <Button
     color={$colorMode}
+    textColor="body"
     data-name="more-settings-button"
     class="text-start mt-2 w-100"
     on:click={() => (optionsExpanded = !optionsExpanded)}
   >
-    {#if optionsExpanded}▾{:else}▸{/if}
+    <div class:rotate-90={optionsExpanded} class="transition d-inline-block">
+      ▸
+    </div>
     {$_("splash.settings")}
   </Button>
   {#if optionsExpanded}
@@ -118,7 +121,11 @@
           bind:disabled={passwordDisabled}
           bind:value={$password}
         />
-        <Button on:click={() => (showPassword = !showPassword)}>
+        <Button
+          color="secondary"
+          textColor="white-50"
+          on:click={() => (showPassword = !showPassword)}
+        >
           {#if showPassword}
             <Icons.eye />
           {:else}
@@ -135,3 +142,12 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .transition {
+    transition: 0.15s transform ease-in-out !important;
+  }
+  .rotate-90 {
+    transform: translate(0px, 2px) rotate(90deg);
+  }
+</style>

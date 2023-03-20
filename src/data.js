@@ -35,38 +35,34 @@ import {
   LogInIcon,
   SunsetIcon,
   SunriseIcon,
+  ColumnsIcon,
+  TrendingDownIcon,
+  AwardIcon,
+  MinusIcon,
 } from "svelte-feather-icons";
 
 export const Colors = {
-  green: {
-    selected: "text-success border-success",
-    deselected: "text-success",
-    color: "text-success border-success",
+  light: {
+    red: "#dc3545",
+    green: "#329F5B",
+    blue: "#0197F6",
+    yellow: "#E3B23C",
+    cyan: "#78C0E0",
+    plain: "#423E37",
   },
-  blue: {
-    selected: "text-primary border-primary",
-    deselected: "text-primary",
-    color: "text-primary border-primary",
-  },
-  red: {
-    selected: "text-danger border-danger",
-    deselected: "text-danger",
-    color: "text-danger border-danger",
-  },
-  yellow: {
-    selected: "text-warning border-warning",
-    deselected: "text-warning",
-    color: "text-warning border-warning",
-  },
-  cyan: {
-    selected: "text-info border-info",
-    deselected: "text-info",
-    color: "text-info border-info",
+  dark: {
+    red: "#C33C54",
+    green: "#4DAA57",
+    blue: "#096bca",
+    yellow: "#D5B00B",
+    cyan: "#75BBA7",
+    plain: "#BBBBBB",
   },
 };
 
 export const Icons = {
   plus: PlusIcon,
+  minus: MinusIcon,
   frown: FrownIcon,
   meh: MehIcon,
   smile: SmileIcon,
@@ -77,6 +73,7 @@ export const Icons = {
   star: StarIcon,
   delete: DeleteIcon,
   trendingup: TrendingUpIcon,
+  trendingdown: TrendingDownIcon,
   heart: HeartIcon,
   download: DownloadIcon,
   ellispses: MoreHorizontalIcon,
@@ -102,7 +99,15 @@ export const Icons = {
   login: LogInIcon,
   sunrise: SunriseIcon,
   sunset: SunsetIcon,
+  columns: ColumnsIcon,
+  award: AwardIcon,
 };
+
+export const ColumnIcons = [
+  ["plus", "minus", "smile", "meh", "frown"],
+  ["thumbsup", "thumbsdown", "minuscircle", "pluscircle", "star"],
+  ["trendingup", "trendingdown", "heart", "eye", "award"],
+];
 
 export const BoardTemplates = {
   dropAddKeepImprove: {
@@ -203,11 +208,8 @@ export const BoardTemplates = {
       },
     ],
   },
+  empty: {
+    name: "board.template.empty.name",
+    ranks: [],
+  },
 };
-
-export function getRankDetails(rank) {
-  return {
-    icon: Icons[rank.data.icon],
-    classes: Colors[rank.data.color],
-  };
-}

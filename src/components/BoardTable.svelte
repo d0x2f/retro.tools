@@ -15,11 +15,12 @@
 {#if boards.length > 0}
   <Button
     color={$colorMode}
+    textColor="body"
     data-name="board-list-button"
     class="mt-2 text-start"
     on:click={() => (expanded = !expanded)}
   >
-    {#if expanded}▾{:else}▸{/if}
+    <div class:rotate-90={expanded} class="transition d-inline-block">▸</div>
     {$_("splash.your_boards")}
   </Button>
   {#if expanded}
@@ -36,3 +37,12 @@
     </div>
   {/if}
 {/if}
+
+<style>
+  .transition {
+    transition: 0.15s transform ease-in-out !important;
+  }
+  .rotate-90 {
+    transform: translate(0px, 2px) rotate(90deg);
+  }
+</style>

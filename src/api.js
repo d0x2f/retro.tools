@@ -41,6 +41,14 @@ export async function updateBoard(board) {
   });
 }
 
+export async function updateRank(boardId, rank) {
+  return requestJson(`${api_host}/boards/${boardId}/columns/${rank.id}`, {
+    method: "PATCH",
+    body: JSON.stringify(rank),
+    ...common_options,
+  });
+}
+
 export async function createRank(boardId, name, position, data) {
   return requestJson(`${api_host}/boards/${boardId}/columns`, {
     method: "POST",
