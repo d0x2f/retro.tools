@@ -46,7 +46,11 @@
           id="password"
           bind:value={inputPassword}
         />
-        <Button on:click={() => (showPassword = !showPassword)}>
+        <Button
+          on:click={() => (showPassword = !showPassword)}
+          color="secondary"
+          textColor="white-50"
+        >
           {#if showPassword}
             <Icons.eye />
           {:else}
