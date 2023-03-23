@@ -72,9 +72,14 @@ export async function signIn() {
 
 function normaliseBoard(document) {
   const data = document.data();
+  let dataField = data.data;
+  try {
+    dataField = JSON.parse(data.data);
+  } catch {}
+  console.log(dataField);
   return {
     ...data,
-    data: JSON.parse(data.data),
+    data: dataField,
     id: document.id,
     owner: data.owner.id === get(uid),
   };
@@ -82,7 +87,7 @@ function normaliseBoard(document) {
 
 function normaliseRank(document) {
   const data = document.data();
-  let dataField = {};
+  let dataField = data.data;
   try {
     dataField = JSON.parse(data.data);
   } catch {}
