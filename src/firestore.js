@@ -76,7 +76,6 @@ function normaliseBoard(document) {
   try {
     dataField = JSON.parse(data.data);
   } catch {}
-  console.log(dataField);
   return {
     ...data,
     data: dataField,
