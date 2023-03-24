@@ -22,15 +22,39 @@ export async function createAuthToken() {
 }
 
 export async function getBoard(boardId) {
-  return requestJson(`${api_host}/boards/${boardId}`, common_options);
+  const board = await requestJson(
+    `${api_host}/boards/${boardId}`,
+    common_options
+  );
+  let boardData = board.data;
+  try {
+    boardData = JSON.parse(board.data);
+  } catch {}
+  return { ...board, data: boardData };
 }
 
 export async function getBoards() {
-  return requestJson(`${api_host}/boards`, common_options);
+  return (await requestJson(`${api_host}/boards`, common_options)).map(
+    (board) => {
+      let boardData = board.data;
+      try {
+        boardData = JSON.parse(board.data);
+      } catch {}
+      return { ...board, data: boardData };
+    }
+  );
 }
 
 export async function getRanks(boardId) {
-  return requestJson(`${api_host}/boards/${boardId}/columns`, common_options);
+  return (
+    await requestJson(`${api_host}/boards/${boardId}/columns`, common_options)
+  ).map((rank) => {
+    let rankData = rank.data;
+    try {
+      rankData = JSON.parse(rank.data);
+    } catch {}
+    return { ...rank, data: rankData };
+  });
 }
 
 export async function updateBoard(board) {
