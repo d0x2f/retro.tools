@@ -136,6 +136,7 @@
           class="icon px-2"
           role="button"
           data-name="rank-options-button"
+          tabindex="0"
           on:keypress={null}
           on:click={toggleOptions}
         >
