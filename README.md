@@ -22,7 +22,7 @@ The backend projects live at:
 * Easy to share a board to your co-workers quickly with a link or an on-screen QR code
 * Open source
 * Multiple pre-built templates
-* Brazilian Portugese, English, German, Korean, Russian, and Spanish translations (contributions very welcome!)
+* Brazilian Portugese, English, German, Korean, Russian, Spanish and Ukrainian translations (contributions very welcome!)
 
 # Contributing
 
