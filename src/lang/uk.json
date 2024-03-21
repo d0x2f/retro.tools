@@ -45,12 +45,12 @@
   "board.template.liked_lacked_learned.column.liked": "Сподобалося",
   "board.template.liked_lacked_learned.column.lacked": "Бракує",
   "board.template.liked_lacked_learned.column.learned": "Навчилися",
-  "board.creation_disabled_as_owner": "Створення карток вимкнуто, увімкніть його за допомогою випадаючого мені справа зверху.",
+  "board.creation_disabled_as_owner": "Створення карток вимкнуто, увімкніть його за допомогою випадаючого меню справа зверху.",
   "board.creation_disabled_as_participant": "Створення карток вимкнуто власником дошки.",
   "board.no_cards": "Немає карток",
   "board.no_columns": "Немає стовпців!",
-  "board.options.new_cards_allowed": "Дозволено створювати картки",
-  "board.options.voting_allowed": "Дозволено голосувати",
+  "board.options.new_cards_allowed": "Дозволити створювати картки",
+  "board.options.voting_allowed": "Дозволити голосувати",
   "board.options.sort_by_votes": "Сортувати по голосам",
   "board.options.show_qr_code": "Показати QR код",
   "board.options.download_csv": "Завантажити CSV",
@@ -62,7 +62,7 @@
   "card.new_card": "Нова картка",
   "card.edit_card": "Редагувати картку",
   "card.example_text": "Нам потрібно більше закусок...",
-  "card.cancel": "Відмінити",
+  "card.cancel": "Скасувати",
   "card.save": "Зберегти",
   "card.create": "Створити",
   "card.agree": "Погодитися",
@@ -77,5 +77,6 @@
   "language.de": "Deutsche",
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
-  "language.tr": "Türkçe"
+  "language.tr": "Türkçe",
+  "language.uk": "Українська" 
 }
