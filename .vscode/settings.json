@@ -15,7 +15,9 @@
     "**/coverage": true,
     "**/node_modules": true
   },
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "eslint.validate": [
     "javascript",
     "svelte"
