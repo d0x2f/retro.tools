@@ -4,6 +4,7 @@ import "moment/locale/es";
 import "moment/locale/ko";
 import "moment/locale/de";
 import "moment/locale/ru";
+import "moment/locale/uk";
 
 import en from "./lang/en.json";
 import es from "./lang/es.json";
@@ -12,6 +13,7 @@ import de from "./lang/de.json";
 import ru from "./lang/ru.json";
 import pt_BR from "./lang/pt_BR.json";
 import tr from "./lang/tr.json";
+import uk from "./lang/uk.json";
 
 locale.subscribe((l) => {
   if (l) moment.locale(l);
@@ -24,6 +26,7 @@ addMessages("de", de);
 addMessages("ru", ru);
 addMessages("pt_BR", pt_BR);
 addMessages("tr", tr);
+addMessages("uk", uk);
 
 init({
   fallbackLocale: "en",
