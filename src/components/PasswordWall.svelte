@@ -18,7 +18,7 @@
   const dispatch = createEventDispatcher();
 
   async function checkPassword() {
-    if (inputPassword.length === 0) return
+    if (inputPassword.length === 0) return;
 
     checkBusy = true;
     if (await checkBoardPassword($board, inputPassword)) {
