@@ -18,6 +18,8 @@
   const dispatch = createEventDispatcher();
 
   async function checkPassword() {
+    if (inputPassword.length === 0) return;
+
     checkBusy = true;
     if (await checkBoardPassword($board, inputPassword)) {
       password.set(inputPassword);
@@ -45,6 +47,7 @@
           name="password"
           id="password"
           bind:value={inputPassword}
+          on:submit={checkPassword}
         />
         <Button
           on:click={() => (showPassword = !showPassword)}
