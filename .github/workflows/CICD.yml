@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Archive Production Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
@@ -59,7 +59,7 @@ jobs:
         uses: jwalton/gh-docker-logs@v1
       - name: Save cypress test videos as artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: videos
           path: cypress/videos
