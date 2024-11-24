@@ -19,21 +19,21 @@
     "eslint-plugin-svelte": "^2.22.0",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.1",
-    "svelte": "^3.55.1",
-    "vite": "^4.1.0"
-  },
-  "dependencies": {
-    "clipboard": "^2.0.11",
-    "clsx": "^1.2.1",
-    "crypto-js": "^4.1.1",
-    "dragula": "^3.7.3",
-    "firebase": "^9.17.2",
-    "jose": "^4.13.1",
-    "moment": "^2.29.4",
-    "svelte-feather-icons": "^4.0.0",
+    "svelte": "^3",
+    "vite": "^4.1.0",
+    "sveltestrap": "^5",
     "svelte-i18n": "^3.6.0",
     "svelte-routing": "^1.6.0",
     "svelte-textarea-autoresize": "^1.0.0",
-    "sveltestrap": "^5"
+    "svelte-feather-icons": "^4.0.0"
+  },
+  "dependencies": {
+    "moment": "^2.29.4",
+    "crypto-js": "^4.1.1",
+    "clipboard": "^2.0.11",
+    "clsx": "^1.2.1",
+    "dragula": "^3.7.3",
+    "firebase": "^11",
+    "jose": "^4.13.1"
   }
 }
