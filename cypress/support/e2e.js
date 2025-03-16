@@ -8,7 +8,7 @@ Cypress.Commands.add("login", (name = "user") => {
     },
     {
       validate() {
-        cy.getCookie("id").should("exist");
+        cy.getCookie("__session").should("exist");
       },
     }
   );
