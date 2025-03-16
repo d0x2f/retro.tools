@@ -31,9 +31,9 @@
     "moment": "^2.29.4",
     "crypto-js": "^4.1.1",
     "clipboard": "^2.0.11",
-    "clsx": "^1.2.1",
+    "clsx": "^2",
     "dragula": "^3.7.3",
     "firebase": "^11",
-    "jose": "^4.13.1"
+    "jose": "^6"
   }
 }
