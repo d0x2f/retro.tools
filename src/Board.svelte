@@ -162,7 +162,7 @@
         (b) => board.set(b),
         () => {
           navigate("/not-found");
-        }
+        },
       );
     }
 
@@ -171,7 +171,7 @@
       boardId,
       (card) => cards.replace(card.id, card),
       (card) => cards.replace(card.id, card),
-      (cardId) => cards.remove(cardId)
+      (cardId) => cards.remove(cardId),
     );
 
     // Subscribe to card updates
@@ -184,7 +184,7 @@
         if ($focusedRank == rankId) {
           $focusedRank = $ranks[0]?.id;
         }
-      }
+      },
     );
 
     busy = false;
@@ -236,7 +236,9 @@
         {#each sortedRanks as rank, i (rank.id)}
           <Rank bind:rank bind:drake on:error={handleError} />
           {#if i !== sortedRanks.length - 1}
-            <div class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0" />
+            <div
+              class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0"
+            ></div>
           {/if}
         {:else}
           <p class="text-center text-secondary mt-5">

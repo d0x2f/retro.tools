@@ -1,5 +1,4 @@
 <script>
-  import { navigate } from "svelte-routing";
 
   import LocaleSelect from "./LocaleSelect.svelte";
   import EncryptedText from "./EncryptedText.svelte";
@@ -34,21 +33,22 @@
 <div class="on-top">
   <div class="d-flex justify-content-between flex-wrap">
     <div class="d-flex flex-column justify-content-center">
-      <h3
+      <a
         data-name="home-link"
-        class="text-uppercase fw-bold ps-2 m-0 home-link"
+        href="/"
+        class="text-uppercase fw-bold ps-2 m-0 home-link h3 text-decoration-none"
         class:text-primary={!$darkMode}
         class:text-secondary={$darkMode}
-        on:keypress={null}
-        on:click={() => navigate("/")}
       >
         retro.tools
-      </h3>
+      </a>
     </div>
-    <div class="flex-grow-1" />
+    <div class="flex-grow-1"></div>
     <div
       data-name="board-title"
       class="text-center d-none m-0 d-lg-block h3 w-50 text-body"
+      role="button"
+      tabindex="0"
       on:keypress={null}
       on:click={startEdit}
     >
@@ -92,6 +92,8 @@
   <div
     data-name="board-title"
     class="text-secondary d-lg-none h3 pt-1 text-center text-body"
+    role="button"
+    tabindex="0"
     on:keypress={null}
     on:click={startEdit}
   >

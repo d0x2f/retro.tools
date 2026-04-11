@@ -128,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="flex-grow-1 mid-section" />
+  <div class="flex-grow-1 mid-section"></div>
   <div
     class="d-flex justify-content-center py-5 text-{$colorMode}"
     class:bg-primary={!$darkMode}

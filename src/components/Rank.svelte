@@ -43,7 +43,7 @@
       .sort((a, b) =>
         $sorted
           ? b.votes - a.votes || a.created_at - b.created_at
-          : a.created_at - b.created_at
+          : a.created_at - b.created_at,
       );
   }
 
@@ -224,7 +224,10 @@
       <RankOptions on:error class="w-100" {rank} />
     </div>
   {/if}
-  <div class="border-bottom mb-2" style="color: {$colors[rank.data.color]}" />
+  <div
+    class="border-bottom mb-2"
+    style="color: {$colors[rank.data.color]}"
+  ></div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
     {#if $cards}
       {#each sortedFilteredCards as card (card.id)}

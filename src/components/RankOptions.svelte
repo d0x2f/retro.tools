@@ -68,6 +68,8 @@
     >
       {#each row as name}
         <div
+          role="button"
+          tabindex="0"
           on:keypress={null}
           on:click={() => {
             rank.data.icon = name;

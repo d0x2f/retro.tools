@@ -65,7 +65,7 @@
   class={classes}
   bind:value
   {placeholder}
-/>
+></textarea>
 
 <style>
   textarea {

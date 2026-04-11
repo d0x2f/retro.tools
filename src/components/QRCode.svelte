@@ -27,5 +27,5 @@
 </script>
 
 <div data-name="qr-code" class={classes}>
-  <div id="qrcode" />
+  <div id="qrcode"></div>
 </div>

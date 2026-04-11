@@ -152,7 +152,7 @@
               >
                 {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
                   {#each Object.entries(card.reactions)
-                    .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av) )
+                    .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av), )
                     .filter(([, v]) => v > 0) as [emoji, count]}
                     <span
                       class="badge m-1"
@@ -183,11 +183,13 @@
                 </div>
               </Popover>
             </div>
-            <div class="border-top border-secondary author-border" />
+            <div class="border-top border-secondary author-border"></div>
           </div>
           <div
             data-name="card-content"
             class="p-1 w-100 pre-wrap"
+            role="button"
+            tabindex="0"
             on:keypress={null}
             on:click={startEdit}
           >

@@ -10,7 +10,7 @@
     className,
     "spinner-border",
     `spinner-border-${size}`,
-    `text-${color}`
+    `text-${color}`,
   );
 </script>
 

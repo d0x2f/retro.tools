@@ -43,12 +43,18 @@
     "p-3",
     "mx-auto",
     "d-flex",
-    "justify-content-center"
+    "justify-content-center",
   );
 </script>
 
 {#if showIceBreaking}
-  <div class={classes} on:click={startEdit} on:keypress={null}>
+  <div
+    class={classes}
+    role="button"
+    tabindex="0"
+    on:click={startEdit}
+    on:keypress={null}
+  >
     {#if iceBreakingEditMode}
       <Input
         autofocus

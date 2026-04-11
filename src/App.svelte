@@ -13,7 +13,7 @@
     const darkModeChangeListener = (m) =>
       document.documentElement.setAttribute("data-bs-theme", m);
     const unsubscribeDarkModeChange = colorMode.subscribe(
-      darkModeChangeListener
+      darkModeChangeListener,
     );
 
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");

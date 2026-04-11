@@ -43,7 +43,7 @@
         {
           color: "plain",
           icon: "plus",
-        }
+        },
       );
     } catch (err) {
       error("error.network", err);
