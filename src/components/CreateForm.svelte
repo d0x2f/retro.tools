@@ -103,7 +103,7 @@
     <div in:slide out:slide>
       <p class="my-1 small">{$_("splash.template")}</p>
       <Select bind:value={templateKey}>
-        {#each Object.entries(BoardTemplates) as [key, template]}
+        {#each Object.entries(BoardTemplates) as [key, template] (key)}
           <option value={key}>{$_(template.name)}</option>
         {/each}
       </Select>

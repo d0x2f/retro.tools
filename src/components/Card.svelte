@@ -153,7 +153,7 @@
                 {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
                   {#each Object.entries(card.reactions)
                     .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av), )
-                    .filter(([, v]) => v > 0) as [emoji, count]}
+                    .filter(([, v]) => v > 0) as [emoji, count] (emoji)}
                     <span
                       class="badge m-1"
                       class:text-body={$darkMode}

@@ -47,7 +47,7 @@
     }}
   />
   <ButtonGroup class="w-100 m-1" data-name="rank-options-colors">
-    {#each Object.entries($colors) as [name, color]}
+    {#each Object.entries($colors) as [name, color] (name)}
       <SSButton
         style="background-color: {color};"
         on:click={() => {
@@ -61,12 +61,12 @@
       </SSButton>
     {/each}
   </ButtonGroup>
-  {#each ColumnIcons as row}
+  {#each ColumnIcons as row, i (i)}
     <div
       class="w-100 mx-1 d-flex justify-content-around w-100 my-1"
       data-name="rank-options-icons"
     >
-      {#each row as name}
+      {#each row as name (name)}
         <div
           role="button"
           tabindex="0"

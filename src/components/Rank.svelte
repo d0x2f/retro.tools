@@ -48,9 +48,6 @@
   }
 
   $: {
-  }
-
-  $: {
     switch ($ranks.length) {
       case 1:
       case 2:

@@ -43,7 +43,7 @@
     {:else}{$_("language.en")}{/if}
   </DropdownToggle>
   <DropdownMenu right class="mw-0">
-    {#each $locales.sort() as locale}
+    {#each $locales.sort() as locale (locale)}
       <DropdownItem
         data-name="locale-select-{locale}"
         toggle={true}

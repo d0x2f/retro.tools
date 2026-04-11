@@ -17,9 +17,9 @@
 </script>
 
 <div class="d-flex flex-wrap justify-content-around">
-  {#each emojis as emojiRow}
+  {#each emojis as emojiRow, i (i)}
     <ButtonGroup>
-      {#each emojiRow as emoji}
+      {#each emojiRow as emoji (emoji)}
         <Button
           color={emoji === current ? "secondary" : $colorMode}
           on:click={() => dispatch("selected", emoji)}
