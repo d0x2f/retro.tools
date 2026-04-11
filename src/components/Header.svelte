@@ -1,5 +1,4 @@
 <script>
-
   import LocaleSelect from "./LocaleSelect.svelte";
   import EncryptedText from "./EncryptedText.svelte";
   import Menu from "./Menu.svelte";
