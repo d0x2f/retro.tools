@@ -7,7 +7,7 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from "sveltestrap";
+  } from "@sveltestrap/sveltestrap";
 
   import { Icons } from "../data.js";
   import { board, colorMode, darkMode, ranks, sorted } from "../store.js";

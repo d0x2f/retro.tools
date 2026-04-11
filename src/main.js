@@ -1,3 +1,4 @@
+import { mount } from "svelte";
 import { initializeApp } from "firebase/app";
 
 import App from "./App.svelte";
@@ -8,8 +9,6 @@ initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 });
 
-const app = new App({
-  target: document.body,
-});
+const app = mount(App, { target: document.body });
 
 export default app;

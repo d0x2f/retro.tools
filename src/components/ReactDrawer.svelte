@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import { Button, ButtonGroup } from "sveltestrap";
+  import { Button, ButtonGroup } from "@sveltestrap/sveltestrap";
   import { colorMode } from "../store";
 
   // rows as shown in the app

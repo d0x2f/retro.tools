@@ -4,7 +4,7 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from "sveltestrap";
+  } from "@sveltestrap/sveltestrap";
   import { _, locale, locales, dictionary } from "svelte-i18n";
   import moment from "moment";
   import { colorMode } from "../store";

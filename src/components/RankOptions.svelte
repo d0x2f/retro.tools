@@ -2,7 +2,7 @@
   import clsx from "clsx";
   import { createEventDispatcher } from "svelte";
   import { dictionary, _ } from "svelte-i18n";
-  import { ButtonGroup, Button as SSButton } from "sveltestrap";
+  import { ButtonGroup, Button as SSButton } from "@sveltestrap/sveltestrap";
 
   import { updateRank } from "../api";
   import { ColumnIcons, Icons } from "../data";

@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { Popover } from "sveltestrap";
+  import { Popover } from "@sveltestrap/sveltestrap";
   import { _ } from "svelte-i18n";
 
   import { board, cards, colorMode, darkMode, password } from "../store.js";
