@@ -10,6 +10,6 @@ Cypress.Commands.add("login", (name = "user") => {
       validate() {
         cy.getCookie("__session").should("exist");
       },
-    }
+    },
   );
 });

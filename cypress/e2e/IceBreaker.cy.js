@@ -8,7 +8,7 @@ context("IceBreaker", () => {
       cy.get("[data-name=board-name-input]").type("IceBreaker Board Name");
       cy.get("[data-name=more-settings-button]").click();
       cy.get("[data-name=ice-breaker-question-input]").type(
-        "Testing ice breaker question"
+        "Testing ice breaker question",
       );
       cy.get("[data-name=create-button]").click();
       cy.get("[data-name=create-button]:visible").should("have.length", 0);

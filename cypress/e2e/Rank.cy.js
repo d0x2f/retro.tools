@@ -67,7 +67,7 @@ context("Rank", () => {
 
     cy.get("[data-name=rank-tabs] > label").should("have.length", 4);
     cy.get('[data-name=rank] textarea[placeholder="Untitled"]').should(
-      "not.exist"
+      "not.exist",
     );
   });
 

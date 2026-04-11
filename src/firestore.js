@@ -51,7 +51,7 @@ async function verifyToken() {
   if (typeof decodedToken.uid !== "string") {
     console.error(
       "Received unexpected uid in firebase JWT token",
-      decodedToken
+      decodedToken,
     );
     throw new Error("Connection error"); // Displayed to the user
   }
@@ -106,7 +106,7 @@ function normaliseCard(document) {
         reacted = reaction;
       }
       return [reaction, reactors.length];
-    })
+    }),
   );
   return {
     ...data,
@@ -121,7 +121,7 @@ function normaliseCard(document) {
     reacted,
     created_at: new Date(
       data?.created_at?.seconds ?? // Added 16 Mar 2023
-        document._document.createTime.timestamp.seconds * 1000 // Bit of a hack
+        document._document.createTime.timestamp.seconds * 1000, // Bit of a hack
     ),
   };
 }
@@ -131,7 +131,7 @@ export async function subscribeToCards(
   boardId,
   newCallback,
   updateCallback,
-  deleteCallback
+  deleteCallback,
 ) {
   await signIn();
 
@@ -149,21 +149,21 @@ export async function subscribeToCards(
       if (change.type === "removed") {
         deleteCallback(change.doc.id);
       }
-    })
+    }),
   );
 }
 
 export async function subscribeToBoard(
   boardId,
   updateCallback,
-  deleteCallback
+  deleteCallback,
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
   const boardRef = query(
     collection(firestore, "boards"),
-    where("__name__", "in", [boardId])
+    where("__name__", "in", [boardId]),
   );
   return onSnapshot(boardRef, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
@@ -182,7 +182,7 @@ export async function subscribeToRanks(
   boardId,
   newCallback,
   updateCallback,
-  deleteCallback
+  deleteCallback,
 ) {
   await signIn();
 
@@ -200,6 +200,6 @@ export async function subscribeToRanks(
       if (change.type === "removed") {
         deleteCallback(change.doc.id);
       }
-    })
+    }),
   );
 }

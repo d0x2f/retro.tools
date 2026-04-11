@@ -74,7 +74,7 @@ context("Menu", () => {
 
     cy.get("[data-name=warning-alert]:visible").should(
       "have.text",
-      "Card creation is disabled, enable it using the drop down menu in the top right."
+      "Card creation is disabled, enable it using the drop down menu in the top right.",
     );
     // Ensure it goes away
     cy.get("[data-name=warning-alert]").should("not.exist");

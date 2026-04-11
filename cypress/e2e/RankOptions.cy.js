@@ -40,7 +40,7 @@ context("RankOptions", () => {
       .should("eq", "Drop");
 
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-      "patchColumn"
+      "patchColumn",
     );
     cy.get("[data-name=rank-options] input:visible")
       .first()
@@ -76,7 +76,7 @@ context("RankOptions", () => {
       .invoke("attr", "style")
       .then((originalStyle) => {
         cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-          "patchColumn"
+          "patchColumn",
         );
         cy.get("[data-name=rank-options-colors] > button:visible")
           .last()
@@ -112,21 +112,21 @@ context("RankOptions", () => {
       .should("exist");
 
     cy.get("[data-name=rank-options-button] > svg.feather-delete").should(
-      "exist"
+      "exist",
     );
 
     cy.get("[data-name=rank-options-button] > svg.feather-award").should(
-      "not.exist"
+      "not.exist",
     );
 
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-      "patchColumn"
+      "patchColumn",
     );
     cy.get("[data-name=rank-options-icons] > div:visible").last().click();
     cy.wait("@patchColumn");
 
     cy.get("[data-name=rank-options-button] > svg.feather-award").should(
-      "exist"
+      "exist",
     );
   });
 

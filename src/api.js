@@ -24,7 +24,7 @@ export async function createAuthToken() {
 export async function getBoard(boardId) {
   const board = await requestJson(
     `${api_host}/boards/${boardId}`,
-    common_options
+    common_options,
   );
   let boardData = board.data;
   try {
@@ -41,7 +41,7 @@ export async function getBoards() {
         boardData = JSON.parse(board.data);
       } catch {}
       return { ...board, data: boardData };
-    }
+    },
   );
 }
 

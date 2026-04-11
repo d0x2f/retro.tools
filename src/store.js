@@ -55,11 +55,11 @@ export const activeRankOptions = writable("");
 export const darkMode = writable(
   window.localStorage.getItem("darkModePreference") !== null
     ? window.localStorage.getItem("darkModePreference") === "dark"
-    : window.matchMedia("(prefers-color-scheme: dark)").matches
+    : window.matchMedia("(prefers-color-scheme: dark)").matches,
 );
 
 export const colorMode = derived(darkMode, ($darkMode) =>
-  $darkMode ? "dark" : "light"
+  $darkMode ? "dark" : "light",
 );
 
 export const colors = derived(colorMode, ($colorMode) => Colors[$colorMode]);

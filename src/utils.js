@@ -1,6 +1,6 @@
 export const filterDataKeys = (props) =>
   Object.fromEntries(
-    Object.entries(props).filter(([key]) => key.startsWith("data-"))
+    Object.entries(props).filter(([key]) => key.startsWith("data-")),
   );
 
 /** Dispatch event on click outside of node */
