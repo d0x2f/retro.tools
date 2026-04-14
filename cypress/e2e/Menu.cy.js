@@ -128,6 +128,40 @@ context("Menu", () => {
     });
   }
 
+  it("downloads a csv with decrypted card content", () => {
+    const cardText = "My CSV test card";
+    const cardAuthor = "CSV Author";
+
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-text-input]")
+      .type(cardText);
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-author-input]")
+      .type(`${cardAuthor}{enter}`);
+    cy.get("[data-name=card]:visible").should("exist");
+
+    cy.get("[data-name=menu-button]").click();
+    cy.get("[data-name=download-csv-button]").click();
+
+    const date = new Date().toISOString().slice(0, 10);
+    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`).then((csv) => {
+      const [header, ...rows] = csv.trim().split("\n");
+      expect(header).to.eq("column,author,text,created_at,votes");
+      const match = rows.find(
+        (row) => row.includes(cardText) && row.includes(cardAuthor),
+      );
+      expect(match).to.exist;
+    });
+
+    cy.get("[data-name=card]")
+      .find("[data-name=delete-button]:visible")
+      .click({ multiple: true });
+    cy.get("[data-name=confirm-button]:visible").click({ multiple: true });
+    cy.get("[data-name=card]").should("not.exist");
+  });
+
   it("has the board link as its clipboard data", () => {
     cy.get("[data-name=copy-link-button]")
       .should("have.attr", "data-clipboard-text")

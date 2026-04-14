@@ -171,7 +171,3 @@ export async function undoReact(board, card) {
     ...common_options,
   });
 }
-
-export function getCSVUrl(board) {
-  return `${api_host}/boards/${board.id}/csv`;
-}

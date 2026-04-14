@@ -10,8 +10,17 @@
   } from "@sveltestrap/sveltestrap";
 
   import { Icons } from "../data.js";
-  import { board, colorMode, darkMode, ranks, sorted } from "../store.js";
-  import { createRank, getCSVUrl } from "../api.js";
+  import {
+    board,
+    cards,
+    colorMode,
+    darkMode,
+    password,
+    ranks,
+    sorted,
+  } from "../store.js";
+  import { createRank } from "../api.js";
+  import { decrypt } from "../encryption.js";
 
   import QRCode from "./QRCode.svelte";
   import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
@@ -32,6 +41,39 @@
 
   function error(message, err) {
     dispatch("error", { message, err });
+  }
+
+  function csvEscape(value) {
+    const str = String(value ?? "");
+    if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  }
+
+  async function downloadCSV() {
+    const rankMap = Object.fromEntries($ranks.map((r) => [r.id, r]));
+    const rows = await Promise.all(
+      $cards.map(async (card) => {
+        const rank = rankMap[card.column];
+        const column = rank ? $_(rank.name) : "";
+        const author = await decrypt(card.author, $password);
+        const text = await decrypt(card.text, $password);
+        const createdAt = new Date(card.created_at * 1000).toISOString();
+        return [column, author, text, createdAt, card.votes]
+          .map(csvEscape)
+          .join(",");
+      }),
+    );
+    const csv = ["column,author,text,created_at,votes", ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const date = new Date().toISOString().slice(0, 10);
+    a.download = `${await decrypt($board.name, $password)}-${date}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   async function addRank() {
@@ -126,7 +168,7 @@
       />
     </DropdownItem>
     <DropdownItem divider />
-    <DropdownItem data-name="download-csv-button" href={getCSVUrl($board)}>
+    <DropdownItem data-name="download-csv-button" on:click={downloadCSV}>
       <div class="d-inline-block icon position-relative" style="top: 2px">
         <Icons.download class="align-top" size="1x" />
       </div>
