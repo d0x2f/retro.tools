@@ -92,7 +92,7 @@
   }
 
   function toggleOptions() {
-    if (!$board.owner) {
+    if (!$board.owner && !$board.open_permission) {
       return;
     }
     if ($activeRankOptions != rank.id) {
@@ -171,7 +171,7 @@
             <Icons.enter size="100%" />
           </div>
         </Button>
-        {#if $board.owner}
+        {#if $board.owner || $board.open_permission}
           <Button
             data-name="delete-button"
             textColor={!$darkMode ? "danger" : "body"}
@@ -232,7 +232,9 @@
           data-card-id={card.id}
           animate:flip={{ duration: 200 }}
           class="py-1"
-          data-drag={!(card.owner || $board.owner) ? "false" : "true"}
+          data-drag={!(card.owner || $board.owner || $board.open_permission)
+            ? "false"
+            : "true"}
         >
           <Card {card} on:error color={rank.data.color} />
         </div>

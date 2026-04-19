@@ -109,7 +109,7 @@
     </div>
   </DropdownToggle>
   <DropdownMenu right>
-    {#if $board.owner}
+    {#if $board.owner || $board.open_permission}
       <DropdownItem
         data-name="add-column-button"
         on:click={addRank}
@@ -125,7 +125,7 @@
     <DropdownItem
       data-name="cards-open-button"
       toggle={false}
-      disabled={!$board.owner}
+      disabled={!$board.owner && !$board.open_permission}
       on:click={() => ($board.cards_open = !$board.cards_open)}
     >
       <ReadonlyCheckbox
@@ -137,7 +137,7 @@
     <DropdownItem
       data-name="voting-open-button"
       toggle={false}
-      disabled={!$board.owner}
+      disabled={!$board.owner && !$board.open_permission}
       on:click={() => ($board.voting_open = !$board.voting_open)}
     >
       <ReadonlyCheckbox
@@ -145,6 +145,18 @@
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
+    {#if $board.owner}
+      <DropdownItem
+        data-name="anyone-is-owner-button"
+        toggle={false}
+        on:click={() => ($board.open_permission = !$board.open_permission)}
+      >
+        <ReadonlyCheckbox
+          label={$_("board.options.open_permission")}
+          bind:checked={$board.open_permission}
+        />
+      </DropdownItem>
+    {/if}
     <DropdownItem divider />
     <DropdownItem
       data-name="sort-button"

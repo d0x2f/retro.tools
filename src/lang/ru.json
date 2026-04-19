@@ -56,6 +56,7 @@
   "board.options.download_csv": "Скачать CSV",
   "board.options.copy_link": "Копировать ссылку на доску",
   "board.options.new_column": "Новая столбец",
+  "board.options.open_permission": "Все — администраторы",
   "board.delete": "Удалить доску",
   "board.unlock": "Разблокировать",
   "board.author": "Автор",

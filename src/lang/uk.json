@@ -56,6 +56,7 @@
   "board.options.download_csv": "Завантажити CSV",
   "board.options.copy_link": "Скопіювати посилання",
   "board.options.new_column": "Новий стовпець",
+  "board.options.open_permission": "Всі — адміністратори",
   "board.unlock": "Розблокувати",
   "board.author": "Автор",
   "board.delete": "Видалити дошку",

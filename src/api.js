@@ -85,7 +85,12 @@ export async function createRank(boardId, name, position, data) {
   });
 }
 
-export async function createBoard(name, data, ice_breaking) {
+export async function createBoard(
+  name,
+  data,
+  ice_breaking,
+  open_permission = false,
+) {
   return requestJson(`${api_host}/boards`, {
     method: "POST",
     body: JSON.stringify({
@@ -94,6 +99,7 @@ export async function createBoard(name, data, ice_breaking) {
       cards_open: true,
       voting_open: true,
       ice_breaking,
+      open_permission,
     }),
     ...common_options,
   });
