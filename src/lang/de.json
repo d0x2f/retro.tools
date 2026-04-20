@@ -55,6 +55,7 @@
   "board.options.download_csv": "CSV herunterladen",
   "board.options.copy_link": "Link kopieren",
   "board.options.new_column": "Neue Spalte",
+  "board.options.obscure_cards": "Karten verbergen",
   "board.options.open_permission": "Alle sind Admin",
   "board.delete": "Board löschen",
   "board.unlock": "Entsperren",

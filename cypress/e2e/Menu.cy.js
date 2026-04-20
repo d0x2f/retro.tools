@@ -26,6 +26,10 @@ context("Menu", () => {
       .children()
       .first()
       .should("have.attr", "data-checked", "true");
+    cy.get("[data-name=obscure-cards-button]")
+      .children()
+      .first()
+      .should("have.attr", "data-checked", "false");
     cy.get("[data-name=sort-button]")
       .children()
       .first()
@@ -40,6 +44,7 @@ context("Menu", () => {
     cy.get("[data-name=menu-button]").click();
     cy.get("[data-name=cards-open-button]").should("be.visible");
     cy.get("[data-name=voting-open-button]").should("be.visible");
+    cy.get("[data-name=obscure-cards-button]").should("be.visible");
     cy.get("[data-name=sort-button]").should("be.visible");
     cy.get("[data-name=copy-link-button]").should("be.visible");
     cy.get("[data-name=download-csv-button]").should("be.visible");

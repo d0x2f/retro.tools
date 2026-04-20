@@ -40,6 +40,7 @@ export const board = writable({
   open_permission: false,
   data: {
     encryptionTest: "encryptionTest",
+    obscure_cards: false,
   },
 });
 

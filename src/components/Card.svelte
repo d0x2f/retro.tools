@@ -26,6 +26,8 @@
   export let card;
   export let color;
 
+  $: obscured = $board.data?.obscure_cards && !card.owner;
+
   let editMode = false;
   let reactDrawOpen = false;
   let newCardText = "";
@@ -136,7 +138,11 @@
           <div class="m-0 w-100">
             <div class="d-flex flex-wrap">
               <div class="flex-grow-1">
-                {#if card.author.length > 0}
+                {#if obscured}
+                  <div class="text-secondary fw-bold">
+                    {$_("card.anonymous")}
+                  </div>
+                {:else if card.author.length > 0}
                   <div class:text-primary={!$darkMode} class="fw-bold pb-1">
                     <EncryptedText bind:text={card.author} />
                   </div>
@@ -191,9 +197,13 @@
             role="button"
             tabindex="0"
             on:keypress={null}
-            on:click={startEdit}
+            on:click={obscured ? null : startEdit}
           >
-            <EncryptedText bind:text={card.text} />
+            {#if obscured}
+              <div data-name="obscured-placeholder" class="obscured-text"></div>
+            {:else}
+              <EncryptedText bind:text={card.text} />
+            {/if}
           </div>
         </div>
       {/if}
@@ -279,5 +289,13 @@
 
   .pointer {
     cursor: pointer;
+  }
+
+  .obscured-text {
+    width: 100%;
+    height: 1em;
+    border-radius: 3px;
+    background: currentColor;
+    opacity: 0.15;
   }
 </style>

@@ -145,6 +145,22 @@
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
+    <DropdownItem
+      data-name="obscure-cards-button"
+      toggle={false}
+      disabled={!$board.owner && !$board.open_permission}
+      on:click={() =>
+        ($board = {
+          ...$board,
+          data: { ...$board.data, obscure_cards: !$board.data.obscure_cards },
+        })}
+    >
+      <ReadonlyCheckbox
+        label={$_("board.options.obscure_cards")}
+        checked={!!$board.data?.obscure_cards}
+        on:click={preventDefault}
+      />
+    </DropdownItem>
     {#if $board.owner}
       <DropdownItem
         data-name="anyone-is-owner-button"
