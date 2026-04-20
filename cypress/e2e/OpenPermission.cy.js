@@ -218,14 +218,16 @@ context("OpenPermission", () => {
       cy.get("[data-name=add-column-button]").click();
 
       if (Cypress.config("viewportWidth") < 992) {
-        cy.get("[data-name=rank-tabs] > label").last().click();
+        cy.get("[data-name=rank-tabs] > label").contains("Untitled").click();
       }
 
       cy.get("[data-name=card-text-input][placeholder='Untitled']:visible")
         .should("exist")
         .closest("[data-name=rank]")
         .within(() => {
-          cy.get("[data-name=rank-header] [data-name=delete-button]:visible").click();
+          cy.get(
+            "[data-name=rank-header] [data-name=delete-button]:visible",
+          ).click();
           cy.get("[data-name=rank-header] [data-name=confirm-button]")
             .should("exist")
             .click({ force: true });
