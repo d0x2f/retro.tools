@@ -217,6 +217,9 @@ context("OpenPermission", () => {
       cy.get("[data-name=menu-button]").click();
       cy.get("[data-name=add-column-button]").click();
 
+      // Wait for the new rank to appear before interacting with it
+      cy.get("[data-name=rank-tabs] > label").should("contain.text", "Untitled");
+
       if (Cypress.config("viewportWidth") < 992) {
         cy.get("[data-name=rank-tabs] > label").contains("Untitled").click();
       }

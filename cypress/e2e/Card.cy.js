@@ -37,7 +37,7 @@ context("Card", () => {
       .should("have.length", 1);
   });
 
-  it.only("can edit the card", () => {
+  it("can edit the card", () => {
     cy.get("[data-name=card-content]:visible").click();
     cy.get("[data-name=card-edit-field]").should("exist");
 
