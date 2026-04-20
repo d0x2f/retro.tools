@@ -55,6 +55,7 @@
   "board.options.download_csv": "CSV 다운로드",
   "board.options.copy_link": "링크 복사하기",
   "board.options.new_column": "새로운 컬럼이",
+  "board.options.open_permission": "모두 관리자",
   "board.delete": "회고록 삭제",
   "board.unlock": "해제하기",
   "board.author": "작성자",

@@ -56,6 +56,7 @@
   "board.options.download_csv": "Baixar CSV",
   "board.options.copy_link": "Copiar Link",
   "board.options.new_column": "Nova Coluna",
+  "board.options.open_permission": "Todos são administradores",
   "board.delete": "Apagar quadro",
   "board.unlock": "Desbloquear",
   "board.author": "Autor",

@@ -40,7 +40,7 @@
   }
 
   async function startEdit() {
-    if (!card.owner) {
+    if (!card.owner && !$board.owner && !$board.open_permission) {
       return;
     }
     newCardText = await decrypt(card.text, $password);
@@ -199,7 +199,7 @@
       {/if}
     </div>
     <div class="p-1 pt-3 bg-{$colorMode}-accent rounded-end">
-      {#if card.owner || $board.owner}
+      {#if card.owner || $board.owner || $board.open_permission}
         <Button
           data-name="delete-button"
           textColor={!$darkMode ? "danger" : "body"}

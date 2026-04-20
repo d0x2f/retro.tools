@@ -56,6 +56,7 @@
   "board.options.download_csv": "Download CSV",
   "board.options.copy_link": "Copy Link",
   "board.options.new_column": "New Column",
+  "board.options.open_permission": "Everyone is Admin",
   "board.unlock": "Unlock",
   "board.author": "Author",
   "board.delete": "Delete board",

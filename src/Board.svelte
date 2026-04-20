@@ -121,6 +121,7 @@
       a.voting_open === b.voting_open &&
       a.cards_open === b.cards_open &&
       a.ice_breaking === b.ice_breaking &&
+      a.open_permission === b.open_permission &&
       JSON.stringify(a.data) === JSON.stringify(b.data)
     );
   }
@@ -144,7 +145,7 @@
     // Compare updated boards to their last known value
     // to ensure we don't send supurfluous calls.
     let previousBoard = { ...$board };
-    if ($board.owner) {
+    if ($board.owner || $board.open_permission) {
       unsubscribeLocalBoard = board.subscribe((b) => {
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
@@ -155,11 +156,15 @@
       });
     }
 
-    // If we're not the owner, subscribe to remote changes
+    // Non-owners subscribe to remote changes to stay in sync.
+    // Update previousBoard before setting the store to prevent echo-back pushes.
     if (!$board.owner) {
       unsubscribeBoard = await subscribeToBoard(
         boardId,
-        (b) => board.set(b),
+        (b) => {
+          previousBoard = { ...b };
+          board.set(b);
+        },
         () => {
           navigate("/not-found");
         },

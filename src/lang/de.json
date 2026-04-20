@@ -55,6 +55,7 @@
   "board.options.download_csv": "CSV herunterladen",
   "board.options.copy_link": "Link kopieren",
   "board.options.new_column": "Neue Spalte",
+  "board.options.open_permission": "Alle sind Admin",
   "board.delete": "Board löschen",
   "board.unlock": "Entsperren",
   "board.author": "Autor",
@@ -77,5 +78,5 @@
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
   "language.tr": "Türkçe",
-  "language.uk": "Українська" 
+  "language.uk": "Українська"
 }

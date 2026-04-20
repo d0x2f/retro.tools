@@ -56,6 +56,7 @@
   "board.options.download_csv": "CSV olarak indir",
   "board.options.copy_link": "Linki kopyala",
   "board.options.new_column": "Yeni sütün ekle",
+  "board.options.open_permission": "Herkes Yönetici",
   "board.unlock": "Kilidi kaldır",
   "board.author": "Yazar",
   "board.delete": "Panoyu sil",

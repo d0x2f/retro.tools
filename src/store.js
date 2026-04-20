@@ -37,6 +37,7 @@ export const board = writable({
   ice_breaking: "",
   error: "",
   owner: false,
+  open_permission: false,
   data: {
     encryptionTest: "encryptionTest",
   },
