@@ -57,10 +57,12 @@ context("ObscureCards", () => {
     });
 
     it("is off by default", () => {
+      cy.get("[data-name=menu-button]").click();
       cy.get("[data-name=obscure-cards-button]")
         .children()
         .first()
         .should("have.attr", "data-checked", "false");
+      cy.get("[data-name=menu-button]").click();
     });
 
     it("can toggle obscure cards on and off", () => {
