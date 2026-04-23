@@ -29,19 +29,25 @@
     return `${m}:${s}`;
   }
 
-  // Reactive interval — restarts automatically when isRunning changes,
-  // including when a remote participant starts the timer via Firestore.
-  $: {
+  // Restart or stop the interval whenever the timer end timestamp changes.
+  // Using a named function keeps reactive dependencies explicit for the linter.
+  $: updateInterval(timerEndAt);
+
+  function updateInterval(endAt) {
     clearInterval(intervalId);
-    if (isRunning) {
-      displayMs = getRemainingMs();
-      intervalId = setInterval(() => {
-        displayMs = getRemainingMs();
-        if (displayMs <= 0) clearInterval(intervalId);
-      }, 1000);
+    if (endAt !== null && Date.now() < endAt) {
+      tick();
+      intervalId = setInterval(tick, 1000);
+    } else if (endAt !== null) {
+      displayMs = 0;
     } else {
-      displayMs = isExpired ? 0 : timerDuration * 60 * 1000;
+      displayMs = timerDuration * 60 * 1000;
     }
+  }
+
+  function tick() {
+    displayMs = Math.max(0, timerEndAt - Date.now());
+    if (displayMs <= 0) clearInterval(intervalId);
   }
 
   $: colorState =
@@ -106,7 +112,7 @@
       <small class="text-secondary me-1"
         >{$_("board.timer.duration_label")}:</small
       >
-      {#each [5, 10, 15, 20] as mins}
+      {#each [5, 10, 15, 20] as mins (mins)}
         <button
           class="btn btn-sm"
           class:btn-primary={timerDuration === mins}
