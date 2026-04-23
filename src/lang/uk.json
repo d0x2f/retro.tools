@@ -80,5 +80,12 @@
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
   "language.tr": "Türkçe",
-  "language.uk": "Українська"
+  "language.uk": "Українська",
+  "board.options.show_timer": "Показати таймер",
+  "board.timer.duration_label": "Тривалість",
+  "board.timer.minutes": "хв",
+  "board.timer.start": "Старт",
+  "board.timer.stop": "Стоп",
+  "board.timer.reset": "Скинути",
+  "board.timer.times_up": "Час вийшов!"
 }

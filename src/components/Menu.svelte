@@ -23,12 +23,17 @@
   import { decrypt } from "../encryption.js";
 
   import QRCode from "./QRCode.svelte";
+  import Timer from "./Timer.svelte";
   import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
   import { createEventDispatcher } from "svelte";
   import { navigate } from "svelte-routing";
 
   let isOpen = false;
   let showQR = false;
+  let showTimer = false;
+
+  // Auto-show timer widget for all participants when a timer is active or expired
+  $: if ($board.data?.timer_end_at != null) showTimer = true;
 
   new ClipboardJS("button");
 
@@ -195,6 +200,16 @@
         bind:checked={showQR}
       />
     </DropdownItem>
+    <DropdownItem
+      data-name="show-timer-button"
+      toggle={false}
+      on:click={() => (showTimer = !showTimer)}
+    >
+      <ReadonlyCheckbox
+        label={$_("board.options.show_timer")}
+        bind:checked={showTimer}
+      />
+    </DropdownItem>
     <DropdownItem divider />
     <DropdownItem data-name="download-csv-button" on:click={downloadCSV}>
       <div class="d-inline-block icon position-relative" style="top: 2px">
@@ -266,6 +281,16 @@
   </div>
 {/if}
 
+{#if showTimer}
+  <div
+    class="timer-overlay m-1"
+    in:fly={{ y: 100, duration: 400 }}
+    out:fly={{ y: 100, duration: 400 }}
+  >
+    <Timer canControl={$board.owner || $board.open_permission} />
+  </div>
+{/if}
+
 <style>
   .icon {
     width: 1.5em;
@@ -277,5 +302,18 @@
     position: fixed;
     left: 0;
     bottom: 0;
+  }
+
+  .timer-overlay {
+    z-index: 1040;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+  }
+
+  @media (max-width: 992px) {
+    .timer-overlay {
+      bottom: 4rem;
+    }
   }
 </style>

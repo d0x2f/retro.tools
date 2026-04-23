@@ -80,5 +80,12 @@
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
   "language.tr": "Türkçe",
-  "language.uk": "Українська"
+  "language.uk": "Українська",
+  "board.options.show_timer": "Zamanlayıcıyı göster",
+  "board.timer.duration_label": "Süre",
+  "board.timer.minutes": "dk",
+  "board.timer.start": "Başlat",
+  "board.timer.stop": "Durdur",
+  "board.timer.reset": "Sıfırla",
+  "board.timer.times_up": "Süre doldu!"
 }

@@ -40,6 +40,7 @@ import {
   AwardIcon,
   MinusIcon,
   ExternalLinkIcon,
+  ClockIcon,
 } from "svelte-feather-icons";
 
 export const Colors = {
@@ -103,6 +104,7 @@ export const Icons = {
   columns: ColumnsIcon,
   award: AwardIcon,
   externalLink: ExternalLinkIcon,
+  clock: ClockIcon,
 };
 
 export const ColumnIcons = [

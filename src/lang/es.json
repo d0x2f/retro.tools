@@ -79,5 +79,12 @@
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
   "language.tr": "Türkçe",
-  "language.uk": "Українська"
+  "language.uk": "Українська",
+  "board.options.show_timer": "Mostrar temporizador",
+  "board.timer.duration_label": "Duración",
+  "board.timer.minutes": "min",
+  "board.timer.start": "Iniciar",
+  "board.timer.stop": "Detener",
+  "board.timer.reset": "Reiniciar",
+  "board.timer.times_up": "¡Tiempo agotado!"
 }

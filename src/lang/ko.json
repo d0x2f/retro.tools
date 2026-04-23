@@ -79,5 +79,12 @@
   "language.ru": "Русский",
   "language.pt_BR": "Português do Brasil",
   "language.tr": "Türkçe",
-  "language.uk": "Українська"
+  "language.uk": "Українська",
+  "board.options.show_timer": "타이머 보기",
+  "board.timer.duration_label": "시간",
+  "board.timer.minutes": "분",
+  "board.timer.start": "시작",
+  "board.timer.stop": "정지",
+  "board.timer.reset": "재설정",
+  "board.timer.times_up": "시간이 종료되었습니다!"
 }
