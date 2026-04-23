@@ -148,6 +148,7 @@ context("ObscureCards", () => {
     it("cannot click to edit an obscured card", () => {
       cy.get("[data-name=card]:visible")
         .filter(":has([data-name=obscured-placeholder])")
+        .should("have.length.at.least", 1)
         .first()
         .find("[data-name=card-content]")
         .click();
