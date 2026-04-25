@@ -3,15 +3,15 @@
   import { Button, ButtonGroup } from "@sveltestrap/sveltestrap";
   import { colorMode } from "../store";
 
-  // rows as shown in the app
-  export let emojis = [
-    ["👍", "👎", "👏", "🙌", "👌"],
-    ["😂", "😍", "😱", "😓", "🤨"],
-    ["🤔", "😡", "🍺", "🔥", "👀"],
-    ["💩", "🎉", "❤️", "🐛", "💬"],
-  ];
-
-  export let current = "";
+  let {
+    emojis = [
+      ["👍", "👎", "👏", "🙌", "👌"],
+      ["😂", "😍", "😱", "😓", "🤨"],
+      ["🤔", "😡", "🍺", "🔥", "👀"],
+      ["💩", "🎉", "❤️", "🐛", "💬"],
+    ],
+    current = "",
+  } = $props();
 
   const dispatch = createEventDispatcher();
 </script>

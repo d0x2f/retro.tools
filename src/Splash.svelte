@@ -14,10 +14,12 @@
   import CreateForm from "./components/CreateForm.svelte";
   import Button from "./components/Button.svelte";
 
-  export let errorAlertVisible = false;
-  export let errorAlertMessage = "error.network";
+  let {
+    errorAlertVisible = $bindable(false),
+    errorAlertMessage = $bindable("error.network"),
+  } = $props();
 
-  let boards = [];
+  let boards = $state([]);
   let errorClearTimeout;
 
   async function doGetBoards() {

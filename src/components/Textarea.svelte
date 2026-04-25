@@ -1,23 +1,27 @@
 <script>
+  import { run, createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
   import { createEventDispatcher } from "svelte";
   import { autoresize as autoresizer } from "svelte-textarea-autoresize";
   import clsx from "clsx";
 
   import { filterDataKeys } from "../utils.js";
 
-  export let value = "";
-  export let placeholder = "";
-  export let autoresize = false;
-  export let autofocus = false;
-  export let minWidth = "0px";
-
-  let className = "";
-  export { className as class };
+  let {
+    value = $bindable(""),
+    placeholder = "",
+    autoresize = false,
+    autofocus = false,
+    minWidth = "0px",
+    class: className = "",
+    ...rest
+  } = $props();
 
   const dispatch = createEventDispatcher();
-  let element;
-  let classes;
-  let data = {};
+  let element = $state();
+  let classes = $state();
+  let data = $state({});
 
   function keyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
@@ -36,21 +40,23 @@
 
   // This snippet ensures that the input box returns to a single line
   // when it's cleared via svelte reactively.
-  $: {
+  run(() => {
     if (element && value.length == 0) {
       element.value = "";
       element.dispatchEvent(new Event("input"));
     }
 
     classes = clsx(className, "form-control");
-  }
+  });
 
   function use(el) {
     if (autoresize) autoresizer(el);
     if (autofocus) el.focus();
   }
 
-  $: data = filterDataKeys($$restProps);
+  run(() => {
+    data = filterDataKeys(rest);
+  });
 </script>
 
 <textarea
@@ -59,9 +65,9 @@
   style="min-width: {minWidth}"
   bind:this={element}
   use:use
-  on:focus
-  on:blur
-  on:keydown={keyDown}
+  onfocus={bubble("focus")}
+  onblur={bubble("blur")}
+  onkeydown={keyDown}
   class={classes}
   bind:value
   {placeholder}

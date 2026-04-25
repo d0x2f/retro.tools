@@ -1,17 +1,23 @@
 <script>
+  import { createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
   import clsx from "clsx";
 
-  let className = "";
-  export { className as class };
-  export let disabled = false;
-  export let checked = false;
-  export let label = "";
-  export let addon = false;
-  export let id = "id-" + Math.floor(Math.random() * 10000);
+  let {
+    class: className = "",
+    disabled = false,
+    checked = $bindable(false),
+    label = "",
+    addon = false,
+    id = "id-" + Math.floor(Math.random() * 10000),
+  } = $props();
 
-  $: wrapperClasses = clsx(className, "custom-checkbox", "custom-control");
+  let wrapperClasses = $derived(
+    clsx(className, "custom-checkbox", "custom-control"),
+  );
 
-  $: directClasses = clsx(className, { "form-check-input": !addon });
+  let directClasses = $derived(clsx(className, { "form-check-input": !addon }));
 </script>
 
 {#if label}
@@ -23,7 +29,7 @@
       {disabled}
       {label}
       bind:checked
-      on:input
+      oninput={bubble("input")}
     />
     <label class="custom-control-label" for={id}>{label}</label>
   </div>
@@ -34,6 +40,6 @@
     class={directClasses}
     {disabled}
     bind:checked
-    on:input
+    oninput={bubble("input")}
   />
 {/if}

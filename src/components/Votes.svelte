@@ -7,9 +7,7 @@
 
   import Button from "./Button.svelte";
 
-  export let votes = 0;
-  export let voted = false;
-  export let color;
+  let { votes = 0, voted = false, color } = $props();
 
   const dispatch = createEventDispatcher();
 </script>

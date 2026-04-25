@@ -1,4 +1,6 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import { onMount, onDestroy } from "svelte";
   import { fade, fly } from "svelte/transition";
   import dragula from "dragula";
@@ -30,33 +32,35 @@
   import Alert from "./components/Alert.svelte";
   import IceBreaker from "./components/IceBreaker.svelte";
 
-  export let boardId;
+  let { boardId } = $props();
 
   let unsubscribeLocalBoard,
     unsubscribeBoard,
     unsubscribeRanks,
     unsubscribeCards;
 
-  let errorAlertVisible = false;
-  let errorAlertMessage = "Network error!";
+  let errorAlertVisible = $state(false);
+  let errorAlertMessage = $state("Network error!");
   let errorClearTimeout;
   let connectionLost = false;
-  let passwordRequired = false;
-  let busy = true;
-  let sortedRanks = [];
+  let passwordRequired = $state(false);
+  let busy = $state(true);
+  let sortedRanks = $state([]);
 
-  let drake = dragula({
-    revertOnSpill: true,
-    copySortSource: false,
-    copy: true,
-    moves: (el) => el.dataset.drag !== "false",
-    accepts: (el, target) => {
-      return (
-        target.dataset.rankId !==
-        $cards.find((c) => c.id === el.dataset.cardId).column
-      );
-    },
-  });
+  let drake = $state(
+    dragula({
+      revertOnSpill: true,
+      copySortSource: false,
+      copy: true,
+      moves: (el) => el.dataset.drag !== "false",
+      accepts: (el, target) => {
+        return (
+          target.dataset.rankId !==
+          $cards.find((c) => c.id === el.dataset.cardId).column
+        );
+      },
+    }),
+  );
 
   drake.on("over", (_el, container) => {
     const emptyText = container.querySelector("small");
@@ -88,9 +92,9 @@
     }
   });
 
-  $: {
-    sortedRanks = $ranks.sort((a, b) => a.position - b.position);
-  }
+  run(() => {
+    sortedRanks = [...$ranks].sort((a, b) => a.position - b.position);
+  });
 
   function error(message, err) {
     if (err) console.error(err);
@@ -239,7 +243,7 @@
         min-vh-90"
       >
         {#each sortedRanks as rank, i (rank.id)}
-          <Rank bind:rank bind:drake on:error={handleError} />
+          <Rank bind:rank={sortedRanks[i]} {drake} on:error={handleError} />
           {#if i !== sortedRanks.length - 1}
             <div
               class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0"
@@ -258,9 +262,9 @@
       class="d-block flex-grow-1 d-lg-none scroll"
     >
       <IceBreaker class="w-100" />
-      {#each sortedRanks as rank (rank.id)}
+      {#each sortedRanks as rank, i (rank.id)}
         {#if rank.id == $focusedRank}
-          <Rank bind:rank on:error={handleError} />
+          <Rank bind:rank={sortedRanks[i]} on:error={handleError} />
         {/if}
       {:else}
         <p class="text-center text-secondary mt-5">{$_("board.no_columns")}</p>
@@ -307,6 +311,7 @@
             bind:group={$focusedRank}
             value={rank.id}
           />
+          {@const SvelteComponent = Icons[rank.data.icon]}
           <label
             for={rank.id}
             class="px-0 m-0 border-top text-uppercase"
@@ -317,7 +322,7 @@
             "
           >
             <div class="icon d-inline-block">
-              <svelte:component this={Icons[rank.data.icon]} />
+              <SvelteComponent />
             </div>
             <br />
             {$_(rank.name)}

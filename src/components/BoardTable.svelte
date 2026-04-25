@@ -8,8 +8,8 @@
   import BoardRow from "./BoardRow.svelte";
   import Button from "./Button.svelte";
 
-  export let boards = [];
-  let expanded = false;
+  let { boards = [] } = $props();
+  let expanded = $state(false);
 </script>
 
 {#if boards.length > 0}
@@ -27,7 +27,7 @@
     <div in:slide out:slide data-name="board-table" class="text-dark">
       <Table hover class="w-100">
         <tbody>
-          {#each boards.sort((a, b) => {
+          {#each boards.toSorted((a, b) => {
             return b.created_at > a.created_at ? 1 : -1;
           }) as board (board.id)}
             <BoardRow {board} on:click on:deleted on:error />

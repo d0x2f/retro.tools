@@ -1,20 +1,25 @@
 <script>
+  import { run, createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
   import { createEventDispatcher } from "svelte";
   import clsx from "clsx";
 
   import { filterDataKeys } from "../utils.js";
 
-  let className = "";
-  export { className as class };
-  export let disabled = false;
-  export let autofocus = false;
-  export let value = "";
-  export let type = "text";
-  export let placeholder = "";
+  let {
+    class: className = "",
+    disabled = false,
+    autofocus = false,
+    value = $bindable(""),
+    type = "text",
+    placeholder = "",
+    ...rest
+  } = $props();
 
   const dispatch = createEventDispatcher();
-  let classes = "";
-  let data = {};
+  let classes = $state("");
+  let data = $state({});
 
   function keyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
@@ -35,8 +40,12 @@
     if (autofocus) el.focus();
   }
 
-  $: classes = clsx(className, "form-control");
-  $: data = filterDataKeys($$restProps);
+  run(() => {
+    classes = clsx(className, "form-control");
+  });
+  run(() => {
+    data = filterDataKeys(rest);
+  });
 </script>
 
 {#if type == "password"}
@@ -46,10 +55,10 @@
     class={classes}
     {disabled}
     use:use
-    on:click
-    on:focus
-    on:blur
-    on:keydown={keyDown}
+    onclick={bubble("click")}
+    onfocus={bubble("focus")}
+    onblur={bubble("blur")}
+    onkeydown={keyDown}
     bind:value
     {placeholder}
   />
@@ -60,10 +69,10 @@
     class={classes}
     {disabled}
     use:use
-    on:click
-    on:focus
-    on:blur
-    on:keydown={keyDown}
+    onclick={bubble("click")}
+    onfocus={bubble("focus")}
+    onblur={bubble("blur")}
+    onkeydown={keyDown}
     bind:value
     {placeholder}
   />

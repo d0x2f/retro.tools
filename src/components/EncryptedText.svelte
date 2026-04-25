@@ -4,7 +4,7 @@
   import { password, board } from "../store.js";
   import { decrypt, checkBoardPassword } from "../encryption.js";
 
-  export let text;
+  let { text } = $props();
 </script>
 
 {#if text}

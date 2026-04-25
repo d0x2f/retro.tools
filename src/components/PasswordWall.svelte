@@ -10,10 +10,10 @@
   import Input from "./Input.svelte";
   import Spinner from "./Spinner.svelte";
 
-  let showPassword = false;
-  let checkBusy = false;
-  let inputPassword = "";
-  let inputBox;
+  let showPassword = $state(false);
+  let checkBusy = $state(false);
+  let inputPassword = $state("");
+  let inputBox = $state();
 
   const dispatch = createEventDispatcher();
 

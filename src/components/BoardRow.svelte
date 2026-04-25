@@ -11,11 +11,11 @@
   import Spinner from "./Spinner.svelte";
   import { colorMode } from "../store.js";
 
-  export let board;
+  let { board } = $props();
 
   const dispatch = createEventDispatcher();
-  let showDeleteBoardConfirmBox = false;
-  let busy = false;
+  let showDeleteBoardConfirmBox = $state(false);
+  let busy = $state(false);
 
   function error(message, err) {
     dispatch("error", { message, err });
@@ -51,8 +51,8 @@
 <tr
   data-name="board-row"
   data-board-id={board.id}
-  on:keypress={null}
-  on:click={() => dispatch("click", board.id)}
+  onkeypress={null}
+  onclick={() => dispatch("click", board.id)}
 >
   <td class="pointer border-top-0">
     {#if board.name}

@@ -1,4 +1,6 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import clsx from "clsx";
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
@@ -9,13 +11,13 @@
   import Input from "./Input.svelte";
   import EncryptedText from "./EncryptedText.svelte";
 
-  let showIceBreaking = false;
-  let iceBreakingEditMode = false;
-  let newIceBreakingText = "";
+  let showIceBreaking = $state(false);
+  let iceBreakingEditMode = $state(false);
+  let newIceBreakingText = $state("");
 
-  let classes = "";
-  let className = "";
-  export { className as class };
+  let classes = $state("");
+
+  let { class: className = "" } = $props();
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
@@ -38,13 +40,15 @@
     showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== "";
   });
 
-  $: classes = clsx(
-    className,
-    "p-3",
-    "mx-auto",
-    "d-flex",
-    "justify-content-center",
-  );
+  run(() => {
+    classes = clsx(
+      className,
+      "p-3",
+      "mx-auto",
+      "d-flex",
+      "justify-content-center",
+    );
+  });
 </script>
 
 {#if showIceBreaking}
@@ -52,8 +56,8 @@
     class={classes}
     role="button"
     tabindex="0"
-    on:click={startEdit}
-    on:keypress={null}
+    onclick={startEdit}
+    onkeypress={null}
   >
     {#if iceBreakingEditMode}
       <Input

@@ -7,7 +7,7 @@
   import { colorMode, darkMode } from "./store";
   import { onMount } from "svelte";
 
-  export let url = "";
+  let { url = "" } = $props();
 
   onMount(() => {
     const darkModeChangeListener = (m) =>
@@ -49,9 +49,11 @@
       />
     </div>
   </Route>
-  <Route path="/:id" let:params>
-    <div class="h-100" in:fade out:fade>
-      <Board boardId={params.id} />
-    </div>
+  <Route path="/:id">
+    {#snippet children({ params })}
+      <div class="h-100" in:fade out:fade>
+        <Board boardId={params.id} />
+      </div>
+    {/snippet}
   </Route>
 </Router>

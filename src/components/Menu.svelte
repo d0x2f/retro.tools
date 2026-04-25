@@ -1,4 +1,6 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import ClipboardJS from "clipboard";
   import { _ } from "svelte-i18n";
   import { fly } from "svelte/transition";
@@ -28,12 +30,14 @@
   import { createEventDispatcher } from "svelte";
   import { navigate } from "svelte-routing";
 
-  let isOpen = false;
-  let showQR = false;
-  let showTimer = false;
+  let isOpen = $state(false);
+  let showQR = $state(false);
+  let showTimer = $state(false);
 
   // Auto-show timer widget for all participants when a timer is active or expired
-  $: if ($board.data?.timer_end_at != null) showTimer = true;
+  run(() => {
+    if ($board.data?.timer_end_at != null) showTimer = true;
+  });
 
   new ClipboardJS("button");
 

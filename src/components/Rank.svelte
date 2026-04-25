@@ -1,4 +1,6 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import { onMount, createEventDispatcher } from "svelte";
   import { flip } from "svelte/animate";
   import { _ } from "svelte-i18n";
@@ -26,28 +28,25 @@
   import { slide } from "svelte/transition";
   import RankOptions from "./RankOptions.svelte";
 
-  export let rank;
-  export let drake = null;
+  let { rank = $bindable(), drake = null } = $props();
 
-  let dropTarget;
-  let sortedFilteredCards;
-  let columnWidth = "col-lg-3";
-  let newCardText = "";
-  let deleteConfirmMode = false;
-
-  const dispatch = createEventDispatcher();
-
-  $: {
-    sortedFilteredCards = $cards
+  let dropTarget = $state();
+  let sortedFilteredCards = $derived(
+    $cards
       .filter((c) => c.column === rank.id)
       .sort((a, b) =>
         $sorted
           ? b.votes - a.votes || a.created_at - b.created_at
           : a.created_at - b.created_at,
-      );
-  }
+      ),
+  );
+  let columnWidth = $state("col-lg-3");
+  let newCardText = $state("");
+  let deleteConfirmMode = $state(false);
 
-  $: {
+  const dispatch = createEventDispatcher();
+
+  run(() => {
     switch ($ranks.length) {
       case 1:
       case 2:
@@ -61,7 +60,7 @@
         columnWidth = `col-lg-${Math.floor(12 / $ranks.length)}`;
         break;
     }
-  }
+  });
 
   function error(message, err) {
     dispatch("error", { message, err });
@@ -112,6 +111,8 @@
   }
 
   onMount(() => drake?.containers.push(dropTarget));
+
+  const SvelteComponent = $derived(Icons[rank.data.icon]);
 </script>
 
 <div
@@ -134,10 +135,10 @@
           role="button"
           data-name="rank-options-button"
           tabindex="0"
-          on:keypress={null}
-          on:click={toggleOptions}
+          onkeypress={null}
+          onclick={toggleOptions}
         >
-          <svelte:component this={Icons[rank.data.icon]} />
+          <SvelteComponent />
         </div>
       </div>
       <div class="d-flex input-group flex-nowrap">
@@ -242,7 +243,7 @@
     {:else}
       {#each sortedFilteredCards as card (card.id)}
         <div animate:flip={{ duration: 200 }} class="py-2">
-          <Card bind:card on:error color={rank.data.color} />
+          <Card {card} on:error color={rank.data.color} />
         </div>
       {/each}
     {/if}

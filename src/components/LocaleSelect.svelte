@@ -10,14 +10,11 @@
   import { colorMode } from "../store";
   import clsx from "clsx";
 
-  export let size = "";
+  let { size = "", class: className = "" } = $props();
 
-  let className = "";
-  export { className as class };
+  let localesOpen = $state(false);
 
-  let localesOpen = false;
-
-  $: classes = clsx(className);
+  let classes = $derived(clsx(className));
 
   function setLocale(l) {
     locale.set(l);
@@ -43,7 +40,7 @@
     {:else}{$_("language.en")}{/if}
   </DropdownToggle>
   <DropdownMenu right class="mw-0">
-    {#each $locales.sort() as locale (locale)}
+    {#each [...$locales].sort() as locale (locale)}
       <DropdownItem
         data-name="locale-select-{locale}"
         toggle={true}

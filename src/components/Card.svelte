@@ -23,15 +23,14 @@
   import Button from "./Button.svelte";
   import { Icons } from "../data.js";
 
-  export let card;
-  export let color;
+  let { card = $bindable(), color = $bindable() } = $props();
 
-  $: obscured = $board.data?.obscure_cards && !card.owner;
+  let obscured = $derived($board.data?.obscure_cards && !card.owner);
 
-  let editMode = false;
-  let reactDrawOpen = false;
-  let newCardText = "";
-  let deleteConfirmMode = false;
+  let editMode = $state(false);
+  let reactDrawOpen = $state(false);
+  let newCardText = $state("");
+  let deleteConfirmMode = $state(false);
 
   const cardSlug = (Math.random() + 1).toString(36).substring(7);
 
@@ -183,7 +182,7 @@
               >
                 <div
                   use:clickOutside
-                  on:clickOutside={() => (reactDrawOpen = !reactDrawOpen)}
+                  onclickOutside={() => (reactDrawOpen = !reactDrawOpen)}
                 >
                   <ReactDrawer on:selected={doReact} current={card.reacted} />
                 </div>
@@ -196,8 +195,8 @@
             class="p-1 w-100 pre-wrap"
             role="button"
             tabindex="0"
-            on:keypress={null}
-            on:click={obscured ? null : startEdit}
+            onkeypress={null}
+            onclick={obscured ? null : startEdit}
           >
             {#if obscured}
               <div data-name="obscured-placeholder" class="obscured-text"></div>

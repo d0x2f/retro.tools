@@ -15,13 +15,13 @@
   import Spinner from "./Spinner.svelte";
 
   const dispatch = createEventDispatcher();
-  let boardName = "";
-  let templateKey = "dropAddKeepImprove";
-  let iceBreakingQuestion = "";
-  let passwordDisabled = true;
-  let showPassword = false;
-  let createBusy = false;
-  let optionsExpanded = false;
+  let boardName = $state("");
+  let templateKey = $state("dropAddKeepImprove");
+  let iceBreakingQuestion = $state("");
+  let passwordDisabled = $state(true);
+  let showPassword = $state(false);
+  let createBusy = $state(false);
+  let optionsExpanded = $state(false);
 
   async function createFromTemplate(template) {
     let [boardNameEncrypted, encryptionTest, iceBreakingQuestionEncrypted] =

@@ -1,13 +1,11 @@
 <script>
   import clsx from "clsx";
 
-  let className = "";
-  export { className as class };
-  export let hover = false;
+  let { class: className = "", hover = false, children } = $props();
 
-  $: classes = clsx(className, "table", { "table-hover": hover });
+  let classes = $derived(clsx(className, "table", { "table-hover": hover }));
 </script>
 
 <table class={classes}>
-  <slot />
+  {@render children?.()}
 </table>

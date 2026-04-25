@@ -1,14 +1,16 @@
 <script>
   import clsx from "clsx";
 
-  let className = "";
-  export { className as class };
-  export let disabled = false;
-  export let value = "";
+  let {
+    class: className = "",
+    disabled = false,
+    value = $bindable(""),
+    children,
+  } = $props();
 
-  $: classes = clsx(className, "form-select");
+  let classes = $derived(clsx(className, "form-select"));
 </script>
 
 <select class={classes} {disabled} bind:value>
-  <slot />
+  {@render children?.()}
 </select>

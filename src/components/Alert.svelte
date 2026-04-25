@@ -1,23 +1,32 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import clsx from "clsx";
   import { fade } from "svelte/transition";
 
   import { filterDataKeys } from "../utils.js";
 
-  let className = "";
-  export { className as class };
-  export let isOpen = true;
-  export let color = "success";
+  let {
+    class: className = "",
+    isOpen = true,
+    color = "success",
+    children,
+    ...rest
+  } = $props();
 
-  let classes = "";
-  let data = "";
+  let classes = $state("");
+  let data = $state("");
 
-  $: classes = clsx(className, "alert", `alert-${color}`);
-  $: data = filterDataKeys($$restProps);
+  run(() => {
+    classes = clsx(className, "alert", `alert-${color}`);
+  });
+  run(() => {
+    data = filterDataKeys(rest);
+  });
 </script>
 
 {#if isOpen}
   <div {...data} transition:fade class={classes} role="alert">
-    <slot />
+    {@render children?.()}
   </div>
 {/if}

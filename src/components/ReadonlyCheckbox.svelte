@@ -3,12 +3,9 @@
 
   import { Icons } from "../data.js";
 
-  let className = "";
-  export { className as class };
-  export let checked = false;
-  export let label = "";
+  let { class: className = "", checked = false, label = "" } = $props();
 
-  $: classes = clsx(className, { "text-secondary": !checked });
+  let classes = $derived(clsx(className, { "text-secondary": !checked }));
 </script>
 
 <div class={classes} data-checked={checked}>

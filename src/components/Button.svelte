@@ -1,33 +1,57 @@
 <script>
+  import { run, createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
   import clsx from "clsx";
 
   import { filterDataKeys } from "../utils.js";
 
-  let className = "";
-  export { className as class };
-  export let disabled = false;
-  export let value = "";
-  export let color = null;
-  export let textColor = null;
-  export let href = null;
-  export let target = "_top";
+  let {
+    class: className = "",
+    disabled = false,
+    value = "",
+    color = null,
+    textColor = null,
+    href = null,
+    target = "_top",
+    children,
+    ...rest
+  } = $props();
 
-  let classes = "";
-  let data = {};
+  let classes = $state("");
+  let data = $state({});
 
-  $: classes = clsx(className, "btn", {
-    [`btn-${color}`]: !!color,
-    [`text-${textColor}`]: !!textColor,
+  run(() => {
+    classes = clsx(className, "btn", {
+      [`btn-${color}`]: !!color,
+      [`text-${textColor}`]: !!textColor,
+    });
   });
-  $: data = filterDataKeys($$restProps);
+  run(() => {
+    data = filterDataKeys(rest);
+  });
 </script>
 
 {#if href}
-  <a {...data} class={classes} {disabled} on:click {value} {href} {target}>
-    <slot />
+  <a
+    {...data}
+    class={classes}
+    {disabled}
+    onclick={bubble("click")}
+    {value}
+    {href}
+    {target}
+  >
+    {@render children?.()}
   </a>
 {:else}
-  <button {...data} class={classes} {disabled} on:click {value}>
-    <slot />
+  <button
+    {...data}
+    class={classes}
+    {disabled}
+    onclick={bubble("click")}
+    {value}
+  >
+    {@render children?.()}
   </button>
 {/if}

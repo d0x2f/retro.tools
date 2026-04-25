@@ -1,20 +1,18 @@
 <script>
+  import { run } from "svelte/legacy";
+
   import { onDestroy } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { board, colorMode } from "../store.js";
   import Button from "./Button.svelte";
 
-  export let canControl = false;
+  let { canControl = false } = $props();
 
   let intervalId = null;
-  let displayMs = 0;
-  let isRunning = false;
-  let isExpired = false;
-
-  $: timerEndAt = $board.data?.timer_end_at ?? null;
-  $: timerDuration = $board.data?.timer_duration ?? 10;
-  $: timerRemainingMs = $board.data?.timer_remaining_ms ?? null;
+  let displayMs = $state(0);
+  let isRunning = $state(false);
+  let isExpired = $state(false);
 
   function formatTime(ms) {
     const totalSec = Math.floor(ms / 1000);
@@ -24,8 +22,6 @@
     const s = (totalSec % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   }
-
-  $: updateInterval(timerEndAt, timerRemainingMs, timerDuration);
 
   function updateInterval(endAt, remainingMs, duration) {
     clearInterval(intervalId);
@@ -53,15 +49,6 @@
       isExpired = true;
     }
   }
-
-  $: colorState =
-    isRunning || isExpired
-      ? displayMs <= 30000
-        ? "danger"
-        : displayMs <= 120000
-          ? "warning"
-          : "normal"
-      : "normal";
 
   onDestroy(() => clearInterval(intervalId));
 
@@ -113,6 +100,21 @@
       };
     }
   }
+  let timerEndAt = $derived($board.data?.timer_end_at ?? null);
+  let timerDuration = $derived($board.data?.timer_duration ?? 10);
+  let timerRemainingMs = $derived($board.data?.timer_remaining_ms ?? null);
+  run(() => {
+    updateInterval(timerEndAt, timerRemainingMs, timerDuration);
+  });
+  let colorState = $derived(
+    isRunning || isExpired
+      ? displayMs <= 30000
+        ? "danger"
+        : displayMs <= 120000
+          ? "warning"
+          : "normal"
+      : "normal",
+  );
 </script>
 
 <div
@@ -146,7 +148,7 @@
           min="1"
           max="999"
           value={timerDuration}
-          on:change={setDuration}
+          onchange={setDuration}
           data-name="timer-duration-input"
         />
         <small class="text-secondary">{$_("board.timer.minutes")}</small>

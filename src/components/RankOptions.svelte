@@ -9,16 +9,15 @@
   import { activeRankOptions, board, colorMode, colors } from "../store";
   import Input from "./Input.svelte";
 
-  let className = "";
-  export { className as class };
+  let { class: className = "", rank = $bindable() } = $props();
 
-  export let rank;
+  let classes = $derived(clsx(className, "d-flex flex-column"));
 
-  $: classes = clsx(className, "d-flex flex-column");
-
-  let rankName = new Set(Object.keys($dictionary.en)).has(rank.name)
-    ? $_(rank.name)
-    : rank.name;
+  let rankName = $state(
+    new Set(Object.keys($dictionary.en)).has(rank.name)
+      ? $_(rank.name)
+      : rank.name,
+  );
 
   const dispatch = createEventDispatcher();
 
@@ -67,11 +66,12 @@
       data-name="rank-options-icons"
     >
       {#each row as name (name)}
+        {@const SvelteComponent = Icons[name]}
         <div
           role="button"
           tabindex="0"
-          on:keypress={null}
-          on:click={() => {
+          onkeypress={null}
+          onclick={() => {
             rank.data.icon = name;
             doUpdate();
           }}
@@ -79,7 +79,7 @@
           class:text-body={rank.data.icon !== name}
           class="p-1"
         >
-          <svelte:component this={Icons[name]} />
+          <SvelteComponent />
         </div>
       {/each}
     </div>

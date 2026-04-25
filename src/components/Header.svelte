@@ -9,8 +9,8 @@
   import { Icons } from "../data";
   import Input from "./Input.svelte";
 
-  let editMode = false;
-  let newBoardName = "";
+  let editMode = $state(false);
+  let newBoardName = $state("");
 
   async function startEdit() {
     if (
@@ -51,8 +51,8 @@
       class="text-center d-none m-0 d-lg-block h3 w-50 text-body"
       role="button"
       tabindex="0"
-      on:keypress={null}
-      on:click={startEdit}
+      onkeypress={null}
+      onclick={startEdit}
     >
       {#if editMode}
         <Input
@@ -96,8 +96,8 @@
     class="text-secondary d-lg-none h3 pt-1 text-center text-body"
     role="button"
     tabindex="0"
-    on:keypress={null}
-    on:click={startEdit}
+    onkeypress={null}
+    onclick={startEdit}
   >
     {#if editMode}
       <Input

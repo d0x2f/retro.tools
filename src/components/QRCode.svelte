@@ -4,13 +4,14 @@
 
   import { QRCode } from "../qrcode.js";
 
-  let className = "";
-  export { className as class };
-  export let text;
-  export let width;
-  export let height;
-  export let colorDark = "#000000";
-  export let colorLight = "#ffffff";
+  let {
+    class: className = "",
+    text,
+    width,
+    height,
+    colorDark = "#000000",
+    colorLight = "#ffffff",
+  } = $props();
 
   onMount(() => {
     new QRCode("qrcode", {
@@ -23,7 +24,7 @@
     });
   });
 
-  $: classes = clsx(className, "card", "card-body");
+  let classes = $derived(clsx(className, "card", "card-body"));
 </script>
 
 <div data-name="qr-code" class={classes}>
