@@ -9,16 +9,12 @@
 
   let intervalId = null;
   let displayMs = 0;
+  let isRunning = false;
+  let isExpired = false;
 
   $: timerEndAt = $board.data?.timer_end_at ?? null;
   $: timerDuration = $board.data?.timer_duration ?? 10;
-  $: isRunning = timerEndAt !== null && Date.now() < timerEndAt;
-  $: isExpired = timerEndAt !== null && !isRunning;
-
-  function getRemainingMs() {
-    if (timerEndAt === null) return timerDuration * 60 * 1000;
-    return Math.max(0, timerEndAt - Date.now());
-  }
+  $: timerRemainingMs = $board.data?.timer_remaining_ms ?? null;
 
   function formatTime(ms) {
     const totalSec = Math.floor(ms / 1000);
@@ -29,25 +25,33 @@
     return `${m}:${s}`;
   }
 
-  // Restart or stop the interval whenever the timer end timestamp changes.
-  // Using a named function keeps reactive dependencies explicit for the linter.
-  $: updateInterval(timerEndAt);
+  $: updateInterval(timerEndAt, timerRemainingMs, timerDuration);
 
-  function updateInterval(endAt) {
+  function updateInterval(endAt, remainingMs, duration) {
     clearInterval(intervalId);
     if (endAt !== null && Date.now() < endAt) {
+      isRunning = true;
+      isExpired = false;
       tick();
       intervalId = setInterval(tick, 1000);
     } else if (endAt !== null) {
+      isRunning = false;
+      isExpired = true;
       displayMs = 0;
     } else {
-      displayMs = timerDuration * 60 * 1000;
+      isRunning = false;
+      isExpired = false;
+      displayMs = remainingMs !== null ? remainingMs : duration * 60 * 1000;
     }
   }
 
   function tick() {
     displayMs = Math.max(0, timerEndAt - Date.now());
-    if (displayMs <= 0) clearInterval(intervalId);
+    if (displayMs <= 0) {
+      clearInterval(intervalId);
+      isRunning = false;
+      isExpired = true;
+    }
   }
 
   $: colorState =
@@ -62,11 +66,14 @@
   onDestroy(() => clearInterval(intervalId));
 
   function startTimer() {
+    const startFrom =
+      timerRemainingMs !== null ? timerRemainingMs : timerDuration * 60 * 1000;
     $board = {
       ...$board,
       data: {
         ...$board.data,
-        timer_end_at: Date.now() + timerDuration * 60 * 1000,
+        timer_end_at: Date.now() + startFrom,
+        timer_remaining_ms: null,
       },
     };
   }
@@ -74,22 +81,37 @@
   function stopTimer() {
     $board = {
       ...$board,
-      data: { ...$board.data, timer_end_at: null },
+      data: {
+        ...$board.data,
+        timer_end_at: null,
+        timer_remaining_ms: Math.max(0, timerEndAt - Date.now()),
+      },
     };
   }
 
   function resetTimer() {
     $board = {
       ...$board,
-      data: { ...$board.data, timer_end_at: null },
+      data: {
+        ...$board.data,
+        timer_end_at: null,
+        timer_remaining_ms: null,
+      },
     };
   }
 
-  function setDuration(mins) {
-    $board = {
-      ...$board,
-      data: { ...$board.data, timer_duration: mins },
-    };
+  function setDuration(e) {
+    const mins = parseInt(e.target.value, 10);
+    if (!isNaN(mins) && mins > 0) {
+      $board = {
+        ...$board,
+        data: {
+          ...$board.data,
+          timer_duration: mins,
+          timer_remaining_ms: null,
+        },
+      };
+    }
   }
 </script>
 
@@ -99,40 +121,56 @@
   class:timer-danger={colorState === "danger"}
   data-name="timer-widget"
 >
-  <div class="timer-display text-center fw-bold font-monospace fs-2 lh-1 py-1">
+  <div
+    class="timer-display text-center fw-bold font-monospace fs-2 lh-1 py-1"
+    data-name="timer-display"
+  >
     {#if isExpired && displayMs === 0}
-      <span class="text-danger">{$_("board.timer.times_up")}</span>
+      <span class="text-danger" data-name="timer-times-up"
+        >{$_("board.timer.times_up")}</span
+      >
     {:else}
       {formatTime(displayMs)}
     {/if}
   </div>
 
   {#if canControl}
-    <div class="d-flex justify-content-center align-items-center gap-1 mt-2">
-      <small class="text-secondary me-1"
-        >{$_("board.timer.duration_label")}:</small
-      >
-      {#each [5, 10, 15, 20] as mins (mins)}
-        <button
-          class="btn btn-sm"
-          class:btn-primary={timerDuration === mins}
-          class:btn-outline-secondary={timerDuration !== mins}
-          disabled={isRunning}
-          on:click={() => setDuration(mins)}
+    {#if !isRunning}
+      <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+        <small class="text-secondary">{$_("board.timer.duration_label")}:</small
         >
-          {mins}
-        </button>
-      {/each}
-      <small class="text-secondary ms-1">{$_("board.timer.minutes")}</small>
-    </div>
+        <input
+          type="number"
+          class="form-control form-control-sm text-center"
+          style="width: 5rem;"
+          min="1"
+          max="999"
+          value={timerDuration}
+          disabled={isRunning}
+          on:change={setDuration}
+          data-name="timer-duration-input"
+        />
+        <small class="text-secondary">{$_("board.timer.minutes")}</small>
+      </div>
+    {/if}
 
     <div class="d-flex justify-content-center gap-2 mt-2">
       {#if !isRunning}
-        <Button size="sm" color="success" on:click={startTimer}>
+        <Button
+          size="sm"
+          color="success"
+          on:click={startTimer}
+          data-name="timer-start-button"
+        >
           {$_("board.timer.start")}
         </Button>
       {:else}
-        <Button size="sm" color="warning" on:click={stopTimer}>
+        <Button
+          size="sm"
+          color="warning"
+          on:click={stopTimer}
+          data-name="timer-stop-button"
+        >
           {$_("board.timer.stop")}
         </Button>
       {/if}
@@ -141,6 +179,7 @@
         color={$colorMode}
         disabled={isRunning}
         on:click={resetTimer}
+        data-name="timer-reset-button"
       >
         {$_("board.timer.reset")}
       </Button>
@@ -164,5 +203,14 @@
   .timer-danger {
     border-color: #dc3545 !important;
     background-color: rgba(220, 53, 69, 0.15) !important;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button {
+    display: none;
   }
 </style>
