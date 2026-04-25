@@ -6,6 +6,7 @@ context("Card", () => {
     cy.visit("/");
     cy.get("[data-name=board-name-input]").type("Test Board Name");
     cy.get("[data-name=create-button]").click();
+    cy.get("[data-name=create-button]:visible").should("have.length", 0);
     cy.get("[data-name=rank]:visible")
       .first()
       .find("[data-name=card-text-input]")
