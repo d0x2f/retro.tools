@@ -47,20 +47,18 @@
   let busy = $state(true);
   let sortedRanks = $state([]);
 
-  let drake = $state(
-    dragula({
-      revertOnSpill: true,
-      copySortSource: false,
-      copy: true,
-      moves: (el) => el.dataset.drag !== "false",
-      accepts: (el, target) => {
-        return (
-          target.dataset.rankId !==
-          $cards.find((c) => c.id === el.dataset.cardId).column
-        );
-      },
-    }),
-  );
+  let drake = dragula({
+    revertOnSpill: true,
+    copySortSource: false,
+    copy: true,
+    moves: (el) => el.dataset.drag !== "false",
+    accepts: (el, target) => {
+      return (
+        target.dataset.rankId !==
+        $cards.find((c) => c.id === el.dataset.cardId).column
+      );
+    },
+  });
 
   drake.on("over", (_el, container) => {
     const emptyText = container.querySelector("small");
