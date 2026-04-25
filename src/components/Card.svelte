@@ -293,7 +293,7 @@
 
   .obscured-text {
     width: 100%;
-    height: 1em;
+    height: 1.5em;
     border-radius: 3px;
     background: currentColor;
     opacity: 0.15;
