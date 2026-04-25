@@ -146,7 +146,6 @@
           min="1"
           max="999"
           value={timerDuration}
-          disabled={isRunning}
           on:change={setDuration}
           data-name="timer-duration-input"
         />
