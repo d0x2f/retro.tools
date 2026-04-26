@@ -233,7 +233,7 @@
     in:fly={{ y: 100, duration: 200 }}
     out:fly={{ y: 100, duration: 200 }}
   >
-    <Alert class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
+    <Alert data-name="error-alert" class="fixed-bottom mb-0 py-1" color="danger" isOpen={true}>
       {$_(errorAlertMessage)}
     </Alert>
   </div>

@@ -78,7 +78,7 @@
     const a = document.createElement("a");
     a.href = url;
     const boardName = await decrypt($board.name, $password);
-    a.download = `${boardName}-template.yaml`;
+    a.download = `retro-tools-${boardName}-template.yaml`;
     a.click();
     URL.revokeObjectURL(url);
   }

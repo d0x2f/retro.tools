@@ -1,0 +1,7 @@
+columns:
+  - name: "Went well"
+    icon: thumbsup
+    color: green
+  - name: "Didn't go well"
+    icon: thumbsdown
+    color: red
