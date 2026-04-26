@@ -117,6 +117,7 @@
 
 <div
   data-name="rank"
+  data-options-open={$activeRankOptions === rank.id}
   class="rank flex-grow-0 flex-shrink-0 px-3 {columnWidth}"
   class:busy={rank.busy}
 >

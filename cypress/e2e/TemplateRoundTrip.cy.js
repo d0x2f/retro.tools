@@ -11,16 +11,30 @@ function navigateToFirstBoard() {
 }
 
 function openRankOptionsIfClosed() {
+  // Use data-options-open (reflects $activeRankOptions store state, not CSS animation
+  // state) so we can reliably detect whether options are logically open or closed.
   cy.get("[data-name=rank]:visible")
     .first()
     .then(($rank) => {
-      if ($rank.find("[data-name=rank-options]").length === 0) {
+      if ($rank.attr("data-options-open") === "true") {
+        // Logically open — click to close so we reach a known-closed state.
         cy.get("[data-name=rank]:visible")
           .first()
           .find("[data-name=rank-options-button]")
           .click();
       }
     });
+  // Wait for the panel to be fully removed from the DOM (out:slide animation done).
+  cy.get("[data-name=rank]:visible")
+    .first()
+    .find("[data-name=rank-options]")
+    .should("not.exist");
+  // Open the panel.
+  cy.get("[data-name=rank]:visible")
+    .first()
+    .find("[data-name=rank-options-button]")
+    .click();
+  // Wait for the panel to be visible (in:slide animation done).
   cy.get("[data-name=rank]:visible")
     .first()
     .find("[data-name=rank-options]:visible")
