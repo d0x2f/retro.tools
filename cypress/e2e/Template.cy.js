@@ -24,6 +24,9 @@ context("Template", () => {
   });
 
   it("downloads the board template as YAML with retro-tools prefix", () => {
+    // Wait for board data to fully load before downloading (board.name must be set)
+    cy.get("[data-name=rank]:visible").should("have.length.at.least", 1);
+
     cy.get("[data-name=menu-button]").click();
     cy.get("[data-name=download-template-button]").click();
 
