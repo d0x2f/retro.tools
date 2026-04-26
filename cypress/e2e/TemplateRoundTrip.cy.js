@@ -10,19 +10,29 @@ function navigateToFirstBoard() {
   cy.get("[data-name=create-button]:visible").should("have.length", 0);
 }
 
-function customiseFirstRank({ name, icon = false, color = false }) {
+function openRankOptionsIfClosed() {
   cy.get("[data-name=rank]:visible")
     .first()
-    .find("[data-name=rank-options-button]")
-    .click();
+    .then(($rank) => {
+      if ($rank.find("[data-name=rank-options]:visible").length === 0) {
+        cy.wrap($rank).find("[data-name=rank-options-button]").click();
+      }
+    });
+  cy.get("[data-name=rank]:visible")
+    .first()
+    .find("[data-name=rank-options]:visible")
+    .should("exist");
+}
+
+function customiseFirstRank({ name, icon = false, color = false }) {
+  openRankOptionsIfClosed();
 
   if (name) {
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
       "patchRename",
     );
     // Use .blur() instead of {enter} so on:submit is not triggered.
-    // on:submit sets $activeRankOptions = "" which would close the options panel,
-    // preventing subsequent icon/colour clicks without a re-open.
+    // on:submit sets $activeRankOptions = "" which would close the options panel.
     cy.get("[data-name=rank-options] input:visible")
       .first()
       .clear()
@@ -39,6 +49,7 @@ function customiseFirstRank({ name, icon = false, color = false }) {
   }
 
   if (icon) {
+    openRankOptionsIfClosed();
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
       "patchIcon",
     );
@@ -48,6 +59,7 @@ function customiseFirstRank({ name, icon = false, color = false }) {
   }
 
   if (color) {
+    openRankOptionsIfClosed();
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
       "patchColor",
     );

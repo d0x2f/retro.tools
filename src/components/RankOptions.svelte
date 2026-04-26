@@ -2,7 +2,7 @@
   import clsx from "clsx";
   import { createEventDispatcher } from "svelte";
   import { dictionary, _ } from "svelte-i18n";
-  import { ButtonGroup, Button as SSButton } from "@sveltestrap/sveltestrap";
+  import { Button as SSButton } from "@sveltestrap/sveltestrap";
 
   import { updateRank } from "../api";
   import { ColumnIcons, Icons } from "../data";
@@ -45,7 +45,7 @@
       doUpdate();
     }}
   />
-  <ButtonGroup class="w-100 m-1" data-name="rank-options-colors">
+  <div class="btn-group w-100 m-1" role="group" data-name="rank-options-colors">
     {#each Object.entries($colors) as [name, color] (name)}
       <SSButton
         style="background-color: {color};"
@@ -59,7 +59,7 @@
         {/if}
       </SSButton>
     {/each}
-  </ButtonGroup>
+  </div>
   {#each ColumnIcons as row, i (i)}
     <div
       class="w-100 mx-1 d-flex justify-content-around w-100 my-1"
