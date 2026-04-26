@@ -70,6 +70,7 @@
     for (const rank of sortedRanks) {
       const name = $_(rank.name);
       yaml += `  - name: ${yamlString(name)}\n`;
+      if (name !== rank.name) yaml += `    key: ${rank.name}\n`;
       yaml += `    icon: ${rank.data.icon}\n`;
       yaml += `    color: ${rank.data.color}\n`;
     }

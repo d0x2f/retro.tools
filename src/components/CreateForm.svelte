@@ -3,6 +3,7 @@
   import { _ } from "svelte-i18n";
   import { slide } from "svelte/transition";
   import { UploadIcon } from "svelte-feather-icons";
+  import { load as loadYaml } from "js-yaml";
 
   import { Icons, BoardTemplates } from "../data.js";
   import { colorMode, darkMode, password } from "../store.js";
@@ -36,53 +37,20 @@
   ]);
   const validIcons = new Set(Object.keys(Icons));
 
-  function parseYamlString(val) {
-    val = val.trim();
-    if (val.startsWith('"') && val.endsWith('"')) {
-      return val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
-    }
-    if (val.startsWith("'") && val.endsWith("'")) {
-      return val.slice(1, -1).replace(/''/g, "'");
-    }
-    return val;
-  }
-
   function parseYamlTemplate(content) {
-    const lines = content.split("\n");
-    const ranks = [];
-    let current = null;
-    for (const line of lines) {
-      const nameMatch = line.match(/^\s+-\s+name:\s*(.*)/);
-      if (nameMatch) {
-        if (current) ranks.push(current);
-        current = {
-          name: parseYamlString(nameMatch[1]),
-          icon: "plus",
-          color: "plain",
-          position: ranks.length,
-        };
-        continue;
-      }
-      if (current) {
-        const iconMatch = line.match(/^\s+icon:\s*(.*)/);
-        if (iconMatch) {
-          const icon = parseYamlString(iconMatch[1]);
-          if (validIcons.has(icon)) current.icon = icon;
-          continue;
-        }
-        const colorMatch = line.match(/^\s+color:\s*(.*)/);
-        if (colorMatch) {
-          const color = parseYamlString(colorMatch[1]);
-          if (validColors.has(color)) current.color = color;
-          continue;
-        }
-      }
-    }
-    if (current) ranks.push(current);
-    return {
-      name: "board.template.custom.name",
-      ranks: ranks.map((r, i) => ({ ...r, position: i })),
-    };
+    const doc = loadYaml(content);
+    const columns =
+      doc != null && typeof doc === "object" && "columns" in doc
+        ? doc.columns
+        : null;
+    if (!Array.isArray(columns)) throw new Error("missing columns");
+    const ranks = columns.map((col, i) => ({
+      name: String(col.key ?? col.name ?? ""),
+      icon: validIcons.has(col.icon) ? col.icon : "plus",
+      color: validColors.has(col.color) ? col.color : "plain",
+      position: i,
+    }));
+    return { name: "board.template.custom.name", ranks };
   }
 
   function handleFileImport(event) {
