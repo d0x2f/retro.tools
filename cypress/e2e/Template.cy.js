@@ -30,17 +30,17 @@ context("Template", () => {
     cy.get("[data-name=menu-button]").click();
     cy.get("[data-name=download-template-button]").click();
 
-    cy.readFile("cypress/downloads/retro-tools-Template Test Board-template.yaml").then(
-      (yaml) => {
-        expect(yaml).to.include("columns:");
-        expect(yaml).to.include('"Drop"');
-        expect(yaml).to.include("icon: delete");
-        expect(yaml).to.include("color: red");
-        expect(yaml).to.include('"Improve"');
-        // Columns appear in position order (Drop first, Improve last)
-        expect(yaml.indexOf('"Drop"')).to.be.lessThan(yaml.indexOf('"Improve"'));
-      },
-    );
+    cy.readFile(
+      "cypress/downloads/retro-tools-Template Test Board-template.yaml",
+    ).then((yaml) => {
+      expect(yaml).to.include("columns:");
+      expect(yaml).to.include('"Drop"');
+      expect(yaml).to.include("icon: delete");
+      expect(yaml).to.include("color: red");
+      expect(yaml).to.include('"Improve"');
+      // Columns appear in position order (Drop first, Improve last)
+      expect(yaml.indexOf('"Drop"')).to.be.lessThan(yaml.indexOf('"Improve"'));
+    });
   });
 
   it("can import a YAML template and create a board from it", () => {
