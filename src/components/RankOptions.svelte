@@ -49,7 +49,7 @@
     {#each Object.entries($colors) as [name, color] (name)}
       <SSButton
         style="background-color: {color};"
-        on:click={() => {
+        onclick={() => {
           rank.data.color = name;
           doUpdate();
         }}

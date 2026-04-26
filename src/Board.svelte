@@ -140,8 +140,9 @@
     ranks.set(await getRanks(boardId));
     await checkPassword();
 
-    // Show first rank initially
-    if ($ranks[0]) $focusedRank = $ranks[0].id;
+    // Show first rank initially (by position, not API order)
+    const firstRank = [...$ranks].sort((a, b) => a.position - b.position)[0];
+    if (firstRank) $focusedRank = firstRank.id;
 
     // Subscribe to local changes to $board so we can post updates.
     // Compare updated boards to their last known value
