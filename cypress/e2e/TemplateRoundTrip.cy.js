@@ -14,8 +14,11 @@ function openRankOptionsIfClosed() {
   cy.get("[data-name=rank]:visible")
     .first()
     .then(($rank) => {
-      if ($rank.find("[data-name=rank-options]:visible").length === 0) {
-        cy.wrap($rank).find("[data-name=rank-options-button]").click();
+      if ($rank.find("[data-name=rank-options]").length === 0) {
+        cy.get("[data-name=rank]:visible")
+          .first()
+          .find("[data-name=rank-options-button]")
+          .click();
       }
     });
   cy.get("[data-name=rank]:visible")
