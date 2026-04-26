@@ -54,6 +54,7 @@
   "board.options.sort_by_votes": "Sort by Votes",
   "board.options.show_qr_code": "Show QR Code",
   "board.options.download_csv": "Download CSV",
+  "board.options.download_template": "Download Template",
   "board.options.copy_link": "Copy Link",
   "board.options.new_column": "New Column",
   "board.options.open_permission": "Everyone is Admin",
@@ -87,5 +88,8 @@
   "board.timer.start": "Start",
   "board.timer.stop": "Stop",
   "board.timer.reset": "Reset",
-  "board.timer.times_up": "Time's up!"
+  "board.timer.times_up": "Time's up!",
+  "splash.import_template": "Import Template",
+  "board.template.custom.name": "Custom (imported)",
+  "error.invalid_template": "Invalid template file"
 }

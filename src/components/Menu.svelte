@@ -60,6 +60,29 @@
     return str;
   }
 
+  function yamlString(str) {
+    return '"' + str.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+  }
+
+  async function downloadTemplate() {
+    const sortedRanks = [...$ranks].sort((a, b) => a.position - b.position);
+    let yaml = "columns:\n";
+    for (const rank of sortedRanks) {
+      const name = $_(rank.name);
+      yaml += `  - name: ${yamlString(name)}\n`;
+      yaml += `    icon: ${rank.data.icon}\n`;
+      yaml += `    color: ${rank.data.color}\n`;
+    }
+    const blob = new Blob([yaml], { type: "text/yaml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const boardName = await decrypt($board.name, $password);
+    a.download = `${boardName}-template.yaml`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function downloadCSV() {
     const rankMap = Object.fromEntries($ranks.map((r) => [r.id, r]));
     const rows = await Promise.all(
@@ -220,6 +243,15 @@
         <Icons.download class="align-top" size="1x" />
       </div>
       {$_("board.options.download_csv")}
+    </DropdownItem>
+    <DropdownItem
+      data-name="download-template-button"
+      on:click={downloadTemplate}
+    >
+      <div class="d-inline-block icon position-relative" style="top: 2px">
+        <Icons.columns class="align-top" size="1x" />
+      </div>
+      {$_("board.options.download_template")}
     </DropdownItem>
     <DropdownItem
       data-name="copy-link-button"

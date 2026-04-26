@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
   import { slide } from "svelte/transition";
+  import { UploadIcon } from "svelte-feather-icons";
 
   import { Icons, BoardTemplates } from "../data.js";
   import { colorMode, darkMode, password } from "../store.js";
@@ -17,11 +18,93 @@
   const dispatch = createEventDispatcher();
   let boardName = $state("");
   let templateKey = $state("dropAddKeepImprove");
+  let customTemplate = $state(null);
+  let fileInput = $state(null);
   let iceBreakingQuestion = $state("");
   let passwordDisabled = $state(true);
   let showPassword = $state(false);
   let createBusy = $state(false);
   let optionsExpanded = $state(false);
+
+  const validColors = new Set([
+    "red",
+    "green",
+    "blue",
+    "yellow",
+    "cyan",
+    "plain",
+  ]);
+  const validIcons = new Set(Object.keys(Icons));
+
+  function parseYamlString(val) {
+    val = val.trim();
+    if (val.startsWith('"') && val.endsWith('"')) {
+      return val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+    }
+    if (val.startsWith("'") && val.endsWith("'")) {
+      return val.slice(1, -1).replace(/''/g, "'");
+    }
+    return val;
+  }
+
+  function parseYamlTemplate(content) {
+    const lines = content.split("\n");
+    const ranks = [];
+    let current = null;
+    for (const line of lines) {
+      const nameMatch = line.match(/^\s+-\s+name:\s*(.*)/);
+      if (nameMatch) {
+        if (current) ranks.push(current);
+        current = {
+          name: parseYamlString(nameMatch[1]),
+          icon: "plus",
+          color: "plain",
+          position: ranks.length,
+        };
+        continue;
+      }
+      if (current) {
+        const iconMatch = line.match(/^\s+icon:\s*(.*)/);
+        if (iconMatch) {
+          const icon = parseYamlString(iconMatch[1]);
+          if (validIcons.has(icon)) current.icon = icon;
+          continue;
+        }
+        const colorMatch = line.match(/^\s+color:\s*(.*)/);
+        if (colorMatch) {
+          const color = parseYamlString(colorMatch[1]);
+          if (validColors.has(color)) current.color = color;
+          continue;
+        }
+      }
+    }
+    if (current) ranks.push(current);
+    return {
+      name: "board.template.custom.name",
+      ranks: ranks.map((r, i) => ({ ...r, position: i })),
+    };
+  }
+
+  function handleFileImport(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const template = parseYamlTemplate(e.target.result);
+        if (template.ranks.length === 0) {
+          dispatch("error", { message: "error.invalid_template" });
+          return;
+        }
+        customTemplate = template;
+        templateKey = "custom";
+      } catch (err) {
+        dispatch("error", { message: "error.invalid_template", err });
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = "";
+  }
 
   async function createFromTemplate(template) {
     let [boardNameEncrypted, encryptionTest, iceBreakingQuestionEncrypted] =
@@ -50,7 +133,11 @@
       password.set("");
     }
     try {
-      const board = await createFromTemplate(BoardTemplates[templateKey]);
+      const template =
+        templateKey === "custom" && customTemplate
+          ? customTemplate
+          : BoardTemplates[templateKey];
+      const board = await createFromTemplate(template);
       dispatch("created", board.id);
     } catch (err) {
       dispatch("error", { message: "error.creating_board", err });
@@ -102,11 +189,31 @@
   {#if optionsExpanded}
     <div in:slide out:slide>
       <p class="my-1 small">{$_("splash.template")}</p>
-      <Select bind:value={templateKey}>
-        {#each Object.entries(BoardTemplates) as [key, template] (key)}
-          <option value={key}>{$_(template.name)}</option>
-        {/each}
-      </Select>
+      <div class="d-flex gap-2">
+        <Select bind:value={templateKey}>
+          {#each Object.entries(BoardTemplates) as [key, template] (key)}
+            <option value={key}>{$_(template.name)}</option>
+          {/each}
+          {#if customTemplate}
+            <option value="custom">{$_("board.template.custom.name")}</option>
+          {/if}
+        </Select>
+        <input
+          type="file"
+          accept=".yaml,.yml"
+          class="d-none"
+          bind:this={fileInput}
+          onchange={handleFileImport}
+        />
+        <Button
+          color={$colorMode}
+          textColor="body"
+          on:click={() => fileInput.click()}
+          title={$_("splash.import_template")}
+        >
+          <UploadIcon size="1x" />
+        </Button>
+      </div>
       <p class="my-1 small">{$_("general.encryption")}</p>
       <div class="input-group">
         <div class="input-group-text">
