@@ -34,12 +34,19 @@ context("Template", () => {
       "cypress/downloads/retro-tools-Template Test Board-template.yaml",
     ).then((yaml) => {
       expect(yaml).to.include("columns:");
-      expect(yaml).to.include('"Drop"');
+      // js-yaml serializes plain strings without quotes
+      expect(yaml).to.include("name: Drop");
       expect(yaml).to.include("icon: delete");
       expect(yaml).to.include("color: red");
-      expect(yaml).to.include('"Improve"');
+      expect(yaml).to.include("name: Improve");
+      // Built-in columns carry their i18n key
+      expect(yaml).to.include(
+        "key: board.template.drop_add_keep_improve.column.drop",
+      );
       // Columns appear in position order (Drop first, Improve last)
-      expect(yaml.indexOf('"Drop"')).to.be.lessThan(yaml.indexOf('"Improve"'));
+      expect(yaml.indexOf("name: Drop")).to.be.lessThan(
+        yaml.indexOf("name: Improve"),
+      );
     });
   });
 

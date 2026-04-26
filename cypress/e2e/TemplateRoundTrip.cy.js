@@ -23,6 +23,21 @@ function customiseFirstRank({ name, icon = false, color = false }) {
       .clear()
       .type(`${name}{enter}`);
     cy.wait("@patchRename");
+    // {enter} triggers on:submit which closes the options panel and dispatches a
+    // PATCH. Wait for the Firestore subscription to propagate the new name back
+    // to $ranks — confirmed when the card-text-input placeholder updates.
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-text-input]")
+      .invoke("attr", "placeholder")
+      .should("eq", name);
+    // Re-open the options panel if further changes are needed
+    if (icon || color) {
+      cy.get("[data-name=rank]:visible")
+        .first()
+        .find("[data-name=rank-options-button]")
+        .click();
+    }
   }
 
   if (icon) {
