@@ -54,6 +54,7 @@
   "board.options.sort_by_votes": "Ordenar por Votos",
   "board.options.show_qr_code": "Mostrar Código QR",
   "board.options.download_csv": "Baixar CSV",
+  "board.options.download_template": "Baixar modelo",
   "board.options.copy_link": "Copiar Link",
   "board.options.new_column": "Nova Coluna",
   "board.options.obscure_cards": "Ocultar cartões",
@@ -87,5 +88,8 @@
   "board.timer.start": "Iniciar",
   "board.timer.stop": "Parar",
   "board.timer.reset": "Reiniciar",
-  "board.timer.times_up": "Tempo esgotado!"
+  "board.timer.times_up": "Tempo esgotado!",
+  "splash.import_template": "Importar modelo",
+  "board.template.custom.name": "Personalizado (importado)",
+  "error.invalid_template": "Arquivo de modelo inválido"
 }

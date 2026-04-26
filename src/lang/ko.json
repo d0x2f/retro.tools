@@ -53,6 +53,7 @@
   "board.options.sort_by_votes": "투표수로 정렬하기",
   "board.options.show_qr_code": "QR 코드 보기",
   "board.options.download_csv": "CSV 다운로드",
+  "board.options.download_template": "템플릿 다운로드",
   "board.options.copy_link": "링크 복사하기",
   "board.options.new_column": "새로운 컬럼이",
   "board.options.obscure_cards": "카드 가리기",
@@ -86,5 +87,8 @@
   "board.timer.start": "시작",
   "board.timer.stop": "정지",
   "board.timer.reset": "재설정",
-  "board.timer.times_up": "시간이 종료되었습니다!"
+  "board.timer.times_up": "시간이 종료되었습니다!",
+  "splash.import_template": "템플릿 가져오기",
+  "board.template.custom.name": "사용자 정의 (가져옴)",
+  "error.invalid_template": "잘못된 템플릿 파일"
 }

@@ -54,6 +54,7 @@
   "board.options.sort_by_votes": "Oylara göre sırala",
   "board.options.show_qr_code": "QR kodu göster",
   "board.options.download_csv": "CSV olarak indir",
+  "board.options.download_template": "Şablonu indir",
   "board.options.copy_link": "Linki kopyala",
   "board.options.new_column": "Yeni sütün ekle",
   "board.options.obscure_cards": "Kartları gizle",
@@ -87,5 +88,8 @@
   "board.timer.start": "Başlat",
   "board.timer.stop": "Durdur",
   "board.timer.reset": "Sıfırla",
-  "board.timer.times_up": "Süre doldu!"
+  "board.timer.times_up": "Süre doldu!",
+  "splash.import_template": "Şablon içe aktar",
+  "board.template.custom.name": "Özel (içe aktarıldı)",
+  "error.invalid_template": "Geçersiz şablon dosyası"
 }

@@ -54,6 +54,7 @@
   "board.options.sort_by_votes": "Сортировать по голосам",
   "board.options.show_qr_code": "Показать QR-код",
   "board.options.download_csv": "Скачать CSV",
+  "board.options.download_template": "Скачать шаблон",
   "board.options.copy_link": "Копировать ссылку на доску",
   "board.options.new_column": "Новая столбец",
   "board.options.obscure_cards": "Скрыть карточки",
@@ -86,5 +87,8 @@
   "board.timer.start": "Старт",
   "board.timer.stop": "Стоп",
   "board.timer.reset": "Сбросить",
-  "board.timer.times_up": "Время вышло!"
+  "board.timer.times_up": "Время вышло!",
+  "splash.import_template": "Импортировать шаблон",
+  "board.template.custom.name": "Пользовательский (импортированный)",
+  "error.invalid_template": "Неверный файл шаблона"
 }

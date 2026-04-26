@@ -54,6 +54,7 @@
   "board.options.sort_by_votes": "Сортувати по голосам",
   "board.options.show_qr_code": "Показати QR код",
   "board.options.download_csv": "Завантажити CSV",
+  "board.options.download_template": "Завантажити шаблон",
   "board.options.copy_link": "Скопіювати посилання",
   "board.options.new_column": "Новий стовпець",
   "board.options.obscure_cards": "Приховати картки",
@@ -87,5 +88,8 @@
   "board.timer.start": "Старт",
   "board.timer.stop": "Стоп",
   "board.timer.reset": "Скинути",
-  "board.timer.times_up": "Час вийшов!"
+  "board.timer.times_up": "Час вийшов!",
+  "splash.import_template": "Імпортувати шаблон",
+  "board.template.custom.name": "Користувацький (імпортований)",
+  "error.invalid_template": "Невірний файл шаблону"
 }

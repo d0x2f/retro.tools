@@ -53,6 +53,7 @@
   "board.options.sort_by_votes": "Nach Bewertungen sortieren",
   "board.options.show_qr_code": "QR-Code anzeigen",
   "board.options.download_csv": "CSV herunterladen",
+  "board.options.download_template": "Vorlage herunterladen",
   "board.options.copy_link": "Link kopieren",
   "board.options.new_column": "Neue Spalte",
   "board.options.obscure_cards": "Karten verbergen",
@@ -86,5 +87,8 @@
   "board.timer.start": "Starten",
   "board.timer.stop": "Stoppen",
   "board.timer.reset": "Zurücksetzen",
-  "board.timer.times_up": "Zeit abgelaufen!"
+  "board.timer.times_up": "Zeit abgelaufen!",
+  "splash.import_template": "Vorlage importieren",
+  "board.template.custom.name": "Benutzerdefiniert (importiert)",
+  "error.invalid_template": "Ungültige Vorlagendatei"
 }
