@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { load as loadYaml } from "js-yaml";
+
 // Helpers
 function navigateToFirstBoard() {
   cy.visit("/");
@@ -18,26 +20,22 @@ function customiseFirstRank({ name, icon = false, color = false }) {
     cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
       "patchRename",
     );
+    // Use .blur() instead of {enter} so on:submit is not triggered.
+    // on:submit sets $activeRankOptions = "" which would close the options panel,
+    // preventing subsequent icon/colour clicks without a re-open.
     cy.get("[data-name=rank-options] input:visible")
       .first()
       .clear()
-      .type(`${name}{enter}`);
+      .type(name)
+      .blur();
     cy.wait("@patchRename");
-    // {enter} triggers on:submit which closes the options panel and dispatches a
-    // PATCH. Wait for the Firestore subscription to propagate the new name back
-    // to $ranks — confirmed when the card-text-input placeholder updates.
+    // Wait for the Firestore subscription to propagate the rename to $ranks —
+    // confirmed when the card-text-input placeholder reflects the new name.
     cy.get("[data-name=rank]:visible")
       .first()
       .find("[data-name=card-text-input]")
       .invoke("attr", "placeholder")
       .should("eq", name);
-    // Re-open the options panel if further changes are needed
-    if (icon || color) {
-      cy.get("[data-name=rank]:visible")
-        .first()
-        .find("[data-name=rank-options-button]")
-        .click();
-    }
   }
 
   if (icon) {
@@ -121,29 +119,24 @@ context("Template round-trip: customised board", () => {
 
     downloadTemplate();
 
-    cy.readFile(DOWNLOAD_FILE).then((yaml) => {
+    cy.readFile(DOWNLOAD_FILE).then((text) => {
+      const doc = loadYaml(text);
       // First column: custom name, new icon/colour, NO i18n key
-      expect(yaml).to.include(`name: ${CUSTOM_NAME}`);
-      expect(yaml).to.include("icon: award");
-      expect(yaml).to.include("color: plain");
-      expect(yaml).not.to.include(
-        "key: board.template.drop_add_keep_improve.column.drop",
-      );
-
+      expect(doc.columns[0]).to.include({
+        name: CUSTOM_NAME,
+        icon: "award",
+        color: "plain",
+      });
+      expect(doc.columns[0].key).to.be.undefined;
       // Remaining built-in columns still carry their i18n keys
-      expect(yaml).to.include(
-        "key: board.template.drop_add_keep_improve.column.add",
+      expect(doc.columns[1].key).to.eq(
+        "board.template.drop_add_keep_improve.column.add",
       );
-      expect(yaml).to.include(
-        "key: board.template.drop_add_keep_improve.column.keep",
+      expect(doc.columns[2].key).to.eq(
+        "board.template.drop_add_keep_improve.column.keep",
       );
-      expect(yaml).to.include(
-        "key: board.template.drop_add_keep_improve.column.improve",
-      );
-
-      // Custom column appears before Add (position order preserved)
-      expect(yaml.indexOf(CUSTOM_NAME)).to.be.lessThan(
-        yaml.indexOf("board.template.drop_add_keep_improve.column.add"),
+      expect(doc.columns[3].key).to.eq(
+        "board.template.drop_add_keep_improve.column.improve",
       );
     });
   });
@@ -205,7 +198,9 @@ context(
         },
       });
       cy.get("[data-name=board-list-button]").click();
-      cy.get("[data-name=board-row] td").first().click();
+      // BoardTable sorts newest-first, so after test 2 creates a second board
+      // the first row is no longer BOARD_NAME — navigate by name explicitly.
+      cy.contains("[data-name=board-row] td", BOARD_NAME).click();
       cy.get("[data-name=create-button]:visible").should("have.length", 0);
     });
 
@@ -214,16 +209,16 @@ context(
       setLocale("de");
       downloadTemplate();
 
-      cy.readFile(DOWNLOAD_FILE).then((yaml) => {
+      cy.readFile(DOWNLOAD_FILE).then((text) => {
+        const doc = loadYaml(text);
         // German translated names are present (human-readable)
-        expect(yaml).to.include("Wütend");
-        expect(yaml).to.include("Traurig");
-        expect(yaml).to.include("Glücklich");
-
+        expect(doc.columns[0].name).to.eq("Wütend");
+        expect(doc.columns[1].name).to.eq("Traurig");
+        expect(doc.columns[2].name).to.eq("Glücklich");
         // i18n keys are preserved alongside the names
-        expect(yaml).to.include("key: board.template.mad_sad_glad.column.mad");
-        expect(yaml).to.include("key: board.template.mad_sad_glad.column.sad");
-        expect(yaml).to.include("key: board.template.mad_sad_glad.column.glad");
+        expect(doc.columns[0].key).to.eq("board.template.mad_sad_glad.column.mad");
+        expect(doc.columns[1].key).to.eq("board.template.mad_sad_glad.column.sad");
+        expect(doc.columns[2].key).to.eq("board.template.mad_sad_glad.column.glad");
       });
     });
 
@@ -258,15 +253,14 @@ context(
 
       downloadTemplate();
 
-      cy.readFile(DOWNLOAD_FILE).then((yaml) => {
+      cy.readFile(DOWNLOAD_FILE).then((text) => {
+        const doc = loadYaml(text);
         // Custom name: no key field
-        expect(yaml).to.include("name: My Custom Column");
-        expect(yaml).not.to.include(
-          "key: board.template.mad_sad_glad.column.mad",
-        );
+        expect(doc.columns[0].name).to.eq("My Custom Column");
+        expect(doc.columns[0].key).to.be.undefined;
         // Remaining built-in columns still have keys
-        expect(yaml).to.include("key: board.template.mad_sad_glad.column.sad");
-        expect(yaml).to.include("key: board.template.mad_sad_glad.column.glad");
+        expect(doc.columns[1].key).to.eq("board.template.mad_sad_glad.column.sad");
+        expect(doc.columns[2].key).to.eq("board.template.mad_sad_glad.column.glad");
       });
 
       // Import in German — built-in columns should appear in German,

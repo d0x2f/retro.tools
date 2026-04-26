@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { load as loadYaml } from "js-yaml";
+
 context("Template", () => {
   before(() => {
     cy.login();
@@ -32,21 +34,17 @@ context("Template", () => {
 
     cy.readFile(
       "cypress/downloads/retro-tools-Template Test Board-template.yaml",
-    ).then((yaml) => {
-      expect(yaml).to.include("columns:");
-      // js-yaml serializes plain strings without quotes
-      expect(yaml).to.include("name: Drop");
-      expect(yaml).to.include("icon: delete");
-      expect(yaml).to.include("color: red");
-      expect(yaml).to.include("name: Improve");
-      // Built-in columns carry their i18n key
-      expect(yaml).to.include(
-        "key: board.template.drop_add_keep_improve.column.drop",
-      );
-      // Columns appear in position order (Drop first, Improve last)
-      expect(yaml.indexOf("name: Drop")).to.be.lessThan(
-        yaml.indexOf("name: Improve"),
-      );
+    ).then((text) => {
+      const doc = loadYaml(text);
+      expect(doc.columns).to.have.length(4);
+      // Columns appear in position order
+      expect(doc.columns[0]).to.include({
+        name: "Drop",
+        icon: "delete",
+        color: "red",
+        key: "board.template.drop_add_keep_improve.column.drop",
+      });
+      expect(doc.columns[3].name).to.eq("Improve");
     });
   });
 
