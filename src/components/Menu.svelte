@@ -23,6 +23,7 @@
   } from "../store.js";
   import { createRank } from "../api.js";
   import { decrypt } from "../encryption.js";
+  import { dump as dumpYaml } from "js-yaml";
 
   import QRCode from "./QRCode.svelte";
   import Timer from "./Timer.svelte";
@@ -60,20 +61,15 @@
     return str;
   }
 
-  function yamlString(str) {
-    return '"' + str.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
-  }
-
   async function downloadTemplate() {
     const sortedRanks = [...$ranks].sort((a, b) => a.position - b.position);
-    let yaml = "columns:\n";
-    for (const rank of sortedRanks) {
+    const columns = sortedRanks.map((rank) => {
       const name = $_(rank.name);
-      yaml += `  - name: ${yamlString(name)}\n`;
-      if (name !== rank.name) yaml += `    key: ${rank.name}\n`;
-      yaml += `    icon: ${rank.data.icon}\n`;
-      yaml += `    color: ${rank.data.color}\n`;
-    }
+      const col = { name, icon: rank.data.icon, color: rank.data.color };
+      if (name !== rank.name) col.key = rank.name;
+      return col;
+    });
+    const yaml = dumpYaml({ columns });
     const blob = new Blob([yaml], { type: "text/yaml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
