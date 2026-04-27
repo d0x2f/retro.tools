@@ -48,7 +48,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 25.x
-      - uses: cypress-io/github-action@v5
+      - uses: cypress-io/github-action@v7
         with:
           build: npm run build -- --mode=development
           start: npm run preview
