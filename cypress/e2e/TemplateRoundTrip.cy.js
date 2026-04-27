@@ -122,6 +122,22 @@ function setLocale(code) {
   cy.get(`[data-name=locale-select-${code}]`).click();
 }
 
+// On mobile only one rank is visible at a time; navigate via the tab strip first.
+function checkRankPlaceholder(index, expected) {
+  if (Cypress.config("viewportWidth") < 992) {
+    cy.get("[data-name=rank-tabs] label").eq(index).click();
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-text-input]")
+      .should("have.attr", "placeholder", expected);
+  } else {
+    cy.get("[data-name=rank]:visible")
+      .eq(index)
+      .find("[data-name=card-text-input]")
+      .should("have.attr", "placeholder", expected);
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 context("Template round-trip: customised board", () => {
@@ -173,27 +189,10 @@ context("Template round-trip: customised board", () => {
   it("board created from downloaded template has matching columns", () => {
     importTemplateAndCreate(DOWNLOAD_FILE, "Imported Customised Board");
 
-    // Custom name is stored literally — shows as-is
-    cy.get("[data-name=rank]:visible")
-      .eq(0)
-      .find("[data-name=card-text-input]")
-      .should("have.attr", "placeholder", CUSTOM_NAME);
-
-    // Built-in columns resolve via their i18n keys
-    cy.get("[data-name=rank]:visible")
-      .eq(1)
-      .find("[data-name=card-text-input]")
-      .should("have.attr", "placeholder", "Add");
-
-    cy.get("[data-name=rank]:visible")
-      .eq(2)
-      .find("[data-name=card-text-input]")
-      .should("have.attr", "placeholder", "Keep");
-
-    cy.get("[data-name=rank]:visible")
-      .eq(3)
-      .find("[data-name=card-text-input]")
-      .should("have.attr", "placeholder", "Improve");
+    checkRankPlaceholder(0, CUSTOM_NAME);
+    checkRankPlaceholder(1, "Add");
+    checkRankPlaceholder(2, "Keep");
+    checkRankPlaceholder(3, "Improve");
   });
 
   after(deleteAllBoards);
@@ -266,20 +265,9 @@ context(
       );
 
       // i18n keys resolve in the current locale (English), not the export locale
-      cy.get("[data-name=rank]:visible")
-        .eq(0)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "Mad");
-
-      cy.get("[data-name=rank]:visible")
-        .eq(1)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "Sad");
-
-      cy.get("[data-name=rank]:visible")
-        .eq(2)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "Glad");
+      checkRankPlaceholder(0, "Mad");
+      checkRankPlaceholder(1, "Sad");
+      checkRankPlaceholder(2, "Glad");
     });
 
     it("custom-named column stays literal while built-in columns translate to the import locale", () => {
@@ -319,21 +307,10 @@ context(
       cy.get("[data-name=create-button]:visible").should("have.length", 0);
 
       // Custom column: no key → stays as-is regardless of locale
-      cy.get("[data-name=rank]:visible")
-        .eq(0)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "My Custom Column");
-
+      checkRankPlaceholder(0, "My Custom Column");
       // Built-in columns: key → resolved in German
-      cy.get("[data-name=rank]:visible")
-        .eq(1)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "Traurig");
-
-      cy.get("[data-name=rank]:visible")
-        .eq(2)
-        .find("[data-name=card-text-input]")
-        .should("have.attr", "placeholder", "Glücklich");
+      checkRankPlaceholder(1, "Traurig");
+      checkRankPlaceholder(2, "Glücklich");
     });
 
     after(() => {
