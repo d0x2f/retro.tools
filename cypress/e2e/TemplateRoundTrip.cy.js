@@ -245,9 +245,15 @@ context(
         expect(doc.columns[1].name).to.eq("Traurig");
         expect(doc.columns[2].name).to.eq("Glücklich");
         // i18n keys are preserved alongside the names
-        expect(doc.columns[0].key).to.eq("board.template.mad_sad_glad.column.mad");
-        expect(doc.columns[1].key).to.eq("board.template.mad_sad_glad.column.sad");
-        expect(doc.columns[2].key).to.eq("board.template.mad_sad_glad.column.glad");
+        expect(doc.columns[0].key).to.eq(
+          "board.template.mad_sad_glad.column.mad",
+        );
+        expect(doc.columns[1].key).to.eq(
+          "board.template.mad_sad_glad.column.sad",
+        );
+        expect(doc.columns[2].key).to.eq(
+          "board.template.mad_sad_glad.column.glad",
+        );
       });
     });
 
@@ -288,8 +294,12 @@ context(
         expect(doc.columns[0].name).to.eq("My Custom Column");
         expect(doc.columns[0].key).to.be.undefined;
         // Remaining built-in columns still have keys
-        expect(doc.columns[1].key).to.eq("board.template.mad_sad_glad.column.sad");
-        expect(doc.columns[2].key).to.eq("board.template.mad_sad_glad.column.glad");
+        expect(doc.columns[1].key).to.eq(
+          "board.template.mad_sad_glad.column.sad",
+        );
+        expect(doc.columns[2].key).to.eq(
+          "board.template.mad_sad_glad.column.glad",
+        );
       });
 
       // Import in German — built-in columns should appear in German,
