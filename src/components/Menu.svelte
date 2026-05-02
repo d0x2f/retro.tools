@@ -88,7 +88,7 @@
         const column = rank ? $_(rank.name) : "";
         const author = await decrypt(card.author, $password);
         const text = await decrypt(card.text, $password);
-        const createdAt = new Date(card.created_at * 1000).toISOString();
+        const createdAt = card.created_at.toISOString();
         return [column, author, text, createdAt, card.votes]
           .map(csvEscape)
           .join(",");

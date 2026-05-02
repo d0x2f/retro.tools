@@ -120,7 +120,7 @@ function normaliseCard(document) {
     reactions,
     reacted,
     created_at: new Date(
-      data?.created_at?.seconds ?? // Added 16 Mar 2023
+      data?.created_at?.toMillis() ?? // Added 16 Mar 2023
         document._document.createTime.timestamp.seconds * 1000, // Bit of a hack
     ),
   };

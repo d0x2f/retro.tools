@@ -167,6 +167,42 @@ context("Menu", () => {
     cy.get("[data-name=card]").should("not.exist");
   });
 
+  it("csv created_at timestamp is within 24 hours of the current time", () => {
+    const cardText = "Timestamp test card";
+
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-text-input]")
+      .type(`${cardText}{enter}`)
+      .should("have.value", "");
+    cy.get("[data-name=card]:visible").should("exist");
+
+    cy.get("[data-name=menu-button]").click();
+    cy.get("[data-name=download-csv-button]").click();
+
+    const date = new Date().toISOString().slice(0, 10);
+    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`).then((csv) => {
+      const [, ...rows] = csv.trim().split("\n");
+      const match = rows.find((row) => row.includes(cardText));
+      expect(match).to.exist;
+      // created_at is the 4th field: column,author,text,created_at,votes
+      const createdAt = match.split(",")[3];
+      const timestamp = new Date(createdAt);
+      expect(timestamp.toString()).to.not.equal("Invalid Date");
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      expect(timestamp.getTime()).to.be.within(
+        Date.now() - oneDayMs,
+        Date.now() + oneDayMs,
+      );
+    });
+
+    cy.get("[data-name=card]")
+      .find("[data-name=delete-button]:visible")
+      .click({ multiple: true });
+    cy.get("[data-name=confirm-button]:visible").click({ multiple: true });
+    cy.get("[data-name=card]").should("not.exist");
+  });
+
   it("has the board link as its clipboard data", () => {
     cy.get("[data-name=copy-link-button]")
       .should("have.attr", "data-clipboard-text")
