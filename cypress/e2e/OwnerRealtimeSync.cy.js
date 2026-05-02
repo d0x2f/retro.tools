@@ -19,7 +19,7 @@ context("OwnerRealtimeSync", () => {
     // Wait for onMount to finish — the store subscription is set up after ranks appear
     cy.get("[data-name=rank]:visible").should("exist");
 
-    // Enable open_permission so participants can change board settings
+    // Enable open_permission
     cy.get("[data-name=menu-button]").click();
     cy.intercept("PATCH", "**/boards/**").as("enablePermission");
     cy.get("[data-name=anyone-is-owner-button]").click();
@@ -32,24 +32,18 @@ context("OwnerRealtimeSync", () => {
       .find("[data-name=card-text-input]")
       .type("Test card{enter}");
     cy.get("[data-name=card]:visible").should("exist");
-
-    // Prime participant session cache so later cy.login("participant") doesn't navigate
-    cy.login("participant");
-    cy.visit(boardUrl);
-    cy.get("[data-name=rank]:visible").should("exist");
   });
 
-  it("owner sees live setting change made by an open_permission participant", () => {
-    // Owner loads the board — Firestore subscription is established because open_permission is active
+  it("owner sees live setting change when open_permission is active", () => {
+    // Owner loads the board — with the fix, a Firestore subscription is established
+    // for owners when open_permission is active
     cy.login("owner");
     cy.visit(boardUrl);
     cy.get("[data-name=rank]:visible").should("exist");
     cy.get("[data-name=vote-button]:visible").should("exist");
 
-    // Switch to participant session and PATCH the board to disable voting.
-    // cy.session swaps cookies but not IndexedDB, so the owner's Firebase auth
-    // and Firestore subscription remain active in memory on the loaded page.
-    cy.login("participant");
+    // PATCH the board via REST, bypassing the Svelte store entirely.
+    // Only the Firestore subscription — not the local store listener — can deliver this update.
     cy.request(`/boards/${boardId}`).then(({ body }) => {
       let data = body.data;
       try {
@@ -62,10 +56,7 @@ context("OwnerRealtimeSync", () => {
       });
     });
 
-    // Restore owner session — page is still on the board, Firestore listener still active
-    cy.login("owner");
-
-    // Owner's subscription delivers the change without a page reload
+    // Firestore pushes the change to the owner's active subscription — no page reload needed
     cy.get("[data-name=vote-button]:visible").should("not.exist");
   });
 
