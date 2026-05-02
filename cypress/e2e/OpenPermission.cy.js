@@ -87,15 +87,18 @@ context("OpenPermission", () => {
 
       cy.login("owner");
       cy.visit(boardUrl);
-      cy.get("[data-name=card-content]:visible").last().click();
+      cy.get("[data-name=card-content]:visible")
+        .contains("Participant card")
+        .click();
       cy.get("[data-name=card-edit-field]").should("exist");
       cy.get("[data-name=card-edit-field]")
         .clear()
         .type("Owner edited this{enter}");
       cy.get("[data-name=card-edit-field]").should("not.exist");
-      cy.get("[data-name=card-content]:visible")
-        .last()
-        .should("contain", "Owner edited this");
+      cy.get("[data-name=card-content]:visible").should(
+        "contain",
+        "Owner edited this",
+      );
     });
 
     it("can delete a card created by a participant", () => {
