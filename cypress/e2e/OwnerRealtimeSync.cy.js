@@ -16,6 +16,9 @@ context("OwnerRealtimeSync", () => {
       boardId = url.split("/").pop();
     });
 
+    // Wait for onMount to finish — the store subscription is set up after ranks appear
+    cy.get("[data-name=rank]:visible").should("exist");
+
     // Enable open_permission so participants can change board settings
     cy.get("[data-name=menu-button]").click();
     cy.intercept("PATCH", "**/boards/**").as("enablePermission");
