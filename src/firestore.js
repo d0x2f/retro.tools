@@ -132,24 +132,28 @@ export async function subscribeToCards(
   newCallback,
   updateCallback,
   deleteCallback,
+  errorCallback,
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
   const boardRef = doc(firestore, "boards", boardId);
   const cardsCollection = collection(boardRef, "cards");
-  return onSnapshot(cardsCollection, (snapshot) =>
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === "added") {
-        newCallback(normaliseCard(change.doc));
-      }
-      if (change.type === "modified") {
-        updateCallback(normaliseCard(change.doc));
-      }
-      if (change.type === "removed") {
-        deleteCallback(change.doc.id);
-      }
-    }),
+  return onSnapshot(
+    cardsCollection,
+    (snapshot) =>
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          newCallback(normaliseCard(change.doc));
+        }
+        if (change.type === "modified") {
+          updateCallback(normaliseCard(change.doc));
+        }
+        if (change.type === "removed") {
+          deleteCallback(change.doc.id);
+        }
+      }),
+    errorCallback,
   );
 }
 
@@ -157,6 +161,7 @@ export async function subscribeToBoard(
   boardId,
   updateCallback,
   deleteCallback,
+  errorCallback,
 ) {
   await signIn();
 
@@ -165,17 +170,21 @@ export async function subscribeToBoard(
     collection(firestore, "boards"),
     where("__name__", "in", [boardId]),
   );
-  return onSnapshot(boardRef, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      const board = change.doc;
-      if (change.type === "modified") {
-        updateCallback(normaliseBoard(board));
-      }
-      if (change.type === "removed") {
-        deleteCallback();
-      }
-    });
-  });
+  return onSnapshot(
+    boardRef,
+    (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const board = change.doc;
+        if (change.type === "modified") {
+          updateCallback(normaliseBoard(board));
+        }
+        if (change.type === "removed") {
+          deleteCallback();
+        }
+      });
+    },
+    errorCallback,
+  );
 }
 
 export async function subscribeToRanks(
@@ -183,23 +192,27 @@ export async function subscribeToRanks(
   newCallback,
   updateCallback,
   deleteCallback,
+  errorCallback,
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
   const boardRef = doc(firestore, "boards", boardId);
   const columnsCollection = collection(boardRef, "columns");
-  return onSnapshot(columnsCollection, (snapshot) =>
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === "added") {
-        newCallback(normaliseRank(change.doc));
-      }
-      if (change.type === "modified") {
-        updateCallback(normaliseRank(change.doc));
-      }
-      if (change.type === "removed") {
-        deleteCallback(change.doc.id);
-      }
-    }),
+  return onSnapshot(
+    columnsCollection,
+    (snapshot) =>
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          newCallback(normaliseRank(change.doc));
+        }
+        if (change.type === "modified") {
+          updateCallback(normaliseRank(change.doc));
+        }
+        if (change.type === "removed") {
+          deleteCallback(change.doc.id);
+        }
+      }),
+    errorCallback,
   );
 }
