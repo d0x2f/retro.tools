@@ -276,19 +276,23 @@ context(
 
       downloadTemplate();
 
-      cy.readFile(DOWNLOAD_FILE).then((text) => {
-        const doc = loadYaml(text);
-        // Custom name: no key field
-        expect(doc.columns[0].name).to.eq("My Custom Column");
-        expect(doc.columns[0].key).to.be.undefined;
-        // Remaining built-in columns still have keys
-        expect(doc.columns[1].key).to.eq(
-          "board.template.mad_sad_glad.column.sad",
-        );
-        expect(doc.columns[2].key).to.eq(
-          "board.template.mad_sad_glad.column.glad",
-        );
-      });
+      // The file already exists from the German-export test in this context.
+      // Use .should() so Cypress retries readFile until the download overwrites it.
+      cy.readFile(DOWNLOAD_FILE)
+        .should("include", "My Custom Column")
+        .then((text) => {
+          const doc = loadYaml(text);
+          // Custom name: no key field
+          expect(doc.columns[0].name).to.eq("My Custom Column");
+          expect(doc.columns[0].key).to.be.undefined;
+          // Remaining built-in columns still have keys
+          expect(doc.columns[1].key).to.eq(
+            "board.template.mad_sad_glad.column.sad",
+          );
+          expect(doc.columns[2].key).to.eq(
+            "board.template.mad_sad_glad.column.glad",
+          );
+        });
 
       // Import in German — built-in columns should appear in German,
       // but the renamed column should stay as its literal English name
