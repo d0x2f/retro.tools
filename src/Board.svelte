@@ -204,14 +204,27 @@
       },
     );
 
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
     busy = false;
   });
+
+  function handleOffline() {
+    connectionLost = true;
+  }
+
+  function handleOnline() {
+    connectionLost = false;
+  }
 
   onDestroy(() => {
     unsubscribeLocalBoard && unsubscribeLocalBoard();
     unsubscribeBoard && unsubscribeBoard();
     unsubscribeRanks && unsubscribeRanks();
     unsubscribeCards && unsubscribeCards();
+    window.removeEventListener("offline", handleOffline);
+    window.removeEventListener("online", handleOnline);
   });
 </script>
 

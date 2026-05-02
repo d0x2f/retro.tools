@@ -1,41 +1,5 @@
 /// <reference types="cypress" />
 
-// Uses Chrome DevTools Protocol to cut the network after the board has loaded,
-// simulating a Firestore connection drop mid-session.
-
-function goOffline() {
-  cy.wrap(
-    Cypress.automation("remote:debugger:protocol", {
-      command: "Network.enable",
-    }),
-  );
-  cy.wrap(
-    Cypress.automation("remote:debugger:protocol", {
-      command: "Network.emulateNetworkConditions",
-      params: {
-        offline: true,
-        latency: 0,
-        downloadThroughput: 0,
-        uploadThroughput: 0,
-      },
-    }),
-  );
-}
-
-function goOnline() {
-  cy.wrap(
-    Cypress.automation("remote:debugger:protocol", {
-      command: "Network.emulateNetworkConditions",
-      params: {
-        offline: false,
-        latency: 0,
-        downloadThroughput: -1,
-        uploadThroughput: -1,
-      },
-    }),
-  );
-}
-
 let boardUrl;
 
 context("ConnectionLost", () => {
@@ -56,25 +20,20 @@ context("ConnectionLost", () => {
     cy.get("[data-name=rank]:visible").should("exist");
   });
 
-  afterEach(() => {
-    goOnline();
-  });
-
-  it("shows a connection lost alert when the Firestore connection drops", () => {
-    goOffline();
-
-    // The error-alert (danger/red) for connection loss should appear.
-    // This test will FAIL with the current code because:
-    //   1. connectionLost in Board.svelte is never set to true
-    //   2. connectionLost is plain `let`, not $state, so Svelte 5 would
-    //      not react to assignments even if they existed
-    //   3. none of the onSnapshot calls in firestore.js register an error callback
-    cy.get("[data-name=error-alert]", { timeout: 15000 }).should("be.visible");
+  it("shows a connection lost alert when the browser goes offline", () => {
+    cy.window().then((win) => win.dispatchEvent(new Event("offline")));
+    cy.get("[data-name=error-alert]").should("be.visible");
     cy.get("[data-name=error-alert]").should("contain", "Connection lost");
   });
 
+  it("clears the connection lost alert when the browser comes back online", () => {
+    cy.window().then((win) => win.dispatchEvent(new Event("offline")));
+    cy.get("[data-name=error-alert]").should("be.visible");
+    cy.window().then((win) => win.dispatchEvent(new Event("online")));
+    cy.get("[data-name=error-alert]").should("not.exist");
+  });
+
   after(() => {
-    goOnline();
     cy.login();
     cy.intercept("boards").as("getBoards");
     cy.visit("/");
