@@ -160,8 +160,9 @@
     }
 
     // Non-owners subscribe to remote changes to stay in sync.
+    // Owners also subscribe when open_permission is active so they see changes made by other permitted users.
     // Update previousBoard before setting the store to prevent echo-back pushes.
-    if (!$board.owner) {
+    if (!$board.owner || $board.open_permission) {
       unsubscribeBoard = await subscribeToBoard(
         boardId,
         (b) => {
