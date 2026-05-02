@@ -228,26 +228,18 @@
     style="color: {$colors[rank.data.color]}"
   ></div>
   <div class="h-100" bind:this={dropTarget} data-rank-id={rank.id}>
-    {#if $cards}
-      {#each sortedFilteredCards as card (card.id)}
-        <div
-          data-card-id={card.id}
-          animate:flip={{ duration: 200 }}
-          class="py-1"
-          data-drag={!(card.owner || $board.owner || $board.open_permission)
-            ? "false"
-            : "true"}
-        >
-          <Card {card} on:error color={rank.data.color} />
-        </div>
-      {/each}
-    {:else}
-      {#each sortedFilteredCards as card (card.id)}
-        <div animate:flip={{ duration: 200 }} class="py-2">
-          <Card {card} on:error color={rank.data.color} />
-        </div>
-      {/each}
-    {/if}
+    {#each sortedFilteredCards as card (card.id)}
+      <div
+        data-card-id={card.id}
+        animate:flip={{ duration: 200 }}
+        class="py-1"
+        data-drag={!(card.owner || $board.owner || $board.open_permission)
+          ? "false"
+          : "true"}
+      >
+        <Card {card} on:error color={rank.data.color} />
+      </div>
+    {/each}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}
       <div
         class="text-secondary text-center mt-5 text-center float-right w-100"
