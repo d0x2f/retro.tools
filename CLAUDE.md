@@ -54,7 +54,7 @@ Test files live in `cypress/e2e/` and follow the `*.cy.js` naming convention.
 
 - **Svelte syntax**: Use Svelte 5 runes syntax (`$state`, `$derived`, `$effect`, `$props`) — not the legacy Options API.
 - **Formatting**: Prettier enforces 2-space indent, single quotes, semicolons, trailing commas (ES5). Run `npm run lint:fix` before committing.
-- **i18n**: All user-facing strings must use `svelte-i18n`. Add new keys to `src/lang/en.json` (other languages will follow separately).
+- **i18n**: All user-facing strings must use `svelte-i18n`. When adding a new key, add it to **all** language files in `src/lang/` — not just `en.json`. The files are: `en.json`, `de.json`, `es.json`, `ko.json`, `pt_BR.json`, `ru.json`, `tr.json`, `uk.json`.
 - **State**: Use Svelte stores (`src/store.js`) for shared state.
 
 ## Git Workflow

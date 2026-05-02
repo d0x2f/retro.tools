@@ -27,6 +27,7 @@
   "error.creating_card": "Ошибка создания карточки!",
   "error.updating_card": "Ошибка при обновлении карточки!",
   "error.vote_failed": "Ошибка при голосовании!",
+  "error.react_failed": "Ошибка при добавлении реакции!",
   "board.template.empty.name": "пустой",
   "board.template.drop_add_keep_improve.name": "Исключить, Добавить, Оставить, Улучшить",
   "board.template.drop_add_keep_improve.column.drop": "Исключить",

@@ -27,6 +27,7 @@
   "error.creating_card": "Помилка при створенні картки!",
   "error.updating_card": "Не вдалося оновити картку!",
   "error.vote_failed": "Не вдалося проголосувати!",
+  "error.react_failed": "Не вдалося додати реакцію!",
   "board.template.empty.name": "Порожньо",
   "board.template.drop_add_keep_improve.name": "Покинути, Додати, Залишити, Покращити",
   "board.template.drop_add_keep_improve.column.drop": "Покинути",

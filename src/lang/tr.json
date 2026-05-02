@@ -27,6 +27,7 @@
   "error.creating_card": "Kart oluşturulurken hata meydana geldi!",
   "error.updating_card": "Kart güncelleme işlemi başarız oldu!",
   "error.vote_failed": "Oy verilirken hata meydana geldi!",
+  "error.react_failed": "Tepki eklenirken hata meydana geldi!",
   "board.template.empty.name": "Boş",
   "board.template.drop_add_keep_improve.name": "Bırak, Kazan, Devam Et, Geliştir",
   "board.template.drop_add_keep_improve.column.drop": "Bırak",
