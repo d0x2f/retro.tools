@@ -1,8 +1,8 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import { password, board } from "../store.js";
-  import { decrypt, checkBoardPassword } from "../encryption.js";
+  import { password, passwordValid } from "../store.js";
+  import { decrypt } from "../encryption.js";
 
   let { text } = $props();
 </script>
@@ -11,10 +11,8 @@
   {#await decrypt(text, $password)}
     …
   {:then string}
-    {#await checkBoardPassword($board, $password)}
-      …
-    {:then decrypted}
-      {#if !decrypted}{$_("general.encrypted")}{:else}{string}{/if}
-    {/await}
+    {#if $passwordValid === null}…{:else if $passwordValid}{string}{:else}{$_(
+        "general.encrypted",
+      )}{/if}
   {/await}
 {/if}

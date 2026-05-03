@@ -1,5 +1,6 @@
 import { derived, writable } from "svelte/store";
 import { Colors } from "./data";
+import { checkBoardPassword } from "./encryption.js";
 
 function createSet() {
   const { subscribe, set, update } = writable([]);
@@ -65,3 +66,11 @@ export const colorMode = derived(darkMode, ($darkMode) =>
 );
 
 export const colors = derived(colorMode, ($colorMode) => Colors[$colorMode]);
+
+export const passwordValid = derived(
+  [board, password],
+  ([$board, $password], set) => {
+    checkBoardPassword($board, $password).then(set);
+  },
+  null,
+);

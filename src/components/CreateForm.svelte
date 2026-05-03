@@ -187,10 +187,12 @@
         <div class="input-group-text">
           <Checkbox
             addon
+            data-name="encrypt-board-checkbox"
             on:input={(i) => (passwordDisabled = !i.target.checked)}
           />
         </div>
         <Input
+          data-name="board-password-input"
           type={showPassword ? "text" : "password"}
           placeholder={$_("general.password")}
           bind:disabled={passwordDisabled}

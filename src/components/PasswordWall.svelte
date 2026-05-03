@@ -43,6 +43,7 @@
       </p>
       <div class="input-group">
         <Input
+          data-name="password-wall-input"
           type={showPassword ? "text" : "password"}
           name="password"
           id="password"
@@ -63,6 +64,7 @@
       </div>
       <div class="text-end">
         <Button
+          data-name="password-wall-unlock-button"
           class="mt-1"
           color={$darkMode ? "dark" : "primary"}
           on:click={checkPassword}
