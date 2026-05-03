@@ -6,7 +6,6 @@
     DropdownToggle,
   } from "@sveltestrap/sveltestrap";
   import { _, locale, locales, dictionary } from "svelte-i18n";
-  import moment from "moment";
   import { colorMode } from "../store";
   import clsx from "clsx";
 
@@ -18,7 +17,6 @@
 
   function setLocale(l) {
     locale.set(l);
-    moment.locale(l);
     window.localStorage.setItem("locale", l);
   }
 </script>

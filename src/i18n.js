@@ -1,10 +1,4 @@
-import { addMessages, init, getLocaleFromNavigator, locale } from "svelte-i18n";
-import moment from "moment";
-import "moment/locale/es";
-import "moment/locale/ko";
-import "moment/locale/de";
-import "moment/locale/ru";
-import "moment/locale/uk";
+import { addMessages, init, getLocaleFromNavigator } from "svelte-i18n";
 
 import en from "./lang/en.json";
 import es from "./lang/es.json";
@@ -14,10 +8,6 @@ import ru from "./lang/ru.json";
 import pt_BR from "./lang/pt_BR.json";
 import tr from "./lang/tr.json";
 import uk from "./lang/uk.json";
-
-locale.subscribe((l) => {
-  if (l) moment.locale(l);
-});
 
 addMessages("en", en);
 addMessages("es", es);
