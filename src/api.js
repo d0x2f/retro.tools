@@ -105,10 +105,6 @@ export async function createBoard(
   });
 }
 
-export async function getCards(boardId) {
-  return requestJson(`${api_host}/boards/${boardId}/cards`, common_options);
-}
-
 export async function createCard(boardId, rankId, text, author) {
   return requestJson(`${api_host}/boards/${boardId}/columns/${rankId}/cards`, {
     method: "POST",

@@ -252,10 +252,6 @@
 </div>
 
 <style>
-  .header {
-    text-align: center;
-  }
-
   .icon {
     width: 1.5em;
     box-sizing: content-box;

@@ -401,35 +401,9 @@
     border-right: 0.1em solid #495057;
   }
 
-  .add-button {
-    position: fixed;
-    bottom: 1em;
-    right: 1em;
-    width: 3em;
-    height: 3em;
-    z-index: 1038;
-  }
-
   .icon {
     width: 1.5em;
     height: 1.5em;
-  }
-
-  :global(.svelte-tabs) {
-    flex: 1 1 1em;
-    display: flex;
-    flex-direction: column;
-  }
-
-  :global(.svelte-tabs__tab-list) {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-  }
-
-  :global(.svelte-tabs li.svelte-tabs__tab) {
-    display: table-cell;
-    text-align: center;
   }
 
   input[type="radio"] {
@@ -445,25 +419,11 @@
     text-align: center;
   }
 
-  .overflow-x-hidden {
-    overflow-x: hidden;
-  }
-
-  .new-card-form {
-    z-index: 1039;
-  }
-
   .tab-buttons {
     z-index: 1040;
   }
 
   .min-vh-90 {
     min-height: 90vh;
-  }
-
-  @media (max-width: 768px) {
-    .add-button {
-      bottom: 6em;
-    }
   }
 </style>

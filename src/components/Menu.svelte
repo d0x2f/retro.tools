@@ -120,15 +120,6 @@
       error("error.network", err);
     }
   }
-
-  // async function doDeleteBoard() {
-  //   try {
-  //     await deleteBoard($board.id);
-  //     navigate("/");
-  //   } catch (err) {
-  //     error("error.board_delete", err);
-  //   }
-  // }
 </script>
 
 <Dropdown bind:isOpen toggle={() => (isOpen = !isOpen)}>
@@ -283,18 +274,6 @@
       </div>
       {$_("general.donate")}
     </DropdownItem>
-    <!-- {#if $board.owner}
-      <DropdownItem divider />
-      <DropdownItem data-name="delete=baord-button" on:click={doDeleteBoard}>
-        <div
-          class="d-inline-block icon text-danger position-relative"
-          style="top: -3px"
-        >
-          <Icons.delete size="1x" />
-        </div>
-        {$_("board.delete")}
-      </DropdownItem>
-    {/if} -->
   </DropdownMenu>
 </Dropdown>
 
