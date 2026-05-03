@@ -140,7 +140,8 @@ context("Menu", () => {
     cy.get("[data-name=rank]:visible")
       .first()
       .find("[data-name=card-text-input]")
-      .type(cardText);
+      .type(cardText)
+      .should("have.value", cardText);
     cy.get("[data-name=rank]:visible")
       .first()
       .find("[data-name=card-author-input]")
@@ -151,14 +152,18 @@ context("Menu", () => {
     cy.get("[data-name=download-csv-button]").click();
 
     const date = new Date().toISOString().slice(0, 10);
-    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`).then((csv) => {
-      const [header, ...rows] = csv.trim().split("\n");
-      expect(header).to.eq("column,author,text,created_at,votes");
-      const match = rows.find(
-        (row) => row.includes(cardText) && row.includes(cardAuthor),
-      );
-      expect(match).to.exist;
-    });
+    // Use .should() so Cypress retries readFile until the new download
+    // overwrites a stale CSV from an earlier test in this suite.
+    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`)
+      .should("include", cardText)
+      .then((csv) => {
+        const [header, ...rows] = csv.trim().split("\n");
+        expect(header).to.eq("column,author,text,created_at,votes");
+        const match = rows.find(
+          (row) => row.includes(cardText) && row.includes(cardAuthor),
+        );
+        expect(match).to.exist;
+      });
 
     cy.get("[data-name=card]")
       .find("[data-name=delete-button]:visible")
@@ -181,20 +186,24 @@ context("Menu", () => {
     cy.get("[data-name=download-csv-button]").click();
 
     const date = new Date().toISOString().slice(0, 10);
-    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`).then((csv) => {
-      const [, ...rows] = csv.trim().split("\n");
-      const match = rows.find((row) => row.includes(cardText));
-      expect(match).to.exist;
-      // created_at is the 4th field: column,author,text,created_at,votes
-      const createdAt = match.split(",")[3];
-      const timestamp = new Date(createdAt);
-      expect(timestamp.toString()).to.not.equal("Invalid Date");
-      const oneDayMs = 24 * 60 * 60 * 1000;
-      expect(timestamp.getTime()).to.be.within(
-        Date.now() - oneDayMs,
-        Date.now() + oneDayMs,
-      );
-    });
+    // Use .should() so Cypress retries readFile until the new download
+    // overwrites a stale CSV from an earlier test in this suite.
+    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`)
+      .should("include", cardText)
+      .then((csv) => {
+        const [, ...rows] = csv.trim().split("\n");
+        const match = rows.find((row) => row.includes(cardText));
+        expect(match).to.exist;
+        // created_at is the 4th field: column,author,text,created_at,votes
+        const createdAt = match.split(",")[3];
+        const timestamp = new Date(createdAt);
+        expect(timestamp.toString()).to.not.equal("Invalid Date");
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        expect(timestamp.getTime()).to.be.within(
+          Date.now() - oneDayMs,
+          Date.now() + oneDayMs,
+        );
+      });
 
     cy.get("[data-name=card]")
       .find("[data-name=delete-button]:visible")
