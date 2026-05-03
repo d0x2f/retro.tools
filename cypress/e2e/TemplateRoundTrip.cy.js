@@ -73,6 +73,12 @@ function customiseFirstRank({ name, icon = false, color = false }) {
     // Last icon in last row = "award"
     cy.get("[data-name=rank-options-icons] > div:visible").last().click();
     cy.wait("@patchIcon");
+    // Wait for the store update to settle: active icon loses .text-body.
+    // Without this, a late Firestore snapshot can clobber the local mutation
+    // before downloadTemplate reads $ranks.
+    cy.get("[data-name=rank-options-icons] > div:visible")
+      .last()
+      .should("not.have.class", "text-body");
   }
 
   if (color) {
@@ -83,6 +89,12 @@ function customiseFirstRank({ name, icon = false, color = false }) {
     // Last colour button = "plain"
     cy.get("[data-name=rank-options-colors] > button:visible").last().click();
     cy.wait("@patchColor");
+    // Wait for the store update to settle: active colour button gets a
+    // checkmark child (rendered only when rank.data.color matches).
+    cy.get("[data-name=rank-options-colors] > button:visible")
+      .last()
+      .find("div")
+      .should("exist");
   }
 }
 
