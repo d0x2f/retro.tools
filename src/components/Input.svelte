@@ -22,16 +22,14 @@
   let data = $state({});
 
   function keyDown(event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
-      // 'enter' key (and not shift + enter)
+    if (event.key === "Enter" && !event.shiftKey) {
       if (value.length > 0) {
         dispatch("submit", {
           text: value,
         });
       }
       event.preventDefault();
-    } else if (event.keyCode === 27) {
-      // 'escape' key
+    } else if (event.key === "Escape") {
       dispatch("cancel");
     }
   }
