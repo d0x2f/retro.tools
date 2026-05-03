@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { _, locale } from "svelte-i18n";
+  import { format as timeago } from "timeago.js";
 
   import { Icons } from "../data.js";
   import { deleteBoard } from "../api.js";
@@ -11,24 +12,6 @@
   import { colorMode } from "../store.js";
 
   let { board } = $props();
-
-  function fromNow(ms, loc) {
-    const seconds = Math.round((Date.now() - ms) / 1000);
-    const tag = loc ? loc.replace("_", "-") : "en";
-    const rtf = new Intl.RelativeTimeFormat(tag, { numeric: "auto" });
-    if (seconds < 45) return rtf.format(0, "second");
-    if (seconds < 90) return rtf.format(-1, "minute");
-    if (seconds < 2700) return rtf.format(-Math.round(seconds / 60), "minute");
-    if (seconds < 5400) return rtf.format(-1, "hour");
-    if (seconds < 79200) return rtf.format(-Math.round(seconds / 3600), "hour");
-    if (seconds < 129600) return rtf.format(-1, "day");
-    if (seconds < 2160000)
-      return rtf.format(-Math.round(seconds / 86400), "day");
-    if (seconds < 5184000) return rtf.format(-1, "month");
-    if (seconds < 7776000)
-      return rtf.format(-Math.round(seconds / 2592000), "month");
-    return rtf.format(-Math.round(seconds / 31536000), "year");
-  }
 
   const dispatch = createEventDispatcher();
   let showDeleteBoardConfirmBox = $state(false);
@@ -105,7 +88,7 @@
         <Icons.check size="1x" />
       </Button>
     {:else}
-      {fromNow(board.created_at * 1000, $locale)}
+      {timeago(new Date(board.created_at * 1000), $locale)}
       {#if board.owner}
         <Button
           data-name="delete-button"
