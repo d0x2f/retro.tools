@@ -112,7 +112,7 @@
     <hr class="mt-1 mb-4" />
     <div class="d-flex justify-content-center">
       <div class="top-section">
-        <h1 class="text-center mb-5 text-body" style="margin-top: 100px;">
+        <h1 data-name="splash-hero" class="text-center mb-5 text-body" style="margin-top: 100px;">
           {$_("splash.hero_text")}
         </h1>
         <div class="d-flex flex-column justify-content-center">
