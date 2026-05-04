@@ -40,7 +40,7 @@
     errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
   }
 
-  function handleError({ detail: { message, err } }) {
+  function handleError({ message, err }) {
     error(message, err);
   }
 
@@ -67,7 +67,7 @@
           color={$colorMode}
           textColor="body"
           class="me-1"
-          on:click={() => {
+          onclick={() => {
             $darkMode = !$darkMode;
             window.localStorage.setItem("darkModePreference", $colorMode);
           }}
@@ -121,14 +121,14 @@
         </h1>
         <div class="d-flex flex-column justify-content-center">
           <CreateForm
-            on:error={handleError}
-            on:created={({ detail: boardId }) => navigate(`/${boardId}`)}
+            onerror={handleError}
+            oncreated={(boardId) => navigate(`/${boardId}`)}
           />
           <BoardTable
             {boards}
-            on:click={({ detail: boardId }) => navigate(`/${boardId}`)}
-            on:error={handleError}
-            on:deleted={doGetBoards}
+            onclick={(boardId) => navigate(`/${boardId}`)}
+            onerror={handleError}
+            ondeleted={doGetBoards}
           />
         </div>
       </div>

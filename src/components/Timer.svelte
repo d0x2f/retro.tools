@@ -1,6 +1,4 @@
 <script>
-  import { run } from "svelte/legacy";
-
   import { onDestroy } from "svelte";
   import { _ } from "svelte-i18n";
 
@@ -103,7 +101,7 @@
   let timerEndAt = $derived($board.data?.timer_end_at ?? null);
   let timerDuration = $derived($board.data?.timer_duration ?? 10);
   let timerRemainingMs = $derived($board.data?.timer_remaining_ms ?? null);
-  run(() => {
+  $effect(() => {
     updateInterval(timerEndAt, timerRemainingMs, timerDuration);
   });
   let colorState = $derived(
@@ -160,7 +158,7 @@
         <Button
           size="sm"
           color="success"
-          on:click={startTimer}
+          onclick={startTimer}
           data-name="timer-start-button"
         >
           {$_("board.timer.start")}
@@ -169,7 +167,7 @@
         <Button
           size="sm"
           color="warning"
-          on:click={stopTimer}
+          onclick={stopTimer}
           data-name="timer-stop-button"
         >
           {$_("board.timer.stop")}
@@ -179,7 +177,7 @@
         size="sm"
         color={$colorMode}
         disabled={isRunning}
-        on:click={resetTimer}
+        onclick={resetTimer}
         data-name="timer-reset-button"
       >
         {$_("board.timer.reset")}

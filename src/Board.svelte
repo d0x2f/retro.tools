@@ -1,6 +1,4 @@
 <script>
-  import { run } from "svelte/legacy";
-
   import { onMount, onDestroy } from "svelte";
   import { fade, fly } from "svelte/transition";
   import dragula from "dragula";
@@ -45,7 +43,13 @@
   let connectionLost = $state(false);
   let passwordRequired = $state(false);
   let busy = $state(true);
+  // bind:rank requires sortedRanks to be mutable $state (Rank writes rank.busy during deletion)
+  // eslint-disable-next-line svelte/prefer-writable-derived
   let sortedRanks = $state([]);
+
+  $effect(() => {
+    sortedRanks = [...$ranks].sort((a, b) => a.position - b.position);
+  });
 
   let drake = dragula({
     revertOnSpill: true,
@@ -90,10 +94,6 @@
     }
   });
 
-  run(() => {
-    sortedRanks = [...$ranks].sort((a, b) => a.position - b.position);
-  });
-
   function error(message, err) {
     if (err) console.error(err);
     errorAlertVisible = true;
@@ -103,7 +103,7 @@
     errorClearTimeout = setTimeout(() => (errorAlertVisible = false), 3000);
   }
 
-  function handleError({ detail: { message, err } }) {
+  function handleError({ message, err }) {
     error(message, err);
   }
 
@@ -252,7 +252,7 @@
       transition:fade={{ duration: 200 }}
       class="w-100 h-100 position-absolute"
     >
-      <PasswordWall on:accepted={checkPassword} />
+      <PasswordWall onaccepted={checkPassword} />
     </div>
   {:else}
     <div
@@ -265,7 +265,7 @@
         min-vh-90"
       >
         {#each sortedRanks as rank, i (rank.id)}
-          <Rank bind:rank={sortedRanks[i]} {drake} on:error={handleError} />
+          <Rank bind:rank={sortedRanks[i]} {drake} onerror={handleError} />
           {#if i !== sortedRanks.length - 1}
             <div
               class="spacer-{$colorMode} my-5 flex-grow-0 flex-shrink-0"
@@ -286,7 +286,7 @@
       <IceBreaker class="w-100" />
       {#each sortedRanks as rank, i (rank.id)}
         {#if rank.id == $focusedRank}
-          <Rank bind:rank={sortedRanks[i]} on:error={handleError} />
+          <Rank bind:rank={sortedRanks[i]} onerror={handleError} />
         {/if}
       {:else}
         <p class="text-center text-secondary mt-5">{$_("board.no_columns")}</p>

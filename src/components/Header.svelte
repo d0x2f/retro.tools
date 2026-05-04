@@ -59,9 +59,9 @@
           data-name="board-title-edit-field"
           autofocus
           bind:value={newBoardName}
-          on:submit={submitEdit}
-          on:cancel={cancelEdit}
-          on:blur={submitEdit}
+          onsubmit={submitEdit}
+          oncancel={cancelEdit}
+          onblur={submitEdit}
           class="p-0 text-center big-text border-0"
         />
       {:else}
@@ -73,7 +73,7 @@
         id="darkLightToggle"
         color={$colorMode}
         class="me-1"
-        on:click={() => {
+        onclick={() => {
           $darkMode = !$darkMode;
           window.localStorage.setItem("darkModePreference", $colorMode);
         }}
@@ -87,7 +87,7 @@
         </div>
       </Button>
       <LocaleSelect class="me-1 h-100" />
-      <Menu on:error />
+      <Menu />
     </div>
   </div>
   <hr class="my-0 d-lg-none" />
@@ -104,9 +104,9 @@
         data-name="board-title-edit-field"
         autofocus
         bind:value={newBoardName}
-        on:submit={submitEdit}
-        on:cancel={cancelEdit}
-        on:blur={submitEdit}
+        onsubmit={submitEdit}
+        oncancel={cancelEdit}
+        onblur={submitEdit}
         class="p-0 text-center border-0"
       />
     {:else}

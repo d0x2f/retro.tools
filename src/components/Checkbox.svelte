@@ -1,7 +1,4 @@
 <script>
-  import { createBubbler } from "svelte/legacy";
-
-  const bubble = createBubbler();
   import clsx from "clsx";
 
   import { filterDataKeys } from "../utils.js";
@@ -13,6 +10,7 @@
     label = "",
     addon = false,
     id = "id-" + Math.floor(Math.random() * 10000),
+    oninput,
     ...rest
   } = $props();
 
@@ -35,7 +33,7 @@
       {disabled}
       {label}
       bind:checked
-      oninput={bubble("input")}
+      {oninput}
     />
     <label class="custom-control-label" for={id}>{label}</label>
   </div>
@@ -47,6 +45,6 @@
     class={directClasses}
     {disabled}
     bind:checked
-    oninput={bubble("input")}
+    {oninput}
   />
 {/if}

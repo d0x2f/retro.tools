@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { board, colorMode, darkMode, password } from "../store.js";
@@ -10,12 +9,12 @@
   import Input from "./Input.svelte";
   import Spinner from "./Spinner.svelte";
 
+  let { onaccepted } = $props();
+
   let showPassword = $state(false);
   let checkBusy = $state(false);
   let inputPassword = $state("");
   let inputBox = $state();
-
-  const dispatch = createEventDispatcher();
 
   async function checkPassword() {
     if (inputPassword.length === 0) return;
@@ -23,7 +22,7 @@
     checkBusy = true;
     if (await checkBoardPassword($board, inputPassword)) {
       password.set(inputPassword);
-      dispatch("accepted");
+      onaccepted?.();
       return;
     }
     inputBox.classList.add("animate__shakeX");
@@ -48,10 +47,10 @@
           name="password"
           id="password"
           bind:value={inputPassword}
-          on:submit={checkPassword}
+          onsubmit={checkPassword}
         />
         <Button
-          on:click={() => (showPassword = !showPassword)}
+          onclick={() => (showPassword = !showPassword)}
           color="secondary"
           textColor="white-50"
         >
@@ -67,7 +66,7 @@
           data-name="password-wall-unlock-button"
           class="mt-1"
           color={$darkMode ? "dark" : "primary"}
-          on:click={checkPassword}
+          onclick={checkPassword}
           disabled={checkBusy}
         >
           <div class="d-flex">

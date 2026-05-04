@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import clsx from "clsx";
 
   import { board, colorMode, colors } from "../store.js";
@@ -7,9 +6,7 @@
 
   import Button from "./Button.svelte";
 
-  let { votes = 0, voted = false, color } = $props();
-
-  const dispatch = createEventDispatcher();
+  let { votes = 0, voted = false, color, ontoggleVote } = $props();
 </script>
 
 <div class="d-flex">
@@ -17,7 +14,7 @@
     <Button
       data-name="vote-button"
       class="flex-grow-0 flex-shrink-0 p-1 bg-{$colorMode}-accent"
-      on:click={() => dispatch("toggleVote")}
+      onclick={() => ontoggleVote?.()}
     >
       <div class="icon" style="color: {$colors[color]}" class:unvoted={!voted}>
         <Icons.arrowUp class="align-top" size="1.7x" />

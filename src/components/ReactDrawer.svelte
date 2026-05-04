@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { Button, ButtonGroup } from "@sveltestrap/sveltestrap";
   import { colorMode } from "../store";
 
@@ -11,9 +10,8 @@
       ["💩", "🎉", "❤️", "🐛", "💬"],
     ],
     current = "",
+    onselected,
   } = $props();
-
-  const dispatch = createEventDispatcher();
 </script>
 
 <div class="d-flex flex-wrap justify-content-around">
@@ -22,7 +20,7 @@
       {#each emojiRow as emoji (emoji)}
         <Button
           color={emoji === current ? "secondary" : $colorMode}
-          on:click={() => dispatch("selected", emoji)}
+          onclick={() => onselected?.(emoji)}
         >
           {emoji}
         </Button>

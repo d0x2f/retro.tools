@@ -1,7 +1,5 @@
 <script>
-  import { run } from "svelte/legacy";
-
-  import { onMount, createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { _ } from "svelte-i18n";
 
@@ -28,7 +26,7 @@
   import { slide } from "svelte/transition";
   import RankOptions from "./RankOptions.svelte";
 
-  let { rank = $bindable(), drake = null } = $props();
+  let { rank = $bindable(), drake = null, onerror } = $props();
 
   let dropTarget = $state();
   let sortedFilteredCards = $derived(
@@ -40,30 +38,18 @@
           : a.created_at - b.created_at,
       ),
   );
-  let columnWidth = $state("col-lg-3");
+  let columnWidth = $derived(
+    $ranks.length <= 2
+      ? "col-lg-4"
+      : $ranks.length === 3
+        ? "col-lg-3"
+        : `col-lg-${Math.floor(12 / $ranks.length)}`,
+  );
   let newCardText = $state("");
   let deleteConfirmMode = $state(false);
 
-  const dispatch = createEventDispatcher();
-
-  run(() => {
-    switch ($ranks.length) {
-      case 1:
-      case 2:
-        columnWidth = "col-lg-4";
-        break;
-      case 3:
-        columnWidth = "col-lg-3";
-        break;
-      case 4:
-      default:
-        columnWidth = `col-lg-${Math.floor(12 / $ranks.length)}`;
-        break;
-    }
-  });
-
   function error(message, err) {
-    dispatch("error", { message, err });
+    onerror?.({ message, err });
   }
 
   async function newCard() {
@@ -146,17 +132,17 @@
         <Textarea
           autoresize
           data-name="card-text-input"
-          on:submit={newCard}
+          onsubmit={newCard}
           placeholder={$_(rank.name)}
           bind:value={newCardText}
-          on:focus={() => ($focusedRank = rank.id)}
+          onfocus={() => ($focusedRank = rank.id)}
           minWidth="5em"
           class="flex-grow-1"
         />
         {#if $focusedRank === rank.id}
           <Textarea
             data-name="card-author-input"
-            on:submit={newCard}
+            onsubmit={newCard}
             placeholder={$_("board.author")}
             bind:value={$author}
             minWidth="5em"
@@ -167,7 +153,7 @@
           color={$colorMode}
           disabled={newCardText.length == 0}
           class="d-lg-none ms-1"
-          on:click={newCard}
+          onclick={newCard}
         >
           <div class="icon">
             <Icons.enter size="100%" />
@@ -178,7 +164,7 @@
             data-name="delete-button"
             textColor={!$darkMode ? "danger" : "body"}
             class="bg-{$colorMode}-accent border"
-            on:click={() => (deleteConfirmMode = true)}
+            onclick={() => (deleteConfirmMode = true)}
           >
             <div class="icon">
               <Icons.trash class="align-top" size="1.4x" />
@@ -197,7 +183,7 @@
           color="secondary"
           textColor="light"
           class="btn-sm m-1"
-          on:click={() => (deleteConfirmMode = false)}
+          onclick={() => (deleteConfirmMode = false)}
         >
           <div class="icon">
             <Icons.close size="1x" />
@@ -209,7 +195,7 @@
           color="danger"
           textColor="light"
           class="btn-sm m-1"
-          on:click={doDelete}
+          onclick={doDelete}
         >
           <div class="icon">
             <Icons.check size="1x" />
@@ -220,7 +206,7 @@
   </div>
   {#if $activeRankOptions == rank.id}
     <div class="p-1" in:slide out:slide>
-      <RankOptions on:error class="w-100" {rank} />
+      <RankOptions {onerror} class="w-100" {rank} />
     </div>
   {/if}
   <div
@@ -237,7 +223,7 @@
           ? "false"
           : "true"}
       >
-        <Card {card} on:error color={rank.data.color} />
+        <Card {card} {onerror} color={rank.data.color} />
       </div>
     {/each}
     {#if !sortedFilteredCards || sortedFilteredCards.length === 0}

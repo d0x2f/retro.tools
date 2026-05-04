@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
   import { slide } from "svelte/transition";
   import { UploadIcon } from "svelte-feather-icons";
@@ -16,7 +15,8 @@
   import Select from "./Select.svelte";
   import Spinner from "./Spinner.svelte";
 
-  const dispatch = createEventDispatcher();
+  let { onerror, oncreated } = $props();
+
   let boardName = $state("");
   let templateKey = $state("dropAddKeepImprove");
   let customTemplate = $state(null);
@@ -61,13 +61,13 @@
       try {
         const template = parseYamlTemplate(e.target.result);
         if (template.ranks.length === 0) {
-          dispatch("error", { message: "error.invalid_template" });
+          onerror?.({ message: "error.invalid_template" });
           return;
         }
         customTemplate = template;
         templateKey = "custom";
       } catch (err) {
-        dispatch("error", { message: "error.invalid_template", err });
+        onerror?.({ message: "error.invalid_template", err });
       }
     };
     reader.readAsText(file);
@@ -106,9 +106,9 @@
           ? customTemplate
           : BoardTemplates[templateKey];
       const board = await createFromTemplate(template);
-      dispatch("created", board.id);
+      oncreated?.(board.id);
     } catch (err) {
-      dispatch("error", { message: "error.creating_board", err });
+      onerror?.({ message: "error.creating_board", err });
       createBusy = false;
     }
   }
@@ -121,14 +121,14 @@
       placeholder={$_("splash.board_name_example")}
       class="h-100"
       bind:value={boardName}
-      on:submit={newBoard}
+      onsubmit={newBoard}
     />
     <div class="flex-grow-0 flex-shrink-0">
       <Button
         class="ms-2"
         color={$darkMode ? "secondary" : "primary"}
         textColor={$colorMode}
-        on:click={newBoard}
+        onclick={newBoard}
         disabled={createBusy}
         data-name="create-button"
       >
@@ -147,7 +147,7 @@
     textColor="body"
     data-name="more-settings-button"
     class="text-start mt-2 w-100"
-    on:click={() => (optionsExpanded = !optionsExpanded)}
+    onclick={() => (optionsExpanded = !optionsExpanded)}
   >
     <div class:rotate-90={optionsExpanded} class="transition d-inline-block">
       ▸
@@ -176,7 +176,7 @@
         <Button
           color={$colorMode}
           textColor="body"
-          on:click={() => fileInput.click()}
+          onclick={() => fileInput.click()}
           title={$_("splash.import_template")}
         >
           <UploadIcon size="1x" />
@@ -188,7 +188,7 @@
           <Checkbox
             addon
             data-name="encrypt-board-checkbox"
-            on:input={(i) => (passwordDisabled = !i.target.checked)}
+            oninput={(i) => (passwordDisabled = !i.target.checked)}
           />
         </div>
         <Input
@@ -201,7 +201,7 @@
         <Button
           color="secondary"
           textColor="white-50"
-          on:click={() => (showPassword = !showPassword)}
+          onclick={() => (showPassword = !showPassword)}
         >
           {#if showPassword}
             <Icons.eye />

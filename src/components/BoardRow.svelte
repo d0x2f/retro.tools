@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { _, locale } from "svelte-i18n";
   import { format as timeago } from "timeago.js";
 
@@ -11,14 +10,13 @@
   import Spinner from "./Spinner.svelte";
   import { colorMode } from "../store.js";
 
-  let { board } = $props();
+  let { board, onclick, ondeleted, onerror } = $props();
 
-  const dispatch = createEventDispatcher();
   let showDeleteBoardConfirmBox = $state(false);
   let busy = $state(false);
 
   function error(message, err) {
-    dispatch("error", { message, err });
+    onerror?.({ message, err });
   }
 
   function startDelete(e) {
@@ -40,7 +38,7 @@
     e.stopPropagation();
     try {
       await deleteBoard(board.id);
-      dispatch("deleted");
+      ondeleted?.();
     } catch (err) {
       busy = false;
       error("error.board_delete", err);
@@ -52,7 +50,7 @@
   data-name="board-row"
   data-board-id={board.id}
   onkeypress={null}
-  onclick={() => dispatch("click", board.id)}
+  onclick={() => onclick?.(board.id)}
 >
   <td class="pointer border-top-0">
     {#if board.name}
@@ -74,7 +72,7 @@
         color="secondary"
         textColor="light"
         class="me-1"
-        on:click={cancelDelete}
+        onclick={cancelDelete}
       >
         <Icons.close size="1x" />
       </Button>
@@ -83,7 +81,7 @@
         data-name="delete-confirm-button"
         color="danger"
         textColor="light"
-        on:click={submitDelete}
+        onclick={submitDelete}
       >
         <Icons.check size="1x" />
       </Button>
@@ -94,7 +92,7 @@
           data-name="delete-button"
           color={$colorMode}
           class="ms-2 text-danger"
-          on:click={startDelete}
+          onclick={startDelete}
           disabled={busy}
         >
           {#if busy}

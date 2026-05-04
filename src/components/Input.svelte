@@ -1,8 +1,4 @@
 <script>
-  import { run, createBubbler } from "svelte/legacy";
-
-  const bubble = createBubbler();
-  import { createEventDispatcher } from "svelte";
   import clsx from "clsx";
 
   import { filterDataKeys } from "../utils.js";
@@ -14,36 +10,31 @@
     value = $bindable(""),
     type = "text",
     placeholder = "",
+    onsubmit,
+    oncancel,
+    onclick,
+    onfocus,
+    onblur,
     ...rest
   } = $props();
 
-  const dispatch = createEventDispatcher();
-  let classes = $state("");
-  let data = $state({});
+  let classes = $derived(clsx(className, "form-control"));
+  let data = $derived(filterDataKeys(rest));
 
   function keyDown(event) {
     if (event.key === "Enter" && !event.shiftKey) {
       if (value.length > 0) {
-        dispatch("submit", {
-          text: value,
-        });
+        onsubmit?.();
       }
       event.preventDefault();
     } else if (event.key === "Escape") {
-      dispatch("cancel");
+      oncancel?.();
     }
   }
 
   function use(el) {
     if (autofocus) el.focus();
   }
-
-  run(() => {
-    classes = clsx(className, "form-control");
-  });
-  run(() => {
-    data = filterDataKeys(rest);
-  });
 </script>
 
 {#if type == "password"}
@@ -53,9 +44,9 @@
     class={classes}
     {disabled}
     use:use
-    onclick={bubble("click")}
-    onfocus={bubble("focus")}
-    onblur={bubble("blur")}
+    {onclick}
+    {onfocus}
+    {onblur}
     onkeydown={keyDown}
     bind:value
     {placeholder}
@@ -67,9 +58,9 @@
     class={classes}
     {disabled}
     use:use
-    onclick={bubble("click")}
-    onfocus={bubble("focus")}
-    onblur={bubble("blur")}
+    {onclick}
+    {onfocus}
+    {onblur}
     onkeydown={keyDown}
     bind:value
     {placeholder}

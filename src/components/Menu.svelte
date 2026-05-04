@@ -1,6 +1,4 @@
 <script>
-  import { run } from "svelte/legacy";
-
   import ClipboardJS from "clipboard";
   import { _ } from "svelte-i18n";
   import { fly } from "svelte/transition";
@@ -28,21 +26,20 @@
   import QRCode from "./QRCode.svelte";
   import Timer from "./Timer.svelte";
   import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
-  import { createEventDispatcher } from "svelte";
   import { navigate } from "svelte-routing";
+
+  let { onerror } = $props();
 
   let isOpen = $state(false);
   let showQR = $state(false);
   let showTimer = $state(false);
 
   // Auto-show timer widget for all participants when a timer is active or expired
-  run(() => {
+  $effect(() => {
     if ($board.data?.timer_end_at != null) showTimer = true;
   });
 
   new ClipboardJS("button");
-
-  const dispatch = createEventDispatcher();
 
   const preventDefault = (e) => {
     e.preventDefault();
@@ -50,7 +47,7 @@
   };
 
   function error(message, err) {
-    dispatch("error", { message, err });
+    onerror?.({ message, err });
   }
 
   function csvEscape(value) {
@@ -151,7 +148,6 @@
       <ReadonlyCheckbox
         label={$_("board.options.new_cards_allowed")}
         bind:checked={$board.cards_open}
-        on:click={preventDefault}
       />
     </DropdownItem>
     <DropdownItem
@@ -178,7 +174,6 @@
       <ReadonlyCheckbox
         label={$_("board.options.obscure_cards")}
         checked={!!$board.data?.obscure_cards}
-        on:click={preventDefault}
       />
     </DropdownItem>
     {#if $board.owner}

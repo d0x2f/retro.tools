@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
   import { Popover } from "@sveltestrap/sveltestrap";
   import { _ } from "svelte-i18n";
@@ -23,7 +22,7 @@
   import Button from "./Button.svelte";
   import { Icons } from "../data.js";
 
-  let { card = $bindable(), color = $bindable() } = $props();
+  let { card = $bindable(), color = $bindable(), onerror } = $props();
 
   let obscured = $derived($board.data?.obscure_cards && !card.owner);
 
@@ -34,10 +33,8 @@
 
   const cardSlug = (Math.random() + 1).toString(36).substring(7);
 
-  const dispatch = createEventDispatcher();
-
   function error(message, err) {
-    dispatch("error", { message, err });
+    onerror?.({ message, err });
   }
 
   async function startEdit() {
@@ -100,8 +97,7 @@
     }
   }
 
-  function doReact(event) {
-    const emoji = event.detail;
+  function doReact(emoji) {
     reactDrawOpen = false;
     (card.reacted === emoji
       ? undoReact($board, card)
@@ -114,7 +110,7 @@
   <div class="d-flex" class:blur={deleteConfirmMode}>
     <div class="p-1 pt-votes flex-grow-0 bg-{$colorMode}-accent rounded-start">
       <Votes
-        on:toggleVote={toggleVote}
+        ontoggleVote={toggleVote}
         bind:votes={card.votes}
         bind:voted={card.voted}
         bind:color
@@ -127,9 +123,9 @@
           autoresize
           autofocus
           bind:value={newCardText}
-          on:submit={submitEdit}
-          on:cancel={cancelEdit}
-          on:blur={submitEdit}
+          onsubmit={submitEdit}
+          oncancel={cancelEdit}
+          onblur={submitEdit}
         />
       {:else}
         <div data-name="card-body">
@@ -183,7 +179,7 @@
                   use:clickOutside
                   onclickOutside={() => (reactDrawOpen = !reactDrawOpen)}
                 >
-                  <ReactDrawer on:selected={doReact} current={card.reacted} />
+                  <ReactDrawer onselected={doReact} current={card.reacted} />
                 </div>
               </Popover>
             </div>
@@ -212,7 +208,7 @@
           data-name="delete-button"
           textColor={!$darkMode ? "danger" : "body"}
           class="bg-{$colorMode}-accent"
-          on:click={() => (deleteConfirmMode = true)}
+          onclick={() => (deleteConfirmMode = true)}
         >
           <div class="icon">
             <Icons.trash class="align-top" size="1.4x" />
@@ -229,7 +225,7 @@
         color="secondary"
         textColor="light"
         class="btn-sm"
-        on:click={() => (deleteConfirmMode = false)}
+        onclick={() => (deleteConfirmMode = false)}
       >
         <div class="icon">
           <Icons.close size="1x" />
@@ -241,7 +237,7 @@
         color="danger"
         textColor="light"
         class="btn-sm"
-        on:click={doDelete}
+        onclick={doDelete}
       >
         <div class="icon">
           <Icons.check size="1x" />

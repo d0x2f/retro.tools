@@ -1,6 +1,5 @@
 <script>
   import clsx from "clsx";
-  import { createEventDispatcher } from "svelte";
   import { dictionary, _ } from "svelte-i18n";
   import { Button as SSButton } from "@sveltestrap/sveltestrap";
 
@@ -9,7 +8,7 @@
   import { activeRankOptions, board, colorMode, colors } from "../store";
   import Input from "./Input.svelte";
 
-  let { class: className = "", rank = $bindable() } = $props();
+  let { class: className = "", rank = $bindable(), onerror } = $props();
 
   let classes = $derived(clsx(className, "d-flex flex-column"));
 
@@ -19,10 +18,8 @@
       : rank.name,
   );
 
-  const dispatch = createEventDispatcher();
-
   function error(message, err) {
-    dispatch("error", { message, err });
+    onerror?.({ message, err });
   }
 
   async function doUpdate() {
@@ -39,8 +36,8 @@
     type="text"
     bind:value={rankName}
     class="m-1"
-    on:blur={doUpdate}
-    on:submit={() => {
+    onblur={doUpdate}
+    onsubmit={() => {
       $activeRankOptions = "";
       doUpdate();
     }}

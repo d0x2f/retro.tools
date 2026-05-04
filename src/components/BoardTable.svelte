@@ -8,7 +8,7 @@
   import BoardRow from "./BoardRow.svelte";
   import Button from "./Button.svelte";
 
-  let { boards = [] } = $props();
+  let { boards = [], onclick, ondeleted, onerror } = $props();
   let expanded = $state(false);
 </script>
 
@@ -18,7 +18,7 @@
     textColor="body"
     data-name="board-list-button"
     class="mt-2 text-start"
-    on:click={() => (expanded = !expanded)}
+    onclick={() => (expanded = !expanded)}
   >
     <div class:rotate-90={expanded} class="transition d-inline-block">▸</div>
     {$_("splash.your_boards")}
@@ -30,7 +30,7 @@
           {#each boards.toSorted((a, b) => {
             return b.created_at > a.created_at ? 1 : -1;
           }) as board (board.id)}
-            <BoardRow {board} on:click on:deleted on:error />
+            <BoardRow {board} {onclick} {ondeleted} {onerror} />
           {/each}
         </tbody>
       </Table>

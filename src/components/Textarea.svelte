@@ -1,8 +1,4 @@
 <script>
-  import { run, createBubbler } from "svelte/legacy";
-
-  const bubble = createBubbler();
-  import { createEventDispatcher } from "svelte";
   import { autoresize as autoresizer } from "svelte-textarea-autoresize";
   import clsx from "clsx";
 
@@ -15,46 +11,40 @@
     autofocus = false,
     minWidth = "0px",
     class: className = "",
+    onsubmit,
+    oncancel,
+    onfocus,
+    onblur,
     ...rest
   } = $props();
 
-  const dispatch = createEventDispatcher();
   let element = $state();
-  let classes = $state();
-  let data = $state({});
+  let classes = $derived(clsx(className, "form-control"));
+  let data = $derived(filterDataKeys(rest));
 
   function keyDown(event) {
     if (event.key === "Enter" && !event.shiftKey) {
       if (value.length > 0) {
-        dispatch("submit", {
-          text: value,
-        });
+        onsubmit?.();
       }
       event.preventDefault();
     } else if (event.key === "Escape") {
-      dispatch("cancel");
+      oncancel?.();
     }
   }
 
-  // This snippet ensures that the input box returns to a single line
-  // when it's cleared via svelte reactively.
-  run(() => {
+  // Reset textarea height when value is cleared reactively.
+  $effect(() => {
     if (element && value.length == 0) {
       element.value = "";
       element.dispatchEvent(new Event("input"));
     }
-
-    classes = clsx(className, "form-control");
   });
 
   function use(el) {
     if (autoresize) autoresizer(el);
     if (autofocus) el.focus();
   }
-
-  run(() => {
-    data = filterDataKeys(rest);
-  });
 </script>
 
 <textarea
@@ -63,8 +53,8 @@
   style="min-width: {minWidth}"
   bind:this={element}
   use:use
-  onfocus={bubble("focus")}
-  onblur={bubble("blur")}
+  {onfocus}
+  {onblur}
   onkeydown={keyDown}
   class={classes}
   bind:value

@@ -1,6 +1,4 @@
 <script>
-  import { run } from "svelte/legacy";
-
   import clsx from "clsx";
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
@@ -15,9 +13,11 @@
   let iceBreakingEditMode = $state(false);
   let newIceBreakingText = $state("");
 
-  let classes = $state("");
-
   let { class: className = "" } = $props();
+
+  let classes = $derived(
+    clsx(className, "p-3", "mx-auto", "d-flex", "justify-content-center"),
+  );
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
@@ -39,16 +39,6 @@
     newIceBreakingText = $board.ice_breaking || "";
     showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== "";
   });
-
-  run(() => {
-    classes = clsx(
-      className,
-      "p-3",
-      "mx-auto",
-      "d-flex",
-      "justify-content-center",
-    );
-  });
 </script>
 
 {#if showIceBreaking}
@@ -63,9 +53,9 @@
       <Input
         autofocus
         bind:value={newIceBreakingText}
-        on:submit={submitEdit}
-        on:cancel={cancelEdit}
-        on:blur={submitEdit}
+        onsubmit={submitEdit}
+        oncancel={cancelEdit}
+        onblur={submitEdit}
         class="p-0 text-center border-0"
       />
     {:else}
