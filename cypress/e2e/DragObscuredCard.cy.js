@@ -2,25 +2,6 @@
 
 let boardUrl;
 
-function setObscureCards(enabled) {
-  cy.login("owner");
-  cy.visit(boardUrl);
-  cy.get("[data-name=rank]:visible").should("exist");
-  cy.get("[data-name=menu-button]").click();
-  cy.get("[data-name=obscure-cards-button]")
-    .children()
-    .first()
-    .then(($el) => {
-      const current = $el.attr("data-checked") === "true";
-      if (current !== enabled) {
-        cy.intercept("PATCH", "**/boards/**").as("toggleObscure");
-        cy.get("[data-name=obscure-cards-button]").click();
-        cy.wait("@toggleObscure");
-      }
-    });
-  cy.get("[data-name=menu-button]").click();
-}
-
 context("DragObscuredCard", () => {
   before(() => {
     cy.viewport(1280, 800);
@@ -51,7 +32,19 @@ context("DragObscuredCard", () => {
     cy.wait("@enablePermission");
     cy.get("[data-name=menu-button]").click();
 
-    setObscureCards(true);
+    // Enable obscure cards — already on the board page, no re-visit needed
+    cy.get("[data-name=menu-button]").click();
+    cy.get("[data-name=obscure-cards-button]")
+      .children()
+      .first()
+      .then(($el) => {
+        if ($el.attr("data-checked") !== "true") {
+          cy.intercept("PATCH", "**/boards/**").as("toggleObscure");
+          cy.get("[data-name=obscure-cards-button]").click();
+          cy.wait("@toggleObscure");
+        }
+      });
+    cy.get("[data-name=menu-button]").click();
   });
 
   beforeEach(() => {
