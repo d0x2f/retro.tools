@@ -85,7 +85,10 @@ context("Menu", () => {
     cy.get("[data-name=warning-alert]").should("not.exist");
 
     cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]").first().find("[data-name=delete-button]:visible").click();
+      cy.get("[data-name=card]")
+        .first()
+        .find("[data-name=delete-button]:visible")
+        .click();
       cy.get("[data-name=confirm-button]:visible").first().click();
     });
     cy.get("[data-name=card]").should("not.exist");
@@ -111,7 +114,10 @@ context("Menu", () => {
     cy.get("[data-name=vote-button]:visible").should("not.exist");
 
     cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]").first().find("[data-name=delete-button]:visible").click();
+      cy.get("[data-name=card]")
+        .first()
+        .find("[data-name=delete-button]:visible")
+        .click();
       cy.get("[data-name=confirm-button]:visible").first().click();
     });
     cy.get("[data-name=card]").should("not.exist");
@@ -166,7 +172,10 @@ context("Menu", () => {
       });
 
     cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]").first().find("[data-name=delete-button]:visible").click();
+      cy.get("[data-name=card]")
+        .first()
+        .find("[data-name=delete-button]:visible")
+        .click();
       cy.get("[data-name=confirm-button]:visible").first().click();
     });
     cy.get("[data-name=card]").should("not.exist");
@@ -206,7 +215,10 @@ context("Menu", () => {
       });
 
     cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]").first().find("[data-name=delete-button]:visible").click();
+      cy.get("[data-name=card]")
+        .first()
+        .find("[data-name=delete-button]:visible")
+        .click();
       cy.get("[data-name=confirm-button]:visible").first().click();
     });
     cy.get("[data-name=card]").should("not.exist");
