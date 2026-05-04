@@ -1,5 +1,20 @@
 /// <reference types="cypress" />
 
+// Delete cards one at a time to avoid DOM-update races.
+// Uses within() to avoid :visible ambiguity on narrow viewports.
+function deleteAllCards() {
+  cy.get("[data-name=card]").then(($cards) => {
+    if ($cards.length === 0) return;
+    cy.get("[data-name=card]")
+      .first()
+      .within(() => {
+        cy.get("[data-name=delete-button]").click();
+      });
+    cy.get("[data-name=confirm-button]").first().click();
+    deleteAllCards();
+  });
+}
+
 context("Menu", () => {
   before(() => {
     cy.login();
@@ -84,13 +99,7 @@ context("Menu", () => {
     // Ensure it goes away
     cy.get("[data-name=warning-alert]").should("not.exist");
 
-    cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]")
-        .first()
-        .find("[data-name=delete-button]:visible")
-        .click();
-      cy.get("[data-name=confirm-button]:visible").first().click();
-    });
+    deleteAllCards();
     cy.get("[data-name=card]").should("not.exist");
 
     cy.get("[data-name=menu-button]").click();
@@ -113,13 +122,7 @@ context("Menu", () => {
 
     cy.get("[data-name=vote-button]:visible").should("not.exist");
 
-    cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]")
-        .first()
-        .find("[data-name=delete-button]:visible")
-        .click();
-      cy.get("[data-name=confirm-button]:visible").first().click();
-    });
+    deleteAllCards();
     cy.get("[data-name=card]").should("not.exist");
   });
 
@@ -171,13 +174,7 @@ context("Menu", () => {
         expect(match).to.exist;
       });
 
-    cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]")
-        .first()
-        .find("[data-name=delete-button]:visible")
-        .click();
-      cy.get("[data-name=confirm-button]:visible").first().click();
-    });
+    deleteAllCards();
     cy.get("[data-name=card]").should("not.exist");
   });
 
@@ -214,13 +211,7 @@ context("Menu", () => {
         );
       });
 
-    cy.get("[data-name=card]").each(() => {
-      cy.get("[data-name=card]")
-        .first()
-        .find("[data-name=delete-button]:visible")
-        .click();
-      cy.get("[data-name=confirm-button]:visible").first().click();
-    });
+    deleteAllCards();
     cy.get("[data-name=card]").should("not.exist");
   });
 
