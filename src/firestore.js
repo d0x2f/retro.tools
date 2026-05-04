@@ -175,7 +175,7 @@ export async function subscribeToBoard(
     (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         const board = change.doc;
-        if (change.type === "modified") {
+        if (change.type === "added" || change.type === "modified") {
           updateCallback(normaliseBoard(board));
         }
         if (change.type === "removed") {

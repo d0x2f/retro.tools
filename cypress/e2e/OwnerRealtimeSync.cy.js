@@ -56,9 +56,8 @@ context("OwnerRealtimeSync", () => {
       });
     });
 
-    // Firestore pushes the change to the owner's active subscription — no page reload needed.
-    // Allow extra time for the REST PATCH → backend → Firestore → client round-trip.
-    cy.get("[data-name=vote-button]:visible", { timeout: 30000 }).should("not.exist");
+    // Firestore pushes the change to the owner's active subscription — no page reload needed
+    cy.get("[data-name=vote-button]:visible").should("not.exist");
   });
 
   after(() => {
