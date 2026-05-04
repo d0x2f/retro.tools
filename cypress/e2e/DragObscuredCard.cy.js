@@ -45,6 +45,9 @@ context("DragObscuredCard", () => {
         }
       });
     cy.get("[data-name=menu-button]").click();
+
+    // Pre-establish participant session so beforeEach validation succeeds
+    cy.login("participant");
   });
 
   beforeEach(() => {
