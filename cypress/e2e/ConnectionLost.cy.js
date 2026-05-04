@@ -35,9 +35,7 @@ context("ConnectionLost", () => {
 
   after(() => {
     cy.login();
-    cy.intercept("boards").as("getBoards");
     cy.visit("/");
-    cy.wait("@getBoards");
     cy.get("[data-name=board-list-button]").click();
     cy.get("[data-name=delete-button]").each(($el) => {
       cy.wrap($el).click();

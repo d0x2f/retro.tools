@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+let boardUrl;
+
 context("Encryption", () => {
   const boardPassword = "test-password-123";
 
@@ -20,13 +22,18 @@ context("Encryption", () => {
       .first()
       .find("[data-name=card-author-input]")
       .type("Secret Author{enter}");
+    cy.get("[data-name=rank]:visible")
+      .first()
+      .find("[data-name=card-text-input]")
+      .should("have.value", "");
+    cy.url().then((url) => {
+      boardUrl = url;
+    });
   });
 
   beforeEach(() => {
     cy.login();
-    cy.visit("/");
-    cy.get("[data-name=board-list-button]").click();
-    cy.get("[data-name=board-row] td").first().click();
+    cy.visit(boardUrl);
   });
 
   it("shows encrypted placeholder without a password", () => {
@@ -46,10 +53,8 @@ context("Encryption", () => {
 
   after(() => {
     cy.login();
-    cy.intercept("boards").as("getBoards");
     cy.visit("/");
-    cy.wait("@getBoards");
-    cy.get("[data-name=board-list-button]").click();
+    cy.get("[data-name=board-list-button]").should("exist").click();
     cy.get("[data-name=delete-button]").each(($el) => {
       cy.wrap($el).click();
       cy.get("[data-name=delete-confirm-button]").click();
