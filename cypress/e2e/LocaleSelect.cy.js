@@ -10,14 +10,20 @@ context("LocaleSelect", () => {
   });
 
   it("defaults to English when no locale preference is stored", () => {
-    cy.get("[data-name=locale-select-button]").should("contain.text", "English");
+    cy.get("[data-name=locale-select-button]").should(
+      "contain.text",
+      "English",
+    );
     cy.get("[data-name=splash-hero]").should("have.text", "Simple. Retros.");
   });
 
   it("switches the UI language when a locale is selected", () => {
     cy.get("[data-name=locale-select-button]").click();
     cy.get("[data-name=locale-select-de]").click();
-    cy.get("[data-name=locale-select-button]").should("contain.text", "Deutsch");
+    cy.get("[data-name=locale-select-button]").should(
+      "contain.text",
+      "Deutsch",
+    );
     cy.get("[data-name=splash-hero]").should("have.text", "Einfach. Retros.");
   });
 
@@ -25,7 +31,10 @@ context("LocaleSelect", () => {
     cy.get("[data-name=locale-select-button]").click();
     cy.get("[data-name=locale-select-de]").click();
     cy.reload();
-    cy.get("[data-name=locale-select-button]").should("contain.text", "Deutsch");
+    cy.get("[data-name=locale-select-button]").should(
+      "contain.text",
+      "Deutsch",
+    );
     cy.get("[data-name=splash-hero]").should("have.text", "Einfach. Retros.");
   });
 
@@ -39,7 +48,10 @@ context("LocaleSelect", () => {
         });
       },
     });
-    cy.get("[data-name=locale-select-button]").should("contain.text", "Deutsch");
+    cy.get("[data-name=locale-select-button]").should(
+      "contain.text",
+      "Deutsch",
+    );
     cy.get("[data-name=splash-hero]").should("have.text", "Einfach. Retros.");
   });
 });
