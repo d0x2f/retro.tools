@@ -3,9 +3,9 @@
 // Delete cards one at a time to avoid DOM-update races.
 // Uses within() to avoid :visible ambiguity on narrow viewports.
 function deleteAllCards() {
-  cy.get("[data-name=card]").then(($cards) => {
+  cy.get("[data-name=card]:visible").then(($cards) => {
     if ($cards.length === 0) return;
-    cy.get("[data-name=card]")
+    cy.get("[data-name=card]:visible")
       .first()
       .within(() => {
         cy.get("[data-name=delete-button]").click();
