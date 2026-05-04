@@ -166,6 +166,7 @@
       unsubscribeBoard = await subscribeToBoard(
         boardId,
         (b) => {
+          if (compareBoards(b, previousBoard)) return;
           previousBoard = { ...b };
           board.set(b);
         },
