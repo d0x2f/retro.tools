@@ -41,7 +41,13 @@
     if (!card.owner && !$board.owner && !$board.open_permission) {
       return;
     }
-    newCardText = await decrypt(card.text, $password);
+    let decrypted;
+    try {
+      decrypted = await decrypt(card.text, $password);
+    } catch {
+      return;
+    }
+    newCardText = decrypted;
     editMode = true;
   }
 

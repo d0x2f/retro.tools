@@ -76,7 +76,12 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    const boardName = await decrypt($board.name, $password);
+    let boardName;
+    try {
+      boardName = await decrypt($board.name, $password);
+    } catch {
+      boardName = 'board';
+    }
     a.download = `retro-tools-${boardName}-template.yaml`;
     a.click();
     URL.revokeObjectURL(url);
@@ -88,8 +93,17 @@
       $cards.map(async (card) => {
         const rank = rankMap[card.column];
         const column = rank ? $_(rank.name) : '';
-        const author = await decrypt(card.author, $password);
-        const text = await decrypt(card.text, $password);
+        let author, text;
+        try {
+          author = await decrypt(card.author, $password);
+        } catch {
+          author = '?';
+        }
+        try {
+          text = await decrypt(card.text, $password);
+        } catch {
+          text = '?';
+        }
         const createdAt = card.created_at.toISOString();
         return [column, author, text, createdAt, card.votes]
           .map(csvEscape)
@@ -102,7 +116,13 @@
     const a = document.createElement('a');
     a.href = url;
     const date = new Date().toISOString().slice(0, 10);
-    a.download = `${await decrypt($board.name, $password)}-${date}.csv`;
+    let csvBoardName;
+    try {
+      csvBoardName = await decrypt($board.name, $password);
+    } catch {
+      csvBoardName = 'board';
+    }
+    a.download = `${csvBoardName}-${date}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }

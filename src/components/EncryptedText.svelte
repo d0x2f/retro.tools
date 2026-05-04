@@ -14,5 +14,7 @@
     {#if $passwordValid === null}…{:else if $passwordValid}{string}{:else}{$_(
         'general.encrypted'
       )}{/if}
+  {:catch}
+    {$_('general.encrypted')}
   {/await}
 {/if}

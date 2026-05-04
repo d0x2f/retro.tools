@@ -17,8 +17,14 @@
       ($board.owner || $board.open_permission) &&
       (await checkBoardPassword($board, $password))
     ) {
+      let decrypted;
+      try {
+        decrypted = await decrypt($board.name, $password);
+      } catch {
+        return;
+      }
       editMode = true;
-      newBoardName = await decrypt($board.name, $password);
+      newBoardName = decrypted;
     }
   }
 

@@ -21,8 +21,14 @@
 
   async function startEdit() {
     if ($board.owner && (await checkBoardPassword($board, $password))) {
+      let decrypted;
+      try {
+        decrypted = await decrypt($board.ice_breaking, $password);
+      } catch {
+        return;
+      }
       iceBreakingEditMode = true;
-      newIceBreakingText = await decrypt($board.ice_breaking, $password);
+      newIceBreakingText = decrypted;
     }
   }
 
@@ -37,7 +43,12 @@
 
   onMount(async () => {
     newIceBreakingText = $board.ice_breaking || '';
-    showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== '';
+    try {
+      const decrypted = await decrypt(newIceBreakingText, $password);
+      showIceBreaking = decrypted !== '';
+    } catch {
+      showIceBreaking = newIceBreakingText !== '';
+    }
   });
 </script>
 
