@@ -128,7 +128,13 @@
   }
 
   onMount(async () => {
-    const b = await getBoard(boardId);
+    let b;
+    try {
+      b = await getBoard(boardId);
+    } catch {
+      navigate('/not-found');
+      return;
+    }
 
     if (b.error == 'Not Found') {
       navigate('/not-found');
@@ -149,10 +155,8 @@
     let previousBoard = { ...$board };
     if ($board.owner || $board.open_permission) {
       unsubscribeLocalBoard = board.subscribe((b) => {
-        try {
-          if (!compareBoards(previousBoard, b)) updateBoard(b);
-        } catch (err) {
-          error('error.updating_settings', err);
+        if (!compareBoards(previousBoard, b)) {
+          updateBoard(b).catch((err) => error('error.updating_settings', err));
         }
         previousBoard = { ...b };
       });
