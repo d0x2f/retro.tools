@@ -60,19 +60,26 @@ context('Encryption', () => {
   });
 
   it('CSV export contains decrypted card content', () => {
-    const date = new Date().toISOString().slice(0, 10);
-    const csvPath = `cypress/downloads/Encrypted Test Board-${date}.csv`;
-
-    cy.exec(`rm -f "${csvPath}"`, { failOnNonZeroExit: false });
-
     cy.get('[data-name=password-wall-input]').type(boardPassword);
     cy.get('[data-name=password-wall-unlock-button]').click();
     cy.get('[data-name=password-wall-input]').should('not.exist');
 
+    const csv = { content: null };
+    cy.window().then((win) => {
+      const original = win.URL.createObjectURL.bind(win.URL);
+      cy.stub(win.URL, 'createObjectURL').callsFake((blob) => {
+        blob.text().then((text) => {
+          csv.content = text;
+        });
+        return original(blob);
+      });
+    });
+
     cy.get('[data-name=menu-button]').click();
     cy.get('[data-name=download-csv-button]').click();
 
-    cy.readFile(csvPath, { timeout: 10000 })
+    cy.wrap(csv)
+      .its('content')
       .should('contain', 'Secret card content')
       .and('contain', 'Secret Author');
   });
