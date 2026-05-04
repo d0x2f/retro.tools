@@ -159,7 +159,6 @@ export async function subscribeToCards(
 
 export async function subscribeToBoard(
   boardId,
-  snapshotCallback,
   updateCallback,
   deleteCallback,
   errorCallback,
@@ -176,9 +175,6 @@ export async function subscribeToBoard(
     (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         const board = change.doc;
-        if (change.type === "added") {
-          snapshotCallback(normaliseBoard(board));
-        }
         if (change.type === "modified") {
           updateCallback(normaliseBoard(board));
         }
