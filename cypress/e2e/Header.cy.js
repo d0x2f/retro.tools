@@ -49,7 +49,6 @@ context("Header", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

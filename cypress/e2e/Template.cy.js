@@ -85,7 +85,6 @@ context("Template", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

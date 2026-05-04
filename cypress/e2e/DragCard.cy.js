@@ -73,7 +73,6 @@ context("Drag Card", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

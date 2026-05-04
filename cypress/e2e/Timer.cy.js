@@ -104,7 +104,6 @@ context("Timer", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

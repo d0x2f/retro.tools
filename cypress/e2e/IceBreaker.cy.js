@@ -36,7 +36,6 @@ context("IceBreaker", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

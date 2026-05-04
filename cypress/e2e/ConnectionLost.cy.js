@@ -34,7 +34,6 @@ context("ConnectionLost", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

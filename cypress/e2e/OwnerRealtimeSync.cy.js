@@ -61,7 +61,6 @@ context("OwnerRealtimeSync", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

@@ -52,7 +52,6 @@ context("Encryption", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

@@ -131,7 +131,6 @@ context("RankOptions", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

@@ -72,7 +72,6 @@ context("Rank", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

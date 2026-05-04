@@ -225,7 +225,6 @@ context("Menu", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });

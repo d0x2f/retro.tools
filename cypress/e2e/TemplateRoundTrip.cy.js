@@ -116,7 +116,6 @@ function importTemplateAndCreate(yamlPath, boardName) {
 }
 
 function deleteAllBoards() {
-  cy.login();
   cy.deleteAllBoards();
 }
 

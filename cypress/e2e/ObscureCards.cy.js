@@ -185,7 +185,6 @@ context("ObscureCards", () => {
   });
 
   after(() => {
-    cy.login();
     cy.deleteAllBoards();
   });
 });
