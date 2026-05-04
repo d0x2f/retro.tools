@@ -82,7 +82,8 @@ context("OpenPermission", () => {
       cy.get("[data-name=rank]:visible")
         .first()
         .find("[data-name=card-text-input]")
-        .type("Participant card{enter}");
+        .type("Participant card{enter}")
+        .should("have.value", "");
       cy.get("[data-name=card]:visible").should("have.length.at.least", 2);
 
       cy.login("owner");
@@ -265,10 +266,8 @@ context("OpenPermission", () => {
 
   after(() => {
     cy.login("owner");
-    cy.intercept("boards").as("getBoards");
     cy.visit("/");
-    cy.wait("@getBoards");
-    cy.get("[data-name=board-list-button]").click();
+    cy.get("[data-name=board-list-button]").should("exist").click();
     cy.get("[data-name=delete-button]").each(($el) => {
       cy.wrap($el).click();
       cy.get("[data-name=delete-confirm-button]").click();
