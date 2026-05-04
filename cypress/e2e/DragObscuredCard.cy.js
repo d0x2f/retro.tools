@@ -90,7 +90,11 @@ context("DragObscuredCard", () => {
           const endY = rankRect.top + 100;
 
           cy.get("@obscuredCard")
-            .trigger("mousedown", { which: 1, clientX: startX, clientY: startY })
+            .trigger("mousedown", {
+              which: 1,
+              clientX: startX,
+              clientY: startY,
+            })
             .trigger("mousemove", { clientX: startX + 10, clientY: startY });
 
           cy.get("@targetRank")
