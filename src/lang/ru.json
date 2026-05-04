@@ -92,7 +92,7 @@
   "splash.import_template": "Импортировать шаблон",
   "board.template.custom.name": "Пользовательский (импортированный)",
   "error.invalid_template": "Неверный файл шаблона",
-  "splash.features.anonymous.title": "Анонимность",
+  "splash.features.anonymous.title": "Анонимный",
   "splash.features.anonymous.body_1": "Никакая личная информация не хранится, и вы можете удалить доски для полной уверенности.",
   "splash.features.anonymous.code_link": "Наш код",
   "splash.features.anonymous.body_2": "доступен публично для проверки любым желающим.",
