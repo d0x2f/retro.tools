@@ -5,12 +5,12 @@
 function deleteAllCards() {
   cy.get("[data-name=card]:visible").then(($cards) => {
     if ($cards.length === 0) return;
-    cy.get("[data-name=card]:visible")
+    const count = $cards.length;
+    cy.get("[data-name=card]:visible [data-name=delete-button]")
       .first()
-      .within(() => {
-        cy.get("[data-name=delete-button]").click();
-      });
+      .click();
     cy.get("[data-name=confirm-button]").first().click();
+    cy.get("[data-name=card]:visible").should("have.length.lessThan", count);
     deleteAllCards();
   });
 }
