@@ -112,17 +112,14 @@ function normaliseCard(document) {
     ...data,
     id: document.id,
     votes: data?.votes?.length ?? 0,
-    column: data.column.id,
-    owner: data.owner.id === get(uid),
+    column: data.column?.id ?? null,
+    owner: data.owner?.id === get(uid),
     voted:
       (data?.votes ?? []).find((voteDoc) => voteDoc.id === get(uid)) !==
       undefined,
     reactions,
     reacted,
-    created_at: new Date(
-      data?.created_at?.toMillis() ?? // Added 16 Mar 2023
-        document._document.createTime.timestamp.seconds * 1000 // Bit of a hack
-    ),
+    created_at: new Date(data?.created_at?.toMillis() ?? Date.now()),
   };
 }
 

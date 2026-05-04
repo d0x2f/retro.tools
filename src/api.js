@@ -14,7 +14,9 @@ async function request(input, init) {
 }
 
 async function requestJson(input, init) {
-  return (await fetch(input, init)).json();
+  const response = await fetch(input, init);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
 }
 
 export async function createAuthToken() {

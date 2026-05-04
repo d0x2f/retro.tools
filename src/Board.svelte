@@ -57,10 +57,8 @@
     copy: true,
     moves: (el) => el.dataset.drag !== 'false',
     accepts: (el, target) => {
-      return (
-        target.dataset.rankId !==
-        $cards.find((c) => c.id === el.dataset.cardId).column
-      );
+      const card = $cards.find((c) => c.id === el.dataset.cardId);
+      return card != null && target.dataset.rankId !== card.column;
     },
   });
 
@@ -78,6 +76,7 @@
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
     const card = $cards.find((c) => c.id === cardId);
+    if (!card) return;
     const originalRankId = card.column;
 
     el.parentNode.removeChild(el);

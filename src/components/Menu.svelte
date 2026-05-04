@@ -1,5 +1,6 @@
 <script>
   import ClipboardJS from 'clipboard';
+  import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import {
@@ -39,7 +40,11 @@
     if ($board.data?.timer_end_at != null) showTimer = true;
   });
 
-  new ClipboardJS('button');
+  let clipboard;
+  onMount(() => {
+    clipboard = new ClipboardJS('[data-clipboard-text]');
+    return () => clipboard.destroy();
+  });
 
   const preventDefault = (e) => {
     e.preventDefault();

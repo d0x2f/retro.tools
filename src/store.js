@@ -70,7 +70,13 @@ export const colors = derived(colorMode, ($colorMode) => Colors[$colorMode]);
 export const passwordValid = derived(
   [board, password],
   ([$board, $password], set) => {
-    checkBoardPassword($board, $password).then(set);
+    let cancelled = false;
+    checkBoardPassword($board, $password).then((v) => {
+      if (!cancelled) set(v);
+    });
+    return () => {
+      cancelled = true;
+    };
   },
   null
 );

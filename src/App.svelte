@@ -17,20 +17,19 @@
     );
 
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    prefersDarkScheme.addEventListener('change', (e) => {
+    const handleSchemeChange = (e) => {
       const systemPreference = e.matches;
       const appPreference = window.localStorage.getItem('darkModePreference');
-
-      // Update color theme if the user hasn't set an app preference
       if (appPreference) {
         $darkMode = appPreference === 'dark';
       } else {
         $darkMode = systemPreference;
       }
-    });
+    };
+    prefersDarkScheme.addEventListener('change', handleSchemeChange);
     return () => {
       unsubscribeDarkModeChange();
-      prefersDarkScheme.removeEventListener('change', darkModeChangeListener);
+      prefersDarkScheme.removeEventListener('change', handleSchemeChange);
     };
   });
 </script>
