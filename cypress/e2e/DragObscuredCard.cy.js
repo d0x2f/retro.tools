@@ -51,6 +51,7 @@ context("DragObscuredCard", () => {
   // setup completes — the same pattern used in ObscureCards.cy.js.
   context("as participant", () => {
     before(() => {
+      cy.login("owner");
       cy.login("participant");
     });
 
