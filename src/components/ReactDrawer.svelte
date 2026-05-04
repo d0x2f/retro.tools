@@ -20,6 +20,8 @@
       {#each emojiRow as emoji (emoji)}
         <Button
           color={emoji === current ? "secondary" : $colorMode}
+          data-name="emoji-button"
+          data-emoji={emoji}
           onclick={() => onselected?.(emoji)}
         >
           {emoji}

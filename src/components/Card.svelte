@@ -148,6 +148,7 @@
               </div>
               <div
                 id={`react-drawer-button-${cardSlug}`}
+                data-name="react-drawer-button"
                 class="d-flex flex-wrap justify-content-end pointer"
               >
                 {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
