@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Use Node.js 25.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 25.x
       - name: Install
@@ -44,8 +44,8 @@ jobs:
             "viewportWidth=1280,viewportHeight=800",
           ]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 25.x
       - uses: cypress-io/github-action@v7
@@ -72,7 +72,7 @@ jobs:
       - cypress
     if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == 'refs/heads/master'"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
