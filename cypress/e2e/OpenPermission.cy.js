@@ -265,7 +265,6 @@ context("OpenPermission", () => {
   });
 
   after(() => {
-    cy.login("owner");
     cy.deleteAllBoards();
   });
 });

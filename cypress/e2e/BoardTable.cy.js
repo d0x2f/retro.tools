@@ -69,7 +69,6 @@ context("BoardTable", () => {
     });
 
     after(() => {
-      cy.login("owner");
       cy.deleteAllBoards();
     });
   });
