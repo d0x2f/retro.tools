@@ -365,21 +365,3 @@ Uses `actions/checkout@v1` and `actions/setup-node@v1`. Both are several major v
 The app is only tested on Chrome. Firefox has diverged on several CSS and JS behaviours that Chrome tolerates. Re-enabling Firefox in the matrix would catch cross-browser regressions before they reach users.
 
 ---
-
-## Missing Test Coverage
-
-### T1 — Emoji reactions
-
-No Cypress spec covers the `react`/`undoReact` flow (`src/api.js:162–175`). Suggested spec: `cypress/e2e/Reactions.cy.js` — add reaction to a card, verify count, remove reaction, verify count decrements.
-
-### T2 — Max votes enforcement
-
-No test verifies that voting is blocked when `max_votes` is reached. The cap is enforced server-side, but a test that creates a board with `max_votes: 1`, casts a vote, and confirms the vote button is disabled (or vote count stays at 1) would catch regressions.
-
-### T3 — Board-not-found navigation
-
-`Board.svelte:134` navigates to `/not-found` when the API returns a 404. No spec covers this path. A test that navigates to a non-existent board ID and asserts the not-found page renders would close this gap.
-
-### T4 — Drag-and-drop in obscure mode
-
-`DragCard.cy.js` tests dragging under normal conditions. No test combines obscured cards with drag-and-drop, which exercises a different rendering path in `Card.svelte`.
