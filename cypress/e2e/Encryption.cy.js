@@ -63,6 +63,7 @@ context('Encryption', () => {
     cy.get('[data-name=password-wall-input]').type(boardPassword);
     cy.get('[data-name=password-wall-unlock-button]').click();
     cy.get('[data-name=password-wall-input]').should('not.exist');
+    cy.get('[data-name=card]:visible').should('have.length', 1);
 
     const csv = { content: null };
     cy.window().then((win) => {
