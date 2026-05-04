@@ -13,3 +13,11 @@ Cypress.Commands.add("login", (name = "user") => {
     },
   );
 });
+
+Cypress.Commands.add("deleteAllBoards", () => {
+  cy.request("GET", "/boards").then((response) => {
+    response.body.forEach((board) => {
+      cy.request("DELETE", `/boards/${board.id}`);
+    });
+  });
+});

@@ -185,13 +185,7 @@ context("ObscureCards", () => {
   });
 
   after(() => {
-    cy.login("owner");
-    cy.visit("/");
-    cy.get("[data-name=board-list-button]").click();
-    cy.get("[data-name=delete-button]").each(($el) => {
-      cy.wrap($el).click();
-      cy.get("[data-name=delete-confirm-button]").click();
-    });
-    cy.get("[data-name=board-table]").should("not.exist");
+    cy.login();
+    cy.deleteAllBoards();
   });
 });
