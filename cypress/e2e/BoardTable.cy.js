@@ -68,6 +68,24 @@ context("BoardTable", () => {
       });
     });
 
+    context("Deleting a board", () => {
+      before(() => {
+        cy.login("owner");
+        cy.visit("/");
+        cy.get("[data-name=board-list-button]").click();
+      });
+
+      it("removes the board from the list after the owner confirms deletion", () => {
+        cy.get("[data-name=board-row]")
+          .first()
+          .find("[data-name=delete-button]")
+          .click();
+        cy.get("[data-name=delete-confirm-button]").click();
+        cy.get("[data-name=board-row]").should("have.length", 0);
+        cy.get("[data-name=board-table]").should("not.exist");
+      });
+    });
+
     after(() => {
       cy.deleteAllBoards();
     });
