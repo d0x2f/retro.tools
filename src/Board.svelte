@@ -147,6 +147,7 @@
     // Subscribe to local changes to $board so we can post updates.
     // Compare updated boards to their last known value
     // to ensure we don't send supurfluous calls.
+    const initialBoardState = { ...$board };
     let previousBoard = { ...$board };
     if ($board.owner || $board.open_permission) {
       unsubscribeLocalBoard = board.subscribe((b) => {
@@ -165,8 +166,19 @@
     if (!$board.owner || $board.open_permission) {
       unsubscribeBoard = await subscribeToBoard(
         boardId,
+        // Initial Firestore "added" snapshot: only apply if it carries data
+        // newer than the REST GET response. This handles the case where the
+        // board was patched between the REST GET and subscription setup, while
+        // preventing the snapshot from overwriting local changes made in that
+        // same window.
         (b) => {
-          if (compareBoards(b, previousBoard)) return;
+          if (!compareBoards(b, initialBoardState)) {
+            previousBoard = { ...b };
+            board.set(b);
+          }
+        },
+        // Subsequent "modified" events: always apply.
+        (b) => {
           previousBoard = { ...b };
           board.set(b);
         },
