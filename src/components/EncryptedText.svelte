@@ -1,8 +1,8 @@
 <script>
-  import { _ } from "svelte-i18n";
+  import { _ } from 'svelte-i18n';
 
-  import { password, passwordValid } from "../store.js";
-  import { decrypt } from "../encryption.js";
+  import { password, passwordValid } from '../store.js';
+  import { decrypt } from '../encryption.js';
 
   let { text } = $props();
 </script>
@@ -12,7 +12,7 @@
     …
   {:then string}
     {#if $passwordValid === null}…{:else if $passwordValid}{string}{:else}{$_(
-        "general.encrypted",
+        'general.encrypted'
       )}{/if}
   {/await}
 {/if}

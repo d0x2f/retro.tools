@@ -1,16 +1,16 @@
 <script>
-  import { autoresize as autoresizer } from "svelte-textarea-autoresize";
-  import clsx from "clsx";
+  import { autoresize as autoresizer } from 'svelte-textarea-autoresize';
+  import clsx from 'clsx';
 
-  import { filterDataKeys } from "../utils.js";
+  import { filterDataKeys } from '../utils.js';
 
   let {
-    value = $bindable(""),
-    placeholder = "",
+    value = $bindable(''),
+    placeholder = '',
     autoresize = false,
     autofocus = false,
-    minWidth = "0px",
-    class: className = "",
+    minWidth = '0px',
+    class: className = '',
     onsubmit,
     oncancel,
     onfocus,
@@ -19,16 +19,16 @@
   } = $props();
 
   let element = $state();
-  let classes = $derived(clsx(className, "form-control"));
+  let classes = $derived(clsx(className, 'form-control'));
   let data = $derived(filterDataKeys(rest));
 
   function keyDown(event) {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       if (value.length > 0) {
         onsubmit?.();
       }
       event.preventDefault();
-    } else if (event.key === "Escape") {
+    } else if (event.key === 'Escape') {
       oncancel?.();
     }
   }
@@ -36,8 +36,8 @@
   // Reset textarea height when value is cleared reactively.
   $effect(() => {
     if (element && value.length == 0) {
-      element.value = "";
-      element.dispatchEvent(new Event("input"));
+      element.value = '';
+      element.dispatchEvent(new Event('input'));
     }
   });
 

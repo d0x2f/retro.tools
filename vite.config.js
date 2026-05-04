@@ -17,9 +17,6 @@ export default defineConfig({
           if (id.includes("crypto-js")) {
             return "crypto-js";
           }
-          if (id.includes("moment")) {
-            return "moment";
-          }
           if (id.includes("svelte-feather-icons")) {
             return "icons";
           }

@@ -1,4 +1,4 @@
-import { getApp } from "firebase/app";
+import { getApp } from 'firebase/app';
 import {
   getFirestore,
   collection,
@@ -6,13 +6,13 @@ import {
   onSnapshot,
   where,
   query,
-} from "firebase/firestore";
-import { getAuth, signInWithCustomToken } from "firebase/auth";
-import * as jose from "jose";
-import { get } from "svelte/store";
+} from 'firebase/firestore';
+import { getAuth, signInWithCustomToken } from 'firebase/auth';
+import * as jose from 'jose';
+import { get } from 'svelte/store';
 
-import { createAuthToken } from "./api.js";
-import { firebaseToken, uid } from "./store.js";
+import { createAuthToken } from './api.js';
+import { firebaseToken, uid } from './store.js';
 
 function tokenIsValid(token) {
   if (!token) {
@@ -48,12 +48,12 @@ async function verifyToken() {
   const token = await createAuthToken();
   const decodedToken = jose.decodeJwt(token);
   firebaseToken.set(token);
-  if (typeof decodedToken.uid !== "string") {
+  if (typeof decodedToken.uid !== 'string') {
     console.error(
-      "Received unexpected uid in firebase JWT token",
-      decodedToken,
+      'Received unexpected uid in firebase JWT token',
+      decodedToken
     );
-    throw new Error("Connection error"); // Displayed to the user
+    throw new Error('Connection error'); // Displayed to the user
   }
   uid.set(decodedToken.uid);
 }
@@ -99,14 +99,14 @@ function normaliseRank(document) {
 
 function normaliseCard(document) {
   const data = document.data();
-  let reacted = "";
+  let reacted = '';
   const reactions = Object.fromEntries(
     Object.entries(data?.reactions ?? {}).map(([reaction, reactors]) => {
       if (reactors.find((r) => r.id === get(uid))) {
         reacted = reaction;
       }
       return [reaction, reactors.length];
-    }),
+    })
   );
   return {
     ...data,
@@ -121,7 +121,7 @@ function normaliseCard(document) {
     reacted,
     created_at: new Date(
       data?.created_at?.toMillis() ?? // Added 16 Mar 2023
-        document._document.createTime.timestamp.seconds * 1000, // Bit of a hack
+        document._document.createTime.timestamp.seconds * 1000 // Bit of a hack
     ),
   };
 }
@@ -132,28 +132,28 @@ export async function subscribeToCards(
   newCallback,
   updateCallback,
   deleteCallback,
-  errorCallback,
+  errorCallback
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
-  const boardRef = doc(firestore, "boards", boardId);
-  const cardsCollection = collection(boardRef, "cards");
+  const boardRef = doc(firestore, 'boards', boardId);
+  const cardsCollection = collection(boardRef, 'cards');
   return onSnapshot(
     cardsCollection,
     (snapshot) =>
       snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
+        if (change.type === 'added') {
           newCallback(normaliseCard(change.doc));
         }
-        if (change.type === "modified") {
+        if (change.type === 'modified') {
           updateCallback(normaliseCard(change.doc));
         }
-        if (change.type === "removed") {
+        if (change.type === 'removed') {
           deleteCallback(change.doc.id);
         }
       }),
-    errorCallback,
+    errorCallback
   );
 }
 
@@ -161,29 +161,29 @@ export async function subscribeToBoard(
   boardId,
   updateCallback,
   deleteCallback,
-  errorCallback,
+  errorCallback
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
   const boardRef = query(
-    collection(firestore, "boards"),
-    where("__name__", "in", [boardId]),
+    collection(firestore, 'boards'),
+    where('__name__', 'in', [boardId])
   );
   return onSnapshot(
     boardRef,
     (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         const board = change.doc;
-        if (change.type === "modified") {
+        if (change.type === 'modified') {
           updateCallback(normaliseBoard(board));
         }
-        if (change.type === "removed") {
+        if (change.type === 'removed') {
           deleteCallback();
         }
       });
     },
-    errorCallback,
+    errorCallback
   );
 }
 
@@ -192,27 +192,27 @@ export async function subscribeToRanks(
   newCallback,
   updateCallback,
   deleteCallback,
-  errorCallback,
+  errorCallback
 ) {
   await signIn();
 
   const firestore = getFirestore(getApp());
-  const boardRef = doc(firestore, "boards", boardId);
-  const columnsCollection = collection(boardRef, "columns");
+  const boardRef = doc(firestore, 'boards', boardId);
+  const columnsCollection = collection(boardRef, 'columns');
   return onSnapshot(
     columnsCollection,
     (snapshot) =>
       snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
+        if (change.type === 'added') {
           newCallback(normaliseRank(change.doc));
         }
-        if (change.type === "modified") {
+        if (change.type === 'modified') {
           updateCallback(normaliseRank(change.doc));
         }
-        if (change.type === "removed") {
+        if (change.type === 'removed') {
           deleteCallback(change.doc.id);
         }
       }),
-    errorCallback,
+    errorCallback
   );
 }

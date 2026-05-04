@@ -41,24 +41,24 @@ import {
   MinusIcon,
   ExternalLinkIcon,
   ClockIcon,
-} from "svelte-feather-icons";
+} from 'svelte-feather-icons';
 
 export const Colors = {
   light: {
-    red: "#dc3545",
-    green: "#329F5B",
-    blue: "#0197F6",
-    yellow: "#E3B23C",
-    cyan: "#78C0E0",
-    plain: "#423E37",
+    red: '#dc3545',
+    green: '#329F5B',
+    blue: '#0197F6',
+    yellow: '#E3B23C',
+    cyan: '#78C0E0',
+    plain: '#423E37',
   },
   dark: {
-    red: "#C33C54",
-    green: "#4DAA57",
-    blue: "#096bca",
-    yellow: "#D5B00B",
-    cyan: "#75BBA7",
-    plain: "#BBBBBB",
+    red: '#C33C54',
+    green: '#4DAA57',
+    blue: '#096bca',
+    yellow: '#D5B00B',
+    cyan: '#75BBA7',
+    plain: '#BBBBBB',
   },
 };
 
@@ -108,112 +108,112 @@ export const Icons = {
 };
 
 export const ColumnIcons = [
-  ["plus", "minus", "smile", "meh", "frown"],
-  ["thumbsup", "thumbsdown", "minuscircle", "pluscircle", "star"],
-  ["trendingup", "trendingdown", "heart", "eye", "award"],
+  ['plus', 'minus', 'smile', 'meh', 'frown'],
+  ['thumbsup', 'thumbsdown', 'minuscircle', 'pluscircle', 'star'],
+  ['trendingup', 'trendingdown', 'heart', 'eye', 'award'],
 ];
 
 export const BoardTemplates = {
   dropAddKeepImprove: {
-    name: "board.template.drop_add_keep_improve.name",
+    name: 'board.template.drop_add_keep_improve.name',
     ranks: [
       {
-        name: "board.template.drop_add_keep_improve.column.drop",
-        icon: "delete",
-        color: "red",
+        name: 'board.template.drop_add_keep_improve.column.drop',
+        icon: 'delete',
+        color: 'red',
         position: 0,
       },
       {
-        name: "board.template.drop_add_keep_improve.column.add",
-        icon: "pluscircle",
-        color: "green",
+        name: 'board.template.drop_add_keep_improve.column.add',
+        icon: 'pluscircle',
+        color: 'green',
         position: 1,
       },
       {
-        name: "board.template.drop_add_keep_improve.column.keep",
-        icon: "star",
-        color: "blue",
+        name: 'board.template.drop_add_keep_improve.column.keep',
+        icon: 'star',
+        color: 'blue',
         position: 2,
       },
       {
-        name: "board.template.drop_add_keep_improve.column.improve",
-        icon: "trendingup",
-        color: "yellow",
+        name: 'board.template.drop_add_keep_improve.column.improve',
+        icon: 'trendingup',
+        color: 'yellow',
         position: 3,
       },
     ],
   },
   madSadGlad: {
-    name: "board.template.mad_sad_glad.name",
+    name: 'board.template.mad_sad_glad.name',
     ranks: [
       {
-        name: "board.template.mad_sad_glad.column.mad",
-        icon: "frown",
-        color: "red",
+        name: 'board.template.mad_sad_glad.column.mad',
+        icon: 'frown',
+        color: 'red',
         position: 0,
       },
       {
-        name: "board.template.mad_sad_glad.column.sad",
-        icon: "meh",
-        color: "blue",
+        name: 'board.template.mad_sad_glad.column.sad',
+        icon: 'meh',
+        color: 'blue',
         position: 1,
       },
       {
-        name: "board.template.mad_sad_glad.column.glad",
-        icon: "smile",
-        color: "green",
+        name: 'board.template.mad_sad_glad.column.glad',
+        icon: 'smile',
+        color: 'green',
         position: 2,
       },
     ],
   },
   wellNotWellLacking: {
-    name: "board.template.well_not_well_lacking.name",
+    name: 'board.template.well_not_well_lacking.name',
     ranks: [
       {
-        name: "board.template.well_not_well_lacking.column.went_well",
-        icon: "thumbsup",
-        color: "green",
+        name: 'board.template.well_not_well_lacking.column.went_well',
+        icon: 'thumbsup',
+        color: 'green',
         position: 0,
       },
       {
-        name: "board.template.well_not_well_lacking.column.did_not_go_well",
-        icon: "thumbsdown",
-        color: "blue",
+        name: 'board.template.well_not_well_lacking.column.did_not_go_well',
+        icon: 'thumbsdown',
+        color: 'blue',
         position: 1,
       },
       {
-        name: "board.template.well_not_well_lacking.column.lacking",
-        icon: "minuscircle",
-        color: "red",
+        name: 'board.template.well_not_well_lacking.column.lacking',
+        icon: 'minuscircle',
+        color: 'red',
         position: 2,
       },
     ],
   },
   likedLackedLearned: {
-    name: "board.template.liked_lacked_learned.name",
+    name: 'board.template.liked_lacked_learned.name',
     ranks: [
       {
-        name: "board.template.liked_lacked_learned.column.liked",
-        icon: "thumbsup",
-        color: "green",
+        name: 'board.template.liked_lacked_learned.column.liked',
+        icon: 'thumbsup',
+        color: 'green',
         position: 0,
       },
       {
-        name: "board.template.liked_lacked_learned.column.lacked",
-        icon: "thumbsdown",
-        color: "red",
+        name: 'board.template.liked_lacked_learned.column.lacked',
+        icon: 'thumbsdown',
+        color: 'red',
         position: 1,
       },
       {
-        name: "board.template.liked_lacked_learned.column.learned",
-        icon: "book",
-        color: "cyan",
+        name: 'board.template.liked_lacked_learned.column.learned',
+        icon: 'book',
+        color: 'cyan',
         position: 2,
       },
     ],
   },
   empty: {
-    name: "board.template.empty.name",
+    name: 'board.template.empty.name',
     ranks: [],
   },
 };

@@ -1,9 +1,9 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
-  import { fade, fly } from "svelte/transition";
-  import dragula from "dragula";
-  import { _ } from "svelte-i18n";
-  import { navigate } from "svelte-routing";
+  import { onMount, onDestroy } from 'svelte';
+  import { fade, fly } from 'svelte/transition';
+  import dragula from 'dragula';
+  import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
 
   import {
     board,
@@ -13,22 +13,22 @@
     password,
     colorMode,
     colors,
-  } from "./store.js";
-  import { updateBoard, updateCard, getBoard, getRanks } from "./api.js";
-  import { Icons } from "./data.js";
-  import { checkBoardPassword, isBoardEncrypted } from "./encryption.js";
+  } from './store.js';
+  import { updateBoard, updateCard, getBoard, getRanks } from './api.js';
+  import { Icons } from './data.js';
+  import { checkBoardPassword, isBoardEncrypted } from './encryption.js';
   import {
     subscribeToBoard,
     subscribeToCards,
     subscribeToRanks,
-  } from "./firestore.js";
+  } from './firestore.js';
 
-  import PasswordWall from "./components/PasswordWall.svelte";
-  import Rank from "./components/Rank.svelte";
-  import Header from "./components/Header.svelte";
-  import Spinner from "./components/Spinner.svelte";
-  import Alert from "./components/Alert.svelte";
-  import IceBreaker from "./components/IceBreaker.svelte";
+  import PasswordWall from './components/PasswordWall.svelte';
+  import Rank from './components/Rank.svelte';
+  import Header from './components/Header.svelte';
+  import Spinner from './components/Spinner.svelte';
+  import Alert from './components/Alert.svelte';
+  import IceBreaker from './components/IceBreaker.svelte';
 
   let { boardId } = $props();
 
@@ -38,7 +38,7 @@
     unsubscribeCards;
 
   let errorAlertVisible = $state(false);
-  let errorAlertMessage = $state("Network error!");
+  let errorAlertMessage = $state('Network error!');
   let errorClearTimeout;
   let connectionLost = $state(false);
   let passwordRequired = $state(false);
@@ -55,7 +55,7 @@
     revertOnSpill: true,
     copySortSource: false,
     copy: true,
-    moves: (el) => el.dataset.drag !== "false",
+    moves: (el) => el.dataset.drag !== 'false',
     accepts: (el, target) => {
       return (
         target.dataset.rankId !==
@@ -64,17 +64,17 @@
     },
   });
 
-  drake.on("over", (_el, container) => {
-    const emptyText = container.querySelector("small");
-    if (emptyText) emptyText.parentElement.classList.add("d-none");
+  drake.on('over', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.add('d-none');
   });
 
-  drake.on("out", (_el, container) => {
-    const emptyText = container.querySelector("small");
-    if (emptyText) emptyText.parentElement.classList.remove("d-none");
+  drake.on('out', (_el, container) => {
+    const emptyText = container.querySelector('small');
+    if (emptyText) emptyText.parentElement.classList.remove('d-none');
   });
 
-  drake.on("drop", async (el, target) => {
+  drake.on('drop', async (el, target) => {
     const rankId = target.dataset.rankId;
     const cardId = el.dataset.cardId;
     const card = $cards.find((c) => c.id === cardId);
@@ -87,7 +87,7 @@
     try {
       cards.replace(card.id, await updateCard($board, card));
     } catch (err) {
-      error("error.updating_card", err);
+      error('error.updating_card', err);
       card.column = originalRankId; // Send the card back
       card.busy = false;
       $cards = $cards; // Force redraw
@@ -112,7 +112,7 @@
       passwordRequired = !(await checkBoardPassword($board, $password));
     } else {
       passwordRequired = false;
-      password.set("");
+      password.set('');
     }
     return passwordRequired;
   }
@@ -131,8 +131,8 @@
   onMount(async () => {
     const b = await getBoard(boardId);
 
-    if (b.error == "Not Found") {
-      navigate("/not-found");
+    if (b.error == 'Not Found') {
+      navigate('/not-found');
       return;
     }
 
@@ -153,7 +153,7 @@
         try {
           if (!compareBoards(previousBoard, b)) updateBoard(b);
         } catch (err) {
-          error("error.updating_settings", err);
+          error('error.updating_settings', err);
         }
         previousBoard = { ...b };
       });
@@ -170,11 +170,11 @@
           board.set(b);
         },
         () => {
-          navigate("/not-found");
+          navigate('/not-found');
         },
         () => {
           connectionLost = true;
-        },
+        }
       );
     }
 
@@ -186,7 +186,7 @@
       (cardId) => cards.remove(cardId),
       () => {
         connectionLost = true;
-      },
+      }
     );
 
     // Subscribe to rank updates
@@ -202,11 +202,11 @@
       },
       () => {
         connectionLost = true;
-      },
+      }
     );
 
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
 
     busy = false;
   });
@@ -224,8 +224,8 @@
     unsubscribeBoard && unsubscribeBoard();
     unsubscribeRanks && unsubscribeRanks();
     unsubscribeCards && unsubscribeCards();
-    window.removeEventListener("offline", handleOffline);
-    window.removeEventListener("online", handleOnline);
+    window.removeEventListener('offline', handleOffline);
+    window.removeEventListener('online', handleOnline);
   });
 </script>
 
@@ -273,7 +273,7 @@
           {/if}
         {:else}
           <p class="text-center text-secondary mt-5">
-            {$_("board.no_columns")}
+            {$_('board.no_columns')}
           </p>
         {/each}
       </div>
@@ -289,7 +289,7 @@
           <Rank bind:rank={sortedRanks[i]} onerror={handleError} />
         {/if}
       {:else}
-        <p class="text-center text-secondary mt-5">{$_("board.no_columns")}</p>
+        <p class="text-center text-secondary mt-5">{$_('board.no_columns')}</p>
       {/each}
     </div>
 
@@ -320,7 +320,7 @@
             color="danger"
             isOpen={true}
           >
-            {$_("error.connection_lost")}
+            {$_('error.connection_lost')}
           </Alert>
         </div>
       {/if}
@@ -381,7 +381,7 @@
           color="danger"
           isOpen={true}
         >
-          {$_("error.connection_lost")}
+          {$_('error.connection_lost')}
         </Alert>
       </div>
     {/if}
@@ -406,12 +406,12 @@
     height: 1.5em;
   }
 
-  input[type="radio"] {
+  input[type='radio'] {
     display: none;
     margin: 10px;
   }
 
-  input[type="radio"] + label {
+  input[type='radio'] + label {
     display: inline-block;
     flex: 1 1;
     margin: -2px;

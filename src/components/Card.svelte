@@ -1,9 +1,9 @@
 <script>
-  import { slide } from "svelte/transition";
-  import { Popover } from "@sveltestrap/sveltestrap";
-  import { _ } from "svelte-i18n";
+  import { slide } from 'svelte/transition';
+  import { Popover } from '@sveltestrap/sveltestrap';
+  import { _ } from 'svelte-i18n';
 
-  import { board, cards, colorMode, darkMode, password } from "../store.js";
+  import { board, cards, colorMode, darkMode, password } from '../store.js';
   import {
     updateCard,
     deleteCard,
@@ -11,16 +11,16 @@
     undoAgree,
     react,
     undoReact,
-  } from "../api.js";
-  import { decrypt, encrypt } from "../encryption.js";
-  import { clickOutside } from "../utils.js";
+  } from '../api.js';
+  import { decrypt, encrypt } from '../encryption.js';
+  import { clickOutside } from '../utils.js';
 
-  import Textarea from "./Textarea.svelte";
-  import Votes from "./Votes.svelte";
-  import EncryptedText from "./EncryptedText.svelte";
-  import ReactDrawer from "./ReactDrawer.svelte";
-  import Button from "./Button.svelte";
-  import { Icons } from "../data.js";
+  import Textarea from './Textarea.svelte';
+  import Votes from './Votes.svelte';
+  import EncryptedText from './EncryptedText.svelte';
+  import ReactDrawer from './ReactDrawer.svelte';
+  import Button from './Button.svelte';
+  import { Icons } from '../data.js';
 
   let { card = $bindable(), color = $bindable(), onerror } = $props();
 
@@ -28,7 +28,7 @@
 
   let editMode = $state(false);
   let reactDrawOpen = $state(false);
-  let newCardText = $state("");
+  let newCardText = $state('');
   let deleteConfirmMode = $state(false);
 
   const cardSlug = (Math.random() + 1).toString(36).substring(7);
@@ -59,7 +59,7 @@
       cards.replace(card.id, await updateCard($board, newCard));
       editMode = false;
     } catch (err) {
-      error("error.updating_card", err);
+      error('error.updating_card', err);
     }
   }
 
@@ -69,7 +69,7 @@
       await deleteCard($board, card);
       cards.remove(card.id);
     } catch (err) {
-      error("error.card_delete", err);
+      error('error.card_delete', err);
     }
   }
 
@@ -91,7 +91,7 @@
         }
       }
     } catch (err) {
-      error("error.vote_failed", err);
+      error('error.vote_failed', err);
     } finally {
       card.busy = false;
     }
@@ -102,7 +102,7 @@
     (card.reacted === emoji
       ? undoReact($board, card)
       : react($board, card, emoji)
-    ).catch((err) => error("error.react_failed", err));
+    ).catch((err) => error('error.react_failed', err));
   }
 </script>
 
@@ -134,7 +134,7 @@
               <div class="flex-grow-1">
                 {#if obscured}
                   <div class="text-secondary fw-bold">
-                    {$_("card.anonymous")}
+                    {$_('card.anonymous')}
                   </div>
                 {:else if card.author.length > 0}
                   <div class:text-primary={!$darkMode} class="fw-bold pb-1">
@@ -142,7 +142,7 @@
                   </div>
                 {:else}
                   <div class="text-secondary fw-bold">
-                    {$_("card.anonymous")}
+                    {$_('card.anonymous')}
                   </div>
                 {/if}
               </div>
@@ -153,7 +153,7 @@
               >
                 {#if Object.entries(card.reactions).filter(([, v]) => v > 0).length > 0}
                   {#each Object.entries(card.reactions)
-                    .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av), )
+                    .sort( ([ak, av], [bk, bv]) => (av === bv ? bk.localeCompare(ak) : bv - av) )
                     .filter(([, v]) => v > 0) as [emoji, count] (emoji)}
                     <span
                       class="badge m-1"
@@ -207,7 +207,7 @@
       {#if card.owner || $board.owner || $board.open_permission}
         <Button
           data-name="delete-button"
-          textColor={!$darkMode ? "danger" : "body"}
+          textColor={!$darkMode ? 'danger' : 'body'}
           class="bg-{$colorMode}-accent"
           onclick={() => (deleteConfirmMode = true)}
         >

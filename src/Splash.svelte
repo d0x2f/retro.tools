@@ -1,22 +1,22 @@
 <script>
-  import { onMount } from "svelte";
-  import { fly } from "svelte/transition";
-  import { _ } from "svelte-i18n";
-  import { navigate } from "svelte-routing";
+  import { onMount } from 'svelte';
+  import { fly } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
 
-  import { getBoards } from "./api.js";
-  import { Icons } from "./data.js";
-  import { colorMode, darkMode } from "./store.js";
+  import { getBoards } from './api.js';
+  import { Icons } from './data.js';
+  import { colorMode, darkMode } from './store.js';
 
-  import BoardTable from "./components/BoardTable.svelte";
-  import LocaleSelect from "./components/LocaleSelect.svelte";
-  import Alert from "./components/Alert.svelte";
-  import CreateForm from "./components/CreateForm.svelte";
-  import Button from "./components/Button.svelte";
+  import BoardTable from './components/BoardTable.svelte';
+  import LocaleSelect from './components/LocaleSelect.svelte';
+  import Alert from './components/Alert.svelte';
+  import CreateForm from './components/CreateForm.svelte';
+  import Button from './components/Button.svelte';
 
   let {
     errorAlertVisible = $bindable(false),
-    errorAlertMessage = $bindable("error.network"),
+    errorAlertMessage = $bindable('error.network'),
   } = $props();
 
   let boards = $state([]);
@@ -69,7 +69,7 @@
           class="me-1"
           onclick={() => {
             $darkMode = !$darkMode;
-            window.localStorage.setItem("darkModePreference", $colorMode);
+            window.localStorage.setItem('darkModePreference', $colorMode);
           }}
         >
           <div class="icon low-brightness">
@@ -104,7 +104,7 @@
           <div class="icon text-danger">
             <Icons.heart class="align-top" size="100%" />
           </div>
-          {$_("general.donate")}
+          {$_('general.donate')}
         </Button>
         <LocaleSelect />
       </div>
@@ -117,7 +117,7 @@
           class="text-center mb-5 text-body"
           style="margin-top: 100px;"
         >
-          {$_("splash.hero_text")}
+          {$_('splash.hero_text')}
         </h1>
         <div class="d-flex flex-column justify-content-center">
           <CreateForm
@@ -147,9 +147,9 @@
             <Icons.anonymous size="100%" />
           </div>
           <div class="card-body">
-            <h5 class="card-title">{$_("splash.features.anonymous.title")}</h5>
+            <h5 class="card-title">{$_('splash.features.anonymous.title')}</h5>
             <p class="card-text">
-              {$_("splash.features.anonymous.body_1")}
+              {$_('splash.features.anonymous.body_1')}
               <br />
               <br />
               <a
@@ -158,9 +158,9 @@
                 rel="noreferrer"
                 href="https://github.com/d0x2f/retro.tools"
               >
-                {$_("splash.features.anonymous.code_link")}
+                {$_('splash.features.anonymous.code_link')}
               </a>
-              {$_("splash.features.anonymous.body_2")}
+              {$_('splash.features.anonymous.body_2')}
               <br />
             </p>
           </div>
@@ -170,9 +170,9 @@
             <Icons.phone size="100%" />
           </div>
           <div class="card-body">
-            <h5 class="card-title">{$_("splash.features.simple.title")}</h5>
+            <h5 class="card-title">{$_('splash.features.simple.title')}</h5>
             <p class="card-text">
-              {$_("splash.features.simple.body")}
+              {$_('splash.features.simple.body')}
             </p>
           </div>
         </div>
@@ -182,17 +182,17 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">
-              {$_("splash.features.open_source.title")}
+              {$_('splash.features.open_source.title')}
             </h5>
             <p class="card-text">
-              {$_("splash.features.open_source.body")}
+              {$_('splash.features.open_source.body')}
               <a
                 class="text-{$colorMode}"
                 rel="noreferrer"
                 target="_blank"
                 href="https://github.com/d0x2f/retro.tools"
               >
-                {$_("splash.features.open_source.github_link")}
+                {$_('splash.features.open_source.github_link')}
               </a>
             </p>
           </div>
@@ -202,9 +202,9 @@
             <Icons.login size="100%" />
           </div>
           <div class="card-body">
-            <h5 class="card-title">{$_("splash.features.no_logins.title")}</h5>
+            <h5 class="card-title">{$_('splash.features.no_logins.title')}</h5>
             <p class="card-text">
-              {$_("splash.features.no_logins.body")}
+              {$_('splash.features.no_logins.body')}
               <br />
               <br />
             </p>
@@ -215,12 +215,12 @@
             <Icons.lock size="100%" />
           </div>
           <div class="card-body">
-            <h5 class="card-title">{$_("splash.features.encryption.title")}</h5>
+            <h5 class="card-title">{$_('splash.features.encryption.title')}</h5>
             <p class="card-text">
-              {$_("splash.features.encryption.body_1")}
+              {$_('splash.features.encryption.body_1')}
               <br />
               <br />
-              {$_("splash.features.encryption.body_2")}
+              {$_('splash.features.encryption.body_2')}
             </p>
           </div>
         </div>

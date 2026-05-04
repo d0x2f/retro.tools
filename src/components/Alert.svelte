@@ -1,18 +1,18 @@
 <script>
-  import clsx from "clsx";
-  import { fade } from "svelte/transition";
+  import clsx from 'clsx';
+  import { fade } from 'svelte/transition';
 
-  import { filterDataKeys } from "../utils.js";
+  import { filterDataKeys } from '../utils.js';
 
   let {
-    class: className = "",
+    class: className = '',
     isOpen = true,
-    color = "success",
+    color = 'success',
     children,
     ...rest
   } = $props();
 
-  let classes = $derived(clsx(className, "alert", `alert-${color}`));
+  let classes = $derived(clsx(className, 'alert', `alert-${color}`));
   let data = $derived(filterDataKeys(rest));
 </script>
 

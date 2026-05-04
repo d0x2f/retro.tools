@@ -1,15 +1,15 @@
 <script>
-  import ClipboardJS from "clipboard";
-  import { _ } from "svelte-i18n";
-  import { fly } from "svelte/transition";
+  import ClipboardJS from 'clipboard';
+  import { _ } from 'svelte-i18n';
+  import { fly } from 'svelte/transition';
   import {
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from "@sveltestrap/sveltestrap";
+  } from '@sveltestrap/sveltestrap';
 
-  import { Icons } from "../data.js";
+  import { Icons } from '../data.js';
   import {
     board,
     cards,
@@ -18,15 +18,15 @@
     password,
     ranks,
     sorted,
-  } from "../store.js";
-  import { createRank } from "../api.js";
-  import { decrypt } from "../encryption.js";
-  import { dump as dumpYaml } from "js-yaml";
+  } from '../store.js';
+  import { createRank } from '../api.js';
+  import { decrypt } from '../encryption.js';
+  import { dump as dumpYaml } from 'js-yaml';
 
-  import QRCode from "./QRCode.svelte";
-  import Timer from "./Timer.svelte";
-  import ReadonlyCheckbox from "./ReadonlyCheckbox.svelte";
-  import { navigate } from "svelte-routing";
+  import QRCode from './QRCode.svelte';
+  import Timer from './Timer.svelte';
+  import ReadonlyCheckbox from './ReadonlyCheckbox.svelte';
+  import { navigate } from 'svelte-routing';
 
   let { onerror } = $props();
 
@@ -39,7 +39,7 @@
     if ($board.data?.timer_end_at != null) showTimer = true;
   });
 
-  new ClipboardJS("button");
+  new ClipboardJS('button');
 
   const preventDefault = (e) => {
     e.preventDefault();
@@ -51,8 +51,8 @@
   }
 
   function csvEscape(value) {
-    const str = String(value ?? "");
-    if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+    const str = String(value ?? '');
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
       return `"${str.replace(/"/g, '""')}"`;
     }
     return str;
@@ -67,9 +67,9 @@
       return col;
     });
     const yaml = dumpYaml({ columns });
-    const blob = new Blob([yaml], { type: "text/yaml" });
+    const blob = new Blob([yaml], { type: 'text/yaml' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     const boardName = await decrypt($board.name, $password);
     a.download = `retro-tools-${boardName}-template.yaml`;
@@ -82,19 +82,19 @@
     const rows = await Promise.all(
       $cards.map(async (card) => {
         const rank = rankMap[card.column];
-        const column = rank ? $_(rank.name) : "";
+        const column = rank ? $_(rank.name) : '';
         const author = await decrypt(card.author, $password);
         const text = await decrypt(card.text, $password);
         const createdAt = card.created_at.toISOString();
         return [column, author, text, createdAt, card.votes]
           .map(csvEscape)
-          .join(",");
-      }),
+          .join(',');
+      })
     );
-    const csv = ["column,author,text,created_at,votes", ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
+    const csv = ['column,author,text,created_at,votes', ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     const date = new Date().toISOString().slice(0, 10);
     a.download = `${await decrypt($board.name, $password)}-${date}.csv`;
@@ -106,15 +106,15 @@
     try {
       await createRank(
         $board.id,
-        "general.untitled",
+        'general.untitled',
         Math.max(...$ranks.map((r) => r.position)) + 1,
         {
-          color: "plain",
-          icon: "plus",
-        },
+          color: 'plain',
+          icon: 'plus',
+        }
       );
     } catch (err) {
-      error("error.network", err);
+      error('error.network', err);
     }
   }
 </script>
@@ -135,7 +135,7 @@
         <div class="d-inline-block icon position-relative" style="top: 4px">
           <Icons.plus class="align-top" size="1x" />
         </div>
-        {$_("board.options.new_column")}
+        {$_('board.options.new_column')}
       </DropdownItem>
       <DropdownItem divider />
     {/if}
@@ -146,7 +146,7 @@
       on:click={() => ($board.cards_open = !$board.cards_open)}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.new_cards_allowed")}
+        label={$_('board.options.new_cards_allowed')}
         bind:checked={$board.cards_open}
       />
     </DropdownItem>
@@ -157,7 +157,7 @@
       on:click={() => ($board.voting_open = !$board.voting_open)}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.voting_allowed")}
+        label={$_('board.options.voting_allowed')}
         bind:checked={$board.voting_open}
       />
     </DropdownItem>
@@ -172,7 +172,7 @@
         })}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.obscure_cards")}
+        label={$_('board.options.obscure_cards')}
         checked={!!$board.data?.obscure_cards}
       />
     </DropdownItem>
@@ -183,7 +183,7 @@
         on:click={() => ($board.open_permission = !$board.open_permission)}
       >
         <ReadonlyCheckbox
-          label={$_("board.options.open_permission")}
+          label={$_('board.options.open_permission')}
           bind:checked={$board.open_permission}
         />
       </DropdownItem>
@@ -195,7 +195,7 @@
       on:click={() => ($sorted = !$sorted)}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.sort_by_votes")}
+        label={$_('board.options.sort_by_votes')}
         bind:checked={$sorted}
       />
     </DropdownItem>
@@ -206,7 +206,7 @@
       on:click={() => (showQR = !showQR)}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.show_qr_code")}
+        label={$_('board.options.show_qr_code')}
         bind:checked={showQR}
       />
     </DropdownItem>
@@ -216,7 +216,7 @@
       on:click={() => (showTimer = !showTimer)}
     >
       <ReadonlyCheckbox
-        label={$_("board.options.show_timer")}
+        label={$_('board.options.show_timer')}
         bind:checked={showTimer}
       />
     </DropdownItem>
@@ -225,7 +225,7 @@
       <div class="d-inline-block icon position-relative" style="top: 2px">
         <Icons.download class="align-top" size="1x" />
       </div>
-      {$_("board.options.download_csv")}
+      {$_('board.options.download_csv')}
     </DropdownItem>
     <DropdownItem
       data-name="download-template-button"
@@ -234,7 +234,7 @@
       <div class="d-inline-block icon position-relative" style="top: 2px">
         <Icons.columns class="align-top" size="1x" />
       </div>
-      {$_("board.options.download_template")}
+      {$_('board.options.download_template')}
     </DropdownItem>
     <DropdownItem
       data-name="copy-link-button"
@@ -243,7 +243,7 @@
       <div class="d-inline-block icon position-relative" style="top: 3px">
         <Icons.link size="1x" class="align-top" />
       </div>
-      {$_("board.options.copy_link")}
+      {$_('board.options.copy_link')}
     </DropdownItem>
     <DropdownItem divider />
     <DropdownItem
@@ -254,7 +254,7 @@
       <div class="d-inline-block icon position-relative" style="top: -2px">
         <Icons.externalLink size="1x" />
       </div>
-      {$_("general.feedback")}
+      {$_('general.feedback')}
     </DropdownItem>
     <DropdownItem
       data-name="donate-button"
@@ -267,7 +267,7 @@
       >
         <Icons.heart size="1x" />
       </div>
-      {$_("general.donate")}
+      {$_('general.donate')}
     </DropdownItem>
   </DropdownMenu>
 </Dropdown>

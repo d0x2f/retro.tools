@@ -1,9 +1,9 @@
 <script>
-  import { onDestroy } from "svelte";
-  import { _ } from "svelte-i18n";
+  import { onDestroy } from 'svelte';
+  import { _ } from 'svelte-i18n';
 
-  import { board, colorMode } from "../store.js";
-  import Button from "./Button.svelte";
+  import { board, colorMode } from '../store.js';
+  import Button from './Button.svelte';
 
   let { canControl = false } = $props();
 
@@ -16,8 +16,8 @@
     const totalSec = Math.floor(ms / 1000);
     const m = Math.floor(totalSec / 60)
       .toString()
-      .padStart(2, "0");
-    const s = (totalSec % 60).toString().padStart(2, "0");
+      .padStart(2, '0');
+    const s = (totalSec % 60).toString().padStart(2, '0');
     return `${m}:${s}`;
   }
 
@@ -107,18 +107,18 @@
   let colorState = $derived(
     isRunning || isExpired
       ? displayMs <= 30000
-        ? "danger"
+        ? 'danger'
         : displayMs <= 120000
-          ? "warning"
-          : "normal"
-      : "normal",
+          ? 'warning'
+          : 'normal'
+      : 'normal'
   );
 </script>
 
 <div
   class="timer-widget card p-2"
-  class:timer-warning={colorState === "warning"}
-  class:timer-danger={colorState === "danger"}
+  class:timer-warning={colorState === 'warning'}
+  class:timer-danger={colorState === 'danger'}
   data-name="timer-widget"
 >
   <div
@@ -127,7 +127,7 @@
   >
     {#if isExpired && displayMs === 0}
       <span class="text-danger" data-name="timer-times-up"
-        >{$_("board.timer.times_up")}</span
+        >{$_('board.timer.times_up')}</span
       >
     {:else}
       {formatTime(displayMs)}
@@ -137,7 +137,7 @@
   {#if canControl}
     {#if !isRunning}
       <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
-        <small class="text-secondary">{$_("board.timer.duration_label")}:</small
+        <small class="text-secondary">{$_('board.timer.duration_label')}:</small
         >
         <input
           type="number"
@@ -149,7 +149,7 @@
           onchange={setDuration}
           data-name="timer-duration-input"
         />
-        <small class="text-secondary">{$_("board.timer.minutes")}</small>
+        <small class="text-secondary">{$_('board.timer.minutes')}</small>
       </div>
     {/if}
 
@@ -161,7 +161,7 @@
           onclick={startTimer}
           data-name="timer-start-button"
         >
-          {$_("board.timer.start")}
+          {$_('board.timer.start')}
         </Button>
       {:else}
         <Button
@@ -170,7 +170,7 @@
           onclick={stopTimer}
           data-name="timer-stop-button"
         >
-          {$_("board.timer.stop")}
+          {$_('board.timer.stop')}
         </Button>
       {/if}
       <Button
@@ -180,7 +180,7 @@
         onclick={resetTimer}
         data-name="timer-reset-button"
       >
-        {$_("board.timer.reset")}
+        {$_('board.timer.reset')}
       </Button>
     </div>
   {/if}
@@ -204,12 +204,12 @@
     background-color: rgba(220, 53, 69, 0.15) !important;
   }
 
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
     appearance: textfield;
   }
 
-  input[type="number"]::-webkit-inner-spin-button {
+  input[type='number']::-webkit-inner-spin-button {
     display: none;
   }
 </style>

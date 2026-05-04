@@ -1,9 +1,9 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  let { class: className = "", hover = false, children } = $props();
+  let { class: className = '', hover = false, children } = $props();
 
-  let classes = $derived(clsx(className, "table", { "table-hover": hover }));
+  let classes = $derived(clsx(className, 'table', { 'table-hover': hover }));
 </script>
 
 <table class={classes}>

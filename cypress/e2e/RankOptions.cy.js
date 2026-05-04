@@ -1,132 +1,132 @@
 /// <reference types="cypress" />
 
-context("RankOptions", () => {
+context('RankOptions', () => {
   before(() => {
     cy.login();
-    cy.visit("/");
-    cy.get("[data-name=board-name-input]").type("Test Board Name");
-    cy.get("[data-name=create-button]").click();
-    cy.get("[data-name=create-button]:visible").should("have.length", 0);
+    cy.visit('/');
+    cy.get('[data-name=board-name-input]').type('Test Board Name');
+    cy.get('[data-name=create-button]').click();
+    cy.get('[data-name=create-button]:visible').should('have.length', 0);
   });
 
   beforeEach(() => {
     cy.login();
-    cy.visit("/");
-    cy.get("[data-name=board-list-button]").click();
-    cy.get("[data-name=board-row] td").first().click();
-    cy.get("[data-name=create-button]:visible").should("have.length", 0);
+    cy.visit('/');
+    cy.get('[data-name=board-list-button]').click();
+    cy.get('[data-name=board-row] td').first().click();
+    cy.get('[data-name=create-button]:visible').should('have.length', 0);
   });
 
-  it("can modify a columns title", () => {
-    cy.get("[data-name=rank]:visible")
+  it('can modify a columns title', () => {
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]")
-      .should("not.exist");
+      .find('[data-name=rank-options]')
+      .should('not.exist');
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options-button]")
+      .find('[data-name=rank-options-button]')
       .click();
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]:visible")
-      .should("exist");
+      .find('[data-name=rank-options]:visible')
+      .should('exist');
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=card-text-input]:visible")
-      .invoke("attr", "placeholder")
-      .should("eq", "Drop");
+      .find('[data-name=card-text-input]:visible')
+      .invoke('attr', 'placeholder')
+      .should('eq', 'Drop');
 
-    cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-      "patchColumn",
+    cy.intercept({ method: 'patch', url: 'boards/*/columns/*' }).as(
+      'patchColumn'
     );
-    cy.get("[data-name=rank-options] input:visible")
+    cy.get('[data-name=rank-options] input:visible')
       .first()
       .clear()
-      .type("New Title{enter}");
-    cy.wait("@patchColumn");
+      .type('New Title{enter}');
+    cy.wait('@patchColumn');
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=card-text-input]")
-      .invoke("attr", "placeholder")
-      .should("eq", "New Title");
+      .find('[data-name=card-text-input]')
+      .invoke('attr', 'placeholder')
+      .should('eq', 'New Title');
   });
 
-  it("can modify a columns color", () => {
-    cy.get("[data-name=rank]:visible")
+  it('can modify a columns color', () => {
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]")
-      .should("not.exist");
+      .find('[data-name=rank-options]')
+      .should('not.exist');
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options-button]")
+      .find('[data-name=rank-options-button]')
       .click();
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]")
-      .should("exist");
+      .find('[data-name=rank-options]')
+      .should('exist');
 
-    cy.get("[data-name=rank-header] > div")
+    cy.get('[data-name=rank-header] > div')
       .first()
-      .invoke("attr", "style")
+      .invoke('attr', 'style')
       .then((originalStyle) => {
-        cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-          "patchColumn",
+        cy.intercept({ method: 'patch', url: 'boards/*/columns/*' }).as(
+          'patchColumn'
         );
-        cy.get("[data-name=rank-options-colors] > button:visible")
+        cy.get('[data-name=rank-options-colors] > button:visible')
           .last()
           .click();
-        cy.wait("@patchColumn");
+        cy.wait('@patchColumn');
 
-        cy.get("[data-name=rank-header] > div")
+        cy.get('[data-name=rank-header] > div')
           .first()
-          .invoke("attr", "style")
-          .as("newStyle");
+          .invoke('attr', 'style')
+          .as('newStyle');
 
-        cy.get("[data-name=rank-header] > div")
+        cy.get('[data-name=rank-header] > div')
           .first()
-          .invoke("attr", "style")
-          .should("not.eq", originalStyle);
+          .invoke('attr', 'style')
+          .should('not.eq', originalStyle);
       });
   });
 
-  it("can modify a columns icon", () => {
-    cy.get("[data-name=rank]:visible")
+  it('can modify a columns icon', () => {
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]")
-      .should("not.exist");
+      .find('[data-name=rank-options]')
+      .should('not.exist');
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options-button]")
+      .find('[data-name=rank-options-button]')
       .click();
 
-    cy.get("[data-name=rank]:visible")
+    cy.get('[data-name=rank]:visible')
       .first()
-      .find("[data-name=rank-options]")
-      .should("exist");
+      .find('[data-name=rank-options]')
+      .should('exist');
 
-    cy.get("[data-name=rank-options-button] > svg.feather-delete").should(
-      "exist",
+    cy.get('[data-name=rank-options-button] > svg.feather-delete').should(
+      'exist'
     );
 
-    cy.get("[data-name=rank-options-button] > svg.feather-award").should(
-      "not.exist",
+    cy.get('[data-name=rank-options-button] > svg.feather-award').should(
+      'not.exist'
     );
 
-    cy.intercept({ method: "patch", url: "boards/*/columns/*" }).as(
-      "patchColumn",
+    cy.intercept({ method: 'patch', url: 'boards/*/columns/*' }).as(
+      'patchColumn'
     );
-    cy.get("[data-name=rank-options-icons] > div:visible").last().click();
-    cy.wait("@patchColumn");
+    cy.get('[data-name=rank-options-icons] > div:visible').last().click();
+    cy.wait('@patchColumn');
 
-    cy.get("[data-name=rank-options-button] > svg.feather-award").should(
-      "exist",
+    cy.get('[data-name=rank-options-button] > svg.feather-award').should(
+      'exist'
     );
   });
 

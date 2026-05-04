@@ -1,16 +1,16 @@
 <script>
-  import LocaleSelect from "./LocaleSelect.svelte";
-  import EncryptedText from "./EncryptedText.svelte";
-  import Menu from "./Menu.svelte";
+  import LocaleSelect from './LocaleSelect.svelte';
+  import EncryptedText from './EncryptedText.svelte';
+  import Menu from './Menu.svelte';
 
-  import { board, colorMode, password, darkMode } from "../store.js";
-  import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
-  import Button from "./Button.svelte";
-  import { Icons } from "../data";
-  import Input from "./Input.svelte";
+  import { board, colorMode, password, darkMode } from '../store.js';
+  import { decrypt, encrypt, checkBoardPassword } from '../encryption.js';
+  import Button from './Button.svelte';
+  import { Icons } from '../data';
+  import Input from './Input.svelte';
 
   let editMode = $state(false);
-  let newBoardName = $state("");
+  let newBoardName = $state('');
 
   async function startEdit() {
     if (
@@ -75,7 +75,7 @@
         class="me-1"
         onclick={() => {
           $darkMode = !$darkMode;
-          window.localStorage.setItem("darkModePreference", $colorMode);
+          window.localStorage.setItem('darkModePreference', $colorMode);
         }}
       >
         <div class="icon">

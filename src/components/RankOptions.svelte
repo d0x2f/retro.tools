@@ -1,21 +1,21 @@
 <script>
-  import clsx from "clsx";
-  import { dictionary, _ } from "svelte-i18n";
-  import { Button as SSButton } from "@sveltestrap/sveltestrap";
+  import clsx from 'clsx';
+  import { dictionary, _ } from 'svelte-i18n';
+  import { Button as SSButton } from '@sveltestrap/sveltestrap';
 
-  import { updateRank } from "../api";
-  import { ColumnIcons, Icons } from "../data";
-  import { activeRankOptions, board, colorMode, colors } from "../store";
-  import Input from "./Input.svelte";
+  import { updateRank } from '../api';
+  import { ColumnIcons, Icons } from '../data';
+  import { activeRankOptions, board, colorMode, colors } from '../store';
+  import Input from './Input.svelte';
 
-  let { class: className = "", rank = $bindable(), onerror } = $props();
+  let { class: className = '', rank = $bindable(), onerror } = $props();
 
-  let classes = $derived(clsx(className, "d-flex flex-column"));
+  let classes = $derived(clsx(className, 'd-flex flex-column'));
 
   let rankName = $state(
     new Set(Object.keys($dictionary.en)).has(rank.name)
       ? $_(rank.name)
-      : rank.name,
+      : rank.name
   );
 
   function error(message, err) {
@@ -26,7 +26,7 @@
     try {
       await updateRank($board.id, { ...rank, name: rankName });
     } catch (err) {
-      error("error.network", err);
+      error('error.network', err);
     }
   }
 </script>
@@ -38,7 +38,7 @@
     class="m-1"
     onblur={doUpdate}
     onsubmit={() => {
-      $activeRankOptions = "";
+      $activeRankOptions = '';
       doUpdate();
     }}
   />

@@ -1,14 +1,14 @@
 <script>
-  import { _, locale } from "svelte-i18n";
-  import { format as timeago } from "timeago.js";
+  import { _, locale } from 'svelte-i18n';
+  import { format as timeago } from 'timeago.js';
 
-  import { Icons } from "../data.js";
-  import { deleteBoard } from "../api.js";
-  import { isBoardEncrypted } from "../encryption.js";
+  import { Icons } from '../data.js';
+  import { deleteBoard } from '../api.js';
+  import { isBoardEncrypted } from '../encryption.js';
 
-  import Button from "./Button.svelte";
-  import Spinner from "./Spinner.svelte";
-  import { colorMode } from "../store.js";
+  import Button from './Button.svelte';
+  import Spinner from './Spinner.svelte';
+  import { colorMode } from '../store.js';
 
   let { board, onclick, ondeleted, onerror } = $props();
 
@@ -41,7 +41,7 @@
       ondeleted?.();
     } catch (err) {
       busy = false;
-      error("error.board_delete", err);
+      error('error.board_delete', err);
     }
   }
 </script>
@@ -58,11 +58,11 @@
         …
       {:then encrypted}
         {#if encrypted}
-          <i class="small">{$_("general.encrypted")}</i>
+          <i class="small">{$_('general.encrypted')}</i>
         {:else}{board.name}{/if}
       {/await}
     {:else}
-      <i class="small">{$_("splash.no_name")}</i>
+      <i class="small">{$_('splash.no_name')}</i>
     {/if}
   </td>
   <td class="text-end pointer border-top-0">

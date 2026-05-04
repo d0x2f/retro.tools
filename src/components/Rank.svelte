@@ -1,7 +1,7 @@
 <script>
-  import { onMount } from "svelte";
-  import { flip } from "svelte/animate";
-  import { _ } from "svelte-i18n";
+  import { onMount } from 'svelte';
+  import { flip } from 'svelte/animate';
+  import { _ } from 'svelte-i18n';
 
   import {
     activeRankOptions,
@@ -15,16 +15,16 @@
     password,
     ranks,
     sorted,
-  } from "../store.js";
-  import { Icons } from "../data.js";
-  import { createCard, deleteRank, updateRank } from "../api.js";
-  import { encrypt } from "../encryption.js";
+  } from '../store.js';
+  import { Icons } from '../data.js';
+  import { createCard, deleteRank, updateRank } from '../api.js';
+  import { encrypt } from '../encryption.js';
 
-  import Card from "./Card.svelte";
-  import Textarea from "./Textarea.svelte";
-  import Button from "./Button.svelte";
-  import { slide } from "svelte/transition";
-  import RankOptions from "./RankOptions.svelte";
+  import Card from './Card.svelte';
+  import Textarea from './Textarea.svelte';
+  import Button from './Button.svelte';
+  import { slide } from 'svelte/transition';
+  import RankOptions from './RankOptions.svelte';
 
   let { rank = $bindable(), drake = null, onerror } = $props();
 
@@ -35,17 +35,17 @@
       .sort((a, b) =>
         $sorted
           ? b.votes - a.votes || a.created_at - b.created_at
-          : a.created_at - b.created_at,
-      ),
+          : a.created_at - b.created_at
+      )
   );
   let columnWidth = $derived(
     $ranks.length <= 2
-      ? "col-lg-4"
+      ? 'col-lg-4'
       : $ranks.length === 3
-        ? "col-lg-3"
-        : `col-lg-${Math.floor(12 / $ranks.length)}`,
+        ? 'col-lg-3'
+        : `col-lg-${Math.floor(12 / $ranks.length)}`
   );
-  let newCardText = $state("");
+  let newCardText = $state('');
   let deleteConfirmMode = $state(false);
 
   function error(message, err) {
@@ -58,21 +58,21 @@
     }
     if (!$board.cards_open) {
       if ($board.owner) {
-        error("board.creation_disabled_as_owner");
+        error('board.creation_disabled_as_owner');
       } else {
-        error("board.creation_disabled_as_participant");
+        error('board.creation_disabled_as_participant');
       }
       return;
     }
 
     const encryptedCardText = await encrypt(newCardText, $password);
     const encryptedAuthor =
-      $author.length > 0 ? await encrypt($author, $password) : "";
+      $author.length > 0 ? await encrypt($author, $password) : '';
     try {
-      newCardText = "";
+      newCardText = '';
       await createCard($board.id, rank.id, encryptedCardText, encryptedAuthor);
     } catch (err) {
-      error("error.creating_card", err);
+      error('error.creating_card', err);
     }
   }
 
@@ -83,7 +83,7 @@
     if ($activeRankOptions != rank.id) {
       $activeRankOptions = rank.id;
     } else {
-      $activeRankOptions = "";
+      $activeRankOptions = '';
     }
   }
 
@@ -92,7 +92,7 @@
     try {
       await deleteRank($board.id, rank.id);
     } catch (err) {
-      error("error.network", err);
+      error('error.network', err);
     }
   }
 
@@ -143,7 +143,7 @@
           <Textarea
             data-name="card-author-input"
             onsubmit={newCard}
-            placeholder={$_("board.author")}
+            placeholder={$_('board.author')}
             bind:value={$author}
             minWidth="5em"
             class="flex-shrink-0 flex-grow-0 w-25"
@@ -162,7 +162,7 @@
         {#if $board.owner || $board.open_permission}
           <Button
             data-name="delete-button"
-            textColor={!$darkMode ? "danger" : "body"}
+            textColor={!$darkMode ? 'danger' : 'body'}
             class="bg-{$colorMode}-accent border"
             onclick={() => (deleteConfirmMode = true)}
           >
@@ -220,8 +220,8 @@
         animate:flip={{ duration: 200 }}
         class="py-1"
         data-drag={!(card.owner || $board.owner || $board.open_permission)
-          ? "false"
-          : "true"}
+          ? 'false'
+          : 'true'}
       >
         <Card {card} {onerror} color={rank.data.color} />
       </div>
@@ -231,7 +231,7 @@
         class="text-secondary text-center mt-5 text-center float-right w-100"
         data-drag="false"
       >
-        <small>{$_("board.no_cards")}</small>
+        <small>{$_('board.no_cards')}</small>
       </div>
     {/if}
   </div>

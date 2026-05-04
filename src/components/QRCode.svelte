@@ -1,20 +1,20 @@
 <script>
-  import { onMount } from "svelte";
-  import clsx from "clsx";
+  import { onMount } from 'svelte';
+  import clsx from 'clsx';
 
-  import { QRCode } from "../qrcode.js";
+  import { QRCode } from '../qrcode.js';
 
   let {
-    class: className = "",
+    class: className = '',
     text,
     width,
     height,
-    colorDark = "#000000",
-    colorLight = "#ffffff",
+    colorDark = '#000000',
+    colorLight = '#ffffff',
   } = $props();
 
   onMount(() => {
-    new QRCode("qrcode", {
+    new QRCode('qrcode', {
       text,
       width,
       height,
@@ -24,7 +24,7 @@
     });
   });
 
-  let classes = $derived(clsx(className, "card", "card-body"));
+  let classes = $derived(clsx(className, 'card', 'card-body'));
 </script>
 
 <div data-name="qr-code" class={classes}>

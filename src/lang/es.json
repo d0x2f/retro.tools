@@ -18,7 +18,7 @@
   "splash.created": "Creado",
   "error.board_not_found": "¡No se puede encontrar el tablero solicitado!",
   "error.board_delete": "¡Error al eliminar el tablero!",
-  "error.card_delete": "¡Error al eliminar el tablero!",
+  "error.card_delete": "¡Error al eliminar la tarjeta!",
   "error.updating_settings": "¡Error al actualizar la configuración!",
   "error.connection_lost": "¡Se perdió la conexión!",
   "error.network": "¡Error de red!",

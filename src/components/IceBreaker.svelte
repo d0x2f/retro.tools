@@ -1,22 +1,22 @@
 <script>
-  import clsx from "clsx";
-  import { onMount } from "svelte";
-  import { _ } from "svelte-i18n";
+  import clsx from 'clsx';
+  import { onMount } from 'svelte';
+  import { _ } from 'svelte-i18n';
 
-  import { board, password } from "../store.js";
-  import { decrypt, encrypt, checkBoardPassword } from "../encryption.js";
+  import { board, password } from '../store.js';
+  import { decrypt, encrypt, checkBoardPassword } from '../encryption.js';
 
-  import Input from "./Input.svelte";
-  import EncryptedText from "./EncryptedText.svelte";
+  import Input from './Input.svelte';
+  import EncryptedText from './EncryptedText.svelte';
 
   let showIceBreaking = $state(false);
   let iceBreakingEditMode = $state(false);
-  let newIceBreakingText = $state("");
+  let newIceBreakingText = $state('');
 
-  let { class: className = "" } = $props();
+  let { class: className = '' } = $props();
 
   let classes = $derived(
-    clsx(className, "p-3", "mx-auto", "d-flex", "justify-content-center"),
+    clsx(className, 'p-3', 'mx-auto', 'd-flex', 'justify-content-center')
   );
 
   async function startEdit() {
@@ -36,8 +36,8 @@
   }
 
   onMount(async () => {
-    newIceBreakingText = $board.ice_breaking || "";
-    showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== "";
+    newIceBreakingText = $board.ice_breaking || '';
+    showIceBreaking = (await decrypt(newIceBreakingText, $password)) !== '';
   });
 </script>
 
@@ -59,7 +59,7 @@
         class="p-0 text-center border-0"
       />
     {:else}
-      <span class="fw-bold text-nowrap me-1">{$_("splash.icebreaking")}:</span>
+      <span class="fw-bold text-nowrap me-1">{$_('splash.icebreaking')}:</span>
       <span data-name="ice-breaker-message">
         <EncryptedText bind:text={$board.ice_breaking} />
       </span>

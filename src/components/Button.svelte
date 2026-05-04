@@ -1,26 +1,26 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  import { filterDataKeys } from "../utils.js";
+  import { filterDataKeys } from '../utils.js';
 
   let {
-    class: className = "",
+    class: className = '',
     disabled = false,
-    value = "",
+    value = '',
     color = null,
     textColor = null,
     href = null,
-    target = "_top",
+    target = '_top',
     children,
     onclick,
     ...rest
   } = $props();
 
   let classes = $derived(
-    clsx(className, "btn", {
+    clsx(className, 'btn', {
       [`btn-${color}`]: !!color,
       [`text-${textColor}`]: !!textColor,
-    }),
+    })
   );
   let data = $derived(filterDataKeys(rest));
 </script>

@@ -18,7 +18,7 @@
   "splash.created": "Erstellt",
   "error.board_not_found": "Das gewünschte Board kann nicht gefunden werden!",
   "error.board_delete": "Fehler beim Entfernen des Boards!",
-  "error.card_delete": "Fehler beim Entfernen des Boards!",
+  "error.card_delete": "Fehler beim Entfernen der Karte!",
   "error.updating_settings": "Fehler beim Aktualisieren der Konfiguration!",
   "error.connection_lost": "Die Verbindung wurde unterbrochen!",
   "error.network": "Netzwerkfehler!",

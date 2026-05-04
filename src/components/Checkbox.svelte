@@ -1,24 +1,24 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  import { filterDataKeys } from "../utils.js";
+  import { filterDataKeys } from '../utils.js';
 
   let {
-    class: className = "",
+    class: className = '',
     disabled = false,
     checked = $bindable(false),
-    label = "",
+    label = '',
     addon = false,
-    id = "id-" + Math.floor(Math.random() * 10000),
+    id = 'id-' + Math.floor(Math.random() * 10000),
     oninput,
     ...rest
   } = $props();
 
   let wrapperClasses = $derived(
-    clsx(className, "custom-checkbox", "custom-control"),
+    clsx(className, 'custom-checkbox', 'custom-control')
   );
 
-  let directClasses = $derived(clsx(className, { "form-check-input": !addon }));
+  let directClasses = $derived(clsx(className, { 'form-check-input': !addon }));
 
   let data = $derived(filterDataKeys(rest));
 </script>

@@ -1,19 +1,19 @@
 <script>
-  import { _ } from "svelte-i18n";
+  import { _ } from 'svelte-i18n';
 
-  import { board, colorMode, darkMode, password } from "../store.js";
-  import { checkBoardPassword } from "../encryption.js";
-  import { Icons } from "../data.js";
+  import { board, colorMode, darkMode, password } from '../store.js';
+  import { checkBoardPassword } from '../encryption.js';
+  import { Icons } from '../data.js';
 
-  import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
-  import Spinner from "./Spinner.svelte";
+  import Button from './Button.svelte';
+  import Input from './Input.svelte';
+  import Spinner from './Spinner.svelte';
 
   let { onaccepted } = $props();
 
   let showPassword = $state(false);
   let checkBusy = $state(false);
-  let inputPassword = $state("");
+  let inputPassword = $state('');
   let inputBox = $state();
 
   async function checkPassword() {
@@ -25,10 +25,10 @@
       onaccepted?.();
       return;
     }
-    inputBox.classList.add("animate__shakeX");
+    inputBox.classList.add('animate__shakeX');
     setTimeout(() => {
-      inputBox.classList.remove("animate__shakeX");
-      inputPassword = "";
+      inputBox.classList.remove('animate__shakeX');
+      inputPassword = '';
       checkBusy = false;
     }, 500);
   }
@@ -38,12 +38,12 @@
   <div class="d-flex flex-column justify-content-center">
     <div bind:this={inputBox} class="box h-50 animate__animated">
       <p class="mb-1" class:text-primary={!$darkMode}>
-        {$_("general.password")}
+        {$_('general.password')}
       </p>
       <div class="input-group">
         <Input
           data-name="password-wall-input"
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           name="password"
           id="password"
           bind:value={inputPassword}
@@ -65,7 +65,7 @@
         <Button
           data-name="password-wall-unlock-button"
           class="mt-1"
-          color={$darkMode ? "dark" : "primary"}
+          color={$darkMode ? 'dark' : 'primary'}
           onclick={checkPassword}
           disabled={checkBusy}
         >
@@ -77,7 +77,7 @@
                 <Icons.unlock size="100%" />
               {/if}
             </div>
-            {$_("board.unlock")}
+            {$_('board.unlock')}
           </div>
         </Button>
       </div>

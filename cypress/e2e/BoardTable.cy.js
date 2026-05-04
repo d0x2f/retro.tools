@@ -1,88 +1,88 @@
 /// <reference types="cypress" />
 
-context("BoardTable", () => {
-  context("With no existing boards", () => {
-    it("does not show the board list table", () => {
-      cy.login("owner");
-      cy.visit("/");
-      cy.get("[data-name=board-list-button]").should("not.exist");
-      cy.get("[data-name=board-table]").should("not.exist");
+context('BoardTable', () => {
+  context('With no existing boards', () => {
+    it('does not show the board list table', () => {
+      cy.login('owner');
+      cy.visit('/');
+      cy.get('[data-name=board-list-button]').should('not.exist');
+      cy.get('[data-name=board-table]').should('not.exist');
     });
   });
 
-  context("With an existing board", () => {
+  context('With an existing board', () => {
     before(() => {
-      cy.login("owner");
-      cy.visit("/");
-      cy.get("[data-name=board-name-input]").type("Test Board Name");
-      cy.get("[data-name=create-button]").click();
-      cy.get("[data-name=rank]").should("exist");
-      cy.visit("/");
-      cy.get("[data-name=board-list-button]").click();
+      cy.login('owner');
+      cy.visit('/');
+      cy.get('[data-name=board-name-input]').type('Test Board Name');
+      cy.get('[data-name=create-button]').click();
+      cy.get('[data-name=rank]').should('exist');
+      cy.visit('/');
+      cy.get('[data-name=board-list-button]').click();
     });
 
-    context("As the owner", () => {
-      it("has a row for the board including the delete button", () => {
-        cy.get("[data-name=board-table]").should("exist");
-        cy.get("[data-name=board-row]").should("have.length", 1);
-        cy.get("[data-name=board-row]")
+    context('As the owner', () => {
+      it('has a row for the board including the delete button', () => {
+        cy.get('[data-name=board-table]').should('exist');
+        cy.get('[data-name=board-row]').should('have.length', 1);
+        cy.get('[data-name=board-row]')
           .first()
-          .find("[data-name=delete-button]")
-          .should("exist");
+          .find('[data-name=delete-button]')
+          .should('exist');
       });
     });
 
-    context("As a participant", () => {
+    context('As a participant', () => {
       let boardId;
       before(() => {
-        cy.login("owner");
-        cy.visit("/");
+        cy.login('owner');
+        cy.visit('/');
         // Find the board id
-        cy.get("[data-name=board-list-button]").click();
-        cy.get("[data-name=board-row]")
+        cy.get('[data-name=board-list-button]').click();
+        cy.get('[data-name=board-row]')
           .first()
-          .invoke("attr", "data-board-id")
+          .invoke('attr', 'data-board-id')
           .then((v) => {
             boardId = v;
 
             // Visit the board and come back to give access to the participant
-            cy.login("participant");
+            cy.login('participant');
             cy.visit(`/${boardId}`);
-            cy.get("[data-name=rank]").should("exist");
+            cy.get('[data-name=rank]').should('exist');
             cy.reload();
-            cy.visit("/");
-            cy.get("[data-name=board-list-button]").click();
+            cy.visit('/');
+            cy.get('[data-name=board-list-button]').click();
           });
       });
 
-      it("shows a row for the board without the delete button", () => {
-        cy.get("[data-name=board-table]").should("exist");
-        cy.get("[data-name=board-row]").should("have.length", 1);
-        cy.get("[data-name=board-row]")
+      it('shows a row for the board without the delete button', () => {
+        cy.get('[data-name=board-table]').should('exist');
+        cy.get('[data-name=board-row]').should('have.length', 1);
+        cy.get('[data-name=board-row]')
           .first()
-          .should("have.attr", "data-board-id", boardId);
-        cy.get("[data-name=board-row]")
+          .should('have.attr', 'data-board-id', boardId);
+        cy.get('[data-name=board-row]')
           .first()
-          .find("[data-name=delete-button]")
-          .should("not.exist");
+          .find('[data-name=delete-button]')
+          .should('not.exist');
       });
     });
 
-    context("Deleting a board", () => {
+    context('Deleting a board', () => {
       before(() => {
-        cy.login("owner");
-        cy.visit("/");
-        cy.get("[data-name=board-list-button]").click();
+        cy.login('owner');
+        cy.visit('/');
+        cy.get('[data-name=board-list-button]').click();
       });
 
-      it("removes the board from the list after the owner confirms deletion", () => {
-        cy.get("[data-name=board-row]")
+      it('removes the board from the list after the owner confirms deletion', () => {
+        cy.get('[data-name=board-row]')
           .first()
-          .find("[data-name=delete-button]")
+          .find('[data-name=delete-button]')
           .click();
-        cy.get("[data-name=delete-confirm-button]").click();
-        cy.get("[data-name=board-row]").should("have.length", 0);
-        cy.get("[data-name=board-table]").should("not.exist");
+        cy.get('[data-name=delete-confirm-button]').click();
+        cy.get('[data-name=board-row]').should('have.length', 0);
+        cy.get('[data-name=board-table]').should('not.exist');
       });
     });
 

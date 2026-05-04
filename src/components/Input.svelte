@@ -1,15 +1,15 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  import { filterDataKeys } from "../utils.js";
+  import { filterDataKeys } from '../utils.js';
 
   let {
-    class: className = "",
+    class: className = '',
     disabled = false,
     autofocus = false,
-    value = $bindable(""),
-    type = "text",
-    placeholder = "",
+    value = $bindable(''),
+    type = 'text',
+    placeholder = '',
     onsubmit,
     oncancel,
     onclick,
@@ -18,16 +18,16 @@
     ...rest
   } = $props();
 
-  let classes = $derived(clsx(className, "form-control"));
+  let classes = $derived(clsx(className, 'form-control'));
   let data = $derived(filterDataKeys(rest));
 
   function keyDown(event) {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       if (value.length > 0) {
         onsubmit?.();
       }
       event.preventDefault();
-    } else if (event.key === "Escape") {
+    } else if (event.key === 'Escape') {
       oncancel?.();
     }
   }
@@ -37,7 +37,7 @@
   }
 </script>
 
-{#if type == "password"}
+{#if type == 'password'}
   <input
     type="password"
     {...data}

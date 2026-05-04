@@ -1,11 +1,11 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  import { Icons } from "../data.js";
+  import { Icons } from '../data.js';
 
-  let { class: className = "", checked = false, label = "" } = $props();
+  let { class: className = '', checked = false, label = '' } = $props();
 
-  let classes = $derived(clsx(className, { "text-secondary": !checked }));
+  let classes = $derived(clsx(className, { 'text-secondary': !checked }));
 </script>
 
 <div class={classes} data-checked={checked}>

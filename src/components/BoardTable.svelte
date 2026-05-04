@@ -1,12 +1,12 @@
 <script>
-  import { slide } from "svelte/transition";
-  import { _ } from "svelte-i18n";
+  import { slide } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
 
-  import { colorMode } from "../store";
+  import { colorMode } from '../store';
 
-  import Table from "./Table.svelte";
-  import BoardRow from "./BoardRow.svelte";
-  import Button from "./Button.svelte";
+  import Table from './Table.svelte';
+  import BoardRow from './BoardRow.svelte';
+  import Button from './Button.svelte';
 
   let { boards = [], onclick, ondeleted, onerror } = $props();
   let expanded = $state(false);
@@ -21,7 +21,7 @@
     onclick={() => (expanded = !expanded)}
   >
     <div class:rotate-90={expanded} class="transition d-inline-block">▸</div>
-    {$_("splash.your_boards")}
+    {$_('splash.your_boards')}
   </Button>
   {#if expanded}
     <div in:slide out:slide data-name="board-table" class="text-dark">

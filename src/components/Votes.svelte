@@ -1,10 +1,10 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
-  import { board, colorMode, colors } from "../store.js";
-  import { Icons } from "../data.js";
+  import { board, colorMode, colors } from '../store.js';
+  import { Icons } from '../data.js';
 
-  import Button from "./Button.svelte";
+  import Button from './Button.svelte';
 
   let { votes = 0, voted = false, color, ontoggleVote } = $props();
 </script>
@@ -24,9 +24,9 @@
   <span
     data-name="vote-count"
     style="color: {$colors[color]}"
-    class={clsx("votes font-weight-bold h3 mb-0 mt-0 text-center", {
-      "me-1": $board.voting_open,
-      "px-2": !$board.voting_open,
+    class={clsx('votes font-weight-bold h3 mb-0 mt-0 text-center', {
+      'me-1': $board.voting_open,
+      'px-2': !$board.voting_open,
     })}
   >
     {votes}

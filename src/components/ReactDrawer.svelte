@@ -1,15 +1,15 @@
 <script>
-  import { Button, ButtonGroup } from "@sveltestrap/sveltestrap";
-  import { colorMode } from "../store";
+  import { Button, ButtonGroup } from '@sveltestrap/sveltestrap';
+  import { colorMode } from '../store';
 
   let {
     emojis = [
-      ["👍", "👎", "👏", "🙌", "👌"],
-      ["😂", "😍", "😱", "😓", "🤨"],
-      ["🤔", "😡", "🍺", "🔥", "👀"],
-      ["💩", "🎉", "❤️", "🐛", "💬"],
+      ['👍', '👎', '👏', '🙌', '👌'],
+      ['😂', '😍', '😱', '😓', '🤨'],
+      ['🤔', '😡', '🍺', '🔥', '👀'],
+      ['💩', '🎉', '❤️', '🐛', '💬'],
     ],
-    current = "",
+    current = '',
     onselected,
   } = $props();
 </script>
@@ -19,7 +19,7 @@
     <ButtonGroup>
       {#each emojiRow as emoji (emoji)}
         <Button
-          color={emoji === current ? "secondary" : $colorMode}
+          color={emoji === current ? 'secondary' : $colorMode}
           data-name="emoji-button"
           data-emoji={emoji}
           onclick={() => onselected?.(emoji)}

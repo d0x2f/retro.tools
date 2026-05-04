@@ -4,12 +4,12 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-  } from "@sveltestrap/sveltestrap";
-  import { _, locale, locales, dictionary } from "svelte-i18n";
-  import { colorMode } from "../store";
-  import clsx from "clsx";
+  } from '@sveltestrap/sveltestrap';
+  import { _, locale, locales, dictionary } from 'svelte-i18n';
+  import { colorMode } from '../store';
+  import clsx from 'clsx';
 
-  let { size = "", class: className = "" } = $props();
+  let { size = '', class: className = '' } = $props();
 
   let localesOpen = $state(false);
 
@@ -17,7 +17,7 @@
 
   function setLocale(l) {
     locale.set(l);
-    window.localStorage.setItem("locale", l);
+    window.localStorage.setItem('locale', l);
   }
 </script>
 
@@ -34,8 +34,8 @@
     {size}
   >
     {#if $locale in $dictionary}
-      {$_("language." + $locale)}
-    {:else}{$_("language.en")}{/if}
+      {$_('language.' + $locale)}
+    {:else}{$_('language.en')}{/if}
   </DropdownToggle>
   <DropdownMenu right class="mw-0">
     {#each [...$locales].sort() as locale (locale)}
@@ -44,7 +44,7 @@
         toggle={true}
         on:click={() => setLocale(locale)}
       >
-        {$_("language." + locale)}
+        {$_('language.' + locale)}
       </DropdownItem>
     {/each}
   </DropdownMenu>

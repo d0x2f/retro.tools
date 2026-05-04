@@ -1,36 +1,36 @@
 <script>
-  import { Router, Route } from "svelte-routing";
-  import { fade } from "svelte/transition";
+  import { Router, Route } from 'svelte-routing';
+  import { fade } from 'svelte/transition';
 
-  import Splash from "./Splash.svelte";
-  import Board from "./Board.svelte";
-  import { colorMode, darkMode } from "./store";
-  import { onMount } from "svelte";
+  import Splash from './Splash.svelte';
+  import Board from './Board.svelte';
+  import { colorMode, darkMode } from './store';
+  import { onMount } from 'svelte';
 
-  let { url = "" } = $props();
+  let { url = '' } = $props();
 
   onMount(() => {
     const darkModeChangeListener = (m) =>
-      document.documentElement.setAttribute("data-bs-theme", m);
+      document.documentElement.setAttribute('data-bs-theme', m);
     const unsubscribeDarkModeChange = colorMode.subscribe(
-      darkModeChangeListener,
+      darkModeChangeListener
     );
 
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    prefersDarkScheme.addEventListener("change", (e) => {
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    prefersDarkScheme.addEventListener('change', (e) => {
       const systemPreference = e.matches;
-      const appPreference = window.localStorage.getItem("darkModePreference");
+      const appPreference = window.localStorage.getItem('darkModePreference');
 
       // Update color theme if the user hasn't set an app preference
       if (appPreference) {
-        $darkMode = appPreference === "dark";
+        $darkMode = appPreference === 'dark';
       } else {
         $darkMode = systemPreference;
       }
     });
     return () => {
       unsubscribeDarkModeChange();
-      prefersDarkScheme.removeEventListener("change", darkModeChangeListener);
+      prefersDarkScheme.removeEventListener('change', darkModeChangeListener);
     };
   });
 </script>

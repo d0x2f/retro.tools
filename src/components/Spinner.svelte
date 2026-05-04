@@ -1,20 +1,15 @@
 <script>
-  import clsx from "clsx";
+  import clsx from 'clsx';
 
   let {
-    class: className = "",
-    size = "md",
-    color = "primary",
+    class: className = '',
+    size = 'md',
+    color = 'primary',
     children,
   } = $props();
 
   let classes = $derived(
-    clsx(
-      className,
-      "spinner-border",
-      `spinner-border-${size}`,
-      `text-${color}`,
-    ),
+    clsx(className, 'spinner-border', `spinner-border-${size}`, `text-${color}`)
   );
 </script>
 
