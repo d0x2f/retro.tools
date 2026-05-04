@@ -92,5 +92,19 @@
   "board.timer.times_up": "Tempo esgotado!",
   "splash.import_template": "Importar modelo",
   "board.template.custom.name": "Personalizado (importado)",
-  "error.invalid_template": "Arquivo de modelo inválido"
+  "error.invalid_template": "Arquivo de modelo inválido",
+  "splash.features.anonymous.title": "Anônimo",
+  "splash.features.anonymous.body_1": "Nenhuma informação pessoal é armazenada e você pode excluir quadros para maior certeza.",
+  "splash.features.anonymous.code_link": "Nosso código",
+  "splash.features.anonymous.body_2": "está disponível publicamente para que qualquer pessoa possa verificar.",
+  "splash.features.simple.title": "Simples, Limpo e Intuitivo",
+  "splash.features.simple.body": "Nosso principal objetivo de design é a simplicidade, acreditamos que as ferramentas devem ser fáceis de entender e não exigir nenhum manual.",
+  "splash.features.open_source.title": "Gratuito e de Código Aberto",
+  "splash.features.open_source.body": "Retro.tools é gratuito para usar e o código-fonte está disponível no",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "Sem Login!",
+  "splash.features.no_logins.body": "Para manter o anonimato e a conveniência, não pediremos que você crie uma conta ou forneça qualquer outra informação, simplesmente clique e comece!",
+  "splash.features.encryption.title": "Criptografia de Ponta a Ponta",
+  "splash.features.encryption.body_1": "A criptografia do quadro está disponível opcionalmente usando uma senha.",
+  "splash.features.encryption.body_2": "Toda a criptografia é feita pelo navegador e nosso backend vê apenas dados criptografados!"
 }

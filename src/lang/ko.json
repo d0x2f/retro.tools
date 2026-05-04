@@ -91,5 +91,20 @@
   "board.timer.times_up": "시간이 종료되었습니다!",
   "splash.import_template": "템플릿 가져오기",
   "board.template.custom.name": "사용자 정의 (가져옴)",
-  "error.invalid_template": "잘못된 템플릿 파일"
+  "error.invalid_template": "잘못된 템플릿 파일",
+  "splash.hero_text": "간단하게. 회고록.",
+  "splash.features.anonymous.title": "익명",
+  "splash.features.anonymous.body_1": "개인 정보는 저장되지 않으며 확실히 하기 위해 회고록을 삭제할 수 있습니다.",
+  "splash.features.anonymous.code_link": "코드",
+  "splash.features.anonymous.body_2": "는 누구나 확인할 수 있도록 공개되어 있습니다.",
+  "splash.features.simple.title": "간단하고, 깔끔하고, 직관적인",
+  "splash.features.simple.body": "저희의 주요 디자인 목표는 단순함입니다. 도구는 이해하기 쉽고 매뉴얼이 필요 없어야 한다고 믿습니다.",
+  "splash.features.open_source.title": "무료 & 오픈 소스",
+  "splash.features.open_source.body": "Retro.tools는 무료로 사용할 수 있으며 소스 코드는 다음에서 확인할 수 있습니다:",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "로그인 불필요!",
+  "splash.features.no_logins.body": "익명성과 편의성을 유지하기 위해 계정을 만들거나 다른 정보를 제공하도록 요청하지 않습니다. 그냥 클릭하고 시작하세요!",
+  "splash.features.encryption.title": "종단 간 암호화",
+  "splash.features.encryption.body_1": "비밀번호를 사용한 회고록 암호화를 선택적으로 사용할 수 있습니다.",
+  "splash.features.encryption.body_2": "모든 암호화는 브라우저에서 처리되며 백엔드는 암호화된 데이터만 볼 수 있습니다!"
 }

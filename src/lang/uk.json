@@ -92,5 +92,19 @@
   "board.timer.times_up": "Час вийшов!",
   "splash.import_template": "Імпортувати шаблон",
   "board.template.custom.name": "Користувацький (імпортований)",
-  "error.invalid_template": "Невірний файл шаблону"
+  "error.invalid_template": "Невірний файл шаблону",
+  "splash.features.anonymous.title": "Анонімність",
+  "splash.features.anonymous.body_1": "Жодна особиста інформація не зберігається, і ви можете видалити дошки для повної впевненості.",
+  "splash.features.anonymous.code_link": "Наш код",
+  "splash.features.anonymous.body_2": "є публічно доступним для перевірки будь-ким.",
+  "splash.features.simple.title": "Просто, Зручно та Інтуїтивно",
+  "splash.features.simple.body": "Наша головна мета дизайну — простота. Ми вважаємо, що інструменти мають бути зрозумілими та не потребувати інструкцій.",
+  "splash.features.open_source.title": "Безкоштовно та з Відкритим Кодом",
+  "splash.features.open_source.body": "Retro.tools є безкоштовним у використанні, а вихідний код доступний на",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "Без Реєстрації!",
+  "splash.features.no_logins.body": "Щоб залишатися анонімними та зручними, ми не просимо вас створювати обліковий запис чи надавати будь-яку іншу інформацію — просто натисніть і починайте!",
+  "splash.features.encryption.title": "Наскрізне Шифрування",
+  "splash.features.encryption.body_1": "Шифрування дошки за бажанням доступне за допомогою пароля.",
+  "splash.features.encryption.body_2": "Усе шифрування виконується браузером, а наш бекенд бачить лише зашифровані дані!"
 }

@@ -92,5 +92,19 @@
   "board.timer.times_up": "Süre doldu!",
   "splash.import_template": "Şablon içe aktar",
   "board.template.custom.name": "Özel (içe aktarıldı)",
-  "error.invalid_template": "Geçersiz şablon dosyası"
+  "error.invalid_template": "Geçersiz şablon dosyası",
+  "splash.features.anonymous.title": "Anonim",
+  "splash.features.anonymous.body_1": "Hiçbir kişisel bilgi saklanmaz ve kesin emin olmak için panoları silebilirsiniz.",
+  "splash.features.anonymous.code_link": "Kodumuz",
+  "splash.features.anonymous.body_2": "herkesin doğrulaması için kamuya açıktır.",
+  "splash.features.simple.title": "Basit, Temiz ve Sezgisel",
+  "splash.features.simple.body": "Birincil tasarım hedefimiz sadeliktir; araçların anlaşılması kolay olmalı ve kılavuz gerektirmemelidir.",
+  "splash.features.open_source.title": "Ücretsiz ve Açık Kaynak",
+  "splash.features.open_source.body": "Retro.tools kullanımı ücretsizdir ve kaynak kodu şurada mevcuttur:",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "Giriş Yok!",
+  "splash.features.no_logins.body": "Anonim ve pratik kalmak için hesap oluşturmanızı veya başka bilgi vermenizi istemeyeceğiz, sadece tıklayın ve başlayın!",
+  "splash.features.encryption.title": "Uçtan Uca Şifreleme",
+  "splash.features.encryption.body_1": "Pano şifreleme, bir şifre kullanılarak isteğe bağlı olarak mevcuttur.",
+  "splash.features.encryption.body_2": "Tüm şifreleme tarayıcı tarafından yapılır ve arka ucumuz yalnızca şifrelenmiş verileri görür!"
 }

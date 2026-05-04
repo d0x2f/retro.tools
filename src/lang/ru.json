@@ -91,5 +91,19 @@
   "board.timer.times_up": "Время вышло!",
   "splash.import_template": "Импортировать шаблон",
   "board.template.custom.name": "Пользовательский (импортированный)",
-  "error.invalid_template": "Неверный файл шаблона"
+  "error.invalid_template": "Неверный файл шаблона",
+  "splash.features.anonymous.title": "Анонимность",
+  "splash.features.anonymous.body_1": "Никакая личная информация не хранится, и вы можете удалить доски для полной уверенности.",
+  "splash.features.anonymous.code_link": "Наш код",
+  "splash.features.anonymous.body_2": "доступен публично для проверки любым желающим.",
+  "splash.features.simple.title": "Просто, Чисто и Интуитивно",
+  "splash.features.simple.body": "Наша главная цель дизайна — простота. Мы считаем, что инструменты должны быть понятными и не требовать руководства.",
+  "splash.features.open_source.title": "Бесплатно и с Открытым Исходным Кодом",
+  "splash.features.open_source.body": "Retro.tools бесплатен в использовании, а исходный код доступен на",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "Без Регистрации!",
+  "splash.features.no_logins.body": "Чтобы оставаться анонимным и удобным, мы не будем просить вас создавать аккаунт или предоставлять какую-либо информацию — просто нажмите и начните!",
+  "splash.features.encryption.title": "Сквозное Шифрование",
+  "splash.features.encryption.body_1": "Шифрование доски опционально доступно с использованием пароля.",
+  "splash.features.encryption.body_2": "Всё шифрование выполняется браузером, и наш бэкенд видит только зашифрованные данные!"
 }

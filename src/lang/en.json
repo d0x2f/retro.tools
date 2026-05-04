@@ -92,5 +92,19 @@
   "board.timer.times_up": "Time's up!",
   "splash.import_template": "Import Template",
   "board.template.custom.name": "Custom (imported)",
-  "error.invalid_template": "Invalid template file"
+  "error.invalid_template": "Invalid template file",
+  "splash.features.anonymous.title": "Anonymous",
+  "splash.features.anonymous.body_1": "No personal information is stored and you're free to delete boards for absolute certainty.",
+  "splash.features.anonymous.code_link": "Our code",
+  "splash.features.anonymous.body_2": "is publicly available for anyone to verify.",
+  "splash.features.simple.title": "Simple, Clean & Intuitive",
+  "splash.features.simple.body": "Our primary design goal is simplicity, we believe that tools should be easy to understand and require no manual.",
+  "splash.features.open_source.title": "Free & Open Source",
+  "splash.features.open_source.body": "Retro.tools is free to use and the source code is available on",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "No Logins!",
+  "splash.features.no_logins.body": "To stay anonymous and convenient, we won't ask you to create an account or to provide any other information, simply click and go!",
+  "splash.features.encryption.title": "End to End Encryption",
+  "splash.features.encryption.body_1": "Board encryption is optionally available using a password.",
+  "splash.features.encryption.body_2": "All encryption is handled by the browser and our backend sees nothing but encrypted data!"
 }

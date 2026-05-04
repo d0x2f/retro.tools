@@ -91,5 +91,20 @@
   "board.timer.times_up": "Zeit abgelaufen!",
   "splash.import_template": "Vorlage importieren",
   "board.template.custom.name": "Benutzerdefiniert (importiert)",
-  "error.invalid_template": "Ungültige Vorlagendatei"
+  "error.invalid_template": "Ungültige Vorlagendatei",
+  "splash.hero_text": "Einfach. Retros.",
+  "splash.features.anonymous.title": "Anonym",
+  "splash.features.anonymous.body_1": "Es werden keine personenbezogenen Daten gespeichert und du kannst Boards jederzeit löschen.",
+  "splash.features.anonymous.code_link": "Unser Code",
+  "splash.features.anonymous.body_2": "ist öffentlich zugänglich und kann von jedem überprüft werden.",
+  "splash.features.simple.title": "Einfach, Übersichtlich & Intuitiv",
+  "splash.features.simple.body": "Unser primäres Designziel ist Einfachheit – wir glauben, dass Tools leicht verständlich sein und kein Handbuch benötigen sollten.",
+  "splash.features.open_source.title": "Kostenlos & Open Source",
+  "splash.features.open_source.body": "Retro.tools ist kostenlos nutzbar und der Quellcode ist verfügbar auf",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "Kein Login!",
+  "splash.features.no_logins.body": "Um anonym und bequem zu bleiben, werden wir dich nicht bitten, ein Konto zu erstellen oder andere Informationen anzugeben – einfach klicken und loslegen!",
+  "splash.features.encryption.title": "Ende-zu-Ende-Verschlüsselung",
+  "splash.features.encryption.body_1": "Die Board-Verschlüsselung ist optional mit einem Passwort verfügbar.",
+  "splash.features.encryption.body_2": "Die gesamte Verschlüsselung erfolgt im Browser – unser Backend sieht nur verschlüsselte Daten!"
 }

@@ -91,5 +91,20 @@
   "board.timer.times_up": "¡Tiempo agotado!",
   "splash.import_template": "Importar plantilla",
   "board.template.custom.name": "Personalizado (importado)",
-  "error.invalid_template": "Archivo de plantilla no válido"
+  "error.invalid_template": "Archivo de plantilla no válido",
+  "splash.hero_text": "Simple. Retros.",
+  "splash.features.anonymous.title": "Anónimo",
+  "splash.features.anonymous.body_1": "No se almacena información personal y puedes eliminar tableros para mayor certeza.",
+  "splash.features.anonymous.code_link": "Nuestro código",
+  "splash.features.anonymous.body_2": "está disponible públicamente para que cualquiera pueda verificarlo.",
+  "splash.features.simple.title": "Simple, Limpio e Intuitivo",
+  "splash.features.simple.body": "Nuestro principal objetivo de diseño es la simplicidad, creemos que las herramientas deben ser fáciles de entender y no requerir ningún manual.",
+  "splash.features.open_source.title": "Gratis y de Código Abierto",
+  "splash.features.open_source.body": "Retro.tools es gratuito y el código fuente está disponible en",
+  "splash.features.open_source.github_link": "GitHub.",
+  "splash.features.no_logins.title": "¡Sin Inicio de Sesión!",
+  "splash.features.no_logins.body": "Para mantenernos anónimos y convenientes, no te pediremos que crees una cuenta ni que proporciones ninguna otra información, ¡simplemente haz clic y empieza!",
+  "splash.features.encryption.title": "Cifrado de Extremo a Extremo",
+  "splash.features.encryption.body_1": "El cifrado del tablero está disponible opcionalmente usando una contraseña.",
+  "splash.features.encryption.body_2": "Todo el cifrado es manejado por el navegador y nuestro backend no ve nada más que datos cifrados."
 }
