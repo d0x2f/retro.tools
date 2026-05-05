@@ -37,7 +37,8 @@ jobs:
       matrix:
         browser:
           - chrome
-          # - firefox
+          - firefox
+          - edge
         viewport:
           [
             "viewportWidth=375,viewportHeight=667",
@@ -61,7 +62,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: videos
+          name: videos-${{ matrix.browser }}-${{ strategy.job-index }}
           path: cypress/videos
           retention-days: 5
 
