@@ -38,21 +38,28 @@ context('OwnerRealtimeSync', () => {
     // Owner loads the board — with the fix, a Firestore subscription is established
     // for owners when open_permission is active
     cy.login('owner');
+    // Capture the session cookie now, before cy.visit() causes the app to call
+    // /auth again. In Firefox, that re-auth can overwrite __session with a new
+    // anonymous-user token that doesn't own the board, causing PATCH → 403.
+    cy.getCookie('__session').as('ownerSession');
     cy.visit(boardUrl);
     cy.get('[data-name=rank]:visible').should('exist');
     cy.get('[data-name=vote-button]:visible').should('exist');
 
     // PATCH the board via REST, bypassing the Svelte store entirely.
     // Only the Firestore subscription — not the local store listener — can deliver this update.
-    cy.request(`/boards/${boardId}`).then(({ body }) => {
-      let data = body.data;
-      try {
-        data = JSON.parse(data);
-      } catch {}
-      cy.request({
-        method: 'PATCH',
-        url: `/boards/${boardId}`,
-        body: { ...body, data, voting_open: false },
+    cy.get('@ownerSession').then((cookie) => {
+      cy.request(`/boards/${boardId}`).then(({ body }) => {
+        let data = body.data;
+        try {
+          data = JSON.parse(data);
+        } catch {}
+        cy.request({
+          method: 'PATCH',
+          url: `/boards/${boardId}`,
+          body: { ...body, data, voting_open: false },
+          headers: { Cookie: `__session=${cookie.value}` },
+        });
       });
     });
 
