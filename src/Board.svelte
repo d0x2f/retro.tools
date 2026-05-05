@@ -142,47 +142,33 @@
     }
 
     board.set(b);
-    ranks.set(await getRanks(boardId));
-    await checkPassword();
 
-    // Show first rank initially (by position, not API order)
-    const firstRank = [...$ranks].sort((a, b) => a.position - b.position)[0];
-    if (firstRank) $focusedRank = firstRank.id;
-
-    // Subscribe to local changes to $board so we can post updates.
-    // Compare updated boards to their last known value
-    // to ensure we don't send supurfluous calls.
+    // Compare updated boards to their last known value to ensure we don't send
+    // superfluous calls. Declared before subscribeToBoard so the firestore
+    // callback closes over the same reference as the local board.subscribe.
     let previousBoard = { ...$board };
-    if ($board.owner || $board.open_permission) {
-      unsubscribeLocalBoard = board.subscribe((b) => {
-        if (!compareBoards(previousBoard, b)) {
-          updateBoard(b).catch((err) => error('error.updating_settings', err));
-        }
-        previousBoard = { ...b };
-      });
-    }
 
-    // Non-owners subscribe to remote changes to stay in sync.
-    // Owners also subscribe when open_permission is active so they see changes made by other permitted users.
-    // Update previousBoard before setting the store to prevent echo-back pushes.
-    if (!$board.owner || $board.open_permission) {
-      unsubscribeBoard = await subscribeToBoard(
-        boardId,
-        (b) => {
-          previousBoard = { ...b };
-          board.set(b);
-        },
-        () => {
-          navigate('/not-found');
-        },
-        () => {
-          connectionLost = true;
-        }
-      );
-    }
-
-    // Subscribe to card updates
-    unsubscribeCards = await subscribeToCards(
+    // Kick off REST + firestore subscription setup in parallel. Each
+    // subscribeToX call internally awaits signIn(), which is now memoised so
+    // concurrent callers share a single auth round-trip.
+    const ranksTask = getRanks(boardId);
+    const subscribeBoardTask =
+      !$board.owner || $board.open_permission
+        ? subscribeToBoard(
+            boardId,
+            (b) => {
+              previousBoard = { ...b };
+              board.set(b);
+            },
+            () => {
+              navigate('/not-found');
+            },
+            () => {
+              connectionLost = true;
+            }
+          )
+        : Promise.resolve(null);
+    const subscribeCardsTask = subscribeToCards(
       boardId,
       (card) => cards.replace(card.id, card),
       (card) => cards.replace(card.id, card),
@@ -191,9 +177,7 @@
         connectionLost = true;
       }
     );
-
-    // Subscribe to rank updates
-    unsubscribeRanks = await subscribeToRanks(
+    const subscribeRanksTask = subscribeToRanks(
       boardId,
       (rank) => ranks.replace(rank.id, rank),
       (rank) => ranks.replace(rank.id, rank),
@@ -208,10 +192,35 @@
       }
     );
 
+    ranks.set(await ranksTask);
+    await checkPassword();
+
+    // Show first rank initially (by position, not API order)
+    const firstRank = [...$ranks].sort((a, b) => a.position - b.position)[0];
+    if (firstRank) $focusedRank = firstRank.id;
+
+    // Subscribe to local changes to $board so we can post updates.
+    if ($board.owner || $board.open_permission) {
+      unsubscribeLocalBoard = board.subscribe((b) => {
+        if (!compareBoards(previousBoard, b)) {
+          updateBoard(b).catch((err) => error('error.updating_settings', err));
+        }
+        previousBoard = { ...b };
+      });
+    }
+
     window.addEventListener('offline', handleOffline);
     window.addEventListener('online', handleOnline);
 
+    // Don't gate the initial paint on subscription registration; cards/ranks
+    // will populate via the in-flight subscriptions as their snapshots arrive.
     busy = false;
+
+    [unsubscribeBoard, unsubscribeCards, unsubscribeRanks] = await Promise.all([
+      subscribeBoardTask,
+      subscribeCardsTask,
+      subscribeRanksTask,
+    ]);
   });
 
   function handleOffline() {
@@ -258,10 +267,7 @@
       <PasswordWall onaccepted={checkPassword} />
     </div>
   {:else}
-    <div
-      transition:fade={{ duration: 200 }}
-      class="d-none d-lg-block scroll h-100"
-    >
+    <div class="d-none d-lg-block scroll h-100">
       <IceBreaker class="w-50" />
       <div
         class="d-none d-lg-flex justify-content-center overflow-hidden
@@ -282,10 +288,7 @@
       </div>
     </div>
 
-    <div
-      transition:fade={{ duration: 200 }}
-      class="d-block flex-grow-1 d-lg-none scroll"
-    >
+    <div class="d-block flex-grow-1 d-lg-none scroll">
       <IceBreaker class="w-100" />
       {#each sortedRanks as rank, i (rank.id)}
         {#if rank.id == $focusedRank}

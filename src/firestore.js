@@ -58,16 +58,23 @@ async function verifyToken() {
   uid.set(decodedToken.uid);
 }
 
+// Dedup concurrent signIn() calls so that parallel subscribers don't each hit
+// /auth and signInWithCustomToken; the in-flight promise is shared and cleared
+// once it settles, so subsequent calls re-verify the token.
+let signInPromise = null;
 export async function signIn() {
-  const auth = getAuth();
-
-  await verifyToken();
-
-  if (auth.currentUser) {
-    return;
+  if (signInPromise) return signInPromise;
+  signInPromise = (async () => {
+    const auth = getAuth();
+    await verifyToken();
+    if (auth.currentUser) return;
+    await signInWithCustomToken(auth, get(firebaseToken));
+  })();
+  try {
+    return await signInPromise;
+  } finally {
+    signInPromise = null;
   }
-
-  await signInWithCustomToken(auth, get(firebaseToken));
 }
 
 function normaliseBoard(document) {

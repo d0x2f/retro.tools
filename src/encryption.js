@@ -48,9 +48,40 @@ export async function encrypt(clearText, password = '') {
   return toBase64(combined.buffer);
 }
 
+// Cache decryption results so repeated re-renders of the same ciphertext don't
+// re-run PBKDF2 (200k iterations) per card. Bounded so long sessions don't leak.
+const DECRYPT_CACHE_LIMIT = 1024;
+const decryptCache = new Map();
+
+function cacheGet(key) {
+  if (!decryptCache.has(key)) return undefined;
+  const value = decryptCache.get(key);
+  decryptCache.delete(key);
+  decryptCache.set(key, value);
+  return value;
+}
+
+function cacheSet(key, value) {
+  decryptCache.set(key, value);
+  if (decryptCache.size > DECRYPT_CACHE_LIMIT) {
+    decryptCache.delete(decryptCache.keys().next().value);
+  }
+}
+
 export async function decrypt(cipherText, password = '') {
   if (password.length === 0) return cipherText;
 
+  const cacheKey = `${password}\0${cipherText}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) return cached;
+
+  const promise = decryptUncached(cipherText, password);
+  cacheSet(cacheKey, promise);
+  promise.catch(() => decryptCache.delete(cacheKey));
+  return promise;
+}
+
+async function decryptUncached(cipherText, password) {
   // Legacy path: crypto-js AES-CBC (read-only, for boards created before the migration)
   if (cipherText.startsWith(LEGACY_PREFIX)) {
     const result = AES.decrypt(cipherText, password).toString(Crypto.enc.Utf8);
