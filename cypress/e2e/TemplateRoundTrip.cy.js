@@ -276,10 +276,11 @@ context(
       // Rename the first column — this removes the i18n key from the export
       customiseFirstRank({ name: 'My Custom Column' });
 
+      // Delete the file from the German-export test so Firefox doesn't save
+      // the new download under a deduplicated name (e.g. "file (1).yaml").
+      cy.exec(`rm -f "${DOWNLOAD_FILE}"`);
       downloadTemplate();
 
-      // The file already exists from the German-export test in this context.
-      // Use .should() so Cypress retries readFile until the download overwrites it.
       cy.readFile(DOWNLOAD_FILE)
         .should('include', 'My Custom Column')
         .then((text) => {

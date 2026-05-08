@@ -183,6 +183,8 @@ context('Menu', () => {
 
   it('csv created_at timestamp is within 24 hours of the current time', () => {
     const cardText = 'Timestamp test card';
+    const date = new Date().toISOString().slice(0, 10);
+    const csvPath = `cypress/downloads/Test Board Name-${date}.csv`;
 
     cy.get('[data-name=rank]:visible')
       .first()
@@ -191,13 +193,12 @@ context('Menu', () => {
       .should('have.value', '');
     cy.get('[data-name=card]:visible').should('exist');
 
+    // Delete any existing file so Firefox doesn't rename the new download.
+    cy.exec(`rm -f "${csvPath}"`);
     cy.get('[data-name=menu-button]').click();
     cy.get('[data-name=download-csv-button]').click();
 
-    const date = new Date().toISOString().slice(0, 10);
-    // Use .should() so Cypress retries readFile until the new download
-    // overwrites a stale CSV from an earlier test in this suite.
-    cy.readFile(`cypress/downloads/Test Board Name-${date}.csv`)
+    cy.readFile(csvPath)
       .should('include', cardText)
       .then((csv) => {
         const [, ...rows] = csv.trim().split('\n');
