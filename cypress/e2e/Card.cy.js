@@ -15,6 +15,7 @@ context('Card', () => {
       .first()
       .find('[data-name=card-author-input]')
       .type('Test Author{enter}');
+    cy.get('[data-name=card]:visible').should('exist');
   });
 
   beforeEach(() => {
